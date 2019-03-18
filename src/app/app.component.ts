@@ -19,17 +19,18 @@ export class AppComponent {
   currentUser : User;
 
   ngOnInit(): void {
-    this.authn.getUser().then(user => {
-      this.currentUser = user;
 
-      if (user){
-        this.addMessage("User Logged In");
-      }
-      else {
-        this.onLogin();
-        this.addMessage("User Not Logged In");
-      }
-    }).catch(err => this.addError(err));
+    // this.authn.getUser().then(user => {
+    //   this.currentUser = user;
+
+    //   if (user){
+    //     this.addMessage("User Logged In");
+    //   }
+    //   else {
+    //     this.onLogin();
+    //     this.addMessage("User Not Logged In");
+    //   }
+    // }).catch(err => this.addError(err));
   }
 
   clearMessages() {

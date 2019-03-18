@@ -1,0 +1,48 @@
+.padding-grid{
+  padding-top: 2rem;
+}
+.btn-color-search{
+  background: #009B77;
+  color: #fff;
+  text-transform: initial !important;
+  padding: 9px 7px 5px 9px;
+}
+.btn-color{
+  margin-left: 1rem;
+  text-transform: initial !important;
+  color: #fff;
+  background: #0097A9;
+}
+
+.Review-Groups {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #033b5c;
+}
+
+.Total-7 {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #033B5C;
+}
+
+.label-text {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0097A9;
+}
+.e-tab-text{
+  text-transform: initial !important;
+
+}

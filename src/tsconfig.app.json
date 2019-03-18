@@ -7,5 +7,14 @@
   "exclude": [
     "test.ts",
     "**/*.spec.ts"
-  ]
+  ],
+  "trailing-comma": [false, {
+    "singleline": "never",
+    "multiline": {
+      "objects": "never",
+      "arrays": "always",
+      "functions": "never",
+      "typeLiterals": "ignore"
+    }
+  }]
 }

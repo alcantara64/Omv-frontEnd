@@ -1,1 +1,164 @@
 /* You can add global styles to this file, and also import other style files */
+@import './assets/material.css';
+@import './assets/css/button-styles.css';
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import '../node_modules/@syncfusion/ej2-angular-grids/styles/material.css';
+.e-upload{
+  border-style: none !important ;
+  border: 0px solid rgba(0, 0, 0, 0.12) !important ;
+
+}
+  
+.stroke{
+  border-bottom: 3px solid #0097a9;
+  border-top: 0px solid rgba(0,0,0,.1);
+  height: 5.1px;
+  opacity: 0.09;
+}
+.layout{
+    background: #f3f8fb;
+    height: 100% !important;
+}
+html, body {
+  height:100%;
+  width:100%;
+  background: #f3f8fb;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+}
+.container {
+    max-width: 1440px !important;
+    padding-left: 7rem !important;
+    padding-right:7rem !important;
+    height: 100%;
+}
+.cursor{
+    cursor: pointer;
+}
+.e-checkbox-wrapper .e-frame, .e-css.e-checkbox-wrapper .e-frame {
+    background-color: #fff;
+    border-color: #0097A9 !important;
+}
+  .e-grid .e-headercell, .e-grid .e-detailheadercell {
+      background-color: #00263E !important;
+      color: #fff !important;
+    }
+.e-row{
+    background-color:#DEEFF3;
+    cursor: pointer;
+}
+.e-altrow{
+  background-color:#F3F8FB;
+  cursor: pointer;
+}
+.breadcrumbs_type5{
+    --breadcrumbsDivider: "›";
+    --breadcrumbsDividerSize: 20px;
+  }
+.e-tab .e-content {
+    background: #F3F8FB !important;
+}
+  .breadcrumbs{
+    --cssuiBreadcrumbsTextColor: var(--breadcrumbsTextColor);
+    --cssuiBreadcrumbsTextColorActive: var(--breadcrumbsTextColorActive);
+    --cssuiBreadcrumbsDivider: var(--breadcrumbsDivider);
+    --cssuiBreadcrumbsDividerColor: var(--breadcrumbsDividerColor, inherit);
+    --cssuiBreadcrumbsDividerSize: var(--breadcrumbsDividerSize, 16px);
+    --cssuiBreadcrumbsIndent:  var(--breadcrumbsIndent, 8px);
+    
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style: none;
+  
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .breadcrumbs__item{
+    display: inline-block;
+    position: relative;
+   
+    padding-right: calc(var(--cssuiBreadcrumbsDividerSize) + var(--cssuiBreadcrumbsIndent));
+    margin-right: var(--cssuiBreadcrumbsIndent);
+    
+    color: var(--cssuiBreadcrumbsTextColor);
+  }
+  
+  .breadcrumbs__item:after{
+    content: var(--cssuiBreadcrumbsDivider);
+    width: var(--cssuiBreadcrumbsDividerSize);
+    height: var(--cssuiBreadcrumbsDividerSize);
+  
+    line-height: 1;
+    text-align: center;
+    
+    font-family: "Arial", sans-serif;
+    font-size: var(--cssuiBreadcrumbsDividerSize);
+    color: var(--cssuiBreadcrumbsDividerColor);
+  
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+  }
+  
+  .breadcrumbs__item_active{
+    margin-right: 0;
+    padding-right: 0;
+    color: var(--cssuiBreadcrumbsTextColorActive);
+  }
+  
+  .breadcrumbs__item_active:after{
+    display: none;
+  }
+  .breadcrumbs__element{
+    color: inherit;
+  }
+  .radiobutton-control {
+    margin: 5% 0 5% 40%;
+}
+
+@media only screen and (max-width: 500px) {
+    .radiobutton-control {
+        margin-left: 21%;
+        margin-top: 20%;
+        margin-bottom: 27%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .checkbox-control {
+        margin-left: 35%;
+        margin-top: 8%;
+    }
+
+    .control-section {
+        min-height: 200px;
+    }
+}
+
+.control-section .row {
+    margin: 20px 0;
+}
+
+.radiobutton-control h4 {
+    color: rgba(0, 0, 0, 0.64);
+    font-size: 18px;
+}
+
+.highcontrast .radio-control h4 {
+    color: rgba(255, 255, 255, 0.64);
+}
+
+.e-bigger .radiobutton-control h4 {
+    font-size: 20px;
+}
+.leaflet-control-layers-toggle {
+  background-image: url("https://unpkg.com/leaflet@1.4.0/dist/images/layers.png");
+}
+.e-grid .e-gridheader {
+  padding-right: 0px!important;
+}

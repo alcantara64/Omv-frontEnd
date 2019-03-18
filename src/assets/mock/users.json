@@ -1,0 +1,106 @@
+[
+  {
+    "checkBox": false,
+    "Name": "Admin",
+    "Description": "Admins",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": true,
+    "Name": "AS",
+    "Description": "Assurance Engineers",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": false,
+    "Name": "IC",
+    "Description": "Inspection Contractors",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": false,
+    "Name": "RSC",
+    "Description": "Responsible Civil Engineers",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": true,
+    "Name": "Developer",
+    "Description": "Super Admins",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Admin +2"
+  },
+  {
+    "checkBox": true,
+    "Name": "AS",
+    "Description": "Assurance Engineers",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": false,
+    "Name": "IC",
+    "Description": "Inspection Contractors",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": false,
+    "Name": "RSC",
+    "Description": "Responsible Civil Engineers",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": true,
+    "Name": "Developer",
+    "Description": "Super Admins",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Admin +2"
+  },
+  {
+    "checkBox": true,
+    "Name": "AS",
+    "Description": "Assurance Engineers",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": false,
+    "Name": "IC",
+    "Description": "Inspection Contractors",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": false,
+    "Name": "RSC",
+    "Description": "Responsible Civil Engineers",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Developer"
+  },
+  {
+    "checkBox": true,
+    "Name": "Developer",
+    "Description": "Super Admins",
+    "Email": "jackmichaels@gmail.com",
+    "Modifiedby": "Adam Smith",
+    "Groups": "Admin +2"
+  }
+]

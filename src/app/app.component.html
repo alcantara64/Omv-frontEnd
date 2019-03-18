@@ -1,21 +1,3 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h3>
-    Hello OMV!
-  </h3>
-</div>
-<div>
-  <!-- <button (click)='onLogin()'>Login</button>
-  <button (click)='onCallAPI()'>Call API</button> -->
-  <button (click)='onRenewToken()'>Renew Token</button>
-  <button (click)='onLogout()'>Logout</button>
-</div>
-<pre>{{currentUserJson}}</pre>
-<div>
-  <h2>Messages</h2>
-  <ul>
-    <li *ngFor='let msg of messages'>{{msg}}</li>
-  </ul>
-</div>
 
+<app-header></app-header>
 <router-outlet></router-outlet>
