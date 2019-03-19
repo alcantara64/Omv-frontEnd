@@ -1,6 +1,6 @@
 import { User } from 'src/app/core/models/User';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { UserActionTypes, UserActions } from './admin-users.actions';
+import { AdminUserActionTypes, AdminUserActions } from './admin-users.actions';
 import * as fromRoot from '../../../state/app.state';
 
 export interface State extends fromRoot.State {
@@ -38,47 +38,47 @@ export const getDisabledUsers = createSelector(
   state => state.disabledUsers
 );
 
-export function reducer(state = initialState, action: UserActions) {
+export function reducer(state = initialState, action: AdminUserActions) {
   switch(action.type) {
-    case UserActionTypes.LoadActiveUsersSuccess:
+    case AdminUserActionTypes.LoadActiveUsersSuccess:
       return {
         ...state,
         activeUsers: action.payload,
         error: ''
       }
     
-    case UserActionTypes.LoadActiveUsersFail:
+    case AdminUserActionTypes.LoadActiveUsersFail:
       return {
         ...state,
         activeUsers: [],
         error: action.payload
       }
 
-    case UserActionTypes.LoadUnassignedUsersSuccess:
+    case AdminUserActionTypes.LoadUnassignedUsersSuccess:
       return {
         ...state,
-        activeUsers: action.payload,
+        unassignedUsers: action.payload,
         error: ''
       }
     
-    case UserActionTypes.LoadUnassignedUsersFail:
+    case AdminUserActionTypes.LoadUnassignedUsersFail:
       return {
         ...state,
-        activeUsers: [],
+        unassignedUsers: [],
         error: action.payload
       }
 
-    case UserActionTypes.LoadDisabledUsersSuccess:
+    case AdminUserActionTypes.LoadDisabledUsersSuccess:
       return {
         ...state,
-        activeUsers: action.payload,
+        disabledUsers: action.payload,
         error: ''
       }
     
-    case UserActionTypes.LoadDisabledUsersFail:
+    case AdminUserActionTypes.LoadDisabledUsersFail:
       return {
         ...state,
-        activeUsers: [],
+        disabledUsers: [],
         error: action.payload
       }
 

@@ -10,7 +10,6 @@ import { SettingsService } from './core/services/data/appsettings/appsettings.se
 import { HttpClientModule } from '@angular/common/http';
 import { AppHeaderComponent } from './shared/app-header/app-header.component';
 import { environment } from 'src/environments/environment';
-import { UsersService } from './core/services/business/users/users.service';
 
 /* NgRx Modules */
 import { StoreModule } from '@ngrx/store';
@@ -18,6 +17,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { AdminModule } from './admin/admin.module';
 import { AdminGroupEditComponent } from './admin/admin-group-edit/admin-group-edit.component';
+import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import { AdminGroupEditComponent } from './admin/admin-group-edit/admin-group-ed
   providers: [
     AuthService,
     SettingsService,
-    UsersService
+    AdminUsersService
    ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

@@ -26,9 +26,7 @@ const adminRoutes: Routes = [
 @NgModule({
   imports: [
     SharedModule,
-    RouterModule.forChild(adminRoutes),
-    // StoreModule.forFeature('admin', reducer),
-    // EffectsModule.forFeature([UsersEffect])
+    RouterModule.forChild(adminRoutes)
   ],
   exports: [RouterModule]
 })

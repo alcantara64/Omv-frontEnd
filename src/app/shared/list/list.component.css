@@ -1,0 +1,20 @@
+.Total-7 {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #033B5C;
+}
+
+.label-text {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0097A9;
+}
+.e-tab-text{
+  text-transform: initial !important;
+}

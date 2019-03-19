@@ -1,7 +1,7 @@
 import { Action } from "@ngrx/store";
 import { User } from 'src/app/core/models/User';
 
-export enum UserActionTypes {
+export enum AdminUserActionTypes {
   LoadActiveUsers = '[Admin Users] Load Active Users',
   LoadActiveUsersSuccess = '[Admin Users] Load Active Users Success',
   LoadActiveUsersFail = '[Admin Users] Load Active Users Fail',
@@ -16,54 +16,54 @@ export enum UserActionTypes {
 }
 
 export class LoadActiveUsers implements Action {
-  readonly type = UserActionTypes.LoadActiveUsers;
+  readonly type = AdminUserActionTypes.LoadActiveUsers;
 }
 
 export class LoadActiveUsersSuccess implements Action {
-  readonly type = UserActionTypes.LoadActiveUsersSuccess;
+  readonly type = AdminUserActionTypes.LoadActiveUsersSuccess;
 
   constructor(public payload: User[]) { }
 }
 
 export class LoadActiveUsersFail implements Action {
-  readonly type = UserActionTypes.LoadActiveUsersFail;
+  readonly type = AdminUserActionTypes.LoadActiveUsersFail;
 
   constructor(public payload: string) { }
 }
 
 export class LoadUnassignedUsers implements Action {
-  readonly type = UserActionTypes.LoadUnassignedUsers;
+  readonly type = AdminUserActionTypes.LoadUnassignedUsers;
 }
 
 export class LoadUnassignedUsersSuccess implements Action {
-  readonly type = UserActionTypes.LoadUnassignedUsersSuccess;
+  readonly type = AdminUserActionTypes.LoadUnassignedUsersSuccess;
 
   constructor(public payload: User[]) { }
 }
 
 export class LoadUnassignedUsersFail implements Action {
-  readonly type = UserActionTypes.LoadUnassignedUsersFail;
+  readonly type = AdminUserActionTypes.LoadUnassignedUsersFail;
 
   constructor(public payload: string) { }
 }
 
 export class LoadDisabledUsers implements Action {
-  readonly type = UserActionTypes.LoadDisabledUsers;
+  readonly type = AdminUserActionTypes.LoadDisabledUsers;
 }
 
 export class LoadDisabledUsersSuccess implements Action {
-  readonly type = UserActionTypes.LoadDisabledUsersSuccess;
+  readonly type = AdminUserActionTypes.LoadDisabledUsersSuccess;
 
   constructor(public payload: User[]) { }
 }
 
 export class LoadDisabledUsersFail implements Action {
-  readonly type = UserActionTypes.LoadDisabledUsersFail;
+  readonly type = AdminUserActionTypes.LoadDisabledUsersFail;
 
   constructor(public payload: string) { }
 }
 
-export type UserActions = LoadActiveUsers
+export type AdminUserActions = LoadActiveUsers
   | LoadActiveUsersSuccess
   | LoadActiveUsersFail
   | LoadUnassignedUsers

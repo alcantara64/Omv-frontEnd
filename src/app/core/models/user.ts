@@ -3,5 +3,7 @@ export interface User {
   description: string;
   email: string;
   modifiedBy: string;
-  groups: string[];
+  groups: string;
+  status: number,
+  isAssigned: boolean;
 }

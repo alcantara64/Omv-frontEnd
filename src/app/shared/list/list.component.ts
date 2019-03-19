@@ -1,7 +1,6 @@
 import { GridColumn } from './../../core/models/grid.column';
 import { Component, OnInit, Input } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list',
