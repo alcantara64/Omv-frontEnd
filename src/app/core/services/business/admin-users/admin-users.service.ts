@@ -8,24 +8,17 @@ import { AdminUsersDataService } from '../../data/admin-users/admin-users.data.s
 })
 export class AdminUsersService {
 
-  constructor(private UsersDataService: AdminUsersDataService) { }
+  constructor(private AdminUsersDataService: AdminUsersDataService) { }
 
   getActiveUsers(): Observable<User[]> {
-    return this.getUsersByStatus(0);
+    return this.AdminUsersDataService.getActiveAdminUsers();
   }
 
-  private getUsersByStatus(status: number): Observable<User[]> {
-    console.log('getUsersByStatus: ', status);
+  getUnassignedUsers(): Observable<User[]> {
+    return this.AdminUsersDataService.getUnassignedAdminUsers();
+  }
 
-    switch (status) {
-      case 0:
-        return this.UsersDataService.getAdminUsers(0);
-      case 1:
-        return this.UsersDataService.getAdminUsers(1);
-      case 2:
-        return this.UsersDataService.getAdminUsers(2);
-      default:
-       return null;
-    }
+  getDisabledUsers(): Observable<User[]> {
+    return this.AdminUsersDataService.getDisabledAdminUsers();
   }
 }

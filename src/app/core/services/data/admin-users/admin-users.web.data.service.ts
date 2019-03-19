@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdminUsersDataService } from './admin-users.data.service';
+import { User } from 'src/app/core/models/User';
 
 
 @Injectable({
@@ -14,7 +15,13 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
   
   constructor(private httpClient: HttpClient) { }
 
-  getAdminUsers(status: number): Observable<any> {
+  getActiveAdminUsers(): Observable<User[]> {
+    throw new Error("Method not implemented.");
+  }
+  getDisabledAdminUsers(): Observable<User[]> {
+    throw new Error("Method not implemented.");
+  }
+  getUnassignedAdminUsers(): Observable<User[]> {
     throw new Error("Method not implemented.");
   }
 }

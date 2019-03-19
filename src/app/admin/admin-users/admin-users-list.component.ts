@@ -24,7 +24,13 @@ export class AdminUsersComponent extends ListComponent implements OnInit {
   public toolbar: ToolbarItems[];
   componentActive = true;
 
+
   activeUsers: User[];
+  unassignedUsers: User[];
+  disabledUsers: User[];
+  totalActiveUsers: number;
+  totalUnassignedUsers: number;
+  totalDisabledUsers: number;
   columns: GridColumn[] = [
     {
       type: "checkbox",
@@ -57,7 +63,7 @@ export class AdminUsersComponent extends ListComponent implements OnInit {
       field: "groups"
     }
   ];
-
+  
   constructor(private store: Store<fromAdminUsers.State>) {
     super();
   }
@@ -66,15 +72,23 @@ export class AdminUsersComponent extends ListComponent implements OnInit {
     this.toolbar = ["Search"];
 
     this.store.dispatch(new adminUserActions.LoadActiveUsers());
+    this.store.dispatch(new adminUserActions.LoadUnassignedUsers());
+    this.store.dispatch(new adminUserActions.LoadDisabledUsers());
 
     this.store.pipe(select(fromAdminUsers.getActiveUsers),
               takeWhile(() => this.componentActive))
-              .subscribe(users => this.activeUsers = users);
-  }
+              .subscribe(users =>  {
+                this.activeUsers = users;
+                this.totalActiveUsers = this.activeUsers.length;
+              });
 
-  public populateList(): Observable<any[]> {
-    console.log("admin users populateList");
-    return this.store.pipe(select(fromAdminUsers.getActiveUsers));
+    this.store.pipe(select(fromAdminUsers.getUnassignedUsers),
+              takeWhile(() => this.componentActive))
+              .subscribe(users => this.unassignedUsers = users);
+
+    this.store.pipe(select(fromAdminUsers.getDisabledUsers),
+              takeWhile(() => this.componentActive))
+              .subscribe(users => this.disabledUsers = users);
   }
 
   ngOnDestroy(): void {
