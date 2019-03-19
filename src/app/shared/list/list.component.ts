@@ -1,7 +1,8 @@
 import { GridColumn } from './../../core/models/grid.column';
 import { Component, OnInit, Input, Output, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { GridComponent, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, RowSelectEventArgs, SelectionSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -17,16 +18,26 @@ export class ListComponent extends BaseComponent implements OnInit {
   columns: GridColumn[];
   @ViewChild('grid')
   public grid: GridComponent;
+  gridData: any[];
+  selectionOptions : SelectionSettingsModel
   constructor() {
     super();
   }
 
   ngOnInit() {
+    this.selectionOptions = { checkboxMode: 'ResetOnRowClick'};
   }
   rowSelected(args: RowSelectEventArgs) {
-    // let selectedrowindex: number[] = this.grid.getSelectedRowIndexes();  // Get the selected row indexes.
-   // alert(selectedrowindex); // To alert the selected row indexes.
-    let selectedrecords: Object[] = this.grid.getSelectedRecords();  // Get the selected records.
+    let selectedrecords: Object[] = this.grid.getSelectedRecords();
+    // Get the selected records.
+    this.gridData = selectedrecords;
     console.log(selectedrecords);
-}
+  }
+  navigateToEditScreen() {
+    let id: string;
+    for (let i = 0; i < this.gridData.length; i++) {
+    this.gridData[i].id = id;
+    }
+   // this.router.navigate('/edit/groups')
+  }
 }

@@ -1,50 +1,104 @@
-.header{
-    height:35px;
+.header {
+    height: 35px;
 }
-.nav-link{
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
 
+.nav-link {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
 }
-.header-color{
+
+.header-color {
     color: #FAC42D;
     padding-right: 11px;
 }
-.vertical-stroke{
-    height:8px;
+
+.vertical-stroke {
+    height: 8px;
     border-right: 1px solid;
     color: #9B9B9B;
 }
-.bg-light{
+
+.bg-light {
     padding-bottom: 0 !important;
     padding-top: 0 !important;
     background: #033B5C !important;
 }
-.navbar-brand{
+
+.navbar-brand {
     padding-left: 11px;
 }
-.bg-color{
+
+.bg-color {
     background: #F3F8FB;
 }
+
 .navbar-shadow {
-    box-shadow: 0 0px 0px 0 rgb(217,228,234), 0 7px 6px 0 rgb(217,228,234)
+    box-shadow: 0 0px 0px 0 rgb(217, 228, 234), 0 7px 6px 0 rgb(217, 228, 234);
+    width: 100%;
+    padding-bottom: 0px;
 }
-a{
+
+a {
     color: #6B8B9F;
     font-size: 14px;
-    font-weight: 600;    
+    font-weight: 600;
     font-family: 'Open Sans', sans-serif;
 }
-.active-link{
-    color: #033B5C;
+
+.active-link {
+    color: #033B5C !important;
 }
-.e-indicator .e-ignore{
-    background: #0097a9 !important; 
+
+.e-indicator .e-ignore {
+    background: #0097a9 !important;
 }
-.header-item{
-padding-right: 5%
+
+.header-item {
+    padding-right: 3rem;
 }
-.nav{
+
+.nav {
     width: 100%;
 }
+
+.navbar2 {
+    padding-left: 1rem;
+}
+
+.header-link-text {
+    font-family: 'OpenSans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 3rem;
+    letter-spacing: normal;
+    text-align: center;
+    color: #5b7f95;
+    padding-bottom: 0px;
+}
+
+.hr-stroke {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    border: 0;
+    border-top: 2px solid #033B5C;
+}
+hr{
+    margin-block-start: 1rem;
+    margin-block-end: 0;   
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    border: 0;
+    border-top: 0px solid rgba(0,0,0,.1)
+}
+.arrow-down {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    margin-right: auto;
+    margin-left:auto;
+    border-top: 5px solid #033B5C;
+  }

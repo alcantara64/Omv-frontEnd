@@ -1,5 +1,5 @@
 import { ListComponent } from "./../../shared/list/list.component";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from "@angular/core";
 import { ToolbarItems } from "@syncfusion/ej2-angular-grids";
 import { Store, select } from "@ngrx/store";
 import { takeWhile } from "rxjs/operators";
@@ -8,11 +8,14 @@ import * as adminUserActions from "./state/admin-users.actions";
 import { User } from "src/app/core/models/User";
 import { Observable } from "rxjs";
 import { GridColumn } from "src/app/core/models/grid.column";
+import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
+import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: "app-admin-users",
   templateUrl: "./admin-users-list.component.html",
-  styleUrls: ["./admin-users-list.component.css"]
+  styleUrls: ["./admin-users-list.component.css"],
+  encapsulation: ViewEncapsulation.None
 })
 export class AdminUsersComponent extends ListComponent implements OnInit {
   public headerText = [
@@ -20,6 +23,9 @@ export class AdminUsersComponent extends ListComponent implements OnInit {
     { text: "Unassigned Users" },
     { text: "Disabled Users" }
   ];
+  @ViewChild('element') tabInstance: TabComponent
+  @ViewChild('previousAnimation') previousInstance: DropDownListComponent;
+  @ViewChild('nextAnimation') nextInstance: DropDownListComponent;
   data = [];
   public toolbar: ToolbarItems[];
   componentActive = true;
@@ -66,6 +72,8 @@ export class AdminUsersComponent extends ListComponent implements OnInit {
   
   constructor(private store: Store<fromAdminUsers.State>) {
     super();
+    this.tabInstance.animation.previous.effect = 'None';
+    this.tabInstance.animation.next.effect = 'None';
   }
 
   ngOnInit() {

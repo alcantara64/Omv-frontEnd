@@ -6,6 +6,7 @@ import {select, Store} from "@ngrx/store";
 import * as fromUsers from "../admin-users/state/admin-users.reducer";
 import {takeWhile} from "rxjs/operators";
 import {ListComponent} from "../../shared/list/list.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-groups',

@@ -1,4 +1,3 @@
-
 <div class="">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class=" container">
@@ -28,29 +27,43 @@
         </li>
 
       </ul>
-    
+
     </div>
   </nav>
 </div>
-<nav class="navbar-shadow bg-color justify-content-center   navbar navbar-light">
-  
-  <ul class="nav justify-content-center">
+<div class="row">
+    <nav class="navbar-shadow bg-color   navbar navbar-light"> 
+      <div class="col-md-2 navbar1">
 
-    <li class="nav-item header-item">
-      <a class="nav-link active" routerLink="/" [routerLinkActiveOptions]="{exact: true}"
-        routerLinkActive="active-link">DASHBOARD</a>
-    </li>
-    <li class="nav-item header-item">
-      <a class="nav-link" routerLink="/media" routerLinkActive="active-link">MEDIA</a>
-    </li>
-    <li class="nav-item header-item">
-      <a class="nav-link" routerLink="/live-stream" routerLinkActive="active-link">LIVE STREAM</a>
-    </li>
-    <li class="nav-item header-item">
-      <a class="nav-link " routerLink="/work-planning" routerLinkActive="active-link">WORK PLANNING</a>
-    </li>
-    <li class="nav-item header-item">
-      <a class="nav-link " routerLink="/admin" routerLinkActive="active-link">ADMIN PORTAL</a>
-    </li>
-  </ul>
-</nav>
+      </div>
+      <div class="col-md-10 navbar2 ">
+          <ul class="nav ">
+    
+            <li class="nav-item header-item" (click)="onHeaderTabClicked(' ')">
+              <a class="nav-link active header-link-text" routerLink="/"  id="dashboard" [routerLinkActiveOptions]="{exact: true}"
+                routerLinkActive="active-link">DASHBOARD</a>
+                <hr [ngClass]="{'hr-stroke': value === ' '}" />
+            </li>
+            <li class="nav-item header-item" (click)="onHeaderTabClicked('media')">
+              <a class="nav-link header-link-text" routerLink="/media" routerLinkActive="active-link">MEDIA</a>
+              <hr [ngClass]="{'hr-stroke': value === 'media'}" />
+            </li>
+            <li class="nav-item header-item" (click)="onHeaderTabClicked('live-stream')">
+              <a class="nav-link header-link-text" routerLink="/live-stream" routerLinkActive="active-link">LIVE STREAM</a>
+              <hr [ngClass]="{'hr-stroke': value === 'live-stream'}" />
+            </li>
+            <li class="nav-item header-item" (click)="onHeaderTabClicked('work-planning')">
+              <a class="nav-link header-link-text " routerLink="/work-planning" routerLinkActive="active-link">WORK PLANNING</a>
+              <hr [ngClass]="{'hr-stroke': value === 'work-planning'}" />
+            </li>
+            <li class="nav-item header-item" (click)="onHeaderTabClicked('admin')">
+              <a class="nav-link header-link-text " routerLink="/admin" routerLinkActive="active-link">ADMIN PORTAL</a>
+              <hr [ngClass]="{'hr-stroke': value === 'admin'}" />
+              <div [ngClass]="{'arrow-down': value === 'admin'}" class="arrow-down"></div>
+            </li>
+          </ul>
+      </div>
+      <div class="col-md-0"></div>
+      </nav>
+ 
+</div>
