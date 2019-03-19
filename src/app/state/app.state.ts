@@ -1,5 +1,5 @@
 
 
 export interface State {
-  user: any
+  groups: any
 }

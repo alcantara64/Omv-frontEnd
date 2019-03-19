@@ -1,75 +1,61 @@
+<div>
+  <ejs-tab id="tab_default" heightAdjustMode="Auto">
+    <e-tabitems>
+      <span class="e-badge e-badge-primary e-badge-overlap e-badge-notification e-badge-circle">6</span>
+      <e-tabitem [header]="headerText[0]">
+        <ng-template #content>
+          <div class="row">
+            <div class="pb-3 col-md-4">
+              <ejs-textbox
+                placeholder="Name LastName"
+                floatLabelType="Auto"
+              ></ejs-textbox>
+            </div>
+            <div class="pb-3 col-md-4">
+              <div class="e-float-input e-input-group">
+                <!-- Focus and FocusOut Event binding Floating input label -->
+                <input
+                  type="text"
+                  required
+                  (focus)="focusIn($event.target)"
+                  (blur)="focusOut($event.target)"
+                />
+                <span class="e-float-line"></span>
+                <label class="e-float-text">Select</label>
+                <span
+                  class="e-input-group-icon e-spin-down"
+                  (mouseup)="onMouseUp($event.target)"
+                  (mousedown)="onMouseDown($event.target)"
+                ></span>
+              </div>
+            </div>
+            <div class="pb-3 col-md-4">
+              <span class="pt-3">
+                <button ejs-button class="btn-color float-right">
+                  <img
+                    src="../../../assets/images/plus-icon.svg"
+                    class="pr-2"
+                  />
+                  Add New Group
+                </button>
 
-<div> 
-    <ejs-tab id="tab_default" heightAdjustMode='Auto'>
-        <e-tabitems>
-            <span class="e-badge e-badge-primary e-badge-overlap e-badge-notification e-badge-circle">6</span>
-            <e-tabitem [header]='headerText[0]'>
-                <ng-template #content>
-                  <div class="row">
-                 
-                      <div class="pb-3 col-md-4">
-                          <ejs-textbox placeholder="Name LastName" floatLabelType="Auto"></ejs-textbox>
-                      </div>
-                      <div class="pb-3 col-md-4">
-                          <div class="e-float-input e-input-group">
-                              <!-- Focus and FocusOut Event binding Floating input label -->
-                              <input type="text" required (focus)="focusIn($event.target)" (blur)="focusOut($event.target)">
-                              <span class="e-float-line"></span>
-                              <label class="e-float-text">Select</label>
-                              <span class="e-input-group-icon e-spin-down" (mouseup)="onMouseUp($event.target)" (mousedown)="onMouseDown($event.target)"></span>
-                          </div>
-                      </div>
-                      <div class="pb-3 col-md-4">
-                          <span class="pt-3">
-                                <button ejs-button class="btn-color float-right">
-                                  <img src="../../../assets/images/plus-icon.svg" class="pr-2" /> Add New Group</button>
-                          
-                                  <button ejs-button class="btn-color-search float-right"> Search</button>
-                              </span>
-                      </div>
-                  </div>
-                  <div class=" " style="padding-top:2rem;padding-bottom: .5rem;">
-                      <span>
-                        <label class="Total-7">
-                          Total: 21
-                        </label>
-                      </span>
-                      <span class="float-right"> 
-                          <label class="Total-7 pr-2">
-                            Selected:
-                          </label>  <label class="label-text pr-2">
-                              Delete
-                            </label>  <label class="label-text pr-2">
-                                Disable
-                              </label>
-                              <label class="label-text pr-2">
-                                  Edit
-                                </label>
-                        </span>
-                    </div>
-                    <div class="">
-                        <ejs-grid  #grid [dataSource]="data" id="Grid" (click)="onItemClick()">
-                            <e-columns>
-                              <e-column type="checkbox" headerText="Select All" width="50"></e-column>
-                              <e-column field="Name" headerText="Name"></e-column>
-                              <e-column field="Email" headerText="Email"></e-column>
-                              <e-column field="Modifiedby" headerText="Last Modified"></e-column>
-                              <e-column field="Groups" headerText="Group" width="90"></e-column>
-                            </e-columns>
-                          </ejs-grid>
-                    </div>
-                </ng-template>
-            </e-tabitem>
-            <e-tabitem [header]='headerText[1]'>
-                <ng-template #content>
-        
-                </ng-template>
-            </e-tabitem>
-            <e-tabitem [header]='headerText[2]'>
-                <ng-template #content>
-                  
-                </ng-template>
-            </e-tabitem>
-        </e-tabitems>
-    </ejs-tab>
+                <button ejs-button class="btn-color-search float-right">
+                  Search
+                </button>
+              </span>
+            </div>
+          </div>          
+          <div class="">
+            <app-list [listData]="activeUsers" [columns]="columns"></app-list>
+          </div>
+        </ng-template>
+      </e-tabitem>
+      <e-tabitem [header]="headerText[1]">
+        <ng-template #content> </ng-template>
+      </e-tabitem>
+      <e-tabitem [header]="headerText[2]">
+        <ng-template #content> </ng-template>
+      </e-tabitem>
+    </e-tabitems>
+  </ejs-tab>
 </div>

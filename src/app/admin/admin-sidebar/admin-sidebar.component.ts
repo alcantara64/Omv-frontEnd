@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -10,6 +11,8 @@ export class AdminSidebarComponent implements OnInit {
 
   @Output()
   complete = new EventEmitter();
+
+  public emitButtonAction = new Subject();
   
   constructor() {
     this.value = 'Admin';

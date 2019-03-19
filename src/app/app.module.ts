@@ -28,28 +28,20 @@ import { SliderModule } from '@syncfusion/ej2-angular-inputs';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    AppHeaderComponent,
-    AdminDashboardComponent,
-    AdminSidebarComponent,
-    AdminUsersComponent,
-    AdminComponent
+    AppHeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpModule,
     HttpClientModule,    
-    TabAllModule,
-    ButtonAllModule,
-    CheckBoxModule,
-    GridAllModule,
-    DropDownButtonModule,
-    SliderModule,
+    AdminModule,
 
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
@@ -62,9 +54,7 @@ import { EffectsModule } from '@ngrx/effects';
   providers: [
     AuthService,
     SettingsService,
-    UsersService,
-
-    { provide: UsersDataService, useClass: environment.useMocks ? UsersMockDataService : UsersWebDataService },
+    UsersService
    ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

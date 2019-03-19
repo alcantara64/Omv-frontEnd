@@ -1,8 +1,11 @@
 import { User } from 'src/app/core/models/User';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { UserActionTypes, UserActions } from './admin-users.actions';
+import * as fromRoot from '../../../state/app.state';
 
-
+export interface State extends fromRoot.State {
+  users: UserState;
+}
 
 export interface UserState {  
   activeUsers: User[];
@@ -18,7 +21,7 @@ const initialState: UserState = {
   error: ''
 }
 
-const getAdminUsersFeatureState = createFeatureSelector<UserState>('users');
+const getAdminUsersFeatureState = createFeatureSelector<UserState>('admin.users');
 
 export const getActiveUsers = createSelector(
   getAdminUsersFeatureState,

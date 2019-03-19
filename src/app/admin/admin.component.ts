@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Route } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-admin',
@@ -9,12 +11,12 @@ export class AdminComponent implements OnInit {
 
   value = 'Admin';
 
-  constructor() {
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) {
     this.value = 'Admin';
   }
 
-  ngOnInit() {
-
+  ngOnInit() {    
+    this.value = this.router.url;
   }
 
   // TODO: Handle this in the html

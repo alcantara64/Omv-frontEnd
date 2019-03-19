@@ -17,10 +17,7 @@ export class UsersEffects {
   loadActiveUsers$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.LoadActiveUsers),
     mergeMap((action: userActions.LoadActiveUsers) => this.userService.getActiveUsers().pipe(
-      map((users: User[]) => {
-        console.log('Effects: users', users);
-        new userActions.LoadActiveUsersSuccess(users)
-      }),
+      map((users: User[]) => (new userActions.LoadActiveUsersSuccess(users))),
       catchError(err => of(new userActions.LoadActiveUsersFail(err)))
     ))
   )
