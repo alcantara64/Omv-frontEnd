@@ -1,8 +1,8 @@
-import { getActiveUsers } from './../../../admin/admin-users/state/admin-users.reducer';
+import { getActiveUsers } from '../../../../admin/admin-users/state/admin-users.reducer';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { UsersDataService } from '../data/users.data.service';
-import { User } from '../../models/User';
+import { UsersDataService } from '../../data/users/users.data.service';
+import { User } from '../../../models/User';
 
 @Injectable({
   providedIn: 'root'

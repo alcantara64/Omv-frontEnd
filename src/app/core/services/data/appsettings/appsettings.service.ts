@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAppSettings } from '../models/IAppSettings';
+import { IAppSettings } from '../../../models/IAppSettings';
 import { Observable } from 'rxjs';
 
 @Injectable()

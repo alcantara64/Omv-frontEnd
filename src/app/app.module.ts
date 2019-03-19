@@ -5,24 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpModule } from '@angular/http';
-import { AuthService } from './core/services/auth.service';
-import { SettingsService } from './core/services/appsettings.service';
+import { AuthService } from './core/services/data/appsettings/auth.service';
+import { SettingsService } from './core/services/data/appsettings/appsettings.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppHeaderComponent } from './shared/app-header/app-header.component';
-import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
-import { AdminSidebarComponent } from './admin/admin-sidebar/admin-sidebar.component';
-import { AdminUsersComponent } from './admin/admin-users/admin-users-list.component';
-import { UsersDataService } from './core/services/data/users.data.service';
 import { environment } from 'src/environments/environment';
-import { UsersMockDataService } from './core/services/data/users.mock.data.service';
-import { UsersWebDataService } from './core/services/data/users.web.data.service';
-import { UsersService } from './core/services/business/users.service';
-import { AdminComponent } from './admin/admin.component';
-import { TabAllModule } from '@syncfusion/ej2-angular-navigations';
-import { CheckBoxModule, ButtonAllModule } from '@syncfusion/ej2-angular-buttons';
-import { GridAllModule } from '@syncfusion/ej2-angular-grids';
-import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
-import { SliderModule } from '@syncfusion/ej2-angular-inputs';
+import { UsersService } from './core/services/business/users/users.service';
 
 /* NgRx Modules */
 import { StoreModule } from '@ngrx/store';

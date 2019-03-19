@@ -1,8 +1,8 @@
+import { IAppSettings } from './../../../models/IAppSettings';
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { UserManager, UserManagerSettings, User } from 'oidc-client';
 import { SettingsService } from './appsettings.service';
-import { IAppSettings } from '../models/IAppSettings';
 
 export { User };
 
@@ -27,7 +27,7 @@ export class AuthService {
     this.redirect_uri = `${baseUrl}/signin-callback.html`;
     this.post_logout_redirect_uri = `${baseUrl}`;
     this.silent_redirect_uri = `${baseUrl}/silent-renew.html`;
-
+ 
     var settings = {
       authority: this.authorityUrl,
       client_id: this.hostHeader,

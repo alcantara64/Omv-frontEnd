@@ -12,10 +12,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AdminRoutingModule } from './admin.routing.module';
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
-import { UsersDataService } from '../core/services/data/users.data.service';
 import { environment } from 'src/environments/environment';
-import { UsersMockDataService } from '../core/services/data/users.mock.data.service';
-import { UsersWebDataService } from '../core/services/data/users.web.data.service';
+import { UsersDataService } from '../core/services/data/users/users.data.service';
+import { UsersMockDataService } from '../core/services/data/users/users.mock.data.service';
+import { UsersWebDataService } from '../core/services/data/users/users.web.data.service';
 import { TabAllModule } from '@syncfusion/ej2-angular-navigations';
 import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
@@ -44,7 +44,7 @@ import { BaseComponent } from '../shared/base/base.component';
     AdminSidebarComponent,
     AdminDashboardComponent,
     ListComponent,
-    BaseComponent
+    BaseComponent 
   ],
   providers: [
     { provide: UsersDataService, useClass: environment.useMocks ? UsersMockDataService : UsersWebDataService },
