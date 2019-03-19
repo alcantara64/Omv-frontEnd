@@ -13,6 +13,11 @@ export enum AdminUserActionTypes {
   LoadDisabledUsers = '[Admin Users] Load Disabled Users',
   LoadDisabledUsersSuccess = '[Admin Users] Load Disabled Users Success',
   LoadDisabledUsersFail = '[Admin Users] Load Disabled Users Fail',
+
+  DeleteActiveUsers = '[Admin Users] Delete Active Users',
+  DeleteActiveUsersSuccess = '[Admin Users] Delete Active Users Success',
+  DeleteActiveUsersFail = '[Admin Users] Delete Active Users Fail',
+
 }
 
 export class LoadActiveUsers implements Action {
@@ -63,6 +68,26 @@ export class LoadDisabledUsersFail implements Action {
   constructor(public payload: string) { }
 }
 
+export class DeleteActiveUsers implements Action {
+  readonly type = AdminUserActionTypes.DeleteActiveUsers;
+}
+
+export class DeleteActiveUsersSuccess implements Action{
+  readonly type = AdminUserActionTypes.DeleteActiveUsersSuccess;
+
+  constructor(public payload: string) {
+   
+  }
+}
+
+export class DeleteActiveUsersFail implements Action{
+  readonly type = AdminUserActionTypes.DeleteActiveUsersFail;
+
+  constructor(public payload: string) {
+   
+  }
+}
+
 export type AdminUserActions = LoadActiveUsers
   | LoadActiveUsersSuccess
   | LoadActiveUsersFail
@@ -71,4 +96,7 @@ export type AdminUserActions = LoadActiveUsers
   | LoadUnassignedUsersFail
   | LoadDisabledUsers
   | LoadDisabledUsersSuccess
-  | LoadDisabledUsersFail;
+  | LoadDisabledUsersFail
+  | DeleteActiveUsers
+  | DeleteActiveUsersSuccess
+  | DeleteActiveUsersFail;

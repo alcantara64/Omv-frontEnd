@@ -22276,7 +22276,7 @@ ejs-calendar {
         display: none; }
     .e-tab .e-tab-header:not(.e-vertical) .e-indicator {
       bottom: 0;
-      height: 2px;
+      height: 3px;
       left: 0;
       right: 0;
       transition: left 0.125s cubic-bezier(0.35, 0, 0.25, 1), right 0.25s cubic-bezier(0.35, 0, 0.25, 1); }
@@ -22312,10 +22312,11 @@ ejs-calendar {
             height: 48px; } }
       .e-tab .e-tab-header .e-toolbar-item .e-tab-text {
         display: inherit;
-        font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
-        font-size: 13px;
-        font-weight: 500;
-        text-transform: uppercase; }
+        font-family: 'OpenSans', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        text-transform: uppercase; 
+         color: #5b7f95;}
         @media screen and (max-width: 480px) {
           .e-tab .e-tab-header .e-toolbar-item .e-tab-text {
             font-size: 14px; } }
@@ -22334,7 +22335,7 @@ ejs-calendar {
         .e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-wrap {
           margin-bottom: 0; }
         .e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-text {
-          font-weight: 500; }
+          font-weight: 600; }
         .e-tab .e-tab-header .e-toolbar-item.e-active.e-ileft .e-text-wrap, .e-tab .e-tab-header .e-toolbar-item.e-active.e-iright .e-text-wrap {
           height: 36px;
           padding: 0; }
