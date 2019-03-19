@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UsersDataService } from './users.data.service';
 import { Observable } from 'rxjs';
+import { AdminUsersDataService } from './admin-users.data.service';
 
 
 @Injectable({
     providedIn: 'root'
   })
 
-export class UsersWebDataService implements UsersDataService {
+export class AdminUsersWebDataService implements AdminUsersDataService {
      
   private paging_batch_size:number = 25;
   

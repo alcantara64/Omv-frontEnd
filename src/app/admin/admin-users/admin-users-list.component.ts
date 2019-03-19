@@ -1,11 +1,10 @@
-import { BaseComponent } from "./../../shared/base/base.component";
 import { ListComponent } from "./../../shared/list/list.component";
 import { Component, OnInit } from "@angular/core";
 import { ToolbarItems } from "@syncfusion/ej2-angular-grids";
 import { Store, select } from "@ngrx/store";
 import { takeWhile } from "rxjs/operators";
-import * as fromUsers from "./state/admin-users.reducer";
-import * as userActions from "./state/admin-users.actions";
+import * as fromAdminUsers from "./state/admin-users.reducer";
+import * as adminUserActions from "./state/admin-users.actions";
 import { User } from "src/app/core/models/User";
 import { Observable } from "rxjs";
 import { GridColumn } from "src/app/core/models/grid.column";
@@ -37,48 +36,45 @@ export class AdminUsersComponent extends ListComponent implements OnInit {
       type: "",
       headerText: "Name",
       width: "",
-      field: "Name"
+      field: "name"
     },
     {
       type: "",
       headerText: "Email",
       width: "",
-      field: "Email"
+      field: "email"
     },
     {
       type: "",
       headerText: "Last Modified",
       width: "",
-      field: "Modifiedby"
+      field: "modifiedBy"
     },
     {
       type: "",
       headerText: "Group",
       width: "150",
-      field: "Groups"
+      field: "groups"
     }
   ];
 
-  constructor(private store: Store<fromUsers.State>) {
+  constructor(private store: Store<fromAdminUsers.State>) {
     super();
   }
 
   ngOnInit() {
     this.toolbar = ["Search"];
 
-    this.store.dispatch(new userActions.LoadActiveUsers());
+    this.store.dispatch(new adminUserActions.LoadActiveUsers());
 
-    this.store
-      .pipe(
-        select(fromUsers.getActiveUsers),
-        takeWhile(() => this.componentActive)
-      )
-      .subscribe(users => (this.activeUsers = users));
+    this.store.pipe(select(fromAdminUsers.getActiveUsers),
+              takeWhile(() => this.componentActive))
+              .subscribe(users => this.activeUsers = users);
   }
 
   public populateList(): Observable<any[]> {
     console.log("admin users populateList");
-    return this.store.pipe(select(fromUsers.getActiveUsers));
+    return this.store.pipe(select(fromAdminUsers.getActiveUsers));
   }
 
   ngOnDestroy(): void {

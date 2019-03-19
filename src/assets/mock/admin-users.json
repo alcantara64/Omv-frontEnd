@@ -1,0 +1,119 @@
+[
+  {
+    "name": "Admin",
+    "description": "Admins",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 0,
+    "isAssigned": true
+  },
+  {
+    "name": "AS",
+    "description": "Assurance Engineers",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 1,
+    "isAssigned": true
+  },
+  {
+    "name": "IC",
+    "description": "Inspection Contractors",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 0,
+    "isAssigned": false
+  },
+  {
+    "name": "RSC",
+    "description": "Responsible Civil Engineers",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 1,
+    "isAssigned": true
+  },
+  {
+    "name": "Developer",
+    "description": "Super Admins",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Admin +2",
+    "status": 1,
+    "isAssigned": true
+  },
+  {
+    "name": "AS",
+    "description": "Assurance Engineers",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 0,
+    "isAssigned": true
+  },
+  {
+    "name": "IC",
+    "description": "Inspection Contractors",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 0,
+    "isAssigned": false
+  },
+  {
+    "name": "RSC",
+    "description": "Responsible Civil Engineers",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 0,
+    "isAssigned": true
+  },
+  {
+    "name": "Developer",
+    "description": "Super Admins",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Admin +2",
+    "status": 0,
+    "isAssigned": true
+  },
+  {
+    "name": "AS",
+    "description": "Assurance Engineers",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 0,
+    "isAssigned": false
+  },
+  {
+    "name": "IC",
+    "description": "Inspection Contractors",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 0,
+    "isAssigned": true
+  },
+  {
+    "name": "RSC",
+    "description": "Responsible Civil Engineers",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Developer",
+    "status": 1,
+    "isAssigned": true
+  },
+  {
+    "name": "Developer",
+    "description": "Super Admins",
+    "email": "jackmichaels@gmail.com",
+    "modifiedBy": "Adam Smith",
+    "groups": "Admin +2",
+    "status": 0,
+    "isAssigned": true
+  }
+]

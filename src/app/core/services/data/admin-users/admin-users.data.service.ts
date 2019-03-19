@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export abstract class UsersDataService {
+export abstract class AdminUsersDataService {
     abstract getAdminUsers(status: number): Observable<User[]>;
 
     constructor() { }

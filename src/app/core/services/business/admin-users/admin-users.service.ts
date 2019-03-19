@@ -1,15 +1,14 @@
-import { getActiveUsers } from '../../../../admin/admin-users/state/admin-users.reducer';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { UsersDataService } from '../../data/users/users.data.service';
 import { User } from '../../../models/User';
+import { AdminUsersDataService } from '../../data/admin-users/admin-users.data.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class AdminUsersService {
 
-  constructor(private UsersDataService: UsersDataService) { }
+  constructor(private UsersDataService: AdminUsersDataService) { }
 
   getActiveUsers(): Observable<User[]> {
     return this.getUsersByStatus(0);
