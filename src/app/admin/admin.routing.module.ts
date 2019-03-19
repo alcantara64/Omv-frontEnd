@@ -4,6 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { AdminUsersComponent } from './admin-users/admin-users-list.component';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
+import { AdminGroupEditComponent } from './admin-group-edit/admin-group-edit.component';
 
 const adminRoutes: Routes = [
   { 
@@ -17,7 +18,7 @@ const adminRoutes: Routes = [
       { 
         path: 'users',
         component: AdminUsersComponent
-      }      
+      }       
     ]
   }
 ];

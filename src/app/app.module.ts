@@ -17,12 +17,14 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { AdminModule } from './admin/admin.module';
+import { AdminGroupEditComponent } from './admin/admin-group-edit/admin-group-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    AppHeaderComponent
+    AppHeaderComponent,
+    AdminGroupEditComponent
   ],
   imports: [
     BrowserModule,

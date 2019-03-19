@@ -9,7 +9,7 @@ import { Route } from '@angular/compiler/src/core';
 })
 export class AdminComponent implements OnInit {
 
-  value = 'Admin';
+  value:string;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
     this.value = 'Admin';

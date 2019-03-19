@@ -44,7 +44,7 @@ import { BaseComponent } from '../shared/base/base.component';
     AdminSidebarComponent,
     AdminDashboardComponent,
     ListComponent,
-    BaseComponent 
+    BaseComponent
   ],
   providers: [
     { provide: UsersDataService, useClass: environment.useMocks ? UsersMockDataService : UsersWebDataService },
