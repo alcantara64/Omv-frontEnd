@@ -18,3 +18,8 @@
 .e-tab-text{
   text-transform: initial !important;
 }
+.link{
+  text-decoration: underline !important;
+  font-family: 'OpenSans', sans-serif !important;
+  color: #0097A9 !important;
+}
