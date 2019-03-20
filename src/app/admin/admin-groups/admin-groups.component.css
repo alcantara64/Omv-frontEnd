@@ -1,0 +1,47 @@
+.e-tab-text {
+  font-family: 'OpenSans', sans-serif!important;
+  font-size: 16px!important;
+  font-weight: 600!important;
+  color: #5b7f95!important;
+}
+
+.e-rowcell {
+  color: #033b5c;
+  font-size: 14px;
+}
+
+.e-indicator {
+  border: solid 2px #033b5c;
+}
+
+.e-tab-text {
+  text-transform: none!important;
+}
+
+.e-icons::before {
+  content: '\e83d';
+  color: white;
+  font-weight: bolder;
+  font-size: 10px;
+  display: inline-block;
+  margin: 0 10px;
+}
+.upload-rectangle{
+  width: 147px;
+  height: 37px;
+  border-radius: 4px;
+  border: solid 1px #0097a9;
+  background-color: #0097a9;
+}
+.upload-text{
+  text-align:center;
+  font-family: 'OpenSans', sans-serif;
+  font-size: 13px;
+  color: #fff;
+  padding-left: 1rem;
+  padding-top:0.5rem;
+}
+.upload{
+  margin-left:2rem;
+  margin-right: 2rem;
+}

@@ -4,7 +4,7 @@
     "description": "Admins",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ "Developer" ],
     "status": 0,
     "isAssigned": true
   },
@@ -13,7 +13,7 @@
     "description": "Assurance Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ "Developer" ],
     "status": 1,
     "isAssigned": true
   },
@@ -22,7 +22,7 @@
     "description": "Inspection Contractors",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ "Developer" ],
     "status": 0,
     "isAssigned": false
   },
@@ -31,7 +31,7 @@
     "description": "Responsible Civil Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ "Developer" ],
     "status": 1,
     "isAssigned": true
   },
@@ -40,7 +40,7 @@
     "description": "Super Admins",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Admin +2",
+    "groups": [ "Admin", "Developer", "Tester" ],
     "status": 1,
     "isAssigned": true
   },
@@ -49,7 +49,7 @@
     "description": "Assurance Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ "Developer" ],
     "status": 0,
     "isAssigned": true
   },
@@ -58,7 +58,7 @@
     "description": "Inspection Contractors",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ ],
     "status": 0,
     "isAssigned": false
   },
@@ -67,7 +67,7 @@
     "description": "Responsible Civil Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ "Developer" ],
     "status": 0,
     "isAssigned": true
   },
@@ -76,7 +76,7 @@
     "description": "Super Admins",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Admin +2",
+    "groups": [ "Developer", "Admin" ],
     "status": 0,
     "isAssigned": true
   },
@@ -85,7 +85,7 @@
     "description": "Assurance Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ "Developer", "Tester" ],
     "status": 0,
     "isAssigned": false
   },
@@ -94,7 +94,7 @@
     "description": "Inspection Contractors",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ "Developer" ],
     "status": 0,
     "isAssigned": true
   },
@@ -103,7 +103,7 @@
     "description": "Responsible Civil Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Developer",
+    "groups": [ "Developer" ],
     "status": 1,
     "isAssigned": true
   },
@@ -112,7 +112,7 @@
     "description": "Super Admins",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": "Admin +2",
+    "groups": [ "Developer" ],
     "status": 0,
     "isAssigned": true
   }

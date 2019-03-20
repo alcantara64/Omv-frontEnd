@@ -6,7 +6,11 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export abstract class AdminUsersDataService {
-    abstract getAdminUsers(status: number): Observable<User[]>;
 
     constructor() { }
+   
+    abstract getActiveAdminUsers(): Observable<User[]>;
+    abstract getDisabledAdminUsers(): Observable<User[]>;
+    abstract getUnassignedAdminUsers(): Observable<User[]>;
+    abstract deleteActiveAdminUsers(payload: User[]);
 }

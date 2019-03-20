@@ -25,7 +25,7 @@ html, body {
   height:100%;
   width:100%;
   background: #f3f8fb;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   font-size: 12px;
 }
 .container {
@@ -161,4 +161,14 @@ html, body {
 }
 .e-grid .e-gridheader {
   padding-right: 0px!important;
+}
+.e-tab .e-tab-header.e-tab-tex{
+  font-family: 'OpenSans', sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #5b7f95 !important;
 }

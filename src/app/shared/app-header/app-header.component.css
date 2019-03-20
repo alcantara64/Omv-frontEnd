@@ -42,3 +42,9 @@ a{
 .e-indicator .e-ignore{
     background: #0097a9 !important; 
 }
+.header-item{
+padding-right: 5%
+}
+.nav{
+    width: 100%;
+}

@@ -57,28 +57,28 @@ export function reducer(state = initialState, action: AdminUserActions) {
     case AdminUserActionTypes.LoadUnassignedUsersSuccess:
       return {
         ...state,
-        activeUsers: action.payload,
+        unassignedUsers: action.payload,
         error: ''
       }
     
     case AdminUserActionTypes.LoadUnassignedUsersFail:
       return {
         ...state,
-        activeUsers: [],
+        unassignedUsers: [],
         error: action.payload
       }
 
     case AdminUserActionTypes.LoadDisabledUsersSuccess:
       return {
         ...state,
-        activeUsers: action.payload,
+        disabledUsers: action.payload,
         error: ''
       }
     
     case AdminUserActionTypes.LoadDisabledUsersFail:
       return {
         ...state,
-        activeUsers: [],
+        disabledUsers: [],
         error: action.payload
       }
 
