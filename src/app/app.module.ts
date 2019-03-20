@@ -16,6 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { AdminModule } from './admin/admin.module';
+import { AdminGroupEditComponent } from './admin/admin-group-edit/admin-group-edit.component';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
 import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
 

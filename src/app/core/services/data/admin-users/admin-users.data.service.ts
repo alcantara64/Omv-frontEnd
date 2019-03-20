@@ -12,4 +12,5 @@ export abstract class AdminUsersDataService {
     abstract getActiveAdminUsers(): Observable<User[]>;
     abstract getDisabledAdminUsers(): Observable<User[]>;
     abstract getUnassignedAdminUsers(): Observable<User[]>;
+    abstract deleteActiveAdminUsers(payload: User[]);
 }

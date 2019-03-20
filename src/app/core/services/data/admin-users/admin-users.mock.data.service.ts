@@ -13,10 +13,11 @@ import { select } from '@ngrx/store';
   })
 
 export class AdminUsersMockDataService implements AdminUsersDataService {
+ 
     
   private paging_batch_size:number = 25;
   private mockCRUDurl: string = 'https://endaebqexdz78.x.pipedream.net';
-  
+  private mockUrl = `./assets/mock/admin-users.json`;
   constructor(private httpClient: HttpClient) { }
 
   getActiveAdminUsers(): Observable<User[]> {
@@ -44,5 +45,9 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
     }));
 
     return data;
+  }
+
+  deleteActiveAdminUsers(payload) {
+    return this.httpClient.delete(this.mockUrl, payload);
   }
 }

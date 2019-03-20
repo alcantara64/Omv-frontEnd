@@ -14,12 +14,12 @@
     <label class="label-text pr-2">
       Disable
     </label>
-    <label class="label-text pr-2">
-      Edit
-    </label>
+      <!-- <label class="label-text pr-2">
+        Edit
+      </label> -->
   </span>
 </div>
-<ejs-grid #grid [dataSource]="listData" id="Grid">
+<ejs-grid #grid [dataSource]="listData" (rowSelected)="rowSelected($event)" [editSettings]='editSettings' id="Grid">
   <e-columns>
     <ng-template #template ngFor let-column [ngForOf]="columns">
       <e-column
@@ -27,7 +27,13 @@
         [type]="column.type"
         [headerText]="column.headerText"
         [width]="column.width">
-      </e-column>
-    </ng-template>
+      </e-column>   
+
+    </ng-template> 
+    <e-column field='' headerText='' [visible]='isEditButtonClicked'   width=80>
+        <ng-template #template>
+            <a class="link" >Edit</a>
+        </ng-template>
+    </e-column> 
   </e-columns>
 </ejs-grid>
