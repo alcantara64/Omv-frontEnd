@@ -17,12 +17,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { AdminModule } from './admin/admin.module';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
+import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    AppHeaderComponent
+    AppHeaderComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

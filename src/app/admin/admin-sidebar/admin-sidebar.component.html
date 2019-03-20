@@ -6,7 +6,6 @@
         [ngClass]="{
           'selected-background button-cls-focused': value === 'Admin'
         }"
-        (click)="onListItemClicked('Admin')"
       >
         <a class=" valign">
           Admin
@@ -14,22 +13,20 @@
       </button>
       <button
         class="collapsible"
-        [ngClass]="{ 'selected-background': value === 'Media' }"
+        [ngClass]="{ 'selected-background': selected === 'Media' || value === 'users' }"
       >
         Media
       </button>
       <div class="content">
         <ul>
           <li
-            [ngClass]="{ 'selected-background': value === 'uploads' }"
-            (click)="onListItemClicked('uploads')"
+            [ngClass]="{ 'selected-background': selected === 'uploads' || value === 'users' }"
             class="cursor media-child-text"
           >
             Uploads
           </li>
           <li
-            [ngClass]="{ 'selected-background': value === 'folder' }"
-            (click)="onListItemClicked('folder')"
+            [ngClass]="{ 'selected-background': selected === 'folder' || value === 'users' }"
             class="media-child-text cursor"
           >
             <a>
@@ -38,16 +35,14 @@
           </li>
           <li
             [ngClass]="{
-              'selected-background': value === 'bulk-uploader'
+              'selected-background': selected === 'bulk-uploader'
             }"
-            (click)="onListItemClicked('bulk-uploader')"
             class="media-child-text cursor"
           >
             Bulk Uploader
           </li>
           <li
-            [ngClass]="{ 'selected-background': value === 'metadata' }"
-            (click)="onListItemClicked('metadata')"
+            [ngClass]="{ 'selected-background': selected === 'metadata' || value === 'users' }"
             class="media-child-text cursor"
           >
             MetaData Details
@@ -56,15 +51,13 @@
       </div>
       <button
         class="button-cls sidebar-heading dashboard-texts "
-        [ngClass]="{ 'selected-background': value === 'KPI' }"
-        (click)="onListItemClicked('KPI')"
+        [ngClass]="{ 'selected-background': selected === 'KPI' || value === 'users' }"
       >
         KPIs
       </button>
       <button
         class="button-cls sidebar-heading dashboard-texts "
-        [ngClass]="{ 'selected-background': value === 'Filter' }"
-        (click)="onListItemClicked('Filter')"
+        [ngClass]="{ 'selected-background': selected === 'Filter' || value === 'users' }"
       >
         Filters
       </button>
@@ -72,44 +65,38 @@
       <div class="content">
         <ul>
           <li
-            [ngClass]="{ 'selected-background': value === 'Work' }"
-            (click)="onListItemClicked('Work')"
+            [ngClass]="{ 'selected-background': selected === 'Work' || value === 'users' }"
             class="cursor media-child-text"
           >
             Work Templates
           </li>
           <li
-            [ngClass]="{ 'selected-background': value === 'work-sets' }"
-            (click)="onListItemClicked('work-sets')"
+            [ngClass]="{ 'selected-background': selected === 'work-sets' || value === 'users' }"
             class="media-child-text cursor"
           >
             Work Sets
           </li>
         </ul>
       </div>
-      <button class="collapsible">Users</button>
-      <div class="content">
+      <button class="collapsible" [ngClass]="(value === 'groups' || value === 'users') ? 'active' : 'sample'">Users</button>
+      <div class="content" [ngStyle]="{'max-height': (value === 'groups' || value === 'users') ? '500px' : ''}">
         <ul>
           <li
-            [ngClass]="{ 'selected-background': value === 'groups' }"
+            [ngClass]="{ 'selected-background': selected === 'groups' || value === 'users' }"
             class="cursor media-child-text"
-            (click)="onListItemClicked('groups')"
-          >
-            Groups
+            (click)="markAsSelected('groups')"
+            routerLink="/admin/groups"
+          >Groups
           </li>
           <li
-            [ngClass]="{ 'selected-background': value === 'users' }"
+            [ngClass]="{ 'selected-background': selected === 'users' || value === 'users' }"
             class="media-child-text cursor"
-            (click)="onListItemClicked('users')"
+            (click)="markAsSelected('users')"
             routerLink="/admin/users"
-          >
-            <a>
-              Users
-            </a>
+          >Users
           </li>
           <li
-            [ngClass]="{ 'selected-background': value === 'permissions' }"
-            (click)="onListItemClicked('permissions')"
+            [ngClass]="{ 'selected-background': selected === 'permissions' || value === 'users' }"
             class="media-child-text cursor"
           >
             Permissions
@@ -133,4 +120,3 @@
       </div>
     </div>
   </div> -->
-  
