@@ -18,13 +18,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { AdminModule } from './admin/admin.module';
 import { AdminGroupEditComponent } from './admin/admin-group-edit/admin-group-edit.component';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
+import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     AppHeaderComponent,
-    AdminGroupEditComponent
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

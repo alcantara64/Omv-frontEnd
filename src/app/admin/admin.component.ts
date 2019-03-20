@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
 
@@ -7,16 +7,42 @@ import { Route } from '@angular/compiler/src/core';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, DoCheck {
 
-  value:string;
+  public  value: string;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
-    this.value = 'Admin';
   }
 
   ngOnInit() {    
-    this.value = this.router.url;
+    this.activatedRoute.paramMap.subscribe(
+      params => {
+        const pageView = params.get('pageView');
+        if (
+          pageView === 'groups' || pageView === 'users' ||
+          pageView === 'permissions' || pageView === 'work-sets' ||
+          pageView === 'Work' || pageView === 'Filter' ||
+          pageView === 'KPI' || pageView === 'metadata' ||
+          pageView === 'bulk-uploader' || pageView === 'folder' ||
+          pageView === 'uploads' || pageView === 'Media' ||
+          pageView === 'Admin' || pageView === null
+        )
+        {
+          this.value = pageView
+        } else {
+          this.router.navigateByUrl('page-not-found')
+        }
+      }
+    )
+  }
+
+  ngDoCheck() {
+    this.activatedRoute.paramMap.subscribe(
+      params => {
+        const pageView = params.get('pageView');
+        this.value = pageView;
+      }
+    )
   }
 
   // TODO: Handle this in the html

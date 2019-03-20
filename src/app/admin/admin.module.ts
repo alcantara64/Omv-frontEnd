@@ -21,9 +21,11 @@ import { SliderModule } from '@syncfusion/ej2-angular-inputs';
 import { reducer } from './admin-users/state/admin-users.reducer';
 import { AdminUsersEffects } from './admin-users/state/admin-users.effects';
 import { BaseComponent } from '../shared/base/base.component';
-import { AdminUsersDataService } from '../core/services/data/admin-users/admin-users.data.service';
+import {AppHeaderComponent} from "../shared/app-header/app-header.component";
+import {AdminGroupsComponent} from "./admin-groups/admin-groups.component";
 import { AdminUsersMockDataService } from '../core/services/data/admin-users/admin-users.mock.data.service';
 import { AdminUsersWebDataService } from '../core/services/data/admin-users/admin-users.web.data.service';
+import {AdminUsersDataService} from "../core/services/data/admin-users/admin-users.data.service";
 
 @NgModule({
   imports: [
@@ -44,7 +46,8 @@ import { AdminUsersWebDataService } from '../core/services/data/admin-users/admi
     AdminSidebarComponent,
     AdminDashboardComponent,
     ListComponent,
-    BaseComponent
+    BaseComponent,
+    AdminGroupsComponent
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },

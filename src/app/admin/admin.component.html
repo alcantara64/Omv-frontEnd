@@ -17,7 +17,9 @@
           <div *ngIf="value === 'Filter'"></div>
           <div *ngIf="value === 'Work'"></div>
           <div *ngIf="value === 'folder'"></div>
-          <div *ngIf="value === 'groups'"></div>
+          <div *ngIf="value === 'groups'">
+            <app-admin-groups></app-admin-groups>
+          </div>
           <div *ngIf="value === 'workPlanningInfo'"></div>
           <div *ngIf="value === 'work-sets'"></div>
           <div *ngIf="value === 'users'">
