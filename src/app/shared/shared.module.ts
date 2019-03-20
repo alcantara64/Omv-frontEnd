@@ -9,10 +9,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   exports: [
     CommonModule
   ],
-<<<<<<< HEAD
-  declarations: []
-=======
   declarations: [PageNotFoundComponent]
->>>>>>> Added User Group Component
 })
 export class SharedModule { }
