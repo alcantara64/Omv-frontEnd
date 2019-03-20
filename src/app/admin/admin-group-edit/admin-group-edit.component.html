@@ -1,0 +1,80 @@
+<div class="layout">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" routerLink="/work-inspection"><a href="#" class="breadcrumbs__element"><ins></ins></a>
+        </li>
+        <li class="breadcrumb-item" routerLink="/admin"><a 
+            class="breadcrumbs__element"><ins>BACK</ins></a></li>
+      </ol>
+    </nav>
+    <div class="row">
+      <div class="col-sm-6">
+        <h4>Group Information</h4><br>
+        <form>
+          <div class="form-group">
+            <label>Group Name</label>
+            <input class="form-control form-control-lg" type="text" placeholder="Admin">
+            <h5>Maybe some tip for the field</h5>
+          </div><br>
+          <div class="form-group">
+            <label>Description</label>
+            <input class="form-control form-control-lg" type="text" placeholder="Admin">
+            <h5>Maybe some tip for the field</h5>
+          </div><br><br>
+          <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Group</button>
+          <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Disable Group</button>
+          <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Delete Group</button>
+        </form>
+      </div>
+      <div class="col-sm-6">
+        <div class="control-section e-tab-section">
+          <div class="e-sample-resize-container">
+            <ejs-tab id="tab_default" heightAdjustMode='Auto'>
+              <e-tabitems>
+                <e-tabitem [header]='headerText[0]'>
+                  <ng-template #content>
+                    <ejs-grid #grid [dataSource]="data" id="Grid" style="margin-top:10px" (click)="onItemClick()">
+                      <e-columns>
+                        <e-column type="checkbox" width="50"></e-column>
+                        <e-column field="Name" headerText="Permission Title"></e-column>
+                      </e-columns>
+                    </ejs-grid><br>
+                    <span style="float:right">
+                      <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Permission</button>
+                    </span>
+                  </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[1]'>
+                  <ng-template #content>
+                    <!-- <ejs-grid #grid [dataSource]="data" id="Grid" style="margin-top:10px" (click)="onItemClick()">
+                      <e-columns>
+                        <e-column type="checkbox" width="50" headerText=""></e-column>
+                        <e-column field="Name" headerText="Permission Title"></e-column>
+                        <e-column field="email" headerText="Email"></e-column>
+                      </e-columns>
+                    </ejs-grid> -->
+                    <br>
+                    <span style="float:right">
+                      <button type="button" class="btn btn-primary" style="margin: 0 10px">Remove Member</button>
+                      <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Add
+                        Member</button>
+                    </span>
+                  </ng-template>
+                </e-tabitem>
+                <e-tabitem [header]='headerText[2]'>
+                  <ng-template #content>
+                      <!-- <ejs-treeview id="checkbox" [fields]='field' [showCheckBox]='showCheckBox'></ejs-treeview> -->
+                    <span style="float:right">
+                      <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Access</button>
+                    </span>
+                  </ng-template>
+                </e-tabitem>
+              </e-tabitems>
+            </ejs-tab>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,4 +13,10 @@ export class AdminUsersService {
   getUsers(): Observable<User[]> {
     return this.AdminUsersDataService.getUsers();
   }
+
+  deleteActiveAdminUsers(payload:User[]){
+    // return this.AdminUsersDataService.deleteActiveAdminUsers(payload);
+    return null;
+  }
+  
 }

@@ -12,10 +12,11 @@ import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
   })
 
 export class AdminUsersMockDataService implements AdminUsersDataService {
+ 
     
   private paging_batch_size:number = 25;
   private mockCRUDurl: string = 'https://endaebqexdz78.x.pipedream.net';
-  
+  private mockUrl = `./assets/mock/admin-users.json`;
   constructor(private httpClient: HttpClient) { }
 
   getUsers(): Observable<User[]> {
@@ -23,5 +24,9 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
     var data = this.httpClient.get<User[]>(mockUrl);
 
     return data;
+  }
+
+  deleteActiveAdminUsers(payload) {
+    return this.httpClient.delete(this.mockUrl, payload);
   }
 }

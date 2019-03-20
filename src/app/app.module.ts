@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppHeaderComponent } from './shared/app-header/app-header.component';
 import { environment } from 'src/environments/environment';
 import { AdminModule } from './admin/admin.module';
+import { AdminGroupEditComponent } from './admin/admin-group-edit/admin-group-edit.component';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
 
 /* NgXS Modules */
