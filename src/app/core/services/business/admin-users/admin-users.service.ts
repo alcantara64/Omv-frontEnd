@@ -10,15 +10,7 @@ export class AdminUsersService {
 
   constructor(private AdminUsersDataService: AdminUsersDataService) { }
 
-  getActiveUsers(): Observable<User[]> {
-    return this.AdminUsersDataService.getActiveAdminUsers();
-  }
-
-  getUnassignedUsers(): Observable<User[]> {
-    return this.AdminUsersDataService.getUnassignedAdminUsers();
-  }
-
-  getDisabledUsers(): Observable<User[]> {
-    return this.AdminUsersDataService.getDisabledAdminUsers();
+  getUsers(): Observable<User[]> {
+    return this.AdminUsersDataService.getUsers();
   }
 }

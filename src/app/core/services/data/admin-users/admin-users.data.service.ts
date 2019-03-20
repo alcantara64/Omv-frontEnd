@@ -9,7 +9,5 @@ export abstract class AdminUsersDataService {
 
     constructor() { }
    
-    abstract getActiveAdminUsers(): Observable<User[]>;
-    abstract getDisabledAdminUsers(): Observable<User[]>;
-    abstract getUnassignedAdminUsers(): Observable<User[]>;
+    abstract getUsers(): Observable<User[]>;
 }

@@ -1,9 +1,9 @@
-export interface User {
+export class User {
   name: string;
   description: string;
   email: string;
   modifiedBy: string;
   groups: string;
-  status: number,
+  status: number;
   isAssigned: boolean;
 }
