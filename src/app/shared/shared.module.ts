@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   imports: [
@@ -8,6 +9,10 @@ import { CommonModule } from '@angular/common';
   exports: [
     CommonModule
   ],
+<<<<<<< HEAD
   declarations: []
+=======
+  declarations: [PageNotFoundComponent]
+>>>>>>> Added User Group Component
 })
 export class SharedModule { }
