@@ -1,4 +1,5 @@
 import { User } from 'src/app/core/models/User';
+import { userType } from 'src/app/core/enum/permission';
 
 export class GetUsers {
   static readonly type = '[Admin Users Page] GetUsers';
@@ -34,14 +35,20 @@ export class AssignToGroups {
   constructor(public id: number, public payload: User) { }
 }
 
-export class SetSelectedUserId {
-  static readonly type = '[Admin Users Page] SetSelectedUser';
+export class SetCurrentUserId {
+  static readonly type = '[Admin Users Page] SetCurrentUserId';
 
-  constructor(public id: number) { } 
+  constructor(public id: number) { }
 }
 
 export class SetSelectedUserIds {
   static readonly type = '[Admin Users Page] SetSelectedUsers';
 
   constructor(public id: number[]) { }
+}
+
+export class SearchUsers {
+  static readonly type = '[Admin Users Page] SearchUsers';
+
+  constructor(public name: string, public groupid: number) { }
 }

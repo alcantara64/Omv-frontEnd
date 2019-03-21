@@ -93,12 +93,12 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
   @Select(AdminUserState.getUnassignedUsers) getUnassignedUsers: Observable<User[]>;
   @Select(AdminUserState.getDisabledUsers) getDisabledUsers: Observable<User[]>;
 
-  constructor(private store: Store) {
-    super();
+  constructor(protected store: Store) {
+    super(store);
 
     this.store.dispatch(new ShowLeftNav(false));
   }
- 
+
   ngOnInit() {
 
     this.store.dispatch(new GetUsers());

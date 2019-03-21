@@ -1,3 +1,4 @@
+import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { Routes, RouterModule } from "@angular/router";
 import { AdminUsersListComponent } from './admin-users-list/admin-users-list.component';
@@ -18,6 +19,10 @@ const adminRoutes: Routes = [
   {
     path: 'admin/users',
     component: AdminUsersListComponent,
+  },
+  {
+    path: 'admin/users/:id',
+    component: AdminUserEditComponent,
   },
   {
     path: 'admin/groups',
