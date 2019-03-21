@@ -4,7 +4,11 @@ import {GridColumn} from "../../core/models/grid.column";
 import * as userActions from "../admin-users-list/state/admin-users.actions";
 import {takeWhile} from "rxjs/operators";
 import {ListComponent} from "../../shared/list/list.component";
-import { Store } from '@ngxs/store';
+import { Router } from '@angular/router';
+import { Store, Select } from '@ngxs/store';
+import { AdminGroupState } from './state/admin-groups.state';
+import { Observable } from 'rxjs';
+import { Group } from 'src/app/core/models/group';
 
 @Component({
   selector: 'app-admin-groups-list',
@@ -54,6 +58,10 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit, O
   ];
   private componentActive = true;
 
+
+  @Select(AdminGroupState.getGroups) getActiveUsers: Observable<Group[]>;
+  @Select(AdminGroupState.getCurrentGroup) getUnassignedUsers: Observable<Group[]>;
+  // @Select(AdminGroupState.getDisabledUsers) getDisabledUsers: Observable<Group[]>;
   constructor(private store: Store) {
     super();
   }

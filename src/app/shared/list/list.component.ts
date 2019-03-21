@@ -2,6 +2,7 @@ import { GridColumn } from './../../core/models/grid.column';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectEventArgs } from '@syncfusion/ej2-angular-grids';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -32,10 +33,13 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   @Output()
   secondAction = new EventEmitter<Object[]>();
+
+  @Output()
+  navigate = new EventEmitter<string>();
   
   @ViewChild('grid')
   public grid: GridComponent;
-
+  gridData: any[];
   public selectionOptions: SelectionSettingsModel;
 
   constructor() {
@@ -43,7 +47,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.selectionOptions = { checkboxMode: 'ResetOnRowClick'};
   }
 
   performFirstAction() {
@@ -52,6 +56,15 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   performSecondAction() {
     this.secondAction.emit(this.selectedRecords);
+  }
+
+  performNavigation() {
+    // let id = this.gridData[]
+    // for (let i = 0; i < this.gridData.length; i++) {
+    //   this.gridData[i].id = id;
+    // }
+    // this.navigate.emit();
+   // this.router.navigate('/edit/groups')
   }
 
   rowSelected(args: RowSelectEventArgs) {    
