@@ -20,10 +20,7 @@
             <div class="pb-3 col-md-4"> 
               <span class="pt-3">
                 <button ejs-button class="btn-color float-right">
-                  <img
-                    src="../../../assets/images/plus-icon.svg"
-                    class="pr-2"
-                  />
+                  <img src="../../../assets/images/plus-icon.svg" class="pr-2" />
                   Add New Group
                 </button>
 
@@ -32,6 +29,9 @@
                 </button>
               </span>
             </div>
+          </div>
+          <div class="">
+            <app-list [listData]="activeUsers" [columns]="columns" [selectedRecords]="selectedUsers" (action)="performGridAction($event)"></app-list>
           </div>
         </ng-template>
       </e-tabitem>
@@ -64,7 +64,7 @@
             </div>
           </div>
           <div class="">
-            <app-list [listData]="unassignedUsers" [columns]="columns"></app-list>
+            <app-list [listData]="unassignedUsers" [columns]="columns" (action)="performGridAction($event)"></app-list>
           </div>
         </ng-template>
       </e-tabitem>
@@ -97,7 +97,7 @@
             </div>
           </div>
           <div class="">
-            <app-list [listData]="disabledUsers" [columns]="columns"></app-list>
+            <app-list [listData]="disabledUsers" [columns]="columns" [actionButtonText]="'Enable'" (action)="performGridAction($event)"></app-list>
           </div>
         </ng-template>
       </e-tabitem>

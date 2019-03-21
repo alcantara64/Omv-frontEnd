@@ -1,5 +1,5 @@
 import { GridColumn } from './../../core/models/grid.column';
-import { Component, OnInit, Input, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { GridComponent, RowSelectEventArgs, SelectionSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { Router } from '@angular/router';
@@ -11,16 +11,25 @@ import { Router } from '@angular/router';
 })
 export class ListComponent extends BaseComponent implements OnInit {
 
+  selectedRecords: any[];
+
   @Input()
   listData: any[];
 
   @Input()
   columns: GridColumn[];
+
+  @Input()
+  actionButtonText: string = 'Disable';
+
+  @Output()
+  action = new EventEmitter<Object[]>();
   
   @ViewChild('grid')
   public grid: GridComponent;
   gridData: any[];
-  selectionOptions : SelectionSettingsModel
+  public selectionOptions: SelectionSettingsModel;
+
   constructor() {
     super();
   }
@@ -34,7 +43,13 @@ export class ListComponent extends BaseComponent implements OnInit {
     // Get the selected records.
     this.gridData = selectedrecords;
     console.log(selectedrecords);
+    
   }
+
+  performAction() {
+    this.action.emit(this.selectedRecords);
+  }
+
   navigateToEditScreen() {
     let id: string;
     for (let i = 0; i < this.gridData.length; i++) {

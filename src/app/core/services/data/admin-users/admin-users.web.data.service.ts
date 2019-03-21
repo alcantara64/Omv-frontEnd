@@ -19,6 +19,10 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
     throw new Error("Method not implemented.");
   }
 
+  getUser(id: number): Observable<import("../../../models/user.item").UserItem> {
+    throw new Error("Method not implemented.");
+  }
+  
   deleteUser(id: number, payload: User) {
     throw new Error("Method not implemented.");
   }
