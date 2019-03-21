@@ -10,7 +10,7 @@ export class AdminGroupStateModel {
 }
 
 @State<AdminGroupStateModel>({
-  name: 'groups',
+  name: 'admin_groups',
   defaults: {
     groups: [],
     currentGroup: null

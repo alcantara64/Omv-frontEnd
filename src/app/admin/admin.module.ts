@@ -24,6 +24,10 @@ import { AdminUserState } from './admin-users-list/state/admin-users.state';
 /* NgXS */
 import { NgxsModule } from '@ngxs/store';
 import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
+import { AdminGroupsDataService } from '../core/services/data/admin-groups/admin-groups.data.service';
+import { AdminGroupsMockDataService } from '../core/services/data/admin-groups/admin-groups.mock.data.service';
+import { AdminGroupsWebDataService } from '../core/services/data/admin-groups/admin.groups.mock.web.data.service';
+import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @NgModule({
   imports: [
@@ -36,6 +40,7 @@ import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.compon
     DropDownButtonModule,
     SliderModule,    
     TextBoxModule,
+    DropDownListAllModule,
     NgxsModule.forFeature([
       AdminUserState,
       AdminGroupState
@@ -53,6 +58,7 @@ import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.compon
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
+    { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

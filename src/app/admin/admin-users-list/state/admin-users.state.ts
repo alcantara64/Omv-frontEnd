@@ -10,7 +10,7 @@ export class AdminUserStateModel {
 }
 
 @State<AdminUserStateModel>({
-  name: 'users',
+  name: 'admin_users',
   defaults: {
     users: []
   } 
@@ -54,7 +54,7 @@ export class AdminUserState {
   @Action(DisableUser)
   disableUser(ctx: StateContext<AdminUserStateModel>, {id, payload}: DisableUser) {
     return this.adminUserService.disableUser(id, payload).pipe(),
-              mergeMap(() => ctx.dispatch(new GetUsers()));
+              mergeMap(() => ctx.dispatch(new GetUsers()));    
   }
 
   @Action(EnableUser)

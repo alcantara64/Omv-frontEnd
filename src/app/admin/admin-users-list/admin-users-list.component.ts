@@ -1,6 +1,8 @@
+import { GetGroups } from './../admin-groups-list/state/admin.groups.action';
+import { Group } from './../../core/models/group';
 import { ShowLeftNav } from './../../state/app.actions';
 import { ListComponent } from "./../../shared/list/list.component";
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
 import { ToolbarItems } from "@syncfusion/ej2-angular-grids";
 import { User } from "src/app/core/models/User";
 import { Observable } from "rxjs";
@@ -10,6 +12,7 @@ import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 import { Store, Select } from '@ngxs/store';
 import { AdminUserState } from './state/admin-users.state';
 import { GetUsers, DisableUser, EnableUser } from './state/admin-users.actions';
+import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
 
 @Component({
   selector: "app-admin-users-list",
@@ -69,11 +72,12 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
       field: "groups"
     }
   ];
-    
+  groups: Group[] = [];
 
   @Select(AdminUserState.getActiveUsers) getActiveUsers: Observable<User[]>;
   @Select(AdminUserState.getUnassignedUsers) getUnassignedUsers: Observable<User[]>;
   @Select(AdminUserState.getDisabledUsers) getDisabledUsers: Observable<User[]>;
+  @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>; 
   
   constructor(private store: Store) {
     super();
@@ -88,14 +92,20 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
 
     this.store.dispatch(new GetUsers());
+    this.store.dispatch(new GetGroups());
 
     this.getActiveUsers.subscribe(users => this.activeUsers = users );
     this.getUnassignedUsers.subscribe(users => this.unassignedUsers = users );
     this.getDisabledUsers.subscribe(users => this.disabledUsers = users );
+    this.groups$.subscribe(groups => this.groups = groups);
   }
 
   ngOnDestroy(): void {
     this.componentActive = false;
+  }
+
+  handleNameSearch(target: any) {
+    this.activeUsers.filter(x => x.name === target.value);
   }
 
   enableUsers(users: User[]) {

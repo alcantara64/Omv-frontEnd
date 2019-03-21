@@ -1,3 +1,4 @@
+import { User } from 'src/app/core/models/User';
 import { GridColumn } from './../../core/models/grid.column';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
@@ -58,13 +59,12 @@ export class ListComponent extends BaseComponent implements OnInit {
     this.secondAction.emit(this.selectedRecords);
   }
 
-  performNavigation() {
-    // let id = this.gridData[]
-    // for (let i = 0; i < this.gridData.length; i++) {
-    //   this.gridData[i].id = id;
-    // }
-    // this.navigate.emit();
-   // this.router.navigate('/edit/groups')
+  performNavigation(args: any) {
+    let data= this.grid.getRowInfo(args.target);
+
+    let rowdata = data.rowData as any;
+
+    console.log(rowdata.id);
   }
 
   rowSelected(args: RowSelectEventArgs) {    
