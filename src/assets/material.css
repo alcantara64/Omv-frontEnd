@@ -25130,7 +25130,17 @@ ejs-calendar {
 .e-pivotview .e-stackedheadercelldiv, .e-pivotview .e-headertext, .e-pivotview .e-rowsheader .e-cellvalue {
   color: rgba(0, 0, 0, 0.7) !important;
   font-size: 12px !important;
-  font-weight: 500 !important; }
+  font-weight: 500 !important; 
+  width: 45px;
+  height: 19px;
+  font-family: 'OpenSans', sans-serif !important;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #eaf1f2;
+}
+  
   .e-pivotview .e-stackedheadercelldiv .e-hyperlinkcell, .e-pivotview .e-headertext .e-hyperlinkcell, .e-pivotview .e-rowsheader .e-cellvalue .e-hyperlinkcell {
     cursor: pointer; }
 

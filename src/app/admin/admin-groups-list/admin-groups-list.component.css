@@ -27,21 +27,40 @@
   margin: 0 10px;
 }
 .upload-rectangle{
-  width: 147px;
-  height: 37px;
+  width: 171px;
+  height: 27px;
   border-radius: 4px;
   border: solid 1px #0097a9;
   background-color: #0097a9;
+
 }
 .upload-text{
   text-align:center;
   font-family: 'OpenSans', sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   color: #fff;
   padding-left: 1rem;
-  padding-top:0.5rem;
+  padding-top:-1.5rem;
+
 }
 .upload{
-  margin-left:2rem;
-  margin-right: 2rem;
+  margin-left:1rem;
+  margin-right: 1rem;
+}
+h6{
+  font-family:'OpenSans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #033b5c;
+
+}
+button{
+  border-radius: 4px;
+  border: solid 1px #0097a9;
+  background-color: #0097a9; 
+  padding-left: 1rem;
+  padding-top: 9px;
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: -0.1px;
 }
