@@ -28,6 +28,12 @@ export class EnableUser {
   constructor(public id: number, public payload: User) { }
 }
 
+export class AssignToGroups {
+  static readonly type = '[Admin Users Page] AssignToGroups';
+
+  constructor(public id: number, public payload: User) { }
+}
+
 export class SetSelectedUserId {
   static readonly type = '[Admin Users Page] SetSelectedUser';
 

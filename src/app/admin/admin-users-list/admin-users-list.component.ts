@@ -1,18 +1,21 @@
 import { ShowLeftNav } from './../../state/app.actions';
 import { ListComponent } from "./../../shared/list/list.component";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from "@angular/core";
 import { ToolbarItems } from "@syncfusion/ej2-angular-grids";
 import { User } from "src/app/core/models/User";
 import { Observable } from "rxjs";
 import { GridColumn } from "src/app/core/models/grid.column";
+import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
+import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 import { Store, Select } from '@ngxs/store';
 import { AdminUserState } from './state/admin-users.state';
-import { GetUsers, DisableUser } from './state/admin-users.actions';
+import { GetUsers, DisableUser, EnableUser } from './state/admin-users.actions';
 
 @Component({
   selector: "app-admin-users-list",
   templateUrl: "./admin-users-list.component.html",
-  styleUrls: ["./admin-users-list.component.css"]
+  styleUrls: ["./admin-users-list.component.css"],
+  encapsulation: ViewEncapsulation.None
 })
 export class AdminUsersListComponent extends ListComponent implements OnInit {
   public headerText = [
@@ -20,6 +23,9 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     { text: "Unassigned Users" },
     { text: "Disabled Users" }
   ];
+  @ViewChild('element') tabInstance: TabComponent
+  @ViewChild('previousAnimation') previousInstance: DropDownListComponent;
+  @ViewChild('nextAnimation') nextInstance: DropDownListComponent;
   data = [];
   public toolbar: ToolbarItems[];
   componentActive = true;
@@ -70,7 +76,10 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   @Select(AdminUserState.getDisabledUsers) getDisabledUsers: Observable<User[]>;
   
   constructor(private store: Store) {
-    super();    
+    super();
+    // this.tabInstance.animation.previous.effect = 'None';
+    // this.tabInstance.animation.next.effect = 'None';
+    
     this.store.dispatch(new ShowLeftNav(true));
   }
 
@@ -89,9 +98,21 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.componentActive = false;
   }
 
-  performGridAction(users: User[]) {
+  enableUsers(users: User[]) {
+    users.forEach(user => {
+      this.store.dispatch(new EnableUser(user.id, user));
+    });
+  }
+
+  disableUsers(users: User[]) {
     users.forEach(user => {
       this.store.dispatch(new DisableUser(user.id, user));
+    });
+  }
+
+  assignUsersToGroups(users: User[]) {
+    users.forEach(user => {
+      // this.store.dispatch(new DisableUser(user.id, user));
     });
   }
 }

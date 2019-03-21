@@ -6437,7 +6437,7 @@ ejs-sidebar {
   border-style: none solid solid;
   border-width: 1px;
   display: block;
-  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
+  font-family: 'OpenSans', sans-serif;
   font-size: 13px;
   height: auto;
   position: relative; }
@@ -6617,8 +6617,8 @@ ejs-sidebar {
   .e-grid .e-headercelldiv {
     border: 0 none;
     display: block;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     height: 29px;
     line-height: 30px;
     margin: -7px;
@@ -22279,6 +22279,8 @@ ejs-calendar {
     .e-tab .e-tab-header:not(.e-vertical) .e-indicator {
       bottom: 0;
       height: 6px;
+      height: 5px;
+      left: 0;
       right: 0;
       transition: left 0.125s cubic-bezier(0.35, 0, 0.25, 1), right 0.25s cubic-bezier(0.35, 0, 0.25, 1); }
     .e-tab .e-tab-header .e-toolbar-item {
@@ -22315,7 +22317,43 @@ ejs-calendar {
         display: inherit;
         font-family: 'OpenSans', sans-serif;
         font-size: 16px;
-        font-weight: 600;
+      right: 0;
+      transition: left 0.125s cubic-bezier(0.35, 0, 0.25, 1), right 0.25s cubic-bezier(0.35, 0, 0.25, 1); }
+    .e-tab .e-tab-header .e-toolbar-item {
+      user-select: text; }
+      .e-tab .e-tab-header .e-toolbar-item.e-hidden {
+        display: none; }
+      .e-tab .e-tab-header .e-toolbar-item:not(.e-separator) {
+        height: 36px;
+        margin: 0;
+        min-height: 36px;
+        min-width: auto;
+        padding: 0; }
+        @media screen and (max-width: 480px) {
+          .e-tab .e-tab-header .e-toolbar-item:not(.e-separator) {
+            height: 48px;
+            min-height: 48px; } }
+      .e-tab .e-tab-header .e-toolbar-item .e-tab-wrap {
+        height: 36px;
+        padding: 0 18px;
+        width: 100%; }
+        @media screen and (max-width: 480px) {
+          .e-tab .e-tab-header .e-toolbar-item .e-tab-wrap {
+            height: 48px;
+            padding: 0 12px; } }
+      .e-tab .e-tab-header .e-toolbar-item .e-text-wrap {
+        align-content: center;
+        align-items: center;
+        display: inline-flex;
+        height: 36px; }
+        @media screen and (max-width: 480px) {
+          .e-tab .e-tab-header .e-toolbar-item .e-text-wrap {
+            height: 48px; } }
+      .e-tab .e-tab-header .e-toolbar-item .e-tab-text {
+        display: inherit;
+        font-family: 'OpenSans', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
         text-transform: uppercase; 
          color: #5b7f95;}
         @media screen and (max-width: 480px) {

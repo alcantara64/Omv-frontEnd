@@ -1,10 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {User} from "../../core/models/user";
-import {GridColumn} from "../../core/models/grid.column";
-import * as userActions from "../admin-users-list/state/admin-users.actions";
-import {takeWhile} from "rxjs/operators";
+import { GetGroups } from './state/admin.groups.action';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { GridColumn } from "../../core/models/grid.column";
 import {ListComponent} from "../../shared/list/list.component";
-import { Store } from '@ngxs/store';
+import { Router } from '@angular/router';
+import { Store, Select } from '@ngxs/store';
+import { AdminGroupState } from './state/admin-groups.state';
+import { Observable } from 'rxjs';
+import { Group } from 'src/app/core/models/group';
+import { ShowLeftNav } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-admin-groups-list',
@@ -13,7 +16,7 @@ import { Store } from '@ngxs/store';
 })
 export class AdminGroupsListComponent extends ListComponent implements OnInit, OnDestroy {
 
-  groups: User[];
+  groups: Group[];
   columns: GridColumn[] = [
     {
       type: "checkbox",
@@ -54,22 +57,18 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit, O
   ];
   private componentActive = true;
 
+  @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
+
   constructor(private store: Store) {
     super();
+    
+    this.store.dispatch(new ShowLeftNav(true));
   }
 
   ngOnInit() {
-    // this.store.dispatch(new userActions.LoadActiveUsers());
+    this.store.dispatch(new GetGroups());
 
-    // this.store
-    //   .pipe(
-    //     select(fromUsers.getActiveUsers),
-    //     takeWhile(() => this.componentActive)
-    //   )
-    //   .subscribe(users => {
-    //     this.groups = users;
-    //     console.log("This is a group ", this.groups);
-    //   });
+    this.groups$.subscribe(_groups => this.groups = _groups);
   }
 
   ngOnDestroy(): void {
