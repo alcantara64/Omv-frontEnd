@@ -31,7 +31,7 @@ export class EnableUser {
 export class SetSelectedUserId {
   static readonly type = '[Admin Users Page] SetSelectedUser';
 
-  constructor(public id: number) { }
+  constructor(public id: number) { } 
 }
 
 export class SetSelectedUserIds {

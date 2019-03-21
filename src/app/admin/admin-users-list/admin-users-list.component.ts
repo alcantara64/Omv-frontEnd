@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 import { GridColumn } from "src/app/core/models/grid.column";
 import { Store, Select } from '@ngxs/store';
 import { AdminUserState } from './state/admin-users.state';
-import { GetUsers } from './state/admin-users.actions';
+import { GetUsers, DisableUser } from './state/admin-users.actions';
 
 @Component({
   selector: "app-admin-users-list",
@@ -27,6 +27,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   activeUsers: User[];
   unassignedUsers: User[];
   disabledUsers: User[];
+  selectedUsers: User[];
   totalActiveUsers: number;
   totalUnassignedUsers: number;
   totalDisabledUsers: number;
@@ -62,14 +63,14 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
       field: "groups"
     }
   ];
-  
+    
+
   @Select(AdminUserState.getActiveUsers) getActiveUsers: Observable<User[]>;
   @Select(AdminUserState.getUnassignedUsers) getUnassignedUsers: Observable<User[]>;
   @Select(AdminUserState.getDisabledUsers) getDisabledUsers: Observable<User[]>;
   
   constructor(private store: Store) {
-    super();
-    
+    super();    
     this.store.dispatch(new ShowLeftNav(true));
   }
 
@@ -86,5 +87,11 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.componentActive = false;
+  }
+
+  performGridAction(users: User[]) {
+    users.forEach(user => {
+      this.store.dispatch(new DisableUser(user.id, user));
+    });
   }
 }

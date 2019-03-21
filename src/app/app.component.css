@@ -1,0 +1,19 @@
+.grid-action-buttons {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0097A9;
+  background: none;
+  border: none;
+}
+
+.grid-action-label {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #033B5C;
+}

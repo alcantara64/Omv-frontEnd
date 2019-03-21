@@ -12,7 +12,7 @@ import { TabAllModule } from '@syncfusion/ej2-angular-navigations';
 import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
-import { SliderModule } from '@syncfusion/ej2-angular-inputs';
+import { SliderModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { BaseComponent } from '../shared/base/base.component';
 import { AdminGroupsListComponent } from "./admin-groups-list/admin-groups-list.component";
 import { AdminUsersMockDataService } from '../core/services/data/admin-users/admin-users.mock.data.service';
@@ -33,7 +33,8 @@ import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.compon
     CheckBoxModule,
     GridAllModule,
     DropDownButtonModule,
-    SliderModule,
+    SliderModule,    
+    TextBoxModule,
     NgxsModule.forFeature([
       AdminUserState
     ]),

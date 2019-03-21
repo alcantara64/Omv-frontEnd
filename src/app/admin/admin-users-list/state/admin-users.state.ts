@@ -13,7 +13,7 @@ export class AdminUserStateModel {
   name: 'users',
   defaults: {
     users: []
-  }
+  } 
 })
 export class AdminUserState {
 
