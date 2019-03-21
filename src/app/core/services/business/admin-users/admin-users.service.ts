@@ -10,20 +10,23 @@ export class AdminUsersService {
 
   constructor(private AdminUsersDataService: AdminUsersDataService) { }
 
-  getActiveUsers(): Observable<User[]> {
-    return this.AdminUsersDataService.getActiveAdminUsers();
+  getUsers(): Observable<User[]> {
+    return this.AdminUsersDataService.getUsers();
   }
 
-  getUnassignedUsers(): Observable<User[]> {
-    return this.AdminUsersDataService.getUnassignedAdminUsers();
+  disableUser(id: number, payload: User){
+    return this.AdminUsersDataService.disableUser(id, payload);
   }
 
-  getDisabledUsers(): Observable<User[]> {
-    return this.AdminUsersDataService.getDisabledAdminUsers();
+  deleteUser(id: number, payload: User){
+    return this.AdminUsersDataService.deleteUser(id, payload);
   }
 
-  deleteActiveAdminUsers(payload:User[]){
-    return this.AdminUsersDataService.deleteActiveAdminUsers(payload);
+  enableUser(id: number, payload: User) {
+    return this.AdminUsersDataService.enableUser(id, payload);
   }
-  
+
+  updateUser(id: number, payload: User) {
+    return this.AdminUsersDataService.updateUser(id, payload);
+  } 
 }

@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/core/models/User';
 import { AdminUsersDataService } from './admin-users.data.service';
 import { map } from 'rxjs/operators';
 import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
-import { select } from '@ngrx/store';
 
 
 @Injectable({
@@ -13,41 +12,41 @@ import { select } from '@ngrx/store';
   })
 
 export class AdminUsersMockDataService implements AdminUsersDataService {
- 
     
   private paging_batch_size:number = 25;
   private mockCRUDurl: string = 'https://endaebqexdz78.x.pipedream.net';
-  private mockUrl = `./assets/mock/admin-users.json`;
   constructor(private httpClient: HttpClient) { }
 
-  getActiveAdminUsers(): Observable<User[]> {
+  getUsers(): Observable<User[]> {
     var mockUrl = `./assets/mock/admin-users.json`;
-    var data = this.httpClient.get<User[]>(mockUrl).pipe(select(response => {
-      return response.filter(x => x.status === AdminUserStatus.Active)
-    }));    
+    var data = this.httpClient.get<User[]>(mockUrl);
 
     return data;
   }
-
-  getDisabledAdminUsers(): Observable<User[]> {
+  
+  deleteUser(id: number, payload: User) {
     var mockUrl = `./assets/mock/admin-users.json`;
-    var data = this.httpClient.get<User[]>(mockUrl).pipe(select(response => {
-      return response.filter(x => x.status === AdminUserStatus.Disabled)
-    }));    
-
-    return data;
+    payload.status = -1;
+    
+    return this.httpClient.put<any>(mockUrl, payload);
   }
-
-  getUnassignedAdminUsers(): Observable<User[]> {
+  
+  disableUser(id: number, payload: User) {
     var mockUrl = `./assets/mock/admin-users.json`;
-    var data = this.httpClient.get<User[]>(mockUrl).pipe(select(response => {
-      return response.filter(x => !x.isAssigned)
-    }));
+    payload.status = 0;
 
-    return data;
+    return this.httpClient.put<any>(mockUrl, payload);
   }
 
-  deleteActiveAdminUsers(payload) {
-    return this.httpClient.delete(this.mockUrl, payload);
+  enableUser(id: number, payload: User) {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    payload.status = 1;
+    
+    return this.httpClient.put<any>(mockUrl, payload);
   }
+
+  updateUser(id: number, payload: User) {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    return this.httpClient.put<any>(mockUrl, payload);
+  } 
 }

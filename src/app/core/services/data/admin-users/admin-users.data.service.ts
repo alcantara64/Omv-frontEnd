@@ -9,8 +9,9 @@ export abstract class AdminUsersDataService {
 
     constructor() { }
    
-    abstract getActiveAdminUsers(): Observable<User[]>;
-    abstract getDisabledAdminUsers(): Observable<User[]>;
-    abstract getUnassignedAdminUsers(): Observable<User[]>;
-    abstract deleteActiveAdminUsers(payload: User[]);
+    abstract getUsers(): Observable<User[]>;
+    abstract deleteUser(id: number, payload: User);
+    abstract disableUser(id: number, payload: User);
+    abstract enableUser(id: number, payload: User);
+    abstract updateUser(id: number, payload: User);
 }

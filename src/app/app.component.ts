@@ -1,5 +1,8 @@
+import { AppState } from './state/app.state';
 import { Component } from '@angular/core';
 import { AuthService, User } from './core/services/data/appsettings/auth.service';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +12,10 @@ import { AuthService, User } from './core/services/data/appsettings/auth.service
 export class AppComponent {
   title = 'omv-client-portal';
 
-  constructor(public authn: AuthService) {    
+  showLeftNav: boolean = false;
+  @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
+
+  constructor(public authn: AuthService) {
   }
 
   messages: string[] = [];
@@ -19,6 +25,10 @@ export class AppComponent {
   currentUser : User;
 
   ngOnInit(): void {
+    // console.log('showLeftNav - ', this.showLeftNav);
+
+    // this.showLeftNav$.subscribe(value => this.showLeftNav = value);
+
 
     // this.authn.getUser().then(user => {
     //   this.currentUser = user;
@@ -31,6 +41,22 @@ export class AppComponent {
     //     this.addMessage("User Not Logged In");
     //   }
     // }).catch(err => this.addError(err));
+  }
+
+  // TODO: Handle this in the html
+  ngAfterViewInit(){
+    var col = document.getElementsByClassName("collapsible");
+    for (let i = 0; i < col.length; i++) {
+      col[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "%";
+        }
+      });
+    }
   }
 
   clearMessages() {

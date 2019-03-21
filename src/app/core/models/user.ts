@@ -5,6 +5,6 @@ export interface User {
   email: string;
   modifiedBy: string;
   groups: string;
-  status: number,
+  status: number;
   isAssigned: boolean;
 }

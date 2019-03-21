@@ -1,5 +1,5 @@
 <div>
-  <ejs-tab id="tab_default" heightAdjustMode="Auto">
+  <ejs-tab id="tab_default" heightAdjustMode="Auto" animation="">
     <e-tabitems>
       <span class="e-badge e-badge-primary e-badge-overlap e-badge-notification e-badge-circle">6</span>
       <e-tabitem [header]="headerText[0]">
@@ -11,32 +11,26 @@
             <div class="pb-3 col-md-4">
               <div class="e-float-input e-input-group">
                 <!-- Focus and FocusOut Event binding Floating input label -->
-                <input type="text" required (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
+                <input type="text" required />
                 <span class="e-float-line"></span>
                 <label class="e-float-text">Select</label>
-                <span class="e-input-group-icon e-spin-down" (mouseup)="onMouseUp($event.target)"
-                  (mousedown)="onMouseDown($event.target)"></span>
+                <span class="e-input-group-icon e-spin-down"></span>
               </div>
             </div>
-            <div class="pb-3 col-md-4">
-              <div class="pt-3 row">
-                <div class="col-md-4">
-                  
-                    <button ejs-button cssClass="e-small">Search</button>
-                  <!-- <button ejs-button class="btn-color-search ">
-                    Search
-                  </button> -->
-                </div>
-                <div class="col-md-8">
-                  <button ejs-button class="btn-color ">
-                    <img src="../../../assets/images/plus-icon.svg" class="pr-2" />
-                    Add New Group
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="">
-              <app-list [listData]="activeUsers" [columns]="columns"></app-list>
+            <div class="pb-3 col-md-4"> 
+              <span class="pt-3">
+                <button ejs-button class="btn-color float-right">
+                  <img
+                    src="../../../assets/images/plus-icon.svg"
+                    class="pr-2"
+                  />
+                  Add New Group
+                </button>
+
+                <button ejs-button class="btn-color-search float-right">
+                  Search
+                </button>
+              </span>
             </div>
           </div>
         </ng-template>
@@ -50,11 +44,10 @@
             <div class="pb-3 col-md-4">
               <div class="e-float-input e-input-group">
                 <!-- Focus and FocusOut Event binding Floating input label -->
-                <input type="text" required (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
+                <input type="text" required />
                 <span class="e-float-line"></span>
                 <label class="e-float-text">Select</label>
-                <span class="e-input-group-icon e-spin-down" (mouseup)="onMouseUp($event.target)"
-                  (mousedown)="onMouseDown($event.target)"></span>
+                <span class="e-input-group-icon e-spin-down"></span>
               </div>
             </div>
             <div class="pb-3 col-md-4">
@@ -84,11 +77,10 @@
             <div class="pb-3 col-md-4">
               <div class="e-float-input e-input-group">
                 <!-- Focus and FocusOut Event binding Floating input label -->
-                <input type="text" required (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
+                <input type="text" required />
                 <span class="e-float-line"></span>
                 <label class="e-float-text">Select</label>
-                <span class="e-input-group-icon e-spin-down" (mouseup)="onMouseUp($event.target)"
-                  (mousedown)="onMouseDown($event.target)"></span>
+                <span class="e-input-group-icon e-spin-down"></span>
               </div>
             </div>
             <div class="pb-3 col-md-4">

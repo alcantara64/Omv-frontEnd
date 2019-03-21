@@ -1,19 +1,26 @@
-import { AdminComponent } from './admin.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { Routes, RouterModule } from "@angular/router";
-import { AdminUsersComponent } from './admin-users/admin-users-list.component';
+import { AdminUsersListComponent } from './admin-users-list/admin-users-list.component';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import {AdminGroupsComponent} from "./admin-groups/admin-groups.component";
+import { AdminGroupsListComponent } from './admin-groups-list/admin-groups-list.component';
 
 const adminRoutes: Routes = [
   {
     path: 'admin',
-    component: AdminComponent,
+    component: AdminDashboardComponent,
   },
   {
-    path: 'admin/:pageView',
-    component: AdminComponent,
+    path: 'admin/dashboard',
+    component: AdminDashboardComponent,
+  },
+  {
+    path: 'admin/users',
+    component: AdminUsersListComponent,
+  },
+  {
+    path: 'admin/groups',
+    component: AdminGroupsListComponent,
   }
 ];
 

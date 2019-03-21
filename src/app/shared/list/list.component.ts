@@ -16,6 +16,7 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   @Input()
   columns: GridColumn[];
+  
   @ViewChild('grid')
   public grid: GridComponent;
   gridData: any[];
@@ -27,6 +28,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.selectionOptions = { checkboxMode: 'ResetOnRowClick'};
   }
+
   rowSelected(args: RowSelectEventArgs) {
     let selectedrecords: Object[] = this.grid.getSelectedRecords();
     // Get the selected records.
