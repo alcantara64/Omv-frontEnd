@@ -1,3 +1,5 @@
+import { LeftnavComponent } from './shared/leftnav/leftnav.component';
+import { AppState } from './state/app.state';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
@@ -10,37 +12,35 @@ import { SettingsService } from './core/services/data/appsettings/appsettings.se
 import { HttpClientModule } from '@angular/common/http';
 import { AppHeaderComponent } from './shared/app-header/app-header.component';
 import { environment } from 'src/environments/environment';
-
-/* NgRx Modules */
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
 import { AdminModule } from './admin/admin.module';
-import { AdminGroupEditComponent } from './admin/admin-group-edit/admin-group-edit.component';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
-import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
+
+/* NgXS Modules */
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { SharedModule } from './shared/shared.module';
+import { AdminUserEditComponent } from './admin/admin-user-edit/admin-user-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     AppHeaderComponent,
-    PageNotFoundComponent
+    LeftnavComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpModule,
-    HttpClientModule,    
+    HttpClientModule,   
+    SharedModule, 
     AdminModule,
-
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({
-      name: 'OMV App Devtools',
-      maxAge: 25,
-      logOnly: environment.production
-    })
+    NgxsModule.forRoot([
+      AppState
+    ]),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot()
   ],
   providers: [
     AuthService,

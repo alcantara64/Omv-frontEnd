@@ -1,18 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../core/models/user";
 import {GridColumn} from "../../core/models/grid.column";
-import * as userActions from "../admin-users/state/admin-users.actions";
-import {select, Store} from "@ngrx/store";
-import * as fromUsers from "../admin-users/state/admin-users.reducer";
+import * as userActions from "../admin-users-list/state/admin-users.actions";
 import {takeWhile} from "rxjs/operators";
 import {ListComponent} from "../../shared/list/list.component";
+import { Store } from '@ngxs/store';
 
 @Component({
-  selector: 'app-admin-groups',
-  templateUrl: './admin-groups.component.html',
-  styleUrls: ['./admin-groups.component.css']
+  selector: 'app-admin-groups-list',
+  templateUrl: './admin-groups-list.component.html',
+  styleUrls: ['./admin-groups-list.component.css']
 })
-export class AdminGroupsComponent extends ListComponent implements OnInit, OnDestroy {
+export class AdminGroupsListComponent extends ListComponent implements OnInit, OnDestroy {
 
   groups: User[];
   columns: GridColumn[] = [
@@ -55,22 +54,22 @@ export class AdminGroupsComponent extends ListComponent implements OnInit, OnDes
   ];
   private componentActive = true;
 
-  constructor(private store: Store<fromUsers.State>) {
+  constructor(private store: Store) {
     super();
   }
 
   ngOnInit() {
-    this.store.dispatch(new userActions.LoadActiveUsers());
+    // this.store.dispatch(new userActions.LoadActiveUsers());
 
-    this.store
-      .pipe(
-        select(fromUsers.getActiveUsers),
-        takeWhile(() => this.componentActive)
-      )
-      .subscribe(users => {
-        this.groups = users;
-        console.log("This is a group ", this.groups);
-      });
+    // this.store
+    //   .pipe(
+    //     select(fromUsers.getActiveUsers),
+    //     takeWhile(() => this.componentActive)
+    //   )
+    //   .subscribe(users => {
+    //     this.groups = users;
+    //     console.log("This is a group ", this.groups);
+    //   });
   }
 
   ngOnDestroy(): void {

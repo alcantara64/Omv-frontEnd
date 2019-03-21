@@ -1,118 +1,131 @@
 [
   {
+    "id": 1,
     "name": "Admin",
     "description": "Admins",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer" ],
+    "groups": "Developer +2",
     "status": 0,
     "isAssigned": true
   },
   {
+    "id": 2,
     "name": "AS",
     "description": "Assurance Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer" ],
+    "groups": "Admin",
     "status": 1,
     "isAssigned": true
   },
   {
+    "id": 3,
     "name": "IC",
     "description": "Inspection Contractors",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer" ],
+    "groups": "",
     "status": 0,
     "isAssigned": false
   },
   {
+    "id": 4,
     "name": "RSC",
     "description": "Responsible Civil Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer" ],
+    "groups": "Admin +1",
     "status": 1,
     "isAssigned": true
   },
   {
+    "id": 5,
     "name": "Developer",
     "description": "Super Admins",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Admin", "Developer", "Tester" ],
+    "groups": "Developer +4",
     "status": 1,
     "isAssigned": true
   },
   {
+    "id": 6,
     "name": "AS",
     "description": "Assurance Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer" ],
+    "groups": "Admin +2",
     "status": 0,
     "isAssigned": true
   },
   {
+    "id": 7,
     "name": "IC",
     "description": "Inspection Contractors",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ ],
+    "groups": "",
     "status": 0,
     "isAssigned": false
   },
   {
+    "id": 8,
     "name": "RSC",
     "description": "Responsible Civil Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer" ],
+    "groups": "Developer +1",
     "status": 0,
     "isAssigned": true
   },
   {
+    "id": 9,
     "name": "Developer",
     "description": "Super Admins",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer", "Admin" ],
+    "groups": "Admin +2",
     "status": 0,
     "isAssigned": true
   },
   {
+    "id": 10,
     "name": "AS",
     "description": "Assurance Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer", "Tester" ],
+    "groups": "Developer +2",
     "status": 0,
     "isAssigned": false
   },
   {
+    "id": 11,
     "name": "IC",
     "description": "Inspection Contractors",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer" ],
+    "groups": "Developer",
     "status": 0,
     "isAssigned": true
   },
-  {
+  {    
+    "id": 12,
     "name": "RSC",
     "description": "Responsible Civil Engineers",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer" ],
+    "groups": "Developer +1",
     "status": 1,
     "isAssigned": true
   },
   {
+    "id": 13,
     "name": "Developer",
     "description": "Super Admins",
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
-    "groups": [ "Developer" ],
+    "groups": "Developer +2",
     "status": 0,
     "isAssigned": true
   }

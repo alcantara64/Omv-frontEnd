@@ -57,6 +57,10 @@ ul {
   content: '\e82e';
 }
 
+.active-tab {
+  background-color: #E8F6F7;
+}
+
 .collapsible {
   font-family: 'OpenSans', sans-serif;
   font-size: 16px;
@@ -105,8 +109,6 @@ ul {
   background: #fff;
 }
 .content {
-  max-height: 0;
-  overflow: hidden;
   transition: max-height 0.2s ease-out;
   background: #fff;
 }

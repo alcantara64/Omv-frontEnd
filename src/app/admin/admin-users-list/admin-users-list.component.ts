@@ -1,20 +1,20 @@
+import { ShowLeftNav } from './../../state/app.actions';
 import { ListComponent } from "./../../shared/list/list.component";
 import { Component, OnInit } from "@angular/core";
 import { ToolbarItems } from "@syncfusion/ej2-angular-grids";
-import { Store, select } from "@ngrx/store";
-import { takeWhile } from "rxjs/operators";
-import * as fromAdminUsers from "./state/admin-users.reducer";
-import * as adminUserActions from "./state/admin-users.actions";
 import { User } from "src/app/core/models/User";
 import { Observable } from "rxjs";
 import { GridColumn } from "src/app/core/models/grid.column";
+import { Store, Select } from '@ngxs/store';
+import { AdminUserState } from './state/admin-users.state';
+import { GetUsers, DisableUser } from './state/admin-users.actions';
 
 @Component({
-  selector: "app-admin-users",
+  selector: "app-admin-users-list",
   templateUrl: "./admin-users-list.component.html",
   styleUrls: ["./admin-users-list.component.css"]
 })
-export class AdminUsersComponent extends ListComponent implements OnInit {
+export class AdminUsersListComponent extends ListComponent implements OnInit {
   public headerText = [
     { text: "Active Users" },
     { text: "Unassigned Users" },
@@ -24,10 +24,10 @@ export class AdminUsersComponent extends ListComponent implements OnInit {
   public toolbar: ToolbarItems[];
   componentActive = true;
 
-
   activeUsers: User[];
   unassignedUsers: User[];
   disabledUsers: User[];
+  selectedUsers: User[];
   totalActiveUsers: number;
   totalUnassignedUsers: number;
   totalDisabledUsers: number;
@@ -63,35 +63,35 @@ export class AdminUsersComponent extends ListComponent implements OnInit {
       field: "groups"
     }
   ];
+    
+
+  @Select(AdminUserState.getActiveUsers) getActiveUsers: Observable<User[]>;
+  @Select(AdminUserState.getUnassignedUsers) getUnassignedUsers: Observable<User[]>;
+  @Select(AdminUserState.getDisabledUsers) getDisabledUsers: Observable<User[]>;
   
-  constructor(private store: Store<fromAdminUsers.State>) {
-    super();
+  constructor(private store: Store) {
+    super();    
+    this.store.dispatch(new ShowLeftNav(true));
   }
 
   ngOnInit() {
     this.toolbar = ["Search"];
 
-    this.store.dispatch(new adminUserActions.LoadActiveUsers());
-    this.store.dispatch(new adminUserActions.LoadUnassignedUsers());
-    this.store.dispatch(new adminUserActions.LoadDisabledUsers());
 
-    this.store.pipe(select(fromAdminUsers.getActiveUsers),
-              takeWhile(() => this.componentActive))
-              .subscribe(users =>  {
-                this.activeUsers = users;
-                this.totalActiveUsers = this.activeUsers.length;
-              });
+    this.store.dispatch(new GetUsers());
 
-    this.store.pipe(select(fromAdminUsers.getUnassignedUsers),
-              takeWhile(() => this.componentActive))
-              .subscribe(users => this.unassignedUsers = users);
-
-    this.store.pipe(select(fromAdminUsers.getDisabledUsers),
-              takeWhile(() => this.componentActive))
-              .subscribe(users => this.disabledUsers = users);
+    this.getActiveUsers.subscribe(users => this.activeUsers = users );
+    this.getUnassignedUsers.subscribe(users => this.unassignedUsers = users );
+    this.getDisabledUsers.subscribe(users => this.disabledUsers = users );
   }
 
   ngOnDestroy(): void {
     this.componentActive = false;
+  }
+
+  performGridAction(users: User[]) {
+    users.forEach(user => {
+      this.store.dispatch(new DisableUser(user.id, user));
+    });
   }
 }

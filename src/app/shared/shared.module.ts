@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({
   imports: [
@@ -8,6 +10,6 @@ import { CommonModule } from '@angular/common';
   exports: [
     CommonModule
   ],
-  declarations: []
+  declarations: [PageNotFoundComponent, EditComponent]
 })
 export class SharedModule { }
