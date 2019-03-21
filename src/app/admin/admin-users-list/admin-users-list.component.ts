@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 import { GridColumn } from "src/app/core/models/grid.column";
 import { Store, Select } from '@ngxs/store';
 import { AdminUserState } from './state/admin-users.state';
-import { GetUsers, DisableUser } from './state/admin-users.actions';
+import { GetUsers, DisableUser, EnableUser } from './state/admin-users.actions';
 
 @Component({
   selector: "app-admin-users-list",
@@ -89,9 +89,21 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.componentActive = false;
   }
 
-  performGridAction(users: User[]) {
+  enableUsers(users: User[]) {
+    users.forEach(user => {
+      this.store.dispatch(new EnableUser(user.id, user));
+    });
+  }
+
+  disableUsers(users: User[]) {
     users.forEach(user => {
       this.store.dispatch(new DisableUser(user.id, user));
+    });
+  }
+
+  assignUsersToGroups(users: User[]) {
+    users.forEach(user => {
+      // this.store.dispatch(new DisableUser(user.id, user));
     });
   }
 }
