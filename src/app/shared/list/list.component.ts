@@ -1,7 +1,7 @@
 import { GridColumn } from './../../core/models/grid.column';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { GridComponent, RowSelectEventArgs, SelectionSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, CellSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,6 +25,9 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Output()
   action = new EventEmitter<Object[]>();
   
+  @Output()
+  navigate = new EventEmitter();
+
   @ViewChild('grid')
   public grid: GridComponent;
   gridData: any[];
@@ -35,10 +38,10 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectionOptions = { checkboxMode: 'ResetOnRowClick'};
+    this.selectionOptions = { checkboxOnly : true, persistSelection: true};
   }
 
-  rowSelected(args: RowSelectEventArgs) {
+  cellSelected(args: CellSelectEventArgs) {
     let selectedrecords: Object[] = this.grid.getSelectedRecords();
     // Get the selected records.
     this.gridData = selectedrecords;
@@ -48,6 +51,10 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   performAction() {
     this.action.emit(this.selectedRecords);
+  }
+
+  performNavigation(){
+    // this.navigate.emit();
   }
 
   navigateToEditScreen() {
