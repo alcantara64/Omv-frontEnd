@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import './assets/material.css';
+@import './assets/css/material.css';
 @import './assets/css/button-styles.css';
 @import "../node_modules/@syncfusion/ej2-base/styles/material.css";
 @import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';

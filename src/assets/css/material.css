@@ -6437,7 +6437,7 @@ ejs-sidebar {
   border-style: none solid solid;
   border-width: 1px;
   display: block;
-  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
+  font-family: 'OpenSans', sans-serif;
   font-size: 13px;
   height: auto;
   position: relative; }
@@ -6617,8 +6617,8 @@ ejs-sidebar {
   .e-grid .e-headercelldiv {
     border: 0 none;
     display: block;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     height: 29px;
     line-height: 30px;
     margin: -7px;
@@ -22276,7 +22276,7 @@ ejs-calendar {
         display: none; }
     .e-tab .e-tab-header:not(.e-vertical) .e-indicator {
       bottom: 0;
-      height: 3px;
+      height: 5px;
       left: 0;
       right: 0;
       transition: left 0.125s cubic-bezier(0.35, 0, 0.25, 1), right 0.25s cubic-bezier(0.35, 0, 0.25, 1); }
@@ -22314,7 +22314,7 @@ ejs-calendar {
         display: inherit;
         font-family: 'OpenSans', sans-serif;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 400;
         text-transform: uppercase; 
          color: #5b7f95;}
         @media screen and (max-width: 480px) {

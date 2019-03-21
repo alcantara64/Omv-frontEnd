@@ -1,15 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {User} from "../../core/models/user";
-import {GridColumn} from "../../core/models/grid.column";
-import * as userActions from "../admin-users-list/state/admin-users.actions";
-import {takeWhile} from "rxjs/operators";
+import { GetGroups } from './state/admin.groups.action';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { GridColumn } from "../../core/models/grid.column";
 import {ListComponent} from "../../shared/list/list.component";
-import {Select, Store} from '@ngxs/store';
-import {ShowLeftNav} from "../../state/app.actions";
-import {AdminUserState} from "../admin-users-list/state/admin-users.state";
-import {Observable} from "rxjs";
-import {GetUsers} from "../admin-users-list/state/admin-users.actions";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Router } from '@angular/router';
+import { Store, Select } from '@ngxs/store';
+import { AdminGroupState } from './state/admin-groups.state';
+import { Observable } from 'rxjs';
+import { Group } from 'src/app/core/models/group';
+import { ShowLeftNav } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-admin-groups-list',
@@ -18,7 +16,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class AdminGroupsListComponent extends ListComponent implements OnInit, OnDestroy {
 
-  groups: User[];
+  groups: Group[];
   columns: GridColumn[] = [
     {
       type: "checkbox",
@@ -58,28 +56,23 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit, O
     }
   ];
   private componentActive = true;
-  activeUsers: User[];
 
-  @Select(AdminUserState.getActiveUsers) getActiveUsers: Observable<User[]>;
+  @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
 
-  constructor(private store: Store, private router:Router, private activatedRoute:ActivatedRoute) {
+  constructor(private store: Store) {
     super();
+    
     this.store.dispatch(new ShowLeftNav(true));
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetUsers());
+    this.store.dispatch(new GetGroups());
 
-    this.getActiveUsers.subscribe(users => this.activeUsers = users );
+    this.groups$.subscribe(_groups => this.groups = _groups);
   }
 
   ngOnDestroy(): void {
     this.componentActive = false;
-  }
-
-  onItemClick() {
-    // this.router.navigate(['work-set-listings'], { relativeTo: this.activatedRoute});
-    console.log('This is a sample text');
   }
 
 }

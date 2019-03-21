@@ -1,7 +1,8 @@
 import { GridColumn } from './../../core/models/grid.column';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { GridComponent, RowSelectEventArgs, SelectionSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectEventArgs, CellSelectEventArgs } from '@syncfusion/ej2-angular-grids';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -10,23 +11,36 @@ import { GridComponent, RowSelectEventArgs, SelectionSettingsModel } from '@sync
 })
 export class ListComponent extends BaseComponent implements OnInit {
 
-  selectedRecords: any[];
+  selectedRecords = [];
 
   @Input()
-  listData: any[];
+  listData = [];
 
   @Input()
   columns: GridColumn[];
 
   @Input()
-  actionButtonText: string = 'Disable';
+  isToolBarVisible: boolean;
+
+  @Input()
+  firstActionButtonText: string;
+
+  @Input()
+  secondActionButtonText: string;
 
   @Output()
-  action = new EventEmitter<Object[]>();
+  firstAction = new EventEmitter<Object[]>();
+
+  @Output()
+  secondAction = new EventEmitter<Object[]>();
+
+  @Output()
+  navigate = new EventEmitter<string>();
   
+
   @ViewChild('grid')
   public grid: GridComponent;
-
+  gridData: any[];
   public selectionOptions: SelectionSettingsModel;
 
   constructor() {
@@ -34,18 +48,42 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.selectionOptions = { checkboxOnly : true, persistSelection: true};
+  }
+
+  cellSelected(args: CellSelectEventArgs) {
+    let selectedrecords: Object[] = this.grid.getSelectedRecords();
+    // Get the selected records.
+    this.gridData = selectedrecords;
+    console.log(selectedrecords);
     
   }
 
-  performAction() {
-    this.action.emit(this.selectedRecords);
+  performSecondAction() {
+    this.secondAction.emit(this.selectedRecords);
   }
 
-  rowSelected(args: RowSelectEventArgs) {
-    // let selectedrowindex: number[] = this.grid.getSelectedRowIndexes();  // Get the selected row indexes.
-   // alert(selectedrowindex); // To alert the selected row indexes.
-    let _selectedRecords: Object[] = this.grid.getSelectedRecords();  // Get the selected records.
-    this.selectedRecords = _selectedRecords;
-    console.log(this.selectedRecords);
+  performNavigation(args: any) {
+    let data= this.grid.getRowInfo(args.target);
+ 
+    let rowdata = data.rowData as any;
+ 
+    console.log(rowdata.id);
+  }
+
+  navigateToEditScreen() {
+    let id: string;
+    for (let i = 0; i < this.gridData.length; i++) {
+    this.gridData[i].id = id;
+    }
+   // this.router.navigate('/edit/groups')
+  }
+
+  rowSelected(args: RowSelectEventArgs) {    
+    this.selectedRecords = this.grid.getSelectedRecords();
+  }
+
+  rowDeselected(args: RowDeselectEventArgs) {    
+    this.selectedRecords = this.grid.getSelectedRecords();
   }
 }

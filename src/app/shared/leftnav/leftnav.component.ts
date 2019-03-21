@@ -28,14 +28,17 @@ export class LeftnavComponent implements OnInit {
 
   mediaMenuClicked() {
     this.isMediaMenuOpen = !this.isMediaMenuOpen;
+    this.isDashboardActive = false;
   }
 
   workPlanningMenuClicked() {
     this.isWorkPlanningMenuOpen = !this.isWorkPlanningMenuOpen;
+    this.isDashboardActive = false;
   }
 
   usersMenuClicked() {
     this.isUsersMenuOpen = !this.isUsersMenuOpen;
+    this.isDashboardActive = false;
   }
 
   setActiveTab(url: string) {
