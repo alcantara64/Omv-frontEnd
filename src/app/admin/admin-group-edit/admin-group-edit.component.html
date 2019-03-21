@@ -34,19 +34,19 @@
               <e-tabitems>
                 <e-tabitem [header]='headerText[0]'>
                   <ng-template #content>
-                    <ejs-grid #grid [dataSource]="data" id="Grid" style="margin-top:10px" (click)="onItemClick()">
-                      <e-columns>
-                        <e-column type="checkbox" width="50"></e-column>
-                        <e-column field="Name" headerText="Permission Title"></e-column>
-                      </e-columns>
-                    </ejs-grid><br>
-                    <span style="float:right">
-                      <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Permission</button>
-                    </span>
+
+                    <app-list [listData]="activeUsers" [columns]="permissionColumns"></app-list>
+
+                    <div style="margin-top: 50px">
+                      <span style="float:right">
+                        <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Permission</button>
+                      </span>
+                    </div>
                   </ng-template>
                 </e-tabitem>
                 <e-tabitem [header]='headerText[1]'>
                   <ng-template #content>
+                    <app-list [listData]="activeUsers" [columns]="memberColumns"></app-list>
                     <!-- <ejs-grid #grid [dataSource]="data" id="Grid" style="margin-top:10px" (click)="onItemClick()">
                       <e-columns>
                         <e-column type="checkbox" width="50" headerText=""></e-column>
@@ -54,17 +54,17 @@
                         <e-column field="email" headerText="Email"></e-column>
                       </e-columns>
                     </ejs-grid> -->
-                    <br>
-                    <span style="float:right">
-                      <button type="button" class="btn btn-primary" style="margin: 0 10px">Remove Member</button>
-                      <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Add
-                        Member</button>
-                    </span>
+                    <div style="margin-top: 50px">
+                      <span style="float:right">
+                        <button type="button" class="btn btn-primary" style="margin: 0 10px">Remove Member</button>
+                        <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Add Member</button>
+                      </span>
+                    </div>
                   </ng-template>
                 </e-tabitem>
                 <e-tabitem [header]='headerText[2]'>
                   <ng-template #content>
-                      <!-- <ejs-treeview id="checkbox" [fields]='field' [showCheckBox]='showCheckBox'></ejs-treeview> -->
+                       <ejs-treeview id="checkbox" [fields]='field' [showCheckBox]='showCheckBox'></ejs-treeview>
                     <span style="float:right">
                       <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Access</button>
                     </span>

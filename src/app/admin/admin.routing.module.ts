@@ -4,6 +4,7 @@ import { AdminUsersListComponent } from './admin-users-list/admin-users-list.com
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { AdminGroupsListComponent } from './admin-groups-list/admin-groups-list.component';
+import {AdminGroupEditComponent} from "./admin-group-edit/admin-group-edit.component";
 
 const adminRoutes: Routes = [
   {
@@ -21,6 +22,10 @@ const adminRoutes: Routes = [
   {
     path: 'admin/groups',
     component: AdminGroupsListComponent,
+  },
+  {
+    path: 'admin/groups/edit/:groupID',
+    component: AdminGroupEditComponent,
   }
 ];
 
