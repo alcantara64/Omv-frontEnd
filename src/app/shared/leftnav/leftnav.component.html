@@ -1,13 +1,13 @@
 <div id="sidebar-section">
   <div class="bg-light border-right" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
-      <button class="button-cls sidebar-heading dashboard-texts " [ngClass]="{ 'selected-background button-cls-focused': value === 'Admin' }">
-        <a class=" valign"> Admin </a>
+      <button class="button-cls sidebar-heading dashboard-texts " (click)="setActiveTab(dashboardLink)" [ngClass]="{ 'selected-background button-cls-focused': isDashboardActive }">
+        <a class=" valign"> Admin Dashboard </a>
       </button>
-      <button class="collapsible" [ngClass]="{ 'selected-background': selected === 'Media' || value === 'users' }">
+      <button class="collapsible" (click)="mediaMenuClicked()" [ngClass]="{ 'selected-background': selected === 'Media' || value === 'users' }">
         Media
       </button>
-      <div class="content">
+      <div class="content" *ngIf="isMediaMenuOpen">
         <ul>
           <li [ngClass]="{ 'selected-background': selected === 'uploads' || value === 'users' }" class="cursor media-child-text">
             Uploads
@@ -29,8 +29,8 @@
       <button class="button-cls sidebar-heading dashboard-texts " [ngClass]="{ 'selected-background': selected === 'Filter' || value === 'users' }">
         Filters
       </button>
-      <button class="collapsible">Work Planning</button>
-      <div class="content">
+      <button class="collapsible" (click)="workPlanningMenuClicked()">Work Planning</button>
+      <div class="content" *ngIf="isWorkPlanningMenuOpen">
         <ul>
           <li [ngClass]="{ 'selected-background': selected === 'Work' || value === 'users' }" class="cursor media-child-text">
             Work Templates
@@ -40,17 +40,14 @@
           </li>
         </ul>
       </div>
-      <button class="collapsible" [ngClass]="(value === 'groups' || value === 'users') ? 'active' : 'sample'">Users</button>
-      <div class="content" [ngStyle]="{'max-height': (value === 'groups' || value === 'users') ? '500px' : ''}">
+      <button class="collapsible" (click)="usersMenuClicked()" [ngClass]="isUsersMenuOpen ? 'active' : 'sample'">Users</button>
+      <div *ngIf="isUsersMenuOpen" class="content">
         <ul>
-          <li routerLink="/admin/groups" [ngClass]="{ 'selected-background': selected === 'groups' || value === 'users' }" class="cursor media-child-text" (click)="markAsSelected('groups')">
+          <li (click)="setActiveTab(groupsLink)" [ngClass]="{ 'selected-background': isGroupsActive }" class="cursor media-child-text">
             Groups
           </li>
-          <li routerLink="/admin/users" [ngClass]="{ 'selected-background': selected === 'users' || value === 'users' }" class="media-child-text cursor" (click)="markAsSelected('users')">
+          <li (click)="setActiveTab(usersLink)" [ngClass]="{ 'selected-background': isUsersActive }" class="media-child-text cursor">
             Users
-          </li>
-          <li [ngClass]="{ 'selected-background': selected === 'permissions' || value === 'users' }" class="media-child-text cursor">
-            Permissions
           </li>
         </ul>
       </div>

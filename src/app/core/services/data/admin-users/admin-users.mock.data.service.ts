@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/core/models/User';
@@ -12,11 +12,9 @@ import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
   })
 
 export class AdminUsersMockDataService implements AdminUsersDataService {
- 
     
   private paging_batch_size:number = 25;
   private mockCRUDurl: string = 'https://endaebqexdz78.x.pipedream.net';
-  private mockUrl = `./assets/mock/admin-users.json`;
   constructor(private httpClient: HttpClient) { }
 
   getUsers(): Observable<User[]> {
@@ -25,8 +23,30 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
 
     return data;
   }
-
-  deleteActiveAdminUsers(payload) {
-    return this.httpClient.delete(this.mockUrl, payload);
+  
+  deleteUser(id: number, payload: User) {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    payload.status = -1;
+    
+    return this.httpClient.put<any>(mockUrl, payload);
   }
+  
+  disableUser(id: number, payload: User) {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    payload.status = 0;
+
+    return this.httpClient.put<any>(mockUrl, payload);
+  }
+
+  enableUser(id: number, payload: User) {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    payload.status = 1;
+    
+    return this.httpClient.put<any>(mockUrl, payload);
+  }
+
+  updateUser(id: number, payload: User) {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    return this.httpClient.put<any>(mockUrl, payload);
+  } 
 }

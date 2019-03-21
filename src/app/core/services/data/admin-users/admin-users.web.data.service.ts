@@ -18,7 +18,20 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
   getUsers(): Observable<User[]> {
     throw new Error("Method not implemented.");
   }
-   deleteActiveAdminUsers(id: any) {
+
+  deleteUser(id: number, payload: User) {
+    throw new Error("Method not implemented.");
+  }
+  
+  disableUser(id: number, payload: User) {
+    throw new Error("Method not implemented.");
+  }
+  
+  enableUser(id: number, payload: User) {
+    throw new Error("Method not implemented.");
+  }
+  
+  updateUser(id: number, payload: User) {
     throw new Error("Method not implemented.");
   }
 }

@@ -1,17 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../core/models/user";
 import {GridColumn} from "../../core/models/grid.column";
-import * as userActions from "../admin-users/state/admin-users.actions";
+import * as userActions from "../admin-users-list/state/admin-users.actions";
 import {takeWhile} from "rxjs/operators";
 import {ListComponent} from "../../shared/list/list.component";
 import { Store } from '@ngxs/store';
 
 @Component({
-  selector: 'app-admin-groups',
-  templateUrl: './admin-groups.component.html',
-  styleUrls: ['./admin-groups.component.css']
+  selector: 'app-admin-groups-list',
+  templateUrl: './admin-groups-list.component.html',
+  styleUrls: ['./admin-groups-list.component.css']
 })
-export class AdminGroupsComponent extends ListComponent implements OnInit, OnDestroy {
+export class AdminGroupsListComponent extends ListComponent implements OnInit, OnDestroy {
 
   groups: User[];
   columns: GridColumn[] = [

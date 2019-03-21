@@ -14,9 +14,19 @@ export class AdminUsersService {
     return this.AdminUsersDataService.getUsers();
   }
 
-  deleteActiveAdminUsers(payload:User[]){
-    // return this.AdminUsersDataService.deleteActiveAdminUsers(payload);
-    return null;
+  disableUser(id: number, payload: User){
+    return this.AdminUsersDataService.disableUser(id, payload);
   }
-  
+
+  deleteUser(id: number, payload: User){
+    return this.AdminUsersDataService.deleteUser(id, payload);
+  }
+
+  enableUser(id: number, payload: User) {
+    return this.AdminUsersDataService.enableUser(id, payload);
+  }
+
+  updateUser(id: number, payload: User) {
+    return this.AdminUsersDataService.updateUser(id, payload);
+  } 
 }
