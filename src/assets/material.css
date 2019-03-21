@@ -14679,11 +14679,13 @@ textarea.e-input::-webkit-input-placeholder {
 
 .e-input-group-icon.e-spin-up::before {
   content: '\e834';
-  font-family: 'e-icons'; }
+  font-family: 'e-icons';
+  color: #0097A9  }
 
 .e-input-group-icon.e-spin-down::before {
   content: '\e83d';
-  font-family: 'e-icons'; }
+  font-family: 'e-icons';
+color: #0097A9 }
 
 .e-numeric-container {
   width: 100%; }
@@ -22276,8 +22278,7 @@ ejs-calendar {
         display: none; }
     .e-tab .e-tab-header:not(.e-vertical) .e-indicator {
       bottom: 0;
-      height: 3px;
-      left: 0;
+      height: 6px;
       right: 0;
       transition: left 0.125s cubic-bezier(0.35, 0, 0.25, 1), right 0.25s cubic-bezier(0.35, 0, 0.25, 1); }
     .e-tab .e-tab-header .e-toolbar-item {
