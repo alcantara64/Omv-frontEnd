@@ -1,3 +1,4 @@
+import { AdminGroupState } from './admin-groups-list/state/admin-groups.state';
 import { AdminGroupEditComponent } from './admin-group-edit/admin-group-edit.component';
 
 import { ListComponent } from './../shared/list/list.component';
@@ -36,7 +37,8 @@ import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.compon
     SliderModule,    
     TextBoxModule,
     NgxsModule.forFeature([
-      AdminUserState
+      AdminUserState,
+      AdminGroupState
     ]),
   ],
   declarations: [
