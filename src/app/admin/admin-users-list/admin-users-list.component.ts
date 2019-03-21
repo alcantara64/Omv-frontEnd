@@ -77,8 +77,8 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   
   constructor(private store: Store) {
     super();
-    // this.tabInstance.animation.previous.effect = 'None';
-    // this.tabInstance.animation.next.effect = 'None';
+    this.tabInstance.animation.previous.effect = 'None';
+    this.tabInstance.animation.next.effect = 'None';
     
     this.store.dispatch(new ShowLeftNav(true));
   }
