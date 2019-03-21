@@ -1,7 +1,7 @@
 import { GridColumn } from './../../core/models/grid.column';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, CellSelectEventArgs } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectEventArgs, CellSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,22 +11,32 @@ import { Router } from '@angular/router';
 })
 export class ListComponent extends BaseComponent implements OnInit {
 
-  selectedRecords: any[];
+  selectedRecords = [];
 
   @Input()
-  listData: any[];
+  listData = [];
 
   @Input()
   columns: GridColumn[];
 
   @Input()
-  actionButtonText: string = 'Disable';
+  isToolBarVisible: boolean;
+
+  @Input()
+  firstActionButtonText: string;
+
+  @Input()
+  secondActionButtonText: string;
 
   @Output()
-  action = new EventEmitter<Object[]>();
-  
+  firstAction = new EventEmitter<Object[]>();
+
   @Output()
-  navigate = new EventEmitter();
+  secondAction = new EventEmitter<Object[]>();
+
+  @Output()
+  navigate = new EventEmitter<string>();
+  
 
   @ViewChild('grid')
   public grid: GridComponent;
@@ -49,12 +59,16 @@ export class ListComponent extends BaseComponent implements OnInit {
     
   }
 
-  performAction() {
-    this.action.emit(this.selectedRecords);
+  performSecondAction() {
+    this.secondAction.emit(this.selectedRecords);
   }
 
-  performNavigation(){
-    // this.navigate.emit();
+  performNavigation(args: any) {
+    let data= this.grid.getRowInfo(args.target);
+ 
+    let rowdata = data.rowData as any;
+ 
+    console.log(rowdata.id);
   }
 
   navigateToEditScreen() {
@@ -63,5 +77,13 @@ export class ListComponent extends BaseComponent implements OnInit {
     this.gridData[i].id = id;
     }
    // this.router.navigate('/edit/groups')
+  }
+
+  rowSelected(args: RowSelectEventArgs) {    
+    this.selectedRecords = this.grid.getSelectedRecords();
+  }
+
+  rowDeselected(args: RowDeselectEventArgs) {    
+    this.selectedRecords = this.grid.getSelectedRecords();
   }
 }

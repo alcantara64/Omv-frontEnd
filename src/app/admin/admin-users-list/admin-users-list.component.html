@@ -1,5 +1,5 @@
 <div>
-  <ejs-tab id="tab_default" heightAdjustMode="Auto" animation="">
+  <ejs-tab id="tab_default" heightAdjustMode="Auto">
     <e-tabitems>
       <span class="e-badge e-badge-primary e-badge-overlap e-badge-notification e-badge-circle">6</span>
       <e-tabitem [header]="headerText[0]">
@@ -31,7 +31,10 @@
             </div>
           </div>
           <div class="">
-            <app-list [listData]="activeUsers" [columns]="columns" [selectedRecords]="selectedUsers" (action)="performGridAction($event)"></app-list>
+            <app-list [listData]="activeUsers" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true"
+                  [firstActionButtonText]="'Disable'" [secondActionButtonText]="'Assign User to Group'"
+                  (firstAction)="disableUsers($event)" (secondAction)="assignUsersToGroups($event)">
+            </app-list>
           </div>
         </ng-template>
       </e-tabitem>
@@ -64,7 +67,9 @@
             </div>
           </div>
           <div class="">
-            <app-list [listData]="unassignedUsers" [columns]="columns" (action)="performGridAction($event)"></app-list>
+            <app-list [listData]="unassignedUsers" [columns]="columns"  [isToolBarVisible]="true"
+                (action)="performGridAction($event)">
+            </app-list>
           </div>
         </ng-template>
       </e-tabitem>
