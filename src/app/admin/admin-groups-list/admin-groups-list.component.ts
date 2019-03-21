@@ -4,11 +4,8 @@ import {GridColumn} from "../../core/models/grid.column";
 import * as userActions from "../admin-users-list/state/admin-users.actions";
 import {takeWhile} from "rxjs/operators";
 import {ListComponent} from "../../shared/list/list.component";
-<<<<<<< HEAD:src/app/admin/admin-groups/admin-groups.component.ts
 import { Router } from '@angular/router';
-=======
 import { Store } from '@ngxs/store';
->>>>>>> 5a7cae96869d45fa1268ec1482035e864bcbbe57:src/app/admin/admin-groups-list/admin-groups-list.component.ts
 
 @Component({
   selector: 'app-admin-groups-list',

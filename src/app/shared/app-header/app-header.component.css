@@ -47,6 +47,7 @@ a {
 }
 
 .active-link {
+    font-weight: 600 !important;
     color: #033B5C !important;
 }
 
@@ -55,7 +56,7 @@ a {
 }
 
 .header-item {
-    padding-right: 3rem;
+    padding-right: 1rem;
 }
 
 .nav {
@@ -63,13 +64,13 @@ a {
 }
 
 .navbar2 {
-    padding-left: 1rem;
+    padding-left: 10rem;
 }
 
 .header-link-text {
     font-family: 'OpenSans', sans-serif;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
     font-style: normal;
     font-stretch: normal;
     line-height: 3rem;
@@ -77,28 +78,54 @@ a {
     text-align: center;
     color: #5b7f95;
     padding-bottom: 0px;
+    padding: 1rem;
 }
-
+.img-cls{
+display: none;}
 .hr-stroke {
     margin-top: 1rem;
     margin-bottom: 0;
     border: 0;
     border-top: 2px solid #033B5C;
 }
-hr{
+
+hr {
     margin-block-start: 1rem;
-    margin-block-end: 0;   
+    margin-block-end: 0;
     margin-top: 0rem;
     margin-bottom: 0rem;
     border: 0;
-    border-top: 0px solid rgba(0,0,0,.1)
+    border-top: 0px solid rgba(0, 0, 0, .1)
 }
+
 .arrow-down {
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     margin-right: auto;
-    margin-left:auto;
+    margin-left: auto;
     border-top: 5px solid #033B5C;
-  }
+}
+
+.line-stroke {
+    vertical-align: bottom;
+    border-style: none;
+    position: absolute;
+    display: flex;
+    padding-left:1.5rem;
+}
+.line-stroke-live{
+    vertical-align: bottom;
+    border-style: none;
+    position: absolute;
+    display: flex;
+    padding-left:1rem;
+}
+.line-stroke-media{
+    vertical-align: bottom;
+    border-style: none;
+    position: absolute;
+    display: flex;
+    width: 7%;
+}

@@ -22314,7 +22314,7 @@ ejs-calendar {
         display: inherit;
         font-family: 'OpenSans', sans-serif;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 400;
         text-transform: uppercase; 
          color: #5b7f95;}
         @media screen and (max-width: 480px) {

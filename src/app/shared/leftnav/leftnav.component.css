@@ -1,4 +1,4 @@
-@import '../../assets/css/button-styles.css';
+/* @import '../../assets/css/button-styles.css'; */
 .e-sidebar {
   position: relative;
   height: 100%;
@@ -8,7 +8,7 @@
   line-height: 45px;
   font-family: 'OpenSans', sans-serif;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   font-style: normal;
   font-stretch: normal;
   letter-spacing: normal;
@@ -25,7 +25,7 @@ ul {
   padding-left: 2.5rem;
   font-family: 'OpenSans', sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   font-style: normal;
   font-stretch: normal;
   letter-spacing: -0.1px;
@@ -52,6 +52,7 @@ ul {
 .selected-background {
   background: #E8F6F7 !important;
   color: #033b5c !important;
+  font-weight: 600 !important;
 }
 
 .e-ddl-icon:before {
@@ -65,7 +66,7 @@ ul {
 .collapsible {
   font-family: 'OpenSans', sans-serif;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   background-color: #fff;
   color: #5b7f95;
   cursor: pointer;

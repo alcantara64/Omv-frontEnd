@@ -32,38 +32,48 @@
   </nav>
 </div>
 <div class="row">
-    <nav class="navbar-shadow bg-color   navbar navbar-light"> 
-      <div class="col-md-2 navbar1">
+  <nav class="navbar-shadow bg-color   navbar navbar-light">
+    <div class="col-md-1 navbar1">
 
-      </div>
-      <div class="col-md-10 navbar2 ">
-          <ul class="nav ">
+    </div>
+    <div class="col-md-10   navbar2 ">
+      <ul class="nav ">
+
+        <li class="nav-item header-item header-item-1" (click)="onHeaderTabClicked(' ')">
+          <a class="nav-link active header-link-text" routerLink="/" id="dashboard"
+            [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active-link">DASHBOARD</a>
+          <img [ngClass]="{'line-stroke-live': value === ' '}" class="img-cls" src="../../../assets/images/selection.png" />
+       
+        </li>
+        <li class="nav-item header-item header-item-1" (click)="onHeaderTabClicked('media')">
+          <a class="nav-link header-link-text" routerLink="/media" routerLinkActive="active-link">MEDIA</a>
     
-            <li class="nav-item header-item" (click)="onHeaderTabClicked(' ')">
-              <a class="nav-link active header-link-text" routerLink="/"  id="dashboard" [routerLinkActiveOptions]="{exact: true}"
-                routerLinkActive="active-link">DASHBOARD</a>
-                <hr [ngClass]="{'hr-stroke': value === ' '}" />
-            </li>
-            <li class="nav-item header-item" (click)="onHeaderTabClicked('media')">
-              <a class="nav-link header-link-text" routerLink="/media" routerLinkActive="active-link">MEDIA</a>
-              <hr [ngClass]="{'hr-stroke': value === 'media'}" />
-            </li>
-            <li class="nav-item header-item" (click)="onHeaderTabClicked('live-stream')">
-              <a class="nav-link header-link-text" routerLink="/live-stream" routerLinkActive="active-link">LIVE STREAM</a>
-              <hr [ngClass]="{'hr-stroke': value === 'live-stream'}" />
-            </li>
-            <li class="nav-item header-item" (click)="onHeaderTabClicked('work-planning')">
-              <a class="nav-link header-link-text " routerLink="/work-planning" routerLinkActive="active-link">WORK PLANNING</a>
-              <hr [ngClass]="{'hr-stroke': value === 'work-planning'}" />
-            </li>
-            <li class="nav-item header-item" (click)="onHeaderTabClicked('admin')">
-              <a class="nav-link header-link-text " routerLink="/admin" routerLinkActive="active-link">ADMIN PORTAL</a>
-              <hr [ngClass]="{'hr-stroke': value === 'admin'}" />
-              <div [ngClass]="{'arrow-down': value === 'admin'}" class="arrow-down"></div>
-            </li>
-          </ul>
-      </div>
-      <div class="col-md-0"></div>
-      </nav>
- 
+          <img [ngClass]="{'line-stroke-media': value === 'media'}" class="img-cls"
+            src="../../../assets/images/selection.png" />
+        </li>
+        <li class="nav-item header-item" (click)="onHeaderTabClicked('live-stream')">
+          <a class="nav-link header-link-text" routerLink="/live-stream" routerLinkActive="active-link">LIVE STREAM</a>
+    
+          <img [ngClass]="{'line-stroke-live': value === 'live-stream'}" class="img-cls"
+            src="../../../assets/images/selection.png" />
+        </li>
+        <li class="nav-item header-item" (click)="onHeaderTabClicked('work-planning')">
+          <a class="nav-link header-link-text " routerLink="/work-planning" routerLinkActive="active-link">WORK
+            PLANNING</a>
+          <img [ngClass]="{'line-stroke' : value === 'work-planning'}" class="img-cls"
+            src="../../../assets/images/selection.png" />
+        </li>
+        <li class="nav-item header-item" (click)="onHeaderTabClicked('admin')">
+          <a class="nav-link header-link-text " routerLink="/admin" routerLinkActive="active-link">ADMIN PORTAL</a>
+
+          <div> <img [ngClass]="{'line-stroke': value === 'admin'}" class="img-cls"
+              src="../../../assets/images/selection.png" />
+
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-1"></div>
+  </nav>
+
 </div>
