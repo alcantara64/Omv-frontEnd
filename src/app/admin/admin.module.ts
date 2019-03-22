@@ -4,7 +4,7 @@ import { AdminGroupEditComponent } from './admin-group-edit/admin-group-edit.com
 import { ListComponent } from './../shared/list/list.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminUsersListComponent } from './admin-users-list/admin-users-list.component';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { AdminRoutingModule } from './admin.routing.module';
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
@@ -23,16 +23,21 @@ import { AdminUserState } from './admin-users-list/state/admin-users.state';
 
 /* NgXS */
 import { NgxsModule } from '@ngxs/store';
+
 import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
 import { AdminGroupsDataService } from '../core/services/data/admin-groups/admin-groups.data.service';
 import { AdminGroupsMockDataService } from '../core/services/data/admin-groups/admin-groups.mock.data.service';
 import { AdminGroupsWebDataService } from '../core/services/data/admin-groups/admin.groups.mock.web.data.service';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
+import { ModalComponent } from '../shared/modal/modal.component';
 import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/admin-users-tabs.component';
+import { TabsComponent } from '../shared/tabs/tabs.component';
 
 @NgModule({
   imports: [
     SharedModule,
+    DialogModule,
     AdminRoutingModule,
     TabAllModule,
     ButtonAllModule,
@@ -45,22 +50,24 @@ import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/adm
     NgxsModule.forFeature([
       AdminUserState,
       AdminGroupState
-    ]),
+    ])
   ],
   declarations: [
     AdminUsersListComponent,
     AdminUserEditComponent,
+    AdminUsersTabsComponent,
     AdminGroupsListComponent,
     AdminGroupEditComponent,
     AdminSidebarComponent,
     AdminDashboardComponent,
+    ModalComponent,
     ListComponent,
-    AdminUsersTabsComponent
+    TabsComponent
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
 })
 export class AdminModule { }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Tab } from 'src/app/core/models/tab';
 
 @Component({
   selector: 'app-tabs',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsComponent implements OnInit {
 
+  @Input()
+  tabs: Tab[] = [];
+
+  @Output()
+  navigate = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  performNavigation(link: string) {
+    this.navigate.emit(link);
+  }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Tab } from 'src/app/core/models/tab';
 
 @Component({
   selector: 'app-admin-users-tabs',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminUsersTabsComponent implements OnInit {
 
-  constructor() { }
+  usersTabs: Tab[] = [
+    { link: '/admin/users/active', name: 'Active Users' },
+    { link: '/admin/users/unassigned', name: 'Unassigned Users' },
+    { link: '/admin/users/disabled', name: 'Disabled Users' }
+  ];
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
+  switchTabs(tabLink: string) {
+    this.router.navigate([ tabLink ]);
+  }
 }
