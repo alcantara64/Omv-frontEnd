@@ -14,7 +14,7 @@ import { ShowLeftNav } from 'src/app/state/app.actions';
   templateUrl: './admin-groups-list.component.html',
   styleUrls: ['./admin-groups-list.component.css']
 })
-export class AdminGroupsListComponent extends ListComponent implements OnInit, OnDestroy {
+export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
   groups: Group[];
   columns: GridColumn[] = [
@@ -25,7 +25,6 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit, O
     {type: "", headerText: "Modified By", width: "150", field: "groups"},
     {type: "", headerText: "Members", width: "150", field: "email"}
   ];
-  private componentActive = true;
 
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
 
@@ -39,10 +38,6 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit, O
     this.store.dispatch(new GetGroups());
 
     this.groups$.subscribe(_groups => this.groups = _groups);
-  }
-
-  ngOnDestroy(): void {
-    this.componentActive = false;
   }
 
 }

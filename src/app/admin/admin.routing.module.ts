@@ -1,3 +1,4 @@
+import { AdminGroupsTabsComponent } from './admin-groups-list/admin-groups-tabs/admin-groups-tabs.component';
 import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/admin-users-tabs.component';
 import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
@@ -31,7 +32,11 @@ const adminRoutes: Routes = [
   },
   {
     path: 'admin/groups',
-    component: AdminGroupsListComponent,
+    component: AdminGroupsTabsComponent,
+    children: [
+      { path: '', redirectTo: 'active', pathMatch: 'full' },
+      { path: ':type', component: AdminGroupsListComponent }
+    ]
   },
   {
     path: 'admin/groups/edit/:groupID',

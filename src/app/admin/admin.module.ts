@@ -34,6 +34,7 @@ import { ModalComponent } from '../shared/modal/modal.component';
 import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/admin-users-tabs.component';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { TabsComponent } from '../shared/tabs/tabs.component';
+import { AdminGroupsTabsComponent } from './admin-groups-list/admin-groups-tabs/admin-groups-tabs.component';
 
 @NgModule({
   imports: [
@@ -60,11 +61,13 @@ import { TabsComponent } from '../shared/tabs/tabs.component';
     AdminUsersTabsComponent,
     AdminGroupsListComponent,
     AdminGroupEditComponent,
+    AdminGroupsTabsComponent,
     AdminSidebarComponent,
     AdminDashboardComponent,
     ModalComponent,
     ListComponent,
-    TabsComponent
+    TabsComponent,
+    AdminGroupsTabsComponent
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
