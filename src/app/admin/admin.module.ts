@@ -35,6 +35,10 @@ import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/adm
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { TabsComponent } from '../shared/tabs/tabs.component';
 import { AdminGroupsTabsComponent } from './admin-groups-list/admin-groups-tabs/admin-groups-tabs.component';
+import { AdminPermissionsDataService } from '../core/services/data/admin-permissions/admin-permissions.data.service';
+import { AdminPermissionsMockService } from '../core/services/data/admin-permissions/admin-permissions.mock.service';
+import { AdminPermissionsWebService } from '../core/services/data/admin-permissions/admin-permissions.web.data.service';
+import { AdminPermissionState } from './admin-permissions/state/admin-permissions.state';
 
 @NgModule({
   imports: [
@@ -51,7 +55,8 @@ import { AdminGroupsTabsComponent } from './admin-groups-list/admin-groups-tabs/
     DropDownListAllModule,
     NgxsModule.forFeature([
       AdminUserState,
-      AdminGroupState
+      AdminGroupState,
+      AdminPermissionState
     ]),
     ListViewModule
   ],
@@ -72,6 +77,7 @@ import { AdminGroupsTabsComponent } from './admin-groups-list/admin-groups-tabs/
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
+    { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
 })

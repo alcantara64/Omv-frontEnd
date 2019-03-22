@@ -9,3 +9,8 @@ export enum userType
   unassigned = 2,
   disabled = 3
 }
+
+export class Permission {
+  id:number;
+  name:string;
+}

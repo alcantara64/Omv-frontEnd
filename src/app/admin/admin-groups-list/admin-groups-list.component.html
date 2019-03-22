@@ -4,7 +4,7 @@
       <div class="pb-3 col-md-12">
         <span class="pt-3">
           <button ejs-button class="btn-color float-right" >
-            <img src="../../../assets/images/plus-icon.svg" class="pr-2" />
+            <img src="../../../assets/images/plus-icon.svg" class="pr-2"  />
 
             Add New Group
           </button>
@@ -13,7 +13,8 @@
     </div>
     <ejs-dialog #groupDialog
     [visible]='false'
-    [header]="'Assign Users to Groups'"
+    [buttons]='saveDlgButtons'
+    [header]="'Assign Groups to Permissions'"
     [showCloseIcon]='true'
     [width]='300'
     [height]="500"
@@ -21,20 +22,26 @@
     <ng-template #content>
         <ejs-listview #listviewgroup
             id='group-list'
-            [dataSource]='groups'
+            [dataSource]='permissions'
             [showCheckBox]='true'
+            [fields]='groupFields'
            >
           </ejs-listview>
     </ng-template>
 </ejs-dialog>
     <div class="">
-      <app-list [listData]="groups"
-                [columns]="columns"
-                [isToolBarVisible]="true"
-                [secondActionButtonText]="'Assign User to Group'"
-                [shouldEdit]="true"
-          >
-      </app-list>
+        <app-list [listData]="groups"
+        [columns]="columns"
+        [selectedRecords]="selectedGroups"
+        [isToolBarVisible]="true"
+        [firstActionButtonText]="statusChange"
+        [secondActionButtonText]="'Assign User to Group'"
+        (firstAction)="changeGroupStatus($event)"
+        (secondAction)="assignGroupsToPermissions($event)"
+        (navigate)="edit($event)"
+        [shouldEdit]="true"
+  >
+</app-list>
     </div>
 
 

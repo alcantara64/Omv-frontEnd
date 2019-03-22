@@ -30,4 +30,7 @@ export class AdminGroupsService {
     return this.AdminGroupsDataService.updateGroup(id, payload);
   } 
    
+  assignToGroups(groupId: number, payload: number[]) {
+    return this.AdminGroupsDataService.assignToGroups(groupId, payload);
+  }
 }
