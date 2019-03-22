@@ -10,9 +10,9 @@ import { User } from 'src/app/core/models/User';
   })
 
 export class AdminUsersWebDataService implements AdminUsersDataService {
-     
+
   private paging_batch_size:number = 25;
-  
+
   constructor(private httpClient: HttpClient) { }
 
   getUsers(): Observable<User[]> {
@@ -22,20 +22,26 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
   getUser(id: number): Observable<import("../../../models/user.item").UserItem> {
     throw new Error("Method not implemented.");
   }
-  
+
   deleteUser(id: number, payload: User) {
     throw new Error("Method not implemented.");
   }
-  
+
   disableUser(id: number, payload: User) {
     throw new Error("Method not implemented.");
   }
-  
+
   enableUser(id: number, payload: User) {
     throw new Error("Method not implemented.");
   }
-  
+
   updateUser(id: number, payload: User) {
     throw new Error("Method not implemented.");
   }
+
+  assignToGroups(userid: number, payload: number[])
+  {
+    throw new Error("Method not implemented.");
+  }
+
 }

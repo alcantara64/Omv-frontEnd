@@ -39,6 +39,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   navigate = new EventEmitter<string>();
 
 
+
   @ViewChild('grid')
   public grid: GridComponent;
   gridData: any[];
@@ -55,6 +56,8 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   performFirstAction() {
     this.firstAction.emit(this.selectedRecords);
+
+
   }
 
   performSecondAction() {

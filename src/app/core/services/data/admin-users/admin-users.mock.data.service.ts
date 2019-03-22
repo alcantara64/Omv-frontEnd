@@ -13,7 +13,7 @@ import { UserItem } from 'src/app/core/models/user.item';
   })
 
 export class AdminUsersMockDataService implements AdminUsersDataService {
-    
+
   private paging_batch_size:number = 25;
   private mockCRUDurl: string = 'https://endaebqexdz78.x.pipedream.net';
   constructor(private httpClient: HttpClient) { }
@@ -31,14 +31,14 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
 
     return data;
   }
-  
+
   deleteUser(id: number, payload: User) {
     var mockUrl = `./assets/mock/admin-users.json`;
     payload.status = -1;
-    
+
     return this.httpClient.put<any>(mockUrl, payload);
   }
-  
+
   disableUser(id: number, payload: User) {
     var mockUrl = `./assets/mock/admin-users.json`;
     payload.status = 0;
@@ -49,12 +49,18 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
   enableUser(id: number, payload: User) {
     var mockUrl = `./assets/mock/admin-users.json`;
     payload.status = 1;
-    
+
     return this.httpClient.put<any>(mockUrl, payload);
   }
 
   updateUser(id: number, payload: User) {
     var mockUrl = `./assets/mock/admin-users.json`;
     return this.httpClient.put<any>(mockUrl, payload);
-  } 
+  }
+
+  assignToGroups(userid: number, payload: number[])
+  {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    return this.httpClient.put<any>(mockUrl, payload);
+  }
 }

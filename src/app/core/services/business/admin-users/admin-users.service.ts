@@ -33,5 +33,10 @@ export class AdminUsersService {
 
   updateUser(id: number, payload: User) {
     return this.AdminUsersDataService.updateUser(id, payload);
-  } 
+  }
+
+  assignToGroups(userid: number, payload: number[])
+  {
+    return this.AdminUsersDataService.assignToGroups(userid, payload);
+  }
 }

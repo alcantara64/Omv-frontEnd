@@ -32,6 +32,7 @@ import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ModalComponent } from '../shared/modal/modal.component';
 import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/admin-users-tabs.component';
+import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/adm
     NgxsModule.forFeature([
       AdminUserState,
       AdminGroupState
-    ])
+    ]),
+    ListViewModule
   ],
   declarations: [
     AdminUsersListComponent,

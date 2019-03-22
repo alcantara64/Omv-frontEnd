@@ -50,3 +50,14 @@
 .e-tab-text{
   text-transform: initial !important;
 }
+
+.e-btn-hide {
+  display: none;
+}
+.dlgbtn {
+  margin-right: 5%;
+}
+.control-section {
+ height: 100%;
+ min-height: 350px;
+}

@@ -9,11 +9,12 @@ import { Observable } from 'rxjs';
 export abstract class AdminUsersDataService {
 
     constructor() { }
-   
+
     abstract getUsers(): Observable<User[]>;
     abstract getUser(id: number): Observable<UserItem>;
     abstract deleteUser(id: number, payload: User);
     abstract disableUser(id: number, payload: User);
     abstract enableUser(id: number, payload: User);
     abstract updateUser(id: number, payload: User);
+    abstract assignToGroups(userid: number, payload: number[]);
 }

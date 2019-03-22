@@ -1,4 +1,4 @@
-import { GetUsers, DeleteUser, UpdateUser, EnableUser, DisableUser, SearchUsers, SetCurrentUserId } from './admin-users.actions';
+import { GetUsers, DeleteUser, UpdateUser, EnableUser, DisableUser, SearchUsers, SetCurrentUserId, AssignToGroups } from './admin-users.actions';
 import { AdminUsersService } from './../../../core/services/business/admin-users/admin-users.service';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { User } from 'src/app/core/models/User';
@@ -88,4 +88,12 @@ export class AdminUserState {
       currentUserId: id,
     });
   }
+
+  @Action(AssignToGroups)
+  assignToGroups(ctx: StateContext<AdminUserStateModel>, {userid, payload}: AssignToGroups) {
+    return this.adminUserService.assignToGroups(userid, payload).pipe(),
+              mergeMap(() => ctx.dispatch(new GetUsers()));
+  }
+
+
 }
