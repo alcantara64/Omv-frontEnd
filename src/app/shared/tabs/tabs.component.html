@@ -1,0 +1,5 @@
+<ul class="nav">
+  <li *ngFor="let tab of tabs" routerLinkActive="active">
+    <a (click)="performNavigation(tab.link)">{{ tab.name }}</a>
+  </li>
+</ul>

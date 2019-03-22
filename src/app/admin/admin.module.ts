@@ -29,6 +29,7 @@ import { AdminGroupsMockDataService } from '../core/services/data/admin-groups/a
 import { AdminGroupsWebDataService } from '../core/services/data/admin-groups/admin.groups.mock.web.data.service';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/admin-users-tabs.component';
+import { TabsComponent } from '../shared/tabs/tabs.component';
 
 @NgModule({
   imports: [
@@ -50,12 +51,13 @@ import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/adm
   declarations: [
     AdminUsersListComponent,
     AdminUserEditComponent,
+    AdminUsersTabsComponent,
     AdminGroupsListComponent,
     AdminGroupEditComponent,
     AdminSidebarComponent,
     AdminDashboardComponent,
     ListComponent,
-    AdminUsersTabsComponent
+    TabsComponent
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
