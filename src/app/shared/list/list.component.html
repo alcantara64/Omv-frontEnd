@@ -24,12 +24,12 @@
         [type]="column.type"
         [headerText]="column.headerText"
         [width]="column.width">
-      </e-column>   
-      <e-column field='' headerText=''  width=80>
-          <ng-template #template>
-              <a class="link" (click)="navigateToEditScreen()">Edit</a>
-          </ng-template>
       </e-column>
-    </ng-template> 
+    </ng-template>    
+    <e-column field='' headerText=''  width=80>
+        <ng-template #template>
+            <a class="link" (click)="navigateToEditScreen()">Edit</a>
+        </ng-template>
+    </e-column>
   </e-columns>
 </ejs-grid>
