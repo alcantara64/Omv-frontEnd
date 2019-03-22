@@ -35,7 +35,8 @@
                  formControlName="emailAddress"
                  [ngClass]="{'is-invalid': (userForm.get('emailAddress').touched ||
                                             userForm.get('emailAddress').dirty) &&
-                                            !userForm.get('emailAddress').valid }" />
+                                            !userForm.get('emailAddress').valid }" 
+                  />
         <span class="invalid-feedback">
           <h5>
             Please enter a valid email address.

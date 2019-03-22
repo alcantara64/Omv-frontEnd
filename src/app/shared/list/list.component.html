@@ -18,6 +18,8 @@
 </div>
 <ejs-grid #grid
     [dataSource]="listData"
+    (rowDataBound)='rowDataBound($event)'
+    (dataBound)='dataBound($event)'
     (rowSelected)="rowSelected($event)"
     (rowDeselected)="rowDeselected($event)"
 
@@ -39,3 +41,8 @@
     </e-column>
   </e-columns>
 </ejs-grid>
+<br/>
+<div style='margin-top: 16px;' class="float-right">
+    <button *ngIf="buttonOneText"   type="button" class="btn btn-primary" style="margin-right:8px" (click)="buttonone()">{{buttonOneText}}</button>
+    <!-- <button [visible]="false" type="button" class="btn btn-primary">Add Member</button> -->
+ </div>

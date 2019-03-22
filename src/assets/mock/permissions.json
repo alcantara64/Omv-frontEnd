@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "name": "Admin_Group_Create" 
+    },
+    {
+        "id": 2,
+        "name": "Admin_Group_Edit" 
+    },
+    {
+        "id": 3,
+        "name": "Admin_Group_Delete" 
+    },
+    {
+        "id": 4,
+        "name": "Admin_Group_View" 
+    },
+    {
+        "id": 5,
+        "name": "User_Group_Create" 
+    },
+    {
+        "id": 6,
+        "name": "User_Group_Edit" 
+    },
+    {
+        "id": 7,
+        "name": "User_Group_Delete" 
+    },
+    {
+        "id": 8,
+        "name": "User_Group_View" 
+    }
+]

@@ -8,6 +8,7 @@ import { Group } from "src/app/core/models/group";
   providedIn: "root"
 })
 export class AdminGroupsMockDataService implements AdminGroupsDataService {
+
   mockUrl = `./assets/mock/admin-groups.json`;
   constructor(private httpClient: HttpClient) {}
 
@@ -30,5 +31,8 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
   
   updateGroup(id: number, payload: Group) {
     return this.httpClient.put<any>(`${this.mockUrl}/${id}`, payload);
+  }
+  assignToGroups(groupId: number, payload: number[]) {
+    return this.httpClient.put<any>(`${this.mockUrl}/${groupId}`, payload);
   }
 }

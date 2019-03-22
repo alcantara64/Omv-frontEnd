@@ -67,6 +67,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     public groupDialogList: any;
 
   public target: string = '.control-section';
+  
   public saveDlgBtnClick: EmitType<object> = () => {
     console.log("Dialog save button");
 

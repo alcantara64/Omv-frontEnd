@@ -11,6 +11,7 @@ import { Group } from 'src/app/core/models/group';
   })
 
 export class AdminGroupsWebDataService implements AdminGroupsDataService {
+
      
     private paging_batch_size:number = 25;
     
@@ -29,6 +30,9 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
         throw new Error("Method not implemented.");
     }
     updateGroup(id: number, payload: Group) {
+        throw new Error("Method not implemented.");
+    }
+    assignToGroups(groupId: number, payload: number[]) {
         throw new Error("Method not implemented.");
     }
 }
