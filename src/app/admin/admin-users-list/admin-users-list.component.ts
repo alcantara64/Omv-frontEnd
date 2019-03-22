@@ -1,3 +1,4 @@
+import { AdminUserType } from './../../core/enum/admin-user-type';
 import { GetGroups } from './../admin-groups-list/state/admin.groups.action';
 import { Group } from './../../core/models/group';
 import { ShowLeftNav } from './../../state/app.actions';
@@ -16,7 +17,7 @@ import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
 import { permission } from 'src/app/core/enum/permission';
 import { TextBox } from '@syncfusion/ej2-inputs';
 import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-users-list',
@@ -25,13 +26,6 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class AdminUsersListComponent extends ListComponent implements OnInit {
-  public headerText = [
-    { text: 'Active Users' },
-    { text: 'Unassigned Users' },
-    { text: 'Disabled Users' }
-  ];
-
-
 
   activeUsers: User[];
   unassignedUsers: User[];
@@ -81,29 +75,37 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     }
   ];
 
+  users: User[];
 
-  @Select(AdminUserState.getActiveUsers) getActiveUsers: Observable<User[]>;
-  @Select(AdminUserState.getUnassignedUsers) getUnassignedUsers: Observable<User[]>;
-  @Select(AdminUserState.getDisabledUsers) getDisabledUsers: Observable<User[]>;
+  @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User[]>;
+  @Select(AdminUserState.getUnassignedUsers) unassignedUsers$: Observable<User[]>;
+  @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User[]>;
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
   isModal= false;
 
 
-  constructor(protected store: Store, private router: Router) {
+  activatedRoute: ActivatedRoute;
+
+  constructor(protected store: Store, private router: Router, activatedRoute: ActivatedRoute,) {
     super(store);
     this.ShowLefNav(true);
     this.Permission = permission.VIEW_USERS;
-  }
+    this.activatedRoute = activatedRoute;
+ }
 
   ngOnInit() {
     console.log(this.isModal);
 
-    this.store.dispatch(new GetUsers());
+    
     this.store.dispatch(new GetGroups());
 
-    this.getActiveUsers.subscribe(users => this.activeUsers = users);
-    this.getUnassignedUsers.subscribe(users => this.unassignedUsers = users);
-    this.getDisabledUsers.subscribe(users => this.disabledUsers = users);
+    this.activatedRoute.params.subscribe(
+      (params) => {
+        this.store.dispatch(new GetUsers());
+        this.displayUsers(params.type);
+      }
+    );
+
     this.groups$.subscribe(groups => this.groups = groups);
   }
 
@@ -111,10 +113,27 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
   }
 
+  displayUsers(param: string) {
+    console.log(param);
+    switch (param) {
+      case AdminUserType.Active:
+      this.activeUsers$.subscribe(activeUsers => this.users = activeUsers );
+      console.log(param);
+        break;
+      case AdminUserType.Unassigned:
+      this.unassignedUsers$.subscribe(unassignedUsers => this.users = unassignedUsers );
+      console.log(param);
+        break;
+      case AdminUserType.Disabled:
+      this.disabledUsers$.subscribe(disabledUsers => this.users = disabledUsers );
+      console.log(param);
+        break;    
+      default:
+        break;
+    }
+  }
+
   search() {
-    console.log('search');
-    console.log("group value is " + this.groupid);
-    console.log("name value is " + this.name);
     this.store.dispatch(new SearchUsers(this.name, this.groupid));
   }
 
@@ -147,6 +166,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   edit(id: number) {
     console.log('edit: ', id);
     this.store.dispatch(new SetCurrentUserId(id));
-    this.router.navigate([`/admin/users/${id}`]);
+    this.router.navigate([`/admin/users/${id}/edit`]);
   }
 }

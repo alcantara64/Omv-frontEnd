@@ -31,6 +31,7 @@ import { AdminGroupsWebDataService } from '../core/services/data/admin-groups/ad
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ModalComponent } from '../shared/modal/modal.component';
+import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/admin-users-tabs.component';
 
 @NgModule({
   imports: [
@@ -58,8 +59,8 @@ import { ModalComponent } from '../shared/modal/modal.component';
     AdminSidebarComponent,
     AdminDashboardComponent,
     ModalComponent,
-    ListComponent
-
+    ListComponent,
+    AdminUsersTabsComponent
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
