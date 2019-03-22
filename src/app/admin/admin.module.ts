@@ -39,6 +39,7 @@ import { AdminUserGroupsComponent } from './admin-user-edit/admin-user-groups/ad
 import { AdminGroupPermissionsComponent } from './admin-group-edit/admin-group-permissions/admin-group-permissions.component';
 import { AdminGroupMembersComponent } from './admin-group-edit/admin-group-members/admin-group-members.component';
 import { AdminGroupMediaAccessComponent } from './admin-group-edit/admin-group-media-access/admin-group-media-access.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { AdminGroupMediaAccessComponent } from './admin-group-edit/admin-group-m
     DropDownButtonModule,
     SliderModule,
     TextBoxModule,
-    DropDownListAllModule,
+    DropDownListAllModule,    
+    ReactiveFormsModule,
     NgxsModule.forFeature([
       AdminUserState,
       AdminGroupState

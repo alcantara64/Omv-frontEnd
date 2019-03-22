@@ -33,7 +33,6 @@ import {TreeViewModule} from "@syncfusion/ej2-angular-navigations";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     HttpModule,
     HttpClientModule,   
     SharedModule, 
