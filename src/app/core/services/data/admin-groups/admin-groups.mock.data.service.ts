@@ -8,7 +8,7 @@ import { Group } from "src/app/core/models/group";
   providedIn: "root"
 })
 export class AdminGroupsMockDataService implements AdminGroupsDataService {
-  mockUrl = `./assets/mock/admin-users.json`;
+  mockUrl = `./assets/mock/admin-groups.json`;
   constructor(private httpClient: HttpClient) {}
 
   getGroups(): Observable<Group[]> {

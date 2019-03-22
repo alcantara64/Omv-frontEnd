@@ -11,9 +11,9 @@
             </div>
             <div class="pb-3 col-md-4">
               <span class="pt-3">
-                <button ejs-button class="btn-color float-right" (click)="showGroupModal()">
+                <button ejs-button class="btn-color float-right" (click)="edit('0')">
                   <img src="../../../assets/images/plus-icon.svg" class="pr-2" />
-                  Add New Group
+                  Add New User
                 </button>
 
                 <button ejs-button class="btn-color-search float-right" (click)="search()">
@@ -24,7 +24,7 @@
           </div>
 
           <div class="">
-            <app-list [listData]="users" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true"
+            <app-list [listData]="users" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true" [shouldEdit]="true"
                   [firstActionButtonText]="statusChange" [secondActionButtonText]="'Assign User to Group'"
                   (firstAction)="changeUsersStatus($event)" (secondAction)="assignUsersToGroups($event)"
                   (navigate)="edit($event)">

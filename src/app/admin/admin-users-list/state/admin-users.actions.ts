@@ -5,6 +5,12 @@ export class GetUsers {
   static readonly type = '[Admin Users Page] GetUsers';
 }
 
+export class GetUser {
+  static readonly type = '[Admin Users Page] GetUser';
+
+  constructor(public id: number) { }
+}
+
 export class UpdateUser {
   static readonly type = '[Admin Users Page] UpdateUser';
 

@@ -17,3 +17,7 @@
   letter-spacing: normal;
   color: #033B5C;
 }
+
+.btn .btn-primary {
+  background: red !important;
+}
