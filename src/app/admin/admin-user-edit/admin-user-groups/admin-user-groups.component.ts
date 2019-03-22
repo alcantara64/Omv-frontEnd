@@ -1,3 +1,4 @@
+import { GetGroup } from './../../admin-groups-list/state/admin.groups.action';
 import { Tab } from './../../../core/models/tab';
 import { GridColumn } from './../../../core/models/grid.column';
 import { Group } from './../../../core/models/group';
@@ -6,6 +7,7 @@ import { Store, Select } from '@ngxs/store';
 import { GetGroups } from '../../admin-groups-list/state/admin.groups.action';
 import { AdminGroupState } from '../../admin-groups-list/state/admin-groups.state';
 import { Observable } from 'rxjs';
+import { GetUsers } from '../../admin-users-list/state/admin-users.actions';
 
 @Component({
   selector: 'app-admin-user-groups',
@@ -36,6 +38,15 @@ export class AdminUserGroupsComponent implements OnInit {
   save(args) {
       console.log("AdminUserGroupsComponent - save");
       console.log(args);
+      let groupidArray:any[] = [];
+
+      args.data.forEach(group => {
+          groupidArray.push(group.id);
+      });
+
+
+      //this.store.dispatch(new AssignToGroups(user.id, groupidArray));
+      this.store.dispatch(new GetGroups());
 
   }
 }
