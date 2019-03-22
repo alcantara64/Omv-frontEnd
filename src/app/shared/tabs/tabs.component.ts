@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, DoCheck} from '@angular/core';
 import { Tab } from 'src/app/core/models/tab';
 
 @Component({
@@ -6,8 +6,9 @@ import { Tab } from 'src/app/core/models/tab';
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.css']
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent implements OnInit, DoCheck {
 
+  public currentRoute: string;
   @Input()
   tabs: Tab[] = [];
 
@@ -17,6 +18,10 @@ export class TabsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngDoCheck() {
+    this.currentRoute = window.location.pathname;
   }
 
   performNavigation(link: string) {
