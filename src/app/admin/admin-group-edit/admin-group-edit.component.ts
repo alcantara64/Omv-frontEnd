@@ -1,12 +1,16 @@
+import { Tab } from 'src/app/core/models/tab';
+import { GetGroups } from './../admin-groups-list/state/admin.groups.action';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
 import { ShowLeftNav } from 'src/app/state/app.actions';
-import {GetUsers} from "../admin-users-list/state/admin-users.actions";
-import {AdminUserState} from "../admin-users-list/state/admin-users.state";
-import {Observable} from "rxjs";
-import {User} from "../../core/models/user";
-import {ListComponent} from "../../shared/list/list.component";
-import {GridColumn} from "../../core/models/grid.column";
+import { GetUsers } from "../admin-users-list/state/admin-users.actions";
+import { AdminUserState } from "../admin-users-list/state/admin-users.state";
+import { Observable } from "rxjs";
+import { User } from "../../core/models/user";
+import { ListComponent } from "../../shared/list/list.component";
+import { GridColumn } from "../../core/models/grid.column";
+import { Group } from 'src/app/core/models/group';
 
 @Component({
   selector: 'app-admin-group-edit',
@@ -14,12 +18,22 @@ import {GridColumn} from "../../core/models/grid.column";
   styleUrls: ['./admin-group-edit.component.css']
 })
 export class AdminGroupEditComponent extends ListComponent implements OnInit {
-  public headerText: Object = [{ text: 'Permissions' }, { text: 'Members' }, { text: 'Media Access' }];
 
-  componentActive = true;
   activeUsers: User[];
   unassignedUsers: User[];
   disabledUsers: User[];
+
+  showPermissions: boolean;
+  showMembers: boolean;
+  showMediaAccess: boolean;
+
+  groupForm: FormGroup;
+  group = new Group();
+  groupsTabs: Tab[] = [
+    { link: '1', name: 'Permissions' },
+    { link: '2', name: 'Members' },
+    { link: '3', name: 'Media Access' }
+  ];
 
   memberColumns: GridColumn[] = [
     {
@@ -85,7 +99,7 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
     { id: 25, pid: 21, name: 'Punjab' }
   ];
 
-  public field:Object ={ dataSource: this.countries, id: 'id', parentID: 'pid', text: 'name', hasChildren: 'hasChild' };
+  public field:Object = { dataSource: this.countries, id: 'id', parentID: 'pid', text: 'name', hasChildren: 'hasChild' };
 
   public showCheckBox:boolean = true;
 
@@ -93,7 +107,7 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
   @Select(AdminUserState.getUnassignedUsers) getUnassignedUsers: Observable<User[]>;
   @Select(AdminUserState.getDisabledUsers) getDisabledUsers: Observable<User[]>;
 
-  constructor(protected store: Store) {
+  constructor(protected store: Store, private fb: FormBuilder) {
     super(store);
 
     this.store.dispatch(new ShowLeftNav(false));
@@ -101,7 +115,15 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.store.dispatch(new GetUsers());
+    // this.store.dispatch(new GetPermissions());
+
+    this.groupForm = this.fb.group({
+      name: ['', [ Validators.required, Validators.minLength(3)] ],
+      description: ['']
+    });
+
+    this.showPermissions = true;
+    this.groupsTabs[0].isActive = true;
 
     this.getActiveUsers.subscribe(users => this.activeUsers = users );
     this.getUnassignedUsers.subscribe(users => this.unassignedUsers = users );
@@ -109,6 +131,32 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.componentActive = false;
+    
+  }
+
+  save() {
+    console.log(this.groupForm);
+    console.log('Saved: ' + JSON.stringify(this.groupForm.value));
+  }
+
+  switchTabs(tabLink: string) {
+    this.showPermissions = this.showMembers = this.showMediaAccess = false;
+    this.groupsTabs.map(x => x.isActive = false);
+    switch (tabLink) {
+      case '1':
+        this.showPermissions = true;
+        this.groupsTabs[0].isActive = true;
+        break;
+      case '2':
+        this.showMembers = true;
+        this.groupsTabs[1].isActive = true;
+        break;
+      case '3':
+        this.showMediaAccess = true;
+        this.groupsTabs[2].isActive = true;
+        break;    
+      default:
+        break;
+    }
   }
 }

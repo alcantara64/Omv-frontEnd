@@ -10,7 +10,7 @@ import { Tab } from 'src/app/core/models/tab';
 export class AdminUsersTabsComponent implements OnInit {
 
   usersTabs: Tab[] = [
-    { link: '/admin/users/active', name: 'Active Users' },
+    { link: '/admin/users/active', name: 'Active Users',  },
     { link: '/admin/users/unassigned', name: 'Unassigned Users' },
     { link: '/admin/users/disabled', name: 'Disabled Users' }
   ];

@@ -15,21 +15,16 @@ import { UserItem } from 'src/app/core/models/user.item';
 @Component({
   selector: 'app-admin-user-edit',
   templateUrl: './admin-user-edit.component.html',
-  styleUrls: ['./admin-user-edit.component.css']
+  styleUrls: ['./admin-user-edit.component.css', './../../app.component.css']
 })
 export class AdminUserEditComponent extends ListComponent implements OnInit {
 
-  data: any[] = [];
-  groups: Group[] = [];
-  columns: GridColumn[] = [
-    { type: "checkbox", headerText: "Select All", width: "100", field: "" },
-    { type: "", headerText: "Groups", width: "", field: "name" }
-  ];
-  tabs: Tab[] = [
-    { link: '', name: 'Groups'}
-  ];
+  data: any[] = [];  
   userForm: FormGroup;
   user = new UserItem();
+  tabs: Tab[] = [
+    { link: '', name: 'Groups', isActive: true }
+  ];
 
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
   @Select(AdminUserState.getCurrentUser) currentUser$: Observable<Group[]>;
@@ -41,9 +36,6 @@ export class AdminUserEditComponent extends ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetGroups());
-    this.groups$.subscribe(groups => (this.groups = groups));
-
     this.userForm = this.fb.group({
       name: ['', [ Validators.required, Validators.minLength(3)] ],
       emailAddress: [''],
@@ -62,5 +54,4 @@ export class AdminUserEditComponent extends ListComponent implements OnInit {
       emailAddress: 'john@mai.com'
     });
   }
-
 }

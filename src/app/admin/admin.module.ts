@@ -39,6 +39,10 @@ import { AdminPermissionsDataService } from '../core/services/data/admin-permiss
 import { AdminPermissionsMockService } from '../core/services/data/admin-permissions/admin-permissions.mock.service';
 import { AdminPermissionsWebService } from '../core/services/data/admin-permissions/admin-permissions.web.data.service';
 import { AdminPermissionState } from './admin-permissions/state/admin-permissions.state';
+import { AdminUserGroupsComponent } from './admin-user-edit/admin-user-groups/admin-user-groups.component';
+import { AdminGroupPermissionsComponent } from './admin-group-edit/admin-group-permissions/admin-group-permissions.component';
+import { AdminGroupMembersComponent } from './admin-group-edit/admin-group-members/admin-group-members.component';
+import { AdminGroupMediaAccessComponent } from './admin-group-edit/admin-group-media-access/admin-group-media-access.component';
 
 @NgModule({
   imports: [
@@ -72,7 +76,11 @@ import { AdminPermissionState } from './admin-permissions/state/admin-permission
     ModalComponent,
     ListComponent,
     TabsComponent,
-    AdminGroupsTabsComponent
+    AdminGroupsTabsComponent,
+    AdminUserGroupsComponent,
+    AdminGroupPermissionsComponent,
+    AdminGroupMembersComponent,
+    AdminGroupMediaAccessComponent
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },

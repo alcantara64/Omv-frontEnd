@@ -1,3 +1,6 @@
+import { AdminGroupMediaAccessComponent } from './admin-group-edit/admin-group-media-access/admin-group-media-access.component';
+import { AdminGroupPermissionsComponent } from './admin-group-edit/admin-group-permissions/admin-group-permissions.component';
+import { AdminGroupMembersComponent } from './admin-group-edit/admin-group-members/admin-group-members.component';
 import { AdminGroupsTabsComponent } from './admin-groups-list/admin-groups-tabs/admin-groups-tabs.component';
 import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/admin-users-tabs.component';
 import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
@@ -39,8 +42,8 @@ const adminRoutes: Routes = [
     ]
   },
   {
-    path: 'admin/groups/edit/:groupID',
-    component: AdminGroupEditComponent,
+    path: 'admin/groups/:id/edit',
+    component: AdminGroupEditComponent
   }
 ];
 
