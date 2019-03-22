@@ -9,21 +9,10 @@ import { Tab } from 'src/app/core/models/tab';
 })
 export class AdminUsersTabsComponent implements OnInit {
 
-  // usersLinks: string[] = [ '/admin/users/active', '/admin/users/unassigned', '/admin/users/disabled' ];
-
   usersTabs: Tab[] = [
-    {
-      link: '/admin/users/active',
-      name: 'Active Users'
-    },
-    {
-      link: '/admin/users/unassigned',
-      name: 'Unassigned Users'
-    },
-    {
-      link: '/admin/users/disabled',
-      name: 'Disabled Users'
-    }
+    { link: '/admin/users/active', name: 'Active Users' },
+    { link: '/admin/users/unassigned', name: 'Unassigned Users' },
+    { link: '/admin/users/disabled', name: 'Disabled Users' }
   ];
 
   constructor(private router: Router) { }
