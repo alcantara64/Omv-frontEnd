@@ -1,30 +1,39 @@
 <div>
-    <div class="row">
-      <div class="pb-3 col-md-4">
-        <ejs-textbox placeholder="Name" floatLabelType="Auto" [(value)] ='name' ></ejs-textbox>
-      </div>
-      <div class="pb-3 col-md-4">
-        <ejs-dropdownlist name="group" id="group" [fields]='groupFields'  [(value)] ='groupid'
-          [dataSource]="groups"  [placeholder]="'Select'" floatLabelType='Auto'>
-        </ejs-dropdownlist>
-      </div>
-      <div class="pb-3 col-md-4">
-        <span class="pt-3">
-          <button ejs-button class="btn-color float-right" (click)="editUser('0')">
-            <img src="../../../assets/images/plus-icon.svg" class="pr-2" />
-            Add New User
-          </button>
-          <button ejs-button class="btn-color-search float-right" (click)="search()">
-            Search
-          </button>
-        </span>
-      </div>
-    </div>
-    <div class="">
-      <app-list [listData]="users" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true"
-            [firstActionButtonText]="'Disable'" [secondActionButtonText]="'Assign User to Group'"
-            (firstAction)="disableUsers($event)" (secondAction)="assignUsersToGroups($event)"
-            (navigate)="editUser($event)">
-      </app-list>
-    </div>
+
+          <div class="row">
+            <div class="pb-3 col-md-4">
+              <ejs-textbox placeholder="Name" floatLabelType="Auto"   [(value)] ='name' ></ejs-textbox>
+            </div>
+            <div class="pb-3 col-md-4">
+              <ejs-dropdownlist name="group" id="group" [fields]='groupFields'  [(value)] ='groupid'
+                [dataSource]="groups"  [placeholder]="'Select'" floatLabelType='Auto'>
+              </ejs-dropdownlist>
+            </div>
+            <div class="pb-3 col-md-4">
+              <span class="pt-3">
+                <button ejs-button class="btn-color float-right" (click)="edit('0')">
+                  <img src="../../../assets/images/plus-icon.svg" class="pr-2" />
+                  Add New Group
+                </button>
+
+                <button ejs-button class="btn-color-search float-right" (click)="search()">
+                  Search
+                </button>
+              </span>
+            </div>
+          </div>
+          <div class="">
+            <app-list [listData]="users" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true"
+                  [firstActionButtonText]="'Disable'" [secondActionButtonText]="'Assign User to Group'"
+                  (firstAction)="disableUsers($event)" (secondAction)="assignUsersToGroups($event)"
+                  (navigate)="edit($event)">
+            </app-list>
+          </div>
+
+          <!-- <modal
+           [visible]='isModal'
+          [content]='groups' 
+          (open)="modalDlgOpen()" 
+          (close)="modalDlgClose()"></modal> -->
+
 </div>

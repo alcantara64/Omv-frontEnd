@@ -31,7 +31,15 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   unassignedUsers: User[];
   disabledUsers: User[];
   selectedUsers: User[];
+  totalActiveUsers: number;
+  totalUnassignedUsers: number;
+  totalDisabledUsers: number;
+  groups: Group[] = [];
 
+
+
+  public groupFields: Object = { text: 'name', value: 'id' };
+  groupid: number;
   name: string;
 
   columns: GridColumn[] = [
@@ -68,22 +76,27 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   ];
 
   users: User[];
-  groups: Group[] = [];
-  groupid: number;
-  groupFields: Object = { text: 'name', value: 'id' };
 
   @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User[]>;
   @Select(AdminUserState.getUnassignedUsers) unassignedUsers$: Observable<User[]>;
   @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User[]>;
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
+  isModal= false;
 
-  constructor(protected store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
+
+  activatedRoute: ActivatedRoute;
+
+  constructor(protected store: Store, private router: Router, activatedRoute: ActivatedRoute,) {
     super(store);
     this.ShowLefNav(true);
     this.Permission = permission.VIEW_USERS;
+    this.activatedRoute = activatedRoute;
  }
 
   ngOnInit() {
+    console.log(this.isModal);
+
+    
     this.store.dispatch(new GetGroups());
 
     this.activatedRoute.params.subscribe(
@@ -141,8 +154,16 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
       // this.store.dispatch(new DisableUser(user.id, user));
     });
   }
-
-  editUser(id: number) {
+  openModal() {
+    this.isModal = !this.isModal;
+  }
+  modalDlgOpen() {
+    this.isModal = true;
+  }
+  modalDlgClose(){
+    this.isModal =  false;
+  }
+  edit(id: number) {
     console.log('edit: ', id);
     this.store.dispatch(new SetCurrentUserId(id));
     this.router.navigate([`/admin/users/${id}/edit`]);
