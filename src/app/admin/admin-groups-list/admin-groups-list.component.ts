@@ -18,42 +18,12 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit, O
 
   groups: Group[];
   columns: GridColumn[] = [
-    {
-      type: "checkbox",
-      headerText: "Select All",
-      width: "50",
-      field: ""
-    },
-    {
-      type: "",
-      headerText: "Name",
-      width: "",
-      field: "name"
-    },
-    {
-      type: "",
-      headerText: "Description",
-      width: "",
-      field: "email"
-    },
-    {
-      type: "",
-      headerText: "Last Modified",
-      width: "",
-      field: "modifiedBy"
-    },
-    {
-      type: "",
-      headerText: "Modified By",
-      width: "150",
-      field: "groups"
-    },
-    {
-      type: "",
-      headerText: "Members",
-      width: "150",
-      field: "email"
-    }
+    {type: "checkbox", headerText: "Select All", width: "50", field: ""},
+    {type: "", headerText: "Name", width: "", field: "name"},
+    {type: "", headerText: "Description", width: "", field: "email"},
+    {type: "", headerText: "Last Modified", width: "", field: "modifiedBy"},
+    {type: "", headerText: "Modified By", width: "150", field: "groups"},
+    {type: "", headerText: "Members", width: "150", field: "email"}
   ];
   private componentActive = true;
 

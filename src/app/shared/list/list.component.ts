@@ -52,13 +52,6 @@ export class ListComponent extends BaseComponent implements OnInit {
     this.selectionOptions = { checkboxOnly : true, persistSelection: true};
   }
 
-  cellSelected(args: CellSelectEventArgs) {
-    let selectedrecords: Object[] = this.grid.getSelectedRecords();
-    // Get the selected records.
-    this.gridData = selectedrecords;
-    console.log(selectedrecords);
-
-  }
 
   performFirstAction() {
     this.firstAction.emit(this.selectedRecords);
@@ -82,16 +75,16 @@ export class ListComponent extends BaseComponent implements OnInit {
     for (let i = 0; i < this.gridData.length; i++) {
     this.gridData[i].id = id;
     }
-   // this.router.navigate('/edit/groups')
+
   }
 
   rowSelected(args: RowSelectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
-  console.log(this.selectedRecords);
+
   }
 
   rowDeselected(args: RowDeselectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
-    console.log(this.selectedRecords);
+
   }
 }
