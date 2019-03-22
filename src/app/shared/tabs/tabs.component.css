@@ -2,7 +2,7 @@
   display: block;
   height: 50px;
   width: 100%;
-  margin: 10px 0;
+  margin: 0;
   position: relative;
 }
 
@@ -26,5 +26,5 @@
   border-bottom: solid 5px #033b5c;
   box-sizing: border-box!important;
   color: #033b5c!important;
-  font-weight: 500!important;
+  font-weight: 600!important;
 }
