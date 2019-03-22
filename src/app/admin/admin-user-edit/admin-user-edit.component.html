@@ -2,14 +2,14 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item" routerLink="/admin/users"><a href="#" class="breadcrumbs__element"><ins></ins></a>
     </li>
-    <li class="breadcrumb-item" routerLink="/admin/users"><a 
+    <li class="breadcrumb-item" routerLink="/admin/users"><a
         class="breadcrumbs__element"><ins>BACK</ins></a></li>
   </ol>
 </nav>
 <div class="row">
   <div class="col-sm-6">
     <h4>User Information</h4><br>
-    <form novalidate (ngSubmit)="save()" [formGroup]="userForm">
+    <form id="formId"  (ngSubmit)="save()" [formGroup]="userForm"  novalidate>
       <div class="form-group">
         <label for="nameId">Full Name</label>
         <input class="form-control form-control-lg"
@@ -34,7 +34,7 @@
                                             !userForm.get('emailAddress').valid }" />
         <h5>Maybe some tip for the field</h5>
       </div><br><br>
-      <button type="submit" class="btn btn-primary" 
+      <button type="submit" class="btn btn-primary"
               [disabled]="!userForm.valid"
               [title]="userForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
               style="margin: 0 10px">

@@ -16,12 +16,16 @@ export class AdminUserGroupsComponent implements OnInit {
 
   groups: Group[] = [];
   columns: GridColumn[] = [
-    { type: "checkbox", headerText: "Select All", width: "100", field: "" },
+    { type: "checkbox", headerText: "Select All", width: "100", field: "id" },
     { type: "", headerText: "Groups", width: "", field: "name" }
-  ];  
+  ];
+
+  initialGroups: number[] = [2,5,6];
+
+
 
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
-  
+
   constructor(private store: Store) { }
 
   ngOnInit() {
@@ -29,4 +33,9 @@ export class AdminUserGroupsComponent implements OnInit {
     this.groups$.subscribe(groups => (this.groups = groups));
   }
 
+  save(args) {
+      console.log("AdminUserGroupsComponent - save");
+      console.log(args);
+
+  }
 }

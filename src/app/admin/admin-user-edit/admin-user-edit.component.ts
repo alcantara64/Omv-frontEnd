@@ -19,7 +19,7 @@ import { UserItem } from 'src/app/core/models/user.item';
 })
 export class AdminUserEditComponent extends ListComponent implements OnInit {
 
-  data: any[] = [];  
+  data: any[] = [];
   userForm: FormGroup;
   user = new UserItem();
   tabs: Tab[] = [
@@ -39,7 +39,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit {
     this.userForm = this.fb.group({
       name: ['', [ Validators.required, Validators.minLength(3)] ],
       emailAddress: [''],
-      description: ['']      
+      description: ['']
     });
   }
 
