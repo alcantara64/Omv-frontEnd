@@ -11,7 +11,7 @@
             </div>
             <div class="pb-3 col-md-4">
               <span class="pt-3">
-                <button ejs-button class="btn-color float-right">
+                <button ejs-button class="btn-color float-right" (click)="openModal()">
                   <img src="../../../assets/images/plus-icon.svg" class="pr-2" />
                   Add New Group
                 </button>
@@ -30,5 +30,10 @@
             </app-list>
           </div>
 
+          <modal
+           [visible]='isModal'
+          [content]='groups' 
+          (open)="modalDlgOpen()" 
+          (close)="modalDlgClose()"></modal>
 
 </div>

@@ -86,22 +86,24 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   @Select(AdminUserState.getUnassignedUsers) getUnassignedUsers: Observable<User[]>;
   @Select(AdminUserState.getDisabledUsers) getDisabledUsers: Observable<User[]>;
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
+  isModal= false;
 
 
   constructor(protected store: Store, private router: Router) {
     super(store);
     this.ShowLefNav(true);
     this.Permission = permission.VIEW_USERS;
- }
+  }
 
   ngOnInit() {
+    console.log(this.isModal);
 
     this.store.dispatch(new GetUsers());
     this.store.dispatch(new GetGroups());
 
-    this.getActiveUsers.subscribe(users => this.activeUsers = users );
-    this.getUnassignedUsers.subscribe(users => this.unassignedUsers = users );
-    this.getDisabledUsers.subscribe(users => this.disabledUsers = users );
+    this.getActiveUsers.subscribe(users => this.activeUsers = users);
+    this.getUnassignedUsers.subscribe(users => this.unassignedUsers = users);
+    this.getDisabledUsers.subscribe(users => this.disabledUsers = users);
     this.groups$.subscribe(groups => this.groups = groups);
   }
 
@@ -111,8 +113,8 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
   search() {
     console.log('search');
-     console.log("group value is " + this.groupid);
-     console.log("name value is " + this.name);
+    console.log("group value is " + this.groupid);
+    console.log("name value is " + this.name);
     this.store.dispatch(new SearchUsers(this.name, this.groupid));
   }
 
@@ -133,7 +135,15 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
       // this.store.dispatch(new DisableUser(user.id, user));
     });
   }
-
+  openModal() {
+    this.isModal = !this.isModal;
+  }
+  modalDlgOpen() {
+    this.isModal = true;
+  }
+  modalDlgClose(){
+    this.isModal =  false;
+  }
   edit(id: number) {
     console.log('edit: ', id);
     this.store.dispatch(new SetCurrentUserId(id));

@@ -1,7 +1,7 @@
 import { LeftnavComponent } from './shared/leftnav/leftnav.component';
 import { AppState } from './state/app.state';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,6 +50,6 @@ import {TreeViewModule} from "@syncfusion/ej2-angular-navigations";
     AdminUsersService
    ],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA , NO_ERRORS_SCHEMA]
 })
 export class AppModule { }
