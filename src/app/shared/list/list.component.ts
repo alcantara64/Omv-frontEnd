@@ -24,6 +24,9 @@ export class ListComponent extends BaseComponent implements OnInit {
   isToolBarVisible: boolean;
 
   @Input()
+  shouldEdit: boolean;
+
+  @Input()
   firstActionButtonText: string;
 
   @Input()

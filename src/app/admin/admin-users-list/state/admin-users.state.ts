@@ -1,4 +1,5 @@
-import { GetUsers, DeleteUser, UpdateUser, EnableUser, DisableUser, SearchUsers, SetCurrentUserId, AssignToGroups } from './admin-users.actions';
+import { UserItem } from 'src/app/core/models/user.item';
+import { GetUsers, DeleteUser, UpdateUser, EnableUser, DisableUser, SearchUsers, SetCurrentUserId, GetUser,AssignToGroups } from './admin-users.actions';
 import { AdminUsersService } from './../../../core/services/business/admin-users/admin-users.service';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { User } from 'src/app/core/models/User';
@@ -9,21 +10,22 @@ import { userType } from 'src/app/core/enum/permission';
 export class AdminUserStateModel {
   users: User[];
   currentUserId: number | null;
+  currentUser: UserItem;
 }
 
 @State<AdminUserStateModel>({
   name: 'admin_users',
   defaults: {
     users: [],
-    currentUserId: null
+    currentUserId: null,
+    currentUser: null
   }
 })
 export class AdminUserState {
 
   constructor(private adminUserService: AdminUsersService) { }
 
-
-
+  // #region S E L E C T O R S
 
   @Selector()
   static getActiveUsers(state: AdminUserStateModel) {
@@ -40,6 +42,20 @@ export class AdminUserState {
     return state.users.filter(x => x.status === AdminUserStatus.Disabled);
   }
 
+  @Selector()
+  static getCurrentUserId(state: AdminUserStateModel) {
+    return state.currentUserId;
+  }
+
+  @Selector()
+  static getCurrentUser(state: AdminUserStateModel) {
+    return state.currentUser;
+  }
+
+  //#endregion 
+
+  // #region A C T I O N S
+
   @Action(GetUsers)
   getUsers({getState, setState}: StateContext<AdminUserStateModel>) {
     return this.adminUserService.getUsers().pipe(tap(users => {
@@ -47,6 +63,17 @@ export class AdminUserState {
         setState({
             ...state,
             users: users,
+        });
+    }));
+  }
+
+  @Action(GetUser)
+  getUser({getState, setState}: StateContext<AdminUserStateModel>, {id}: GetUser) {
+    return this.adminUserService.getUser(id).pipe(tap(user => {
+        const state = getState();
+        setState({
+            ...state,
+            currentUser: user,
         });
     }));
   }
@@ -96,4 +123,6 @@ export class AdminUserState {
   }
 
 
+
+  //#endregion 
 }

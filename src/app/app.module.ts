@@ -1,6 +1,7 @@
 import { LeftnavComponent } from './shared/leftnav/leftnav.component';
 import { AppState } from './state/app.state';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,6 +33,7 @@ import {TreeViewModule} from "@syncfusion/ej2-angular-navigations";
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     HttpModule,
     HttpClientModule,   
     SharedModule, 

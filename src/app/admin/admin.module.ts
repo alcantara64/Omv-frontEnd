@@ -33,6 +33,7 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ModalComponent } from '../shared/modal/modal.component';
 import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/admin-users-tabs.component';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
+import { TabsComponent } from '../shared/tabs/tabs.component';
 
 @NgModule({
   imports: [
@@ -56,13 +57,14 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists';
   declarations: [
     AdminUsersListComponent,
     AdminUserEditComponent,
+    AdminUsersTabsComponent,
     AdminGroupsListComponent,
     AdminGroupEditComponent,
     AdminSidebarComponent,
     AdminDashboardComponent,
     ModalComponent,
     ListComponent,
-    AdminUsersTabsComponent
+    TabsComponent
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },

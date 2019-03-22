@@ -11,6 +11,9 @@ export class LeftnavComponent implements OnInit {
 
   dashboardLink = '/admin/dashboard';
   usersLink = '/admin/users';
+  activeUsersLink = '/admin/users/active';
+  unassignedUsersLink = '/admin/users/unassigned';
+  disabledUsersLink = '/admin/users/disabled';
   groupsLink = '/admin/groups';
 
   isMediaMenuOpen: boolean = false;
@@ -49,6 +52,9 @@ export class LeftnavComponent implements OnInit {
         this.isDashboardActive = true;
         return;
       case this.usersLink:
+      case this.activeUsersLink:
+      case this.unassignedUsersLink:
+      case this.disabledUsersLink:
         this.isUsersMenuOpen = true;
         this.isUsersActive = true;
         return;

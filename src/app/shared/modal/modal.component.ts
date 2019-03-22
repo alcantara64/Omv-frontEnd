@@ -8,7 +8,7 @@ import { EmitType } from '@syncfusion/ej2-base';
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit { 
   @ViewChild('modalDialog')
   public dialog: DialogComponent;
   @Output() modalDialog = new EventEmitter();

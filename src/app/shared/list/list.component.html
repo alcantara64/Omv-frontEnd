@@ -8,10 +8,10 @@
     <label class="grid-toolbar-item-label">
       Selected:
     </label>
-    <button class="grid-toolbar-item-button" (click)="performFirstAction()" [disabled]="!(selectedRecords.length > 0)">
+    <button *ngIf="firstActionButtonText" class="grid-toolbar-item-button" (click)="performFirstAction()" [disabled]="!(selectedRecords.length > 0)">
       {{ firstActionButtonText }}
     </button>
-    <button class="grid-toolbar-item-button" (click)="performSecondAction()" [disabled]="!(selectedRecords.length > 0)">
+    <button *ngIf="secondActionButtonText" class="grid-toolbar-item-button" (click)="performSecondAction()" [disabled]="!(selectedRecords.length > 0)">
       {{ secondActionButtonText }}
     </button>
   </span>
@@ -32,7 +32,7 @@
       </e-column>
 
     </ng-template>
-    <e-column field='' headerText=''  width=80>
+    <e-column *ngIf="shouldEdit" field='' headerText='' width=80>
         <ng-template #template>
             <a class="link" (click)="performNavigation($event)">Edit</a>
         </ng-template>

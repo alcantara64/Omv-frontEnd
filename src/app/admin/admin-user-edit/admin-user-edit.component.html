@@ -1,20 +1,62 @@
-<h4>User Information</h4><br>
-<form>
-  <div class="form-group">
-    <label>Full Name</label>
-    <input class="form-control form-control-lg" type="text" placeholder="Admin">
-    <h5>Maybe some tip for the field</h5>
-  </div><br>
-  <div class="form-group">
-    <label>Email</label>
-    <input class="form-control form-control-lg" type="text" placeholder="johndoe@mail.com">
-    <h5>Maybe some tip for the field</h5>
-  </div><br>
-  <div class="form-group">
-    <label>Groups</label>
-    <input class="form-control form-control-lg" type="text" placeholder="groups">
-    <h5>Maybe some tip for the field</h5>
-  </div><br><br>
-  <button type="button" class="btn btn-primary" style="margin: 0 10px">Enable User</button>
-  <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Disable User</button>
-</form>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" routerLink="/admin/users"><a href="#" class="breadcrumbs__element"><ins></ins></a>
+    </li>
+    <li class="breadcrumb-item" routerLink="/admin/users"><a 
+        class="breadcrumbs__element"><ins>BACK</ins></a></li>
+  </ol>
+</nav>
+<div class="row">
+  <div class="col-sm-6">
+    <h4>User Information</h4><br>
+    <form novalidate (ngSubmit)="save()" [formGroup]="userForm">
+      <div class="form-group">
+        <label for="nameId">Full Name</label>
+        <input class="form-control form-control-lg"
+                 id="nameId"
+                 type="text"
+                 placeholder="Full Name"
+                 formControlName="name"
+                 [ngClass]="{'is-invalid': (userForm.get('name').touched ||
+                                            userForm.get('name').dirty) &&
+                                            !userForm.get('name').valid }" />
+        <h5>Maybe some tip for the field</h5>
+      </div><br>
+      <div class="form-group">
+        <label>Email</label>
+        <input class="form-control form-control-lg"
+                 id="emailAddressId"
+                 type="text"
+                 placeholder="Email Address"
+                 formControlName="emailAddress"
+                 [ngClass]="{'is-invalid': (userForm.get('emailAddress').touched ||
+                                            userForm.get('emailAddress').dirty) &&
+                                            !userForm.get('emailAddress').valid }" />
+        <h5>Maybe some tip for the field</h5>
+      </div><br><br>
+      <button type="submit" class="btn btn-primary" 
+              [disabled]="!userForm.valid"
+              [title]="userForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+              style="margin: 0 10px">
+        Update User
+      </button>
+      <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px" (click)="populateTestData()">Disable User</button>
+    </form>
+  </div>
+  <div class="col-sm-6">
+    <div class="control-section e-tab-section">
+      <div class="e-sample-resize-container">
+          <app-tabs [tabs]="tabs"></app-tabs>
+          <app-list [listData]="groups" [columns]="columns" [isToolBarVisible]="false">
+          </app-list>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<br>Dirty: {{ userForm.dirty }}
+<br>Touched: {{ userForm.touched }}
+<br>Valid: {{ userForm.valid }}
+<br>Value: {{ userForm.value | json }}
+<br>&nbsp;
