@@ -1,80 +1,62 @@
-<div class="layout">
-  <div class="container">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item" routerLink="/work-inspection"><a href="#" class="breadcrumbs__element"><ins></ins></a>
-        </li>
-        <li class="breadcrumb-item" routerLink="/admin"><a 
-            class="breadcrumbs__element"><ins>BACK</ins></a></li>
-      </ol>
-    </nav>
-    <div class="row">
-      <div class="col-sm-6">
-        <h4>Group Information</h4><br>
-        <form>
-          <div class="form-group">
-            <label>Group Name</label>
-            <input class="form-control form-control-lg" type="text" placeholder="Admin">
-            <h5>Maybe some tip for the field</h5>
-          </div><br>
-          <div class="form-group">
-            <label>Description</label>
-            <input class="form-control form-control-lg" type="text" placeholder="Admin">
-            <h5>Maybe some tip for the field</h5>
-          </div><br><br>
-          <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Group</button>
-          <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Disable Group</button>
-          <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Delete Group</button>
-        </form>
-      </div>
-      <div class="col-sm-6">
-        <div class="control-section e-tab-section">
-          <div class="e-sample-resize-container">
-            <ejs-tab id="tab_default" heightAdjustMode='Auto'>
-              <e-tabitems>
-                <e-tabitem [header]='headerText[0]'>
-                  <ng-template #content>
-
-                    <app-list [listData]="activeUsers" [columns]="permissionColumns"></app-list>
-
-                    <div style="margin-top: 50px">
-                      <span style="float:right">
-                        <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Permission</button>
-                      </span>
-                    </div>
-                  </ng-template>
-                </e-tabitem>
-                <e-tabitem [header]='headerText[1]'>
-                  <ng-template #content>
-                    <app-list [listData]="activeUsers" [columns]="memberColumns"></app-list>
-                    <!-- <ejs-grid #grid [dataSource]="data" id="Grid" style="margin-top:10px" (click)="onItemClick()">
-                      <e-columns>
-                        <e-column type="checkbox" width="50" headerText=""></e-column>
-                        <e-column field="Name" headerText="Permission Title"></e-column>
-                        <e-column field="email" headerText="Email"></e-column>
-                      </e-columns>
-                    </ejs-grid> -->
-                    <div style="margin-top: 50px">
-                      <span style="float:right">
-                        <button type="button" class="btn btn-primary" style="margin: 0 10px">Remove Member</button>
-                        <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Add Member</button>
-                      </span>
-                    </div>
-                  </ng-template>
-                </e-tabitem>
-                <e-tabitem [header]='headerText[2]'>
-                  <ng-template #content>
-                       <ejs-treeview id="checkbox" [fields]='field' [showCheckBox]='showCheckBox'></ejs-treeview>
-                    <span style="float:right">
-                      <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Access</button>
-                    </span>
-                  </ng-template>
-                </e-tabitem>
-              </e-tabitems>
-            </ejs-tab>
-          </div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item" routerLink="/admin/users"><a href="#" class="breadcrumbs__element"><ins></ins></a>
+      </li>
+      <li class="breadcrumb-item" routerLink="/admin/users"><a 
+          class="breadcrumbs__element"><ins>BACK</ins></a></li>
+    </ol>
+  </nav>
+  <div class="row">
+    <div class="col-sm-6">
+      <h4>User Information</h4><br>
+      <form novalidate (ngSubmit)="save()" [formGroup]="groupForm">
+        <div class="form-group">
+          <label for="nameId">Group Name</label>
+          <input class="form-control form-control-lg"
+                   id="nameId"
+                   type="text"
+                   placeholder="Full Name"
+                   formControlName="name"
+                   [ngClass]="{'is-invalid': (groupForm.get('name').touched ||
+                                              groupForm.get('name').dirty) &&
+                                              !groupForm.get('name').valid }" />
+          <h5>Maybe some tip for the field</h5>
+        </div><br>
+        <div class="form-group">
+          <label>Description</label>
+          <input class="form-control form-control-lg"
+                   id="emailAddressId"
+                   type="text"
+                   placeholder="Email Address"
+                   formControlName="emailAddress"
+                   [ngClass]="{'is-invalid': (groupForm.get('description').touched ||
+                   groupForm.get('description').dirty) &&
+                                              !groupForm.get('description').valid }" />
+          <h5>Maybe some tip for the field</h5>
+        </div><br><br>
+        <button type="submit" class="btn btn-primary" 
+                [disabled]="!groupForm.valid"
+                [title]="groupForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+                style="margin: 0 10px">
+          Update User
+        </button>
+        <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Disable Groups</button>
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <div class="control-section e-tab-section">
+        <div class="e-sample-resize-container">
+            <app-tabs [tabs]="groupsTabs" (navigate)="switchTabs($event)"></app-tabs>
+            <app-admin-group-permissions *ngIf="showPermissions"></app-admin-group-permissions>
+            <app-admin-group-members *ngIf="showMembers"></app-admin-group-members>
+            <app-admin-group-media-access *ngIf="showMediaAccess"></app-admin-group-media-access>
         </div>
       </div>
-    </div>
+    </div>  
   </div>
-</div>
+  
+  <br>Dirty: {{ groupForm.dirty }}
+  <br>Touched: {{ groupForm.touched }}
+  <br>Valid: {{ groupForm.valid }}
+  <br>Value: {{ groupForm.value | json }}
+  <br>&nbsp;

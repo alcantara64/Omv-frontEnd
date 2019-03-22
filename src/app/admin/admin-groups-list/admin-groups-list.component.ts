@@ -16,7 +16,7 @@ import { ShowLeftNav } from 'src/app/state/app.actions';
 })
 export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
-  groups: Group[];
+  groups: Group[] = [];
   columns: GridColumn[] = [
     {type: "checkbox", headerText: "Select All", width: "50", field: ""},
     {type: "", headerText: "Name", width: "", field: "name"},
