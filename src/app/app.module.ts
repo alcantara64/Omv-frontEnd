@@ -21,6 +21,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { SharedModule } from './shared/shared.module';
 import { AdminUserEditComponent } from './admin/admin-user-edit/admin-user-edit.component';
+import {TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AdminUserEditComponent } from './admin/admin-user-edit/admin-user-edit.
     HttpClientModule,   
     SharedModule, 
     AdminModule,
+    TreeViewModule,
     NgxsModule.forRoot([
       AppState
     ]),

@@ -59,9 +59,9 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit, O
 
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
 
-  constructor(private store: Store) {
-    super();
-    
+  constructor(protected store: Store) {
+    super(store);
+
     this.store.dispatch(new ShowLeftNav(true));
   }
 

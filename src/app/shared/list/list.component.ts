@@ -3,6 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angu
 import { BaseComponent } from '../base/base.component';
 import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectEventArgs, CellSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-list',
@@ -36,15 +37,15 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   @Output()
   navigate = new EventEmitter<string>();
-  
+
 
   @ViewChild('grid')
   public grid: GridComponent;
   gridData: any[];
   public selectionOptions: SelectionSettingsModel;
 
-  constructor() {
-    super();
+  constructor(protected store: Store) {
+    super(store);
   }
 
   ngOnInit() {
@@ -56,7 +57,11 @@ export class ListComponent extends BaseComponent implements OnInit {
     // Get the selected records.
     this.gridData = selectedrecords;
     console.log(selectedrecords);
-    
+
+  }
+
+  performFirstAction() {
+    this.firstAction.emit(this.selectedRecords);
   }
 
   performSecondAction() {
@@ -65,10 +70,11 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   performNavigation(args: any) {
     let data= this.grid.getRowInfo(args.target);
- 
+
     let rowdata = data.rowData as any;
- 
+
     console.log(rowdata.id);
+    this.navigate.emit(rowdata.id);
   }
 
   navigateToEditScreen() {
@@ -79,11 +85,13 @@ export class ListComponent extends BaseComponent implements OnInit {
    // this.router.navigate('/edit/groups')
   }
 
-  rowSelected(args: RowSelectEventArgs) {    
+  rowSelected(args: RowSelectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
+  console.log(this.selectedRecords);
   }
 
-  rowDeselected(args: RowDeselectEventArgs) {    
+  rowDeselected(args: RowDeselectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
+    console.log(this.selectedRecords);
   }
 }

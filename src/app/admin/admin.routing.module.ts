@@ -1,9 +1,11 @@
+import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { Routes, RouterModule } from "@angular/router";
 import { AdminUsersListComponent } from './admin-users-list/admin-users-list.component';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { AdminGroupsListComponent } from './admin-groups-list/admin-groups-list.component';
+import {AdminGroupEditComponent} from "./admin-group-edit/admin-group-edit.component";
 
 const adminRoutes: Routes = [
   {
@@ -19,8 +21,16 @@ const adminRoutes: Routes = [
     component: AdminUsersListComponent,
   },
   {
+    path: 'admin/users/:id',
+    component: AdminUserEditComponent,
+  },
+  {
     path: 'admin/groups',
     component: AdminGroupsListComponent,
+  },
+  {
+    path: 'admin/groups/edit/:groupID',
+    component: AdminGroupEditComponent,
   }
 ];
 

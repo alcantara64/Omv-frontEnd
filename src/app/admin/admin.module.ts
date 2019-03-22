@@ -14,7 +14,7 @@ import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { SliderModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { BaseComponent } from '../shared/base/base.component';
+
 import { AdminGroupsListComponent } from "./admin-groups-list/admin-groups-list.component";
 import { AdminUsersMockDataService } from '../core/services/data/admin-users/admin-users.mock.data.service';
 import { AdminUsersWebDataService } from '../core/services/data/admin-users/admin-users.web.data.service';
@@ -24,6 +24,10 @@ import { AdminUserState } from './admin-users-list/state/admin-users.state';
 /* NgXS */
 import { NgxsModule } from '@ngxs/store';
 import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
+import { AdminGroupsDataService } from '../core/services/data/admin-groups/admin-groups.data.service';
+import { AdminGroupsMockDataService } from '../core/services/data/admin-groups/admin-groups.mock.data.service';
+import { AdminGroupsWebDataService } from '../core/services/data/admin-groups/admin.groups.mock.web.data.service';
+import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @NgModule({
   imports: [
@@ -34,8 +38,9 @@ import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.compon
     CheckBoxModule,
     GridAllModule,
     DropDownButtonModule,
-    SliderModule,    
+    SliderModule,
     TextBoxModule,
+    DropDownListAllModule,
     NgxsModule.forFeature([
       AdminUserState,
       AdminGroupState
@@ -44,15 +49,16 @@ import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.compon
   declarations: [
     AdminUsersListComponent,
     AdminUserEditComponent,
-    AdminGroupsListComponent,    
+    AdminGroupsListComponent,
     AdminGroupEditComponent,
     AdminSidebarComponent,
     AdminDashboardComponent,
-    ListComponent,
-    BaseComponent
+    ListComponent
+
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
+    { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
