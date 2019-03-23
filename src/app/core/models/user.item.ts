@@ -5,6 +5,7 @@ export class UserItem {
   email: string;
   modifiedBy: string;
   groups: string[];
+  groupId:number[];
   status: number;
   isAssigned: boolean;
 }

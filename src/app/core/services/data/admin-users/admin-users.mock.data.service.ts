@@ -14,6 +14,7 @@ import { UserItem } from 'src/app/core/models/user.item';
 
 export class AdminUsersMockDataService implements AdminUsersDataService {
 
+
   private paging_batch_size:number = 25;
   private mockCRUDurl: string = 'https://endaebqexdz78.x.pipedream.net';
   constructor(private httpClient: HttpClient) { }
@@ -62,5 +63,12 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
   {
     var mockUrl = `./assets/mock/admin-users.json`;
     return this.httpClient.put<any>(mockUrl, payload);
+  }
+
+  getGroupsByUserId(userid: number) {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    var data = this.httpClient.get<UserItem>(mockUrl);
+
+    return data;
   }
 }
