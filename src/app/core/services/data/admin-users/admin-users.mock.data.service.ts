@@ -27,7 +27,7 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
   }
 
   getUser(id: number): Observable<UserItem> {
-    var mockUrl = `./assets/mock/admin-user.json`;
+    var mockUrl = `./assets/mock/admin-users.json`;
     var data = this.httpClient.get<UserItem>(mockUrl);
 
     return data;

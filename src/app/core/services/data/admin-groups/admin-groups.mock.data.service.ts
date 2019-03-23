@@ -35,4 +35,7 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
   assignToGroups(groupId: number, payload: number[]) {
     return this.httpClient.put<any>(`${this.mockUrl}/${groupId}`, payload);
   }
+  getGroupsByUserId(userId: number) {
+    return this.httpClient.get<any>(`${this.mockUrl}`);
+  }
 }

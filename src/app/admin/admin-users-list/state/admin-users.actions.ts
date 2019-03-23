@@ -58,3 +58,10 @@ export class SearchUsers {
 
   constructor(public name: string, public groupid: number) { }
 }
+ 
+export class GetGroupsByUserId{
+  static readonly type = '[Admin Users Edit Page] GetGroupsByUserId';
+
+  constructor(public userId: number) { }
+
+}
