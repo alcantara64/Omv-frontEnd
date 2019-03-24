@@ -1,5 +1,5 @@
 export class Tab {
-  link: string;
+  link: any;
   name: string;
   isActive?: boolean;
 }

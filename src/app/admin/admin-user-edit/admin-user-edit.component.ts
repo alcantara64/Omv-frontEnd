@@ -35,7 +35,6 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
 
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
   @Select(AdminUserState.getCurrentUser) currentUser$: Observable<User>;
-  @Select(AdminUserState.getCurrentUserId) currentUserId$: Observable<number>;
 
   constructor(protected store: Store, 
               private fb: FormBuilder, 
@@ -83,8 +82,6 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   }
 
   async save() {
-    console.log(this.userForm);
-
     if (this.userForm.valid) {
       if (this.userForm.dirty) {
         const updatedUser: User = { ...this.user, ...this.userForm.value };

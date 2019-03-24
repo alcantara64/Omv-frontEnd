@@ -23,6 +23,9 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     getGroup(id: number): Observable<Group> {
         throw new Error("Method not implemented.");
     }
+    createGroup(payload: Group): Observable<Group> {
+        throw new Error("Method not implemented.");
+    }
     disableGroup(id: number, payload: Group) {
         throw new Error("Method not implemented.");
     }

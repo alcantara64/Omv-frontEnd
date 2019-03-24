@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { AdminGroupsDataService } from "./admin-groups.data.service";
 import { Observable } from "rxjs";
 import { Group } from "src/app/core/models/group";
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root"
@@ -17,24 +18,43 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
   }
 
   getGroup(id: number): Observable<Group> {
-    return this.httpClient.get<Group>(`${this.mockUrl}/${id}`);
+    var mockUrl = `./assets/mock/admin-groups.json`;
+    return this.httpClient.get<Group[]>(mockUrl).pipe(map(groups => {
+      return groups.find(group => group.id === id);
+    }));
+  }
+
+  createGroup(payload: Group): Observable<Group> {
+    var mockUrl = `./assets/mock/admin-groups.json`;
+    var data = this.httpClient.get<Group[]>(mockUrl).pipe(map(group => {
+      var _group = new Group();
+      _group.id = 3;
+      return _group;
+    }));
+    return data;
   }
 
   disableGroup(id: number, payload: Group) {
     payload.status = 0;
-    return this.httpClient.put<any>(`${this.mockUrl}/${id}`, payload);
+    return this.httpClient.put<any>(`${this.mockUrl}`, payload);
   }
+  
   enableGroup(id: number, payload: Group) {
     payload.status = 1;
-    return this.httpClient.put<any>(`${this.mockUrl}/${id}`, payload);
+    return this.httpClient.put<any>(`${this.mockUrl}`, payload);
   }
   
   updateGroup(id: number, payload: Group) {
-    return this.httpClient.put<any>(`${this.mockUrl}/${id}`, payload);
+    var mockUrl = `./assets/mock/admin-groups.json`;
+    return this.httpClient.get<Group[]>(mockUrl).pipe(map(groups => {
+      return groups.find(group => group.id === id);
+    }));    
   }
+
   assignToGroups(groupId: number, payload: number[]) {
-    return this.httpClient.put<any>(`${this.mockUrl}/${groupId}`, payload);
+    return this.httpClient.put<any>(`${this.mockUrl}`, payload);
   }
+
   getGroupsByUserId(userId: number) {
     return this.httpClient.get<any>(`${this.mockUrl}`);
   }
