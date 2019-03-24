@@ -21,9 +21,7 @@
                                             userForm.get('name').dirty) &&
                                             !userForm.get('name').valid }" />
         <span class="invalid-feedback">
-          <h5>
-            Please a name.
-          </h5>
+          <h5> Please enter a name </h5>
         </span>
       </div><br>
       <div class="form-group">
@@ -32,10 +30,10 @@
                  id="emailAddressId"
                  type="text"
                  placeholder="Email Address"
-                 formControlName="emailAddress"
-                 [ngClass]="{'is-invalid': (userForm.get('emailAddress').touched ||
-                                            userForm.get('emailAddress').dirty) &&
-                                            !userForm.get('emailAddress').valid }" 
+                 formControlName="email"
+                 [ngClass]="{'is-invalid': (userForm.get('email').touched ||
+                                            userForm.get('email').dirty) &&
+                                            !userForm.get('email').valid }" 
                   />
         <span class="invalid-feedback">
           <h5>
@@ -43,13 +41,13 @@
           </h5>
         </span>
       </div><br><br>
-      <button type="submit" class="btn btn-primary" 
-              [disabled]="!userForm.valid"
-              [title]="userForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
-              style="margin: 0 10px">
+      <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid || !userForm.dirty" style="margin: 0 10px">
         Update User
       </button>
-      <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px" (click)="populateTestData()">Disable User</button>
+      <button type="button" class="btn btn-primary" *ngIf="userId"
+              style="display:inline; margin: 0 10px" (click)="changeStatus()"> 
+          {{ userActionText }}
+      </button>
     </form>
   </div>
   <div class="col-sm-6">

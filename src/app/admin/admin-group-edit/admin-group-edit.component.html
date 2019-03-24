@@ -15,32 +15,34 @@
           <input class="form-control form-control-lg"
                    id="nameId"
                    type="text"
-                   placeholder="Full Name"
+                   placeholder="Enter a group name"
                    formControlName="name"
                    [ngClass]="{'is-invalid': (groupForm.get('name').touched ||
                                               groupForm.get('name').dirty) &&
                                               !groupForm.get('name').valid }" />
-          <h5>Maybe some tip for the field</h5>
+          <span class="invalid-feedback">
+            <h5> Please enter a name </h5>
+          </span>
         </div><br>
         <div class="form-group">
           <label>Description</label>
           <input class="form-control form-control-lg"
                    id="emailAddressId"
                    type="text"
-                   placeholder="Email Address"
-                   formControlName="emailAddress"
+                   placeholder="Enter a description for the group"
+                   formControlName="description"
                    [ngClass]="{'is-invalid': (groupForm.get('description').touched ||
-                   groupForm.get('description').dirty) &&
+                                              groupForm.get('description').dirty) &&
                                               !groupForm.get('description').valid }" />
-          <h5>Maybe some tip for the field</h5>
+          
         </div><br><br>
         <button type="submit" class="btn btn-primary" 
                 [disabled]="!groupForm.valid"
                 [title]="groupForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
                 style="margin: 0 10px">
-          Update User
+          Update Group
         </button>
-        <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Disable Groups</button>
+        <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Disable Group</button>
       </form>
     </div>
     <div class="col-sm-6">
@@ -55,8 +57,3 @@
     </div>  
   </div>
   
-  <br>Dirty: {{ groupForm.dirty }}
-  <br>Touched: {{ groupForm.touched }}
-  <br>Valid: {{ groupForm.valid }}
-  <br>Value: {{ groupForm.value | json }}
-  <br>&nbsp;

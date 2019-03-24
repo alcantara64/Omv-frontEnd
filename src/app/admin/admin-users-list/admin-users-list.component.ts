@@ -162,7 +162,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   edit(id: number) {
-
     this.store.dispatch(new SetCurrentUserId(id));
     this.router.navigate([`/admin/users/${id}/edit`]);
   }

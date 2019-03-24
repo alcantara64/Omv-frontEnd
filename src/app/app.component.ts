@@ -43,22 +43,6 @@ export class AppComponent {
     // }).catch(err => this.addError(err));
   }
 
-  // TODO: Handle this in the html
-  ngAfterViewInit(){
-    var col = document.getElementsByClassName("collapsible");
-    for (let i = 0; i < col.length; i++) {
-      col[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight) {
-          content.style.maxHeight = null;
-        } else {
-          content.style.maxHeight = content.scrollHeight + "%";
-        }
-      });
-    }
-  }
-
   clearMessages() {
     while (this.messages.length) {
       this.messages.pop();

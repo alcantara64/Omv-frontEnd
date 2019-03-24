@@ -12,6 +12,9 @@ import { ListComponent } from "../../shared/list/list.component";
 import { GridColumn } from "../../core/models/grid.column";
 import { Group } from 'src/app/core/models/group';
 
+const ENABLE_GROUP = 'Enable Group';
+const DISABLE_GROUP = 'Disable Group';
+
 @Component({
   selector: 'app-admin-group-edit',
   templateUrl: './admin-group-edit.component.html',
@@ -19,9 +22,8 @@ import { Group } from 'src/app/core/models/group';
 })
 export class AdminGroupEditComponent extends ListComponent implements OnInit {
 
-  activeUsers: User[];
-  unassignedUsers: User[];
-  disabledUsers: User[];
+  componentActive = true;
+  userId: number;
 
   showPermissions: boolean;
   showMembers: boolean;
@@ -54,7 +56,6 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
       width: "",
       field: "email"
     }
-
   ];
 
   permissionColumns: GridColumn[] = [
@@ -124,10 +125,6 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
 
     this.showPermissions = true;
     this.groupsTabs[0].isActive = true;
-
-    this.getActiveUsers.subscribe(users => this.activeUsers = users );
-    this.getUnassignedUsers.subscribe(users => this.unassignedUsers = users );
-    this.getDisabledUsers.subscribe(users => this.disabledUsers = users );
   }
 
   ngOnDestroy(): void {

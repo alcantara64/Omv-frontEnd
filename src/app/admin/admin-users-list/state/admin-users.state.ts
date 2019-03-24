@@ -1,16 +1,14 @@
-import { UserItem } from 'src/app/core/models/user.item';
-import { GetUsers, DeleteUser, UpdateUser, EnableUser, DisableUser, SearchUsers, SetCurrentUserId, GetUser,AssignToGroups } from './admin-users.actions';
+import { GetUsers, DeleteUser, UpdateUser, EnableUser, DisableUser, SearchUsers, SetCurrentUserId, GetUser,AssignToGroups, CreateUser } from './admin-users.actions';
 import { AdminUsersService } from './../../../core/services/business/admin-users/admin-users.service';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { User } from 'src/app/core/models/User';
 import { tap, mergeMap } from 'rxjs/operators';
 import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
-import { userType } from 'src/app/core/enum/permission';
 
 export class AdminUserStateModel {
   users: User[];
   currentUserId: number | null;
-  currentUser: UserItem;
+  currentUser: User;
 }
 
 @State<AdminUserStateModel>({
@@ -73,7 +71,7 @@ export class AdminUserState {
         const state = getState();
         setState({
             ...state,
-            currentUser: user,
+            currentUser: user ? user : null
         });
     }));
   }
@@ -87,6 +85,28 @@ export class AdminUserState {
       ...state,
       users: users.filter(x => x.name === name),
     });
+  }
+
+  @Action(CreateUser)
+  createUser({getState, setState}: StateContext<AdminUserStateModel>, {payload}: CreateUser) {
+    return this.adminUserService.createUser(payload).pipe(tap(user => {
+      const state = getState();
+      setState({
+        ...state,
+        currentUser: user
+      });
+    }));
+  }
+
+  @Action(UpdateUser)
+  updateUser({getState, setState}: StateContext<AdminUserStateModel>, {id, payload}: UpdateUser) {
+    return this.adminUserService.updateUser(id, payload).pipe(tap(user => {
+      const state = getState();
+      setState({
+        ...state,
+        currentUser: payload
+      });
+    }));
   }
 
   @Action(DeleteUser)
@@ -121,8 +141,6 @@ export class AdminUserState {
     return this.adminUserService.assignToGroups(userid, payload).pipe(),
               mergeMap(() => ctx.dispatch(new GetUsers()));
   }
-
-
 
   //#endregion 
 }
