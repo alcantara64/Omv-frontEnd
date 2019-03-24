@@ -13,6 +13,7 @@ import { User } from 'src/app/core/models/user';
 
 export class AdminUsersMockDataService implements AdminUsersDataService {
 
+
   private paging_batch_size:number = 25;
   private mockCRUDurl: string = 'https://omvclient.free.beeceptor.com';
   constructor(private httpClient: HttpClient) { }
@@ -73,5 +74,12 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
   assignToGroups(userid: number, payload: number[]) {
     var mockUrl = `./assets/mock/admin-users.json`;
     return this.httpClient.put<any>(mockUrl, payload);
+  }
+
+  getGroupsByUserId(userid: number) {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    var data = this.httpClient.get<User>(mockUrl);
+
+    return data;
   }
 }

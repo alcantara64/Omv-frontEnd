@@ -2,44 +2,48 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { User } from '../../../models/User';
 import { AdminUsersDataService } from '../../data/admin-users/admin-users.data.service';
+import { Group } from 'src/app/core/models/group';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminUsersService {
 
-  constructor(private AdminUsersDataService: AdminUsersDataService) { }
+  constructor(private AdminUserService: AdminUsersDataService) { }
 
   getUsers(): Observable<User[]> {
-    return this.AdminUsersDataService.getUsers();
+    return this.AdminUserService.getUsers();
   }
 
   getUser(id: number): Observable<User> {
-    return this.AdminUsersDataService.getUser(id);
+    return this.AdminUserService.getUser(id);
   }
 
-  disableUser(id: number, payload: User){
-    return this.AdminUsersDataService.disableUser(id, payload);
+  disableUser(id: number, payload: User) {
+    return this.AdminUserService.disableUser(id, payload);
   }
 
-  deleteUser(id: number, payload: User){
-    return this.AdminUsersDataService.deleteUser(id, payload);
+  deleteUser(id: number, payload: User) {
+    return this.AdminUserService.deleteUser(id, payload);
   }
 
   enableUser(id: number, payload: User) {
-    return this.AdminUsersDataService.enableUser(id, payload);
+    return this.AdminUserService.enableUser(id, payload);
   }
 
   createUser(payload: User): Observable<User> {
-    return this.AdminUsersDataService.createUser(payload);
+    return this.AdminUserService.createUser(payload);
   }
 
   updateUser(id: number, payload: User) {
-    return this.AdminUsersDataService.updateUser(id, payload);
+    return this.AdminUserService.updateUser(id, payload);
   }
 
-  assignToGroups(userid: number, payload: number[])
-  {
-    return this.AdminUsersDataService.assignToGroups(userid, payload);
+  assignToGroups(userid: number, payload: number[]) {
+    return this.AdminUserService.assignToGroups(userid, payload);
+  }
+
+  getGroupsByUserId(userid: number): Observable<Group[]> {
+    return this.AdminUserService.getGroupsByUserId(userid);
   }
 }

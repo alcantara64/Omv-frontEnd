@@ -47,5 +47,9 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
   {
     throw new Error("Method not implemented.");
   }
+  
+  getGroupsByUserId(userid: number) {
+    throw new Error("Method not implemented.");
+  }
 
 }

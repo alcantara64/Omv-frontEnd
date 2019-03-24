@@ -98,7 +98,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
           takeWhile(() => this.componentActive);
         } else { // Update User
           await this.store.dispatch(new UpdateUser(updatedUser.id, updatedUser));
-          this.userForm.reset();          
+          this.userForm.reset(this.userForm.value);          
         }        
       }
     } else {

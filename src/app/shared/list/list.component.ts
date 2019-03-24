@@ -67,12 +67,14 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.selectionOptions = { checkboxOnly : true, persistSelection: true};
-    this.grid.selectedRowIndex = 1;
-    this.grid.selectedRowIndex = 2;
+    // this.grid.selectedRowIndex = 1;
+    // this.grid.selectedRowIndex = 2;
     //this.grid.selectedRowIndex = 3;
-    this.initialRecords.forEach(record => {
-        this.grid.selectRow(1,true);
-    });
+    if (this.initialRecords) {
+      this.initialRecords.forEach(record => {
+          // this.grid.selectRow(1, true);
+      });
+    }
   }
 
 

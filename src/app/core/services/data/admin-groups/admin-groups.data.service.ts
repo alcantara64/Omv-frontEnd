@@ -15,5 +15,6 @@ export abstract class AdminGroupsDataService {
     abstract disableGroup(id: number, payload: Group);
     abstract enableGroup(id: number, payload: Group);
     abstract updateGroup(id: number, payload: Group);
-    abstract assignToGroups(groupId: number, payload: number[])
+    abstract assignToGroups(groupId: number, payload: number[]);
+    abstract getGroupsByUserId(userId: number);
 }

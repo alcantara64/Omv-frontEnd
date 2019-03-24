@@ -35,4 +35,8 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     assignToGroups(groupId: number, payload: number[]) {
         throw new Error("Method not implemented.");
     }
+    getGroupsByUserId(userId: number) {
+        throw new Error("Method not implemented.");
+    }
+
 }
