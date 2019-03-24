@@ -106,8 +106,10 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
         if (this.groupId === 0) { 
           await this.store.dispatch(new CreateGroup(updatedGroup));
           this.currentGroupId$.subscribe(groupId => {
-            if (groupId) 
+            if (groupId) {
+              this.groupForm.reset();
               this.router.navigate([`/admin/groups/${groupId}/edit`])
+            }
           }),
           takeWhile(() => this.componentActive);
         } else {

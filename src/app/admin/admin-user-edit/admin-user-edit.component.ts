@@ -89,8 +89,10 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
         if (this.userId === 0) { // Create User
           await this.store.dispatch(new CreateUser(updatedUser));
           this.currentUser$.subscribe(user => {
-            if (user) 
+            if (user) {              
+              this.userForm.reset();
               this.router.navigate([`/admin/users/${user.id}/edit`])
+            }
           }),
           takeWhile(() => this.componentActive);
         } else { // Update User

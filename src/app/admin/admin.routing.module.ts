@@ -11,6 +11,8 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { AdminGroupsListComponent } from './admin-groups-list/admin-groups-list.component';
 import {AdminGroupEditComponent} from "./admin-group-edit/admin-group-edit.component";
+import { AdminGroupEditGuard } from './admin-group-edit/admin-group-edit.guard';
+import { AdminUserEditGuard } from './admin-user-edit/admin-user-edit.guard';
 
 const adminRoutes: Routes = [
   {
@@ -31,7 +33,8 @@ const adminRoutes: Routes = [
   },
   {
     path: 'admin/users/:id/edit',
-    component: AdminUserEditComponent,
+    canDeactivate: [AdminUserEditGuard],
+    component: AdminUserEditComponent
   },
   {
     path: 'admin/groups',
@@ -43,6 +46,7 @@ const adminRoutes: Routes = [
   },
   {
     path: 'admin/groups/:id/edit',
+    canDeactivate: [AdminGroupEditGuard],
     component: AdminGroupEditComponent
   }
 ];
