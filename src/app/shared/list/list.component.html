@@ -22,7 +22,7 @@
     (dataBound)='dataBound($event)'
     (rowSelected)="rowSelected($event)"
     (rowDeselected)="rowDeselected($event)"
-
+    [allowSorting]='true'    
     id="Grid">
   <e-columns>
     <ng-template #template ngFor let-column [ngForOf]="columns">
