@@ -50,3 +50,10 @@ export class SetSelectedGroupIds {
 
   constructor(public id: number[]) { }
 }
+
+export class GetMembers {
+  static readonly type = '[Admin Users Page] GetMembers';
+
+}
+
+

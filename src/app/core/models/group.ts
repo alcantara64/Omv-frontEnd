@@ -5,6 +5,7 @@ export class Group {
   modifiedOn: string;
   modifiedBy: string;
   permission: number[];
+  groupId: number [];
   members: number[];
   directories: any[];
   status: number;
