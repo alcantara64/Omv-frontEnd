@@ -2,8 +2,8 @@
   {
     "id": 1,
     "name": "Admin",
-    "description": "Admins",
-    "lastModified": "0/1/2019",
+    "description": "Administrators",
+    "lastModified": "01/01/2019",
     "modifiedBy": "Adam Smith",
     "members": 6,
     "status": 0,

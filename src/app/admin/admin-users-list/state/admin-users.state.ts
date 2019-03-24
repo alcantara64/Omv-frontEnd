@@ -77,16 +77,14 @@ export class AdminUserState {
   }
 
   @Action(GetGroupsByUserId)
-  getGroupsByUserId({ getState, setState }: StateContext<AdminUserStateModel>, { userId }: GetGroupsByUserId) {
+  getUserGroups({ getState, setState }: StateContext<AdminUserStateModel>, { userId }: GetGroupsByUserId) {
     return this.adminUserService.getGroupsByUserId(userId).pipe(tap(groups => {
       const state = getState();
       const groupArr: number [] = [];
       groups.forEach(group => {
-          if(group.id === userId){
-            // groupArr.push(group.id);
-            group.groupId = groupArr;
-            return;
-          }
+          if(group.id === 6 || group.id === 2){
+            groupArr.push(group.id);
+          }          
       });
       return setState({
         ...state,
@@ -119,24 +117,26 @@ export class AdminUserState {
   }
 
   @Action(CreateUser)
-  createUser({getState, setState}: StateContext<AdminUserStateModel>, {payload}: CreateUser) {
+  createUser(ctx: StateContext<AdminUserStateModel>, {payload}: CreateUser) {
     return this.adminUserService.createUser(payload).pipe(tap(user => {
-      const state = getState();
-      setState({
+      const state = ctx.getState();
+      ctx.setState({
         ...state,
         currentUser: user
       });
+      ctx.dispatch(new GetUsers());
     }));
   }
 
   @Action(UpdateUser)
-  updateUser({getState, setState}: StateContext<AdminUserStateModel>, {id, payload}: UpdateUser) {
+  updateUser(ctx: StateContext<AdminUserStateModel>, {id, payload}: UpdateUser) {
     return this.adminUserService.updateUser(id, payload).pipe(tap(user => {
-      const state = getState();
-      setState({
+      const state = ctx.getState();
+      ctx.setState({
         ...state,
         currentUser: payload
       });
+      ctx.dispatch(new GetUsers());
     }));
   }
 

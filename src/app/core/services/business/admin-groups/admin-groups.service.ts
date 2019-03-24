@@ -19,6 +19,10 @@ export class AdminGroupsService {
     return this.AdminGroupsDataService.getGroup(id);
   }
 
+  createGroup(payload: Group): Observable<Group> {
+    return this.AdminGroupsDataService.createGroup(payload);
+  }
+
   disableGroup(id: number, payload: Group){
     return this.AdminGroupsDataService.disableGroup(id, payload);
   }

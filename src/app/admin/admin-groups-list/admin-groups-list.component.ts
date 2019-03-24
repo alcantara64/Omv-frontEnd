@@ -45,7 +45,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   @ViewChild('groupDialog') public permissionDialog: DialogComponent;
 
   @ViewChild('listviewgroup')
-    public groupDialogList: any;
+  public groupDialogList: any;
 
   public target: string = '.control-section';
   permissions: Permission[];
@@ -65,7 +65,6 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
     this.permissionDialog.hide();
     this.store.dispatch(new GetPermission());
-
   } 
   
   public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
@@ -87,7 +86,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
       this.displayGroups(params.type);
     });
 
-    this.groups$.subscribe(groups => (this.groups = groups));  
+    // this.groups$.subscribe(groups => (this.groups = groups));  
     this.permissions$.subscribe(permissions => (this.permissions = permissions));  
   }
 
@@ -125,9 +124,8 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   }
 
   edit(id: number) {
-
     this.store.dispatch(new SetCurrentGroupId(id));
-    this.router.navigate([`/admin/groups/edit/${id}`]);
+    this.router.navigate([`/admin/groups/${id}/edit`]);
   }
 
 }

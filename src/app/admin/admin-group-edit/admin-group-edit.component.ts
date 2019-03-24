@@ -1,5 +1,5 @@
 import { Tab } from 'src/app/core/models/tab';
-import { GetGroups } from './../admin-groups-list/state/admin.groups.action';
+import { GetGroups, GetGroup, CreateGroup, UpdateGroup, EnableGroup, DisableGroup } from './../admin-groups-list/state/admin.groups.action';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
@@ -11,9 +11,18 @@ import { User } from "../../core/models/user";
 import { ListComponent } from "../../shared/list/list.component";
 import { GridColumn } from "../../core/models/grid.column";
 import { Group } from 'src/app/core/models/group';
+import { Router, ActivatedRoute } from '@angular/router';
+import { takeWhile } from 'rxjs/operators';
+import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
+import { AdminGroupStatus } from 'src/app/core/enum/admin-user-status';
 
+const CREATE_GROUP = 'Create Group';
+const UPDATE_GROUP = 'Update Group';
 const ENABLE_GROUP = 'Enable Group';
 const DISABLE_GROUP = 'Disable Group';
+const PERMISSIONS_TAB = 0;
+const MEMBERS_TAB = 1;
+const MEDIA_ACCESS = 2;
 
 @Component({
   selector: 'app-admin-group-edit',
@@ -23,92 +32,29 @@ const DISABLE_GROUP = 'Disable Group';
 export class AdminGroupEditComponent extends ListComponent implements OnInit {
 
   componentActive = true;
-  userId: number;
-
   showPermissions: boolean;
   showMembers: boolean;
   showMediaAccess: boolean;
-
+  
+  groupId: number;
   groupForm: FormGroup;
   group = new Group();
-  groupsTabs: Tab[] = [
-    { link: '1', name: 'Permissions' },
-    { link: '2', name: 'Members' },
-    { link: '3', name: 'Media Access' }
+  groupItemTabs: Tab[] = [
+    { link: PERMISSIONS_TAB, name: 'Permissions' },
+    { link: MEMBERS_TAB, name: 'Members' },
+    { link: MEDIA_ACCESS, name: 'Media Access' }
   ];
+  groupActionText: string;
+  createGroupButtonText: string;
+  errorMessage: string;
 
-  memberColumns: GridColumn[] = [
-    {
-      type: "checkbox",
-      headerText: "Select All",
-      width: "50",
-      field: ""
-    },
-    {
-      type: "",
-      headerText: "Name",
-      width: "",
-      field: "name"
-    },
-    {
-      type: "",
-      headerText: "Email",
-      width: "",
-      field: "email"
-    }
-  ];
+  @Select(AdminGroupState.getCurrentGroup) currentGroup$: Observable<Group>;
+  @Select(AdminGroupState.getCurrentGroupId) currentGroupId$: Observable<number>;
 
-  permissionColumns: GridColumn[] = [
-    {
-      type: "checkbox",
-      headerText: "Select All",
-      width: "50",
-      field: ""
-    },
-    {
-      type: "",
-      headerText: "Permission Title",
-      width: "",
-      field: "name"
-    }
-  ];
-
-  public countries: Object[] = [
-    { id: 1, name: 'Australia', hasChild: true, expanded: true },
-    { id: 2, pid: 1, name: 'New South Wales' },
-    { id: 3, pid: 1, name: 'Victoria' },
-    { id: 4, pid: 1, name: 'South Australia' },
-    { id: 6, pid: 1, name: 'Western Australia' },
-    { id: 7, name: 'Brazil', hasChild: true },
-    { id: 8, pid: 7, name: 'Paraná' },
-    { id: 9, pid: 7, name: 'Ceará' },
-    { id: 10, pid: 7, name: 'Acre' },
-    { id: 11, name: 'China', hasChild: true },
-    { id: 12, pid: 11, name: 'Guangzhou' },
-    { id: 13, pid: 11, name: 'Shanghai' },
-    { id: 14, pid: 11, name: 'Beijing' },
-    { id: 15, pid: 11, name: 'Shantou' },
-    { id: 16, name: 'France', hasChild: true },
-    { id: 17, pid: 16, name: 'Pays de la Loire' },
-    { id: 18, pid: 16, name: 'Aquitaine' },
-    { id: 19, pid: 16, name: 'Brittany' },
-    { id: 20, pid: 16, name: 'Lorraine' },
-    { id: 21, name: 'India', hasChild: true },
-    { id: 22, pid: 21, name: 'Assam' },
-    { id: 23, pid: 21, name: 'Bihar' },
-    { id: 24, pid: 21, name: 'Tamil Nadu' },
-    { id: 25, pid: 21, name: 'Punjab' }
-  ];
-
-  public field:Object = { dataSource: this.countries, id: 'id', parentID: 'pid', text: 'name', hasChildren: 'hasChild' };
-
-  public showCheckBox:boolean = true;
-
-  @Select(AdminUserState.getActiveUsers) getActiveUsers: Observable<User[]>;
-  @Select(AdminUserState.getUnassignedUsers) getUnassignedUsers: Observable<User[]>;
-  @Select(AdminUserState.getDisabledUsers) getDisabledUsers: Observable<User[]>;
-
-  constructor(protected store: Store, private fb: FormBuilder) {
+  constructor(protected store: Store, 
+    private fb: FormBuilder, 
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
     super(store);
 
     this.store.dispatch(new ShowLeftNav(false));
@@ -116,44 +62,98 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.store.dispatch(new GetPermissions());
-
+    // Initialize the groupForm
     this.groupForm = this.fb.group({
-      name: ['', [ Validators.required, Validators.minLength(3)] ],
-      description: ['']
+      id: [''],
+      name: [ '', [ Validators.required ] ],
+      description: [ '' ]
     });
 
-    this.showPermissions = true;
-    this.groupsTabs[0].isActive = true;
+    // Get the id in the browser url and reach out for the group
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.groupId = Number(params.get('id'));
+      this.store.dispatch(new GetGroup(this.groupId));
+      this.createGroupButtonText = this.groupId ? UPDATE_GROUP : CREATE_GROUP;
+    }), 
+    takeWhile(() => this.componentActive);
+
+    // Get the current group
+    this.currentGroup$.subscribe(group => {      
+      if (group) { // Existing Group
+        this.groupActionText = group.status == AdminGroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;        
+        this.groupForm = this.fb.group({
+          id: group.id,
+          name: [ group.name, [ Validators.required ] ],
+          description: [ group.description, [ Validators.required ] ]
+        });
+        this.group = group;
+      }
+    }),
+    takeWhile(() => this.componentActive);
+
+    this.setActiveTab(PERMISSIONS_TAB);
   }
 
   ngOnDestroy(): void {
-    
+    this.componentActive = false;
   }
 
-  save() {
-    console.log(this.groupForm);
-    console.log('Saved: ' + JSON.stringify(this.groupForm.value));
+  async save() {
+    if (this.groupForm.valid) {
+      if (this.groupForm.dirty) {
+        const updatedGroup: Group = { ...this.group, ...this.groupForm.value };
+
+        if (this.groupId === 0) { 
+          await this.store.dispatch(new CreateGroup(updatedGroup));
+          this.currentGroupId$.subscribe(groupId => {
+            if (groupId) 
+              this.router.navigate([`/admin/groups/${groupId}/edit`])
+          }),
+          takeWhile(() => this.componentActive);
+        } else {
+          await this.store.dispatch(new UpdateGroup(updatedGroup.id, updatedGroup));          
+          this.groupForm.reset(this.groupForm.value);          
+        }        
+      }
+    } else {
+      this.errorMessage = "Please correct the validation errors.";
+    }
   }
 
-  switchTabs(tabLink: string) {
-    this.showPermissions = this.showMembers = this.showMediaAccess = false;
-    this.groupsTabs.map(x => x.isActive = false);
-    switch (tabLink) {
-      case '1':
+  changeStatus() {
+    if (this.groupActionText === ENABLE_GROUP) {
+      this.store.dispatch(new EnableGroup(this.groupId, this.group));
+      this.groupActionText = DISABLE_GROUP;
+    } else {
+      this.store.dispatch(new DisableGroup(this.groupId, this.group));
+      this.groupActionText = ENABLE_GROUP;
+    }
+  }
+
+  switchTabs(tabLink: any) {
+    this.clearActiveTab();
+    this.setActiveTab(tabLink);
+  }
+
+  setActiveTab(tabIndex: number) {
+    switch (tabIndex) {
+      case PERMISSIONS_TAB:
         this.showPermissions = true;
-        this.groupsTabs[0].isActive = true;
         break;
-      case '2':
+      case MEMBERS_TAB:
         this.showMembers = true;
-        this.groupsTabs[1].isActive = true;
         break;
-      case '3':
+      case MEDIA_ACCESS:
         this.showMediaAccess = true;
-        this.groupsTabs[2].isActive = true;
         break;    
       default:
         break;
     }
+    this.groupItemTabs[tabIndex].isActive = true;
+  }
+
+  clearActiveTab() {
+    this.showPermissions = this.showMembers = this.showMediaAccess = false;
+    this.groupItemTabs.map(x => x.isActive = false);
   }
 }
