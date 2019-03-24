@@ -7,7 +7,7 @@
     "modifiedBy": "Adam Smith",
     "members": 6,
     "status": 0,
-    "isAssigned": true
+    "isAssigned": false
   },
   {
     "id": 2,
@@ -27,7 +27,7 @@
     "modifiedBy": "Adam Smith",
     "members": 6,
     "status": 0,
-    "isAssigned": true
+    "isAssigned": false
   },
   {
     "id": 4,
@@ -37,7 +37,7 @@
     "modifiedBy": "Jeremiah Johnson",
     "members": 45,
     "status": 1,
-    "isAssigned": true
+    "isAssigned": false
   },
   {
     "id": 5,

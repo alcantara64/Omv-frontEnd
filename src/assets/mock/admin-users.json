@@ -8,7 +8,7 @@
     "groups": "Developer +2",
     "groupId":[1,2],
     "status": 0,
-    "isAssigned": true
+    "isAssigned": false
   },
   {
     "id": 2,
