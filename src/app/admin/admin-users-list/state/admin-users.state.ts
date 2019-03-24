@@ -82,7 +82,9 @@ export class AdminUserState {
       const state = getState();
       const groupArr: number [] = [];
       groups.forEach(group => {
-          groupArr.push(group.id);
+          if(group.isAssigned){
+            groupArr.push(group.id);
+          }
       });
       return setState({
         ...state,

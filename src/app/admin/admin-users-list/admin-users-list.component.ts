@@ -1,18 +1,18 @@
 import { EmitType } from '@syncfusion/ej2-base';
-import { AdminUserType } from "./../../core/enum/admin-user-type";
-import { GetGroups } from "./../admin-groups-list/state/admin.groups.action";
-import { Group } from "./../../core/models/group";
-import { ShowLeftNav } from "./../../state/app.actions";
-import { ListComponent } from "./../../shared/list/list.component";
-import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
-import { ToolbarItems } from "@syncfusion/ej2-angular-grids";
-import { User } from "src/app/core/models/User";
-import { Observable } from "rxjs";
-import { GridColumn } from "src/app/core/models/grid.column";
-import { DropDownListComponent } from "@syncfusion/ej2-angular-dropdowns";
-import { TabComponent } from "@syncfusion/ej2-angular-navigations";
-import { Store, Select } from "@ngxs/store";
-import { AdminUserState } from "./state/admin-users.state";
+import { AdminUserType } from './../../core/enum/admin-user-type';
+import { GetGroups } from './../admin-groups-list/state/admin.groups.action';
+import { Group } from './../../core/models/group';
+import { ShowLeftNav } from './../../state/app.actions';
+import { ListComponent } from './../../shared/list/list.component';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { ToolbarItems } from '@syncfusion/ej2-angular-grids';
+import { User } from 'src/app/core/models/User';
+import { Observable } from 'rxjs';
+import { GridColumn } from 'src/app/core/models/grid.column';
+import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
+import { TabComponent } from '@syncfusion/ej2-angular-navigations';
+import { Store, Select } from '@ngxs/store';
+import { AdminUserState } from './state/admin-users.state';
 import {
   GetUsers,
   DisableUser,
@@ -20,20 +20,20 @@ import {
   SearchUsers,
   SetCurrentUserId,
   AssignToGroups
-} from "./state/admin-users.actions";
-import { AdminGroupState } from "../admin-groups-list/state/admin-groups.state";
-import { permission } from "src/app/core/enum/permission";
-import { TextBox } from "@syncfusion/ej2-inputs";
-import { TextBoxComponent } from "@syncfusion/ej2-angular-inputs";
-import { Router, ActivatedRoute } from "@angular/router";
-import { DISABLED } from "@angular/forms/src/model";
+} from './state/admin-users.actions';
+import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
+import { permission } from 'src/app/core/enum/permission';
+import { TextBox } from '@syncfusion/ej2-inputs';
+import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
+import { Router, ActivatedRoute } from '@angular/router';
+import { DISABLED } from '@angular/forms/src/model';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ListViewComponent } from '@syncfusion/ej2-angular-lists';
 
 @Component({
-  selector: "app-admin-users-list",
-  templateUrl: "./admin-users-list.component.html",
-  styleUrls: ["./admin-users-list.component.css"],
+  selector: 'app-admin-users-list',
+  templateUrl: './admin-users-list.component.html',
+  styleUrls: ['./admin-users-list.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class AdminUsersListComponent extends ListComponent implements OnInit {
@@ -41,18 +41,18 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   groups: Group[] = [];
   users: User[];
   statusChange: string;
-  ENABLE: string = "Enable";
-  DISABLE: string = "Disable";
-  public groupFields: Object = { text: "name", value: "id" };
+  ENABLE = 'Enable';
+  DISABLE = 'Disable';
+  public groupFields = { text: 'name', value: 'id' };
   groupid: number;
   name: string;
   urlparam: string;
   columns: GridColumn[] = [
-    { type: "checkbox", headerText: "Select All", width: "50", field: "" },
-    { type: "", headerText: "Name", width: "", field: "name" },
-    { type: "", headerText: "Email", width: "", field: "email" },
-    { type: "", headerText: "Last Modified", width: "", field: "modifiedBy" },
-    { type: "", headerText: "Group", width: "150", field: "groups" }
+    { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
+    { type: '', headerText: 'Name', width: '', field: 'name' },
+    { type: '', headerText: 'Email', width: '', field: 'email' },
+    { type: '', headerText: 'Last Modified', width: '', field: 'modifiedBy' },
+    { type: '', headerText: 'Group', width: '150', field: 'groups' }
   ];
 
   @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User[]>;
@@ -61,26 +61,26 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
 
   @ViewChild('groupDialog')
-    public groupDialog: DialogComponent;
+  public groupDialog: DialogComponent;
 
   @ViewChild('listviewgroup')
-    public groupDialogList: any;
+  public groupDialogList: any;
 
-  public target: string = '.control-section';
-  
+  public target = '.control-section';
+
   public saveDlgBtnClick: EmitType<object> = () => {
-    console.log("Dialog save button");
+    console.log('Dialog save button');
 
-    var groupdata = this.groupDialogList.getSelectedItems().data;
-    let groupidArray:any[] = [];
+    const groupdata = this.groupDialogList.getSelectedItems().data;
+    const groupidArray: any[] = [];
 
     groupdata.forEach(group => {
-        groupidArray.push(group.id);
+      groupidArray.push(group.id);
     });
 
-    this.selectedUsers.forEach(user =>{
+    this.selectedUsers.forEach(user => {
       this.store.dispatch(new AssignToGroups(user.id, groupidArray));
-   });
+    });
 
 
     this.groupDialog.hide();
@@ -89,7 +89,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
 
-  public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
+  public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true } }];
 
   constructor(
     protected store: Store,
@@ -113,7 +113,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.groups$.subscribe(groups => (this.groups = groups));
   }
 
-  ngOnDestroy(): void {}
 
   displayUsers(param: string) {
     this.urlparam = param;
@@ -126,7 +125,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
         this.unassignedUsers$.subscribe(
           unassignedUsers => (this.users = unassignedUsers)
         );
-        this.statusChange = "";
+        this.statusChange = '';
         break;
       case AdminUserType.Disabled:
         this.disabledUsers$.subscribe(
@@ -146,7 +145,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   changeUsersStatus(users: User[]) {
 
     users.forEach(user => {
-      if ((this.statusChange = this.ENABLE)) {
+      if ((this.statusChange === this.ENABLE)) {
         this.store.dispatch(new EnableUser(user.id, user));
       } else {
         this.store.dispatch(new DisableUser(user.id, user));
@@ -155,7 +154,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   assignUsersToGroups(users: User[]) {
-    console.log("AdminUsersListComponent - assignUsersToGroups");
+    console.log('AdminUsersListComponent - assignUsersToGroups');
     this.groupDialog.show();
     this.selectedUsers = users;
 

@@ -39,8 +39,8 @@ export class AdminUserGroupsComponent implements OnInit {
     this.store.dispatch(new GetGroups());
     this.groups$.subscribe(groups => (this.groups = groups));
 
-    let id = Number(this.router.snapshot.paramMap.get('id'));
-    this.store.dispatch(new GetGroupsByUserId(1));
+    const id = Number(this.router.snapshot.paramMap.get('id'));
+    this.store.dispatch(new GetGroupsByUserId(id));
     
     this.groupsId$.subscribe(users => this.initialGroups = users) ;
     console.log('user', this.initialGroups);
