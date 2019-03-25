@@ -21,13 +21,17 @@ export class AdminGroupMembersComponent implements OnInit {
     {type: "", headerText: "Name", width: "", field: "name"},
     {type: "", headerText: "Email", width: "", field: "email"},
   ];
- @Select(AdminGroupState.getMembers) getMembers$ : Observable<Member[]>;
+ @Select(AdminGroupState.getMembers) getMembers$ : Observable<Member[]>; 
+ @Select(AdminGroupState.getMembersByGroupId) getMemberId$: Observable<number []>;
+
+ memberIds: number[] =[];
   constructor(private store: Store) { }
 
   ngOnInit() {
     this.store.dispatch(new GetMembers());
 
     this.getMembers$.subscribe(members => (this.members = members));
+    this.getMemberId$.subscribe(memberIds => (this.memberIds = memberIds));
   }
 
 }

@@ -15,7 +15,7 @@ export class AdminMembersService  {
     return this.adminMemberService.getMembers();
   }
 
-  getMembersByGroupId(groupId){
+  getMembersByGroupId(groupId): Observable<Member[]>{
     return this.adminMemberService.getMembersByGroupId(groupId);
   }
 }

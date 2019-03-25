@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class AdminGroupsMockDataService implements AdminGroupsDataService {
 
+
   mockUrl = `./assets/mock/admin-groups.json`;
   constructor(private httpClient: HttpClient) {}
 
@@ -56,6 +57,10 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
   }
 
   getGroupsByUserId(userId: number) {
+    return this.httpClient.get<any>(`${this.mockUrl}`);
+  }
+
+  getPermissionsByGroupId(groupId: number) {
     return this.httpClient.get<any>(`${this.mockUrl}`);
   }
 }

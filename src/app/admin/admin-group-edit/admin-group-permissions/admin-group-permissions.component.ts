@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Permission } from 'src/app/core/enum/permission';
 import { GetPermission } from '../../admin-permissions/state/admin-permissions.action';
+import { AdminGroupState } from '../../admin-groups-list/state/admin-groups.state';
 
 @Component({
   selector: 'app-admin-group-permissions',
@@ -21,13 +22,16 @@ export class AdminGroupPermissionsComponent implements OnInit {
     {type: "", headerText: "Permission Title", width: "", field: "name"}
   ];
   @Select(AdminPermissionState.getPermissions) getPermissions$: Observable<Permission[]>;
-  
+  @Select(AdminGroupState.getPermissionsByGroupId) getPermissionId$: Observable<number []>;
+
+  permissionIds: number[] =[];
   constructor(private store: Store) { }
 
   ngOnInit() {
     this.store.dispatch(new GetPermission());
 
     this.getPermissions$.subscribe(permissions => ( this.permissions = permissions));
+    this.getPermissionId$.subscribe(permissionIds => (this.permissionIds = permissionIds));
   }
 
 }

@@ -39,5 +39,7 @@ export class AdminGroupsService {
     return this.AdminGroupsDataService.assignToGroups(groupId, payload);
   }
 
-
+  getPermissionsByGroupId(groupId){
+    return this.AdminGroupsDataService.getPermissionsByGroupId(groupId);
+  }
 }
