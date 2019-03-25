@@ -1,36 +1,46 @@
-.header {
-    height: 35px;
+.navbar {
+  display: block!important;
+  padding: 0!important;
+  position: static;
+  height: 58px;
+  width: 100%;
+  box-sizing: border-box!important;
 }
 
 .nav-link {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.header-color {
-    color: #FAC42D;
-    padding-right: 11px;
+.oceaneeringLogo {
+  display: inline-block;
+  width: 100px;
+  border-right: thin solid green;
 }
 
-.vertical-stroke {
-    height: 8px;
-    border-right: 1px solid;
-    color: #9B9B9B;
+.oceaneeringLogo > img {
+  width: 80px;
+  height: auto;
+  text-align: left;
+}
+
+.clientLogo {
+  display: inline-block;
+  width: auto;
+}
+
+.clientLogo > img {
+  width: auto;
+  height: 40px;
+  margin: 10px;
 }
 
 .bg-light {
-    padding-bottom: 0 !important;
-    padding-top: 0 !important;
-    background: #033B5C !important;
-}
-
-.navbar-brand {
-    padding-left: 11px;
-}
-
-.bg-color {
-    background: #F3F8FB;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  background: #033B5C !important;
+  height: 35px;
 }
 
 .navbar-shadow {
@@ -44,11 +54,18 @@ a {
     font-size: 14px;
     font-weight: 600;
     font-family: 'Open Sans', sans-serif;
+  display: inline-block;
+  width: auto;
 }
 
 .active-link {
-    font-weight: 600 !important;
-    color: #033B5C !important;
+  font-weight: 600 !important;
+  color: #033B5C !important;
+  display: inline-block;
+}
+
+.active-link > .line-stroke {
+  display: block!important;
 }
 
 .e-indicator .e-ignore {
@@ -63,8 +80,13 @@ a {
     width: 100%;
 }
 
+.navbar1 {
+  margin-top: -30px!important;
+}
+
 .navbar2 {
-    padding-left: 10rem;
+  margin-top: 0!important;
+  padding: 0!important;
 }
 
 .header-link-text {
@@ -79,14 +101,6 @@ a {
     color: #5b7f95;
     padding-bottom: 0px;
     padding: 1rem;
-}
-.img-cls{
-display: none;}
-.hr-stroke {
-    margin-top: 1rem;
-    margin-bottom: 0;
-    border: 0;
-    border-top: 2px solid #033B5C;
 }
 
 hr {
@@ -109,23 +123,10 @@ hr {
 }
 
 .line-stroke {
-    vertical-align: bottom;
-    border-style: none;
-    position: absolute;
-    display: flex;
-    padding-left:1.5rem;
-}
-.line-stroke-live{
-    vertical-align: bottom;
-    border-style: none;
-    position: absolute;
-    display: flex;
-    padding-left:1rem;
-}
-.line-stroke-media{
-    vertical-align: bottom;
-    border-style: none;
-    position: absolute;
-    display: flex;
-    width: 7%;
+  vertical-align: bottom;
+  border-style: none;
+  position: relative;
+  display: none;
+  margin-top: 10px;
+  width: 100%;
 }

@@ -12,6 +12,7 @@ export class AdminDashboardComponent implements OnInit {
   
   constructor(private store: Store) { 
     this.store.dispatch(new ShowLeftNav(true));
+    console.log('Chyke is here');
   }
 
   ngOnInit() {
