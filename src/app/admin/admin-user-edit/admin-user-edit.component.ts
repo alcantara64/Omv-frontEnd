@@ -11,7 +11,7 @@ import { Group } from './../../core/models/group';
 import { ListComponent } from 'src/app/shared/list/list.component';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser } from '../state/admin-users/admin-users.actions';
-import { UserStatus } from 'src/app/core/enum/admin-user-status';
+import { UserStatus } from 'src/app/core/enum/user-status.enum';
 
 const CREATE_USER = 'Create User';
 const UPDATE_USER = 'Update User';

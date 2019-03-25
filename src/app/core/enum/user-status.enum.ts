@@ -4,7 +4,3 @@ export enum UserStatus {
   Unassigned = 2
 }
 
-export enum GroupStatus {
-  Active = 0,
-  Disabled = 1
-}

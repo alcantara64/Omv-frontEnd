@@ -4,7 +4,7 @@ import { User } from 'src/app/core/models/User';
 export class GetUsers {
   static readonly type = '[Admin Users] GetUsers';
 
-  constructor(public request: User_SearchInputDTO) { }
+  constructor(public request?: User_SearchInputDTO) { }
 }
 
 export class GetUser {

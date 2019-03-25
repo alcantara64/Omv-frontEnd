@@ -39,13 +39,14 @@ import { User_SearchInputDTO } from 'src/app/core/dtos/user-search-input.dto';
   encapsulation: ViewEncapsulation.None
 })
 export class AdminUsersListComponent extends ListComponent implements OnInit {
+
   selectedUsers: User[];
   groups: Group[] = [];
   users: User_SearchOutputDTO[];
   statusChange: string;
   ENABLE = 'Enable';
   DISABLE = 'Disable';
-  public groupFields = { text: 'name', value: 'id' };
+  public groupFields = { text: 'roleName', value: 'roleId' };
   groupid: number;
   name: string;
   urlparam: string;
@@ -62,17 +63,13 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User_SearchOutputDTO[]>;
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
 
-  @ViewChild('groupDialog')
-  public groupDialog: DialogComponent;
+  @ViewChild('groupDialog') groupDialog: DialogComponent;
 
-  @ViewChild('listviewgroup')
-  public groupDialogList: any;
+  @ViewChild('listviewgroup') groupDialogList: any;
 
-  public target = '.control-section';
+  target = '.control-section';
 
-  public saveDlgBtnClick: EmitType<object> = () => {
-    console.log('Dialog save button');
-
+  saveDlgBtnClick: EmitType<object> = () => {
     const groupdata = this.groupDialogList.getSelectedItems().data;
     const groupidArray: any[] = [];
 
@@ -85,9 +82,8 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     });
 
     this.groupDialog.hide();
-    this.store.dispatch(new GetUsers(null));
+    this.store.dispatch(new GetUsers());
   }
-
 
   public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true } }];
 
@@ -99,15 +95,13 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     super(store);
     this.ShowLefNav(true);
     this.Permission = permission.VIEW_USERS;
-
   }
 
   ngOnInit() {
     this.store.dispatch(new GetGroups());
 
     this.activatedRoute.params.subscribe(params => {
-      var request = new User_SearchInputDTO();
-      this.store.dispatch(new GetUsers(request));
+      this.store.dispatch(new GetUsers());
       this.displayUsers(params.type);
     });
 
@@ -119,28 +113,15 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.urlparam = param;
     switch (param) {
       case AdminUserType.Active:
-        this.activeUsers$.subscribe(activeUsers => {
-          this.users = activeUsers;
-          console.log('this.users', this.users);
-        });
+        this.activeUsers$.subscribe(activeUsers => this.users = activeUsers );
         this.statusChange = this.DISABLE;
         break;
       case AdminUserType.Unassigned:
-        this.unassignedUsers$.subscribe(
-          unassignedUsers => {
-            this.users = unassignedUsers;
-            console.log('this.users', this.users);
-          }
-        );
+        this.unassignedUsers$.subscribe(unassignedUsers => this.users = unassignedUsers );
         this.statusChange = '';
         break;
       case AdminUserType.Disabled:
-        this.disabledUsers$.subscribe(
-          disabledUsers => {
-            this.users = disabledUsers;
-            console.log('this.users', this.users);
-          }
-        );
+        this.disabledUsers$.subscribe(disabledUsers => this.users = disabledUsers);
         this.statusChange = this.ENABLE;
         break;
       default:
@@ -153,7 +134,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   changeUsersStatus(users: User[]) {
-
     users.forEach(user => {
       if ((this.statusChange === this.ENABLE)) {
         this.store.dispatch(new EnableUser(user.id, user));

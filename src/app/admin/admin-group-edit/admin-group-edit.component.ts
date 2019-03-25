@@ -1,3 +1,4 @@
+import { GroupStatus as GroupStatus } from './../../core/enum/group-status.enum';
 import { Tab } from 'src/app/core/models/tab';
 import { GetGroup, CreateGroup, UpdateGroup, EnableGroup, DisableGroup } from '../state/admin-groups/admin.groups.action';
 import { Component, OnInit } from '@angular/core';
@@ -8,7 +9,6 @@ import { Group } from 'src/app/core/models/group';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
-import { GroupStatus } from 'src/app/core/enum/admin-user-status';
 import { EditComponent } from 'src/app/shared/edit/edit.component';
 
 const CREATE_GROUP = 'Create Group';

@@ -5,7 +5,8 @@ import { AdminUsersService } from '../../../core/services/business/admin-users/a
 import { GetUsers, DeleteUser, UpdateUser, EnableUser, DisableUser, SearchUsers, SetCurrentUserId, 
         GetUser, AssignToGroups, GetUserGroups, CreateUser, SaveUserGroups } from './admin-users.actions';
 import { User } from 'src/app/core/models/User';
-import { UserStatus } from 'src/app/core/enum/admin-user-status';
+import { UserStatus } from 'src/app/core/enum/user-status.enum';
+import { User_SearchInputDTO } from 'src/app/core/dtos/user-search-input.dto';
 
 export class AdminUserStateModel {
   users: User_SearchOutputDTO[];
@@ -108,13 +109,16 @@ export class AdminUserState {
 
   @Action(SearchUsers)
   searchUsers({ getState, setState }: StateContext<AdminUserStateModel>, { name, groupid }: SearchUsers) {
-    var state = getState();
-    var users = state.users;
-    console.log('search Users Action: ', users);
-    return setState({
-      ...state,
-      users: users.filter(x => x.displayName === name),
-    });
+    var request = new User_SearchInputDTO();
+    request.Name = name;
+
+    return this.adminUserService.getUsers(request).pipe(tap(users => {
+      const state = getState();
+      setState({
+        ...state,
+        users: users,
+      });
+    }));
   }
 
   @Action(CreateUser)

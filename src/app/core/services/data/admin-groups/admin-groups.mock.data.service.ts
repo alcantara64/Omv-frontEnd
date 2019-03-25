@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { Group } from "src/app/core/models/group";
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/core/models/user';
+import { Role_GetAllOutputDTO } from 'src/app/core/dtos/role-get-all-output.dto';
 
 @Injectable({
   providedIn: "root"
@@ -14,8 +15,8 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
   mockUrl = `./assets/mock/admin-groups.json`;
   constructor(private httpClient: HttpClient) {}
 
-  getGroups(): Observable<Group[]> {
-    return this.httpClient.get<Group[]>(this.mockUrl);
+  getGroups(): Observable<Role_GetAllOutputDTO[]> {
+    return this.httpClient.get<Role_GetAllOutputDTO[]>(this.mockUrl);
   }
 
   getGroup(id: number): Observable<Group> {

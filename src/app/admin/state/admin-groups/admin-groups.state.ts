@@ -4,12 +4,13 @@ import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, 
         SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers } from './admin.groups.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs/operators';
-import { GroupStatus } from 'src/app/core/enum/admin-user-status';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
 import { User } from 'src/app/core/models/user';
+import { Role_GetAllOutputDTO } from 'src/app/core/dtos/role-get-all-output.dto';
+import { GroupStatus } from 'src/app/core/enum/group-status.enum';
 
 export class AdminGroupStateModel {
-  groups: Group[];
+  groups: Role_GetAllOutputDTO[];
   currentGroupId: number | null;
   currentGroup: Group;
   permissionIds: number[];
@@ -33,11 +34,6 @@ export class AdminGroupState {
   @Selector()
   static getGroups(state: AdminGroupStateModel) {
     return state.groups;
-  }
-
-  @Selector()
-  static getUnassignedGroups(state: AdminGroupStateModel) {
-    return state.groups.filter(x => !x.isAssigned);
   }
 
   @Selector()

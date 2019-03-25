@@ -4,6 +4,7 @@ import { AdminGroupsDataService } from '../../data/admin-groups/admin-groups.dat
 import { Observable } from 'rxjs';
 import { Permission } from 'src/app/core/enum/permission';
 import { User } from 'src/app/core/models/user';
+import { Role_GetAllOutputDTO } from 'src/app/core/dtos/role-get-all-output.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AdminGroupsService {
 
   constructor(private AdminGroupsDataService: AdminGroupsDataService) { }
 
-  getGroups(): Observable<Group[]> {
+  getGroups(): Observable<Role_GetAllOutputDTO[]> {
     return this.AdminGroupsDataService.getGroups();
   }
 
