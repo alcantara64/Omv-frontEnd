@@ -44,7 +44,6 @@ export class AdminUserGroupsComponent implements OnInit {
     
     this.groupsId$.subscribe(groups => this.initialGroups = groups) ;
     console.log('user', this.initialGroups);
-
   }
 
   save(args) {
