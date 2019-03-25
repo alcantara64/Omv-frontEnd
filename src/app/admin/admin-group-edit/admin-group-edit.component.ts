@@ -1,20 +1,14 @@
 import { Tab } from 'src/app/core/models/tab';
-import { GetGroups, GetGroup, CreateGroup, UpdateGroup, EnableGroup, DisableGroup } from './../admin-groups-list/state/admin.groups.action';
+import { GetGroup, CreateGroup, UpdateGroup, EnableGroup, DisableGroup } from '../state/admin-groups/admin.groups.action';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
-import { ShowLeftNav } from 'src/app/state/app.actions';
-import { GetUsers } from "../admin-users-list/state/admin-users.actions";
-import { AdminUserState } from "../admin-users-list/state/admin-users.state";
 import { Observable } from "rxjs";
-import { User } from "../../core/models/user";
-import { ListComponent } from "../../shared/list/list.component";
-import { GridColumn } from "../../core/models/grid.column";
 import { Group } from 'src/app/core/models/group';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
-import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
-import { AdminGroupStatus } from 'src/app/core/enum/admin-user-status';
+import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
+import { GroupStatus } from 'src/app/core/enum/admin-user-status';
 import { EditComponent } from 'src/app/shared/edit/edit.component';
 
 const CREATE_GROUP = 'Create Group';
@@ -62,7 +56,6 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   }
 
   ngOnInit() {
-
     // Initialize the groupForm
     this.groupForm = this.fb.group({
       id: [''],
@@ -81,7 +74,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     // Get the current group
     this.currentGroup$.subscribe(group => {      
       if (group) { // Existing Group
-        this.groupActionText = group.status == AdminGroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;        
+        this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;        
         this.groupForm = this.fb.group({
           id: group.id,
           name: [ group.name, [ Validators.required ] ],

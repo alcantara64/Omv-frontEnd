@@ -23,6 +23,7 @@
     (rowSelected)="rowSelected($event)"
     (rowDeselected)="rowDeselected($event)"
     [allowSorting]='true'    
+    (created)='gridCreated()'    
     id="Grid">
   <e-columns>
     <ng-template #template ngFor let-column [ngForOf]="columns">

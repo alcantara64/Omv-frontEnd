@@ -1,4 +1,4 @@
-import { Group } from './../../../core/models/group';
+import { Group } from '../../../core/models/group';
 
 export class GetGroups {
   static readonly type = '[Admin Groups] GetGroups';

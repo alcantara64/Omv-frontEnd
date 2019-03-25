@@ -1,20 +1,20 @@
-import { AddGroupMembers } from './../../admin-groups-list/state/admin.groups.action';
-import { AssignToGroups } from './../../admin-users-list/state/admin-users.actions';
+import { AddGroupMembers } from '../../state/admin-groups/admin.groups.action';
+import { AssignToGroups } from '../../state/admin-users/admin-users.actions';
 import { Group } from 'src/app/core/models/group';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
 import { Member } from 'src/app/core/models/member';
 import { Select, Store } from '@ngxs/store';
-import { AdminGroupState } from '../../admin-groups-list/state/admin-groups.state';
+import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
-import { GetMembers, GetGroupMembers, RemoveGroupMembers } from '../../admin-groups-list/state/admin.groups.action';
+import { GetMembers, GetGroupMembers, RemoveGroupMembers } from '../../state/admin-groups/admin.groups.action';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/core/models/user';
 import { takeWhile } from 'rxjs/operators';
 import { EmitType } from '@syncfusion/ej2-base';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { AdminUserState } from '../../admin-users-list/state/admin-users.state';
-import { GetUsers } from '../../admin-users-list/state/admin-users.actions';
+import { AdminUserState } from '../../state/admin-users/admin-users.state';
+import { GetUsers } from '../../state/admin-users/admin-users.actions';
 
 @Component({
   selector: 'app-admin-group-members',
@@ -47,7 +47,7 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(new GetMembers());
-    this.store.dispatch(new GetUsers());
+    this.store.dispatch(new GetUsers(null));
     // Get the id in the browser url and reach out for the Group
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));

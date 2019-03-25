@@ -1,10 +1,10 @@
-import { GetGroups, EnableGroup, DisableGroup, SetCurrentGroupId, AssignToPermission } from './state/admin.groups.action';
+import { GetGroups, EnableGroup, DisableGroup, SetCurrentGroupId, AssignToPermission } from '../state/admin-groups/admin.groups.action';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GridColumn } from "../../core/models/grid.column";
 import {ListComponent} from "../../shared/list/list.component";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
-import { AdminGroupState } from './state/admin-groups.state';
+import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
 import { Group } from 'src/app/core/models/group';
 import { ShowLeftNav } from 'src/app/state/app.actions';
@@ -12,8 +12,8 @@ import { AdminGroupType } from 'src/app/core/enum/admin-user-type';
 import { permission, Permission } from 'src/app/core/enum/permission';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
-import { GetPermission } from '../admin-permissions/state/admin-permissions.action';
-import { AdminPermissionState } from '../admin-permissions/state/admin-permissions.state';
+import { AdminPermissionState } from '../state/admin-permissions/admin-permissions.state';
+import { GetPermissions } from '../state/admin-permissions/admin-permissions.action';
 
 @Component({
   selector: 'app-admin-groups-list',
@@ -64,7 +64,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
 
     this.permissionDialog.hide();
-    this.store.dispatch(new GetPermission());
+    this.store.dispatch(new GetPermissions());
   } 
   
   public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
@@ -79,7 +79,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.store.dispatch(new GetPermission());
+    this.store.dispatch(new GetPermissions());
 
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetGroups());

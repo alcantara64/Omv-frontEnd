@@ -1,13 +1,10 @@
-import { Group } from './../../../core/models/group';
-import { AdminGroupsService } from './../../../core/services/business/admin-groups/admin-groups.service';
+import { Group } from '../../../core/models/group';
+import { AdminGroupsService } from '../../../core/services/business/admin-groups/admin-groups.service';
 import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup, 
         SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers } from './admin.groups.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs/operators';
-import { AdminGroupStatus } from 'src/app/core/enum/admin-user-status';
-import { Permission } from 'src/app/core/enum/permission';
-import { AdminMembersService } from 'src/app/core/services/business/admin-members/admin-members.service';
-import { Member } from 'src/app/core/models/member';
+import { GroupStatus } from 'src/app/core/enum/admin-user-status';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
 import { User } from 'src/app/core/models/user';
 
@@ -45,12 +42,12 @@ export class AdminGroupState {
 
   @Selector()
   static getActiveGroups(state: AdminGroupStateModel) {
-    return state.groups.filter(x => x.status === AdminGroupStatus.Active);
+    return state.groups.filter(x => x.status === GroupStatus.Active);
   }
 
   @Selector()
   static getDisabledGroups(state: AdminGroupStateModel) {
-    return state.groups.filter(x => x.status === AdminGroupStatus.Disabled);
+    return state.groups.filter(x => x.status === GroupStatus.Disabled);
   }
 
   @Selector()
@@ -74,8 +71,8 @@ export class AdminGroupState {
   }
   //#endregion 
 
-  constructor(private adminGroupService: AdminGroupsService, private adminMembersService: AdminMembersService,
-    private adminPermissionService: AdminPermissionsService) { }
+  constructor(private adminGroupService: AdminGroupsService,
+    private adminPermissionsService: AdminPermissionsService) { }
 
   //#region A C T I O N S
 
@@ -167,7 +164,7 @@ export class AdminGroupState {
 
   @Action(GetGroupPermissions)
   getGroupPermissions({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetGroupPermissions) {
-    return this.adminPermissionService.getPermissionsByGroupId(groupId).pipe(tap(permissions => {
+    return this.adminPermissionsService.getPermissionsByGroupId(groupId).pipe(tap(permissions => {
       const state = getState();
       const permissionsArr: number[] = [];
       permissions.forEach(group => {

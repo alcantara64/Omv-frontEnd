@@ -18,10 +18,10 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     constructor(private httpClient: HttpClient) { }
 
     getGroups(): Observable<Group[]> {
-        throw new Error("Method not implemented.");
+        return new Observable<Group[]>();
     }
     getGroup(id: number): Observable<Group> {
-        throw new Error("Method not implemented.");
+        return null;
     }
     createGroup(payload: Group): Observable<Group> {
         throw new Error("Method not implemented.");

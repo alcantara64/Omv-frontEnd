@@ -1,4 +1,7 @@
 export const environment = {
   production: true,
-  useMocks: false
+  useMocks: false,
+  api: {
+    baseUrl: ''
+  }
 };

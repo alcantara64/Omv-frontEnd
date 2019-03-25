@@ -4,14 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
-import { AdminUserState } from './../admin-users-list/state/admin-users.state';
+import { AdminUserState } from '../state/admin-users/admin-users.state';
 import { User } from './../../core/models/user';
 import { Tab } from './../../core/models/tab';
 import { Group } from './../../core/models/group';
 import { ListComponent } from 'src/app/shared/list/list.component';
-import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
-import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser } from '../admin-users-list/state/admin-users.actions';
-import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
+import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
+import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser } from '../state/admin-users/admin-users.actions';
+import { UserStatus } from 'src/app/core/enum/admin-user-status';
 
 const CREATE_USER = 'Create User';
 const UPDATE_USER = 'Update User';
@@ -69,7 +69,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     // Get the currentUser
     this.currentUser$.subscribe(user => {      
       if (user) { // Existing User
-        this.userActionText = user.status == AdminUserStatus.Active ? DISABLE_USER : ENABLE_USER;
+        this.userActionText = user.status == UserStatus.Active ? DISABLE_USER : ENABLE_USER;
         this.userForm = this.fb.group({
           id: user.id,
           name: [ user.name, [ Validators.required ] ],

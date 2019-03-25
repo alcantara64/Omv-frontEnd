@@ -1,6 +1,7 @@
+import { User_SearchOutputDTO } from './../../core/dtos/user-search-output.dto';
 import { EmitType } from '@syncfusion/ej2-base';
 import { AdminUserType } from './../../core/enum/admin-user-type';
-import { GetGroups } from './../admin-groups-list/state/admin.groups.action';
+import { GetGroups } from '../state/admin-groups/admin.groups.action';
 import { Group } from './../../core/models/group';
 import { ShowLeftNav } from './../../state/app.actions';
 import { ListComponent } from './../../shared/list/list.component';
@@ -12,7 +13,7 @@ import { GridColumn } from 'src/app/core/models/grid.column';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 import { Store, Select } from '@ngxs/store';
-import { AdminUserState } from './state/admin-users.state';
+import { AdminUserState } from '../state/admin-users/admin-users.state';
 import {
   GetUsers,
   DisableUser,
@@ -20,8 +21,8 @@ import {
   SearchUsers,
   SetCurrentUserId,
   AssignToGroups
-} from './state/admin-users.actions';
-import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
+} from '../state/admin-users/admin-users.actions';
+import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { permission } from 'src/app/core/enum/permission';
 import { TextBox } from '@syncfusion/ej2-inputs';
 import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
@@ -29,6 +30,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DISABLED } from '@angular/forms/src/model';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ListViewComponent } from '@syncfusion/ej2-angular-lists';
+import { User_SearchInputDTO } from 'src/app/core/dtos/user-search-input.dto';
 
 @Component({
   selector: 'app-admin-users-list',
@@ -39,7 +41,7 @@ import { ListViewComponent } from '@syncfusion/ej2-angular-lists';
 export class AdminUsersListComponent extends ListComponent implements OnInit {
   selectedUsers: User[];
   groups: Group[] = [];
-  users: User[];
+  users: User_SearchOutputDTO[];
   statusChange: string;
   ENABLE = 'Enable';
   DISABLE = 'Disable';
@@ -49,15 +51,15 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   urlparam: string;
   columns: GridColumn[] = [
     { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
-    { type: '', headerText: 'Name', width: '', field: 'name' },
-    { type: '', headerText: 'Email', width: '', field: 'email' },
+    { type: '', headerText: 'Name', width: '', field: 'displayName' },
+    { type: '', headerText: 'Email', width: '', field: 'emailAddress' },
     { type: '', headerText: 'Last Modified', width: '', field: 'modifiedBy' },
-    { type: '', headerText: 'Group', width: '150', field: 'groups' }
+    { type: '', headerText: 'Group', width: '150', field: 'roleName' }
   ];
 
-  @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User[]>;
-  @Select(AdminUserState.getUnassignedUsers) unassignedUsers$: Observable<User[]>;
-  @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User[]>;
+  @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User_SearchOutputDTO[]>;
+  @Select(AdminUserState.getUnassignedUsers) unassignedUsers$: Observable<User_SearchOutputDTO[]>;
+  @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User_SearchOutputDTO[]>;
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
 
   @ViewChild('groupDialog')
@@ -82,10 +84,8 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
       this.store.dispatch(new AssignToGroups(user.id, groupidArray));
     });
 
-
     this.groupDialog.hide();
-    this.store.dispatch(new GetUsers());
-
+    this.store.dispatch(new GetUsers(null));
   }
 
 
@@ -106,7 +106,8 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.store.dispatch(new GetGroups());
 
     this.activatedRoute.params.subscribe(params => {
-      this.store.dispatch(new GetUsers());
+      var request = new User_SearchInputDTO();
+      this.store.dispatch(new GetUsers(request));
       this.displayUsers(params.type);
     });
 
@@ -118,18 +119,27 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.urlparam = param;
     switch (param) {
       case AdminUserType.Active:
-        this.activeUsers$.subscribe(activeUsers => (this.users = activeUsers));
+        this.activeUsers$.subscribe(activeUsers => {
+          this.users = activeUsers;
+          console.log('this.users', this.users);
+        });
         this.statusChange = this.DISABLE;
         break;
       case AdminUserType.Unassigned:
         this.unassignedUsers$.subscribe(
-          unassignedUsers => (this.users = unassignedUsers)
+          unassignedUsers => {
+            this.users = unassignedUsers;
+            console.log('this.users', this.users);
+          }
         );
         this.statusChange = '';
         break;
       case AdminUserType.Disabled:
         this.disabledUsers$.subscribe(
-          disabledUsers => (this.users = disabledUsers)
+          disabledUsers => {
+            this.users = disabledUsers;
+            console.log('this.users', this.users);
+          }
         );
         this.statusChange = this.ENABLE;
         break;
@@ -157,15 +167,10 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     console.log('AdminUsersListComponent - assignUsersToGroups');
     this.groupDialog.show();
     this.selectedUsers = users;
-
   }
 
   edit(id: number) {
     this.store.dispatch(new SetCurrentUserId(id));
     this.router.navigate([`/admin/users/${id}/edit`]);
   }
-
-
-
-
 }

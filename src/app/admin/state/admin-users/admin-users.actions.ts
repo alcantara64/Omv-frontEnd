@@ -1,7 +1,10 @@
+import { User_SearchInputDTO } from './../../../core/dtos/user-search-input.dto';
 import { User } from 'src/app/core/models/User';
 
 export class GetUsers {
   static readonly type = '[Admin Users] GetUsers';
+
+  constructor(public request: User_SearchInputDTO) { }
 }
 
 export class GetUser {

@@ -1,13 +1,14 @@
+import { User_SearchOutputDTO } from 'src/app/core/dtos/user-search-output.dto';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs/operators';
-import { AdminUsersService } from './../../../core/services/business/admin-users/admin-users.service';
+import { AdminUsersService } from '../../../core/services/business/admin-users/admin-users.service';
 import { GetUsers, DeleteUser, UpdateUser, EnableUser, DisableUser, SearchUsers, SetCurrentUserId, 
         GetUser, AssignToGroups, GetUserGroups, CreateUser, SaveUserGroups } from './admin-users.actions';
 import { User } from 'src/app/core/models/User';
-import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
+import { UserStatus } from 'src/app/core/enum/admin-user-status';
 
 export class AdminUserStateModel {
-  users: User[];
+  users: User_SearchOutputDTO[];
   currentUserId: number | null;
   currentUser: User;
   userGroupIds: number[];
@@ -34,17 +35,17 @@ export class AdminUserState {
 
   @Selector()
   static getActiveUsers(state: AdminUserStateModel) {
-    return state.users.filter(x => x.status === AdminUserStatus.Active);
+    return state.users.filter(x => x.status === UserStatus.Active);
   }
 
   @Selector()
   static getUnassignedUsers(state: AdminUserStateModel) {
-    return state.users.filter(x => !x.isAssigned);
+    return state.users.filter(x => x.roleName);
   }
 
   @Selector()
   static getDisabledUsers(state: AdminUserStateModel) {
-    return state.users.filter(x => x.status === AdminUserStatus.Disabled);
+    return state.users.filter(x => x.status === UserStatus.Disabled);
   }
 
   @Selector()
@@ -66,8 +67,8 @@ export class AdminUserState {
   // #region A C T I O N S
 
   @Action(GetUsers)
-  getUsers({ getState, setState }: StateContext<AdminUserStateModel>) {
-    return this.adminUserService.getUsers().pipe(tap(users => {
+  getUsers({ getState, setState }: StateContext<AdminUserStateModel>, {request}: GetUsers) {
+    return this.adminUserService.getUsers(request).pipe(tap(users => {
       const state = getState();
       setState({
         ...state,
@@ -112,7 +113,7 @@ export class AdminUserState {
     console.log('search Users Action: ', users);
     return setState({
       ...state,
-      users: users.filter(x => x.name === name),
+      users: users.filter(x => x.displayName === name),
     });
   }
 
@@ -124,7 +125,7 @@ export class AdminUserState {
         ...state,
         currentUserId: user.id
       });
-      ctx.dispatch(new GetUsers());
+      ctx.dispatch(new GetUsers(null));
     }));
   }
 
@@ -136,32 +137,32 @@ export class AdminUserState {
         ...state,
         currentUser: payload
       });
-      ctx.dispatch(new GetUsers());
+      ctx.dispatch(new GetUsers(null));
     }));
   }
 
   @Action(AssignToGroups)
   assignToGroups(ctx: StateContext<AdminUserStateModel>, { userid, payload }: AssignToGroups) {
     return this.adminUserService.assignToGroups(userid, payload).pipe(),
-      mergeMap(() => ctx.dispatch(new GetUsers()));
+      mergeMap(() => ctx.dispatch(new GetUsers(null)));
   }
 
   @Action(DeleteUser)
   deleteUser(ctx: StateContext<AdminUserStateModel>, { id, payload }: DeleteUser) {
     return this.adminUserService.deleteUser(id, payload).pipe(),
-      mergeMap(() => ctx.dispatch(new GetUsers()));
+      mergeMap(() => ctx.dispatch(new GetUsers(null)));
   }
 
   @Action(DisableUser)
   disableUser(ctx: StateContext<AdminUserStateModel>, { id, payload }: DisableUser) {
     return this.adminUserService.disableUser(id, payload).pipe(),
-      mergeMap(() => ctx.dispatch(new GetUsers()));
+      mergeMap(() => ctx.dispatch(new GetUsers(null)));
   }
 
   @Action(EnableUser)
   enableUser(ctx: StateContext<AdminUserStateModel>, { id, payload }: EnableUser) {
     return this.adminUserService.enableUser(id, payload).pipe(),
-      mergeMap(() => ctx.dispatch(new GetUsers()));
+      mergeMap(() => ctx.dispatch(new GetUsers(null)));
   }
 
   @Action(SetCurrentUserId)
