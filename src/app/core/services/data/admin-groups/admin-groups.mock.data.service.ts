@@ -4,12 +4,12 @@ import { AdminGroupsDataService } from "./admin-groups.data.service";
 import { Observable } from "rxjs";
 import { Group } from "src/app/core/models/group";
 import { map } from 'rxjs/operators';
+import { User } from 'src/app/core/models/user';
 
 @Injectable({
   providedIn: "root"
 })
 export class AdminGroupsMockDataService implements AdminGroupsDataService {
-
 
   mockUrl = `./assets/mock/admin-groups.json`;
   constructor(private httpClient: HttpClient) {}
@@ -62,5 +62,33 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
 
   getPermissionsByGroupId(groupId: number) {
     return this.httpClient.get<any>(`${this.mockUrl}`);
+  }
+
+  updateGroupPermissions(groupId: number, payload: number[]) {
+    var mockUrl = `./assets/mock/admin-groups.json`;
+    return this.httpClient.get<Group[]>(mockUrl).pipe(map(permissions => {
+      
+    }));   
+  }
+
+  getGroupMembers(groupId: number): Observable<User[]> {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    return this.httpClient.get<User[]>(mockUrl).pipe(map(users => {
+      return users.filter(x => x.id === 1 || x.id === 4);
+    }));
+  }
+
+  addGroupMembers(groupId: number, payload: number[]) {
+    var mockUrl = `./assets/mock/admin-groups.json`;
+    return this.httpClient.get<Group[]>(mockUrl).pipe(map(permissions => {
+      
+    }));   
+  }
+
+  removeGroupMembers(groupId: number, payload: number[]) {
+    var mockUrl = `./assets/mock/admin-groups.json`;
+    return this.httpClient.get<Group[]>(mockUrl).pipe(map(permissions => {
+      
+    }));   
   }
 }

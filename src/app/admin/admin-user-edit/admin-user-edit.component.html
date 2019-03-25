@@ -42,7 +42,7 @@
         </span>
       </div><br><br>
       <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid || !userForm.dirty" style="margin: 0 10px">
-        Update User
+        {{ createUserButtonText }}
       </button>
       <button type="button" class="btn btn-primary" *ngIf="userId" style="display:inline; margin: 0 10px" (click)="changeStatus()"> 
           {{ userActionText }}

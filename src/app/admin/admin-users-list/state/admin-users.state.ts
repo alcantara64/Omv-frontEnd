@@ -2,7 +2,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs/operators';
 import { AdminUsersService } from './../../../core/services/business/admin-users/admin-users.service';
 import { GetUsers, DeleteUser, UpdateUser, EnableUser, DisableUser, SearchUsers, SetCurrentUserId, 
-        GetUser, AssignToGroups, GetGroupsByUserId, CreateUser } from './admin-users.actions';
+        GetUser, AssignToGroups, GetUserGroups, CreateUser, SaveUserGroups } from './admin-users.actions';
 import { User } from 'src/app/core/models/User';
 import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
 
@@ -76,8 +76,8 @@ export class AdminUserState {
     }));
   }
 
-  @Action(GetGroupsByUserId)
-  getUserGroups({ getState, setState }: StateContext<AdminUserStateModel>, { userId }: GetGroupsByUserId) {
+  @Action(GetUserGroups)
+  getUserGroups({ getState, setState }: StateContext<AdminUserStateModel>, { userId }: GetUserGroups) {
     return this.adminUserService.getGroupsByUserId(userId).pipe(tap(groups => {
       const state = getState();
       const groupArr: number [] = [];
@@ -122,7 +122,7 @@ export class AdminUserState {
       const state = ctx.getState();
       ctx.setState({
         ...state,
-        currentUser: user
+        currentUserId: user.id
       });
       ctx.dispatch(new GetUsers());
     }));
@@ -138,6 +138,12 @@ export class AdminUserState {
       });
       ctx.dispatch(new GetUsers());
     }));
+  }
+
+  @Action(AssignToGroups)
+  assignToGroups(ctx: StateContext<AdminUserStateModel>, { userid, payload }: AssignToGroups) {
+    return this.adminUserService.assignToGroups(userid, payload).pipe(),
+      mergeMap(() => ctx.dispatch(new GetUsers()));
   }
 
   @Action(DeleteUser)
@@ -167,10 +173,11 @@ export class AdminUserState {
     });
   }
 
-  @Action(AssignToGroups)
-  assignToGroups(ctx: StateContext<AdminUserStateModel>, { userid, payload }: AssignToGroups) {
-    return this.adminUserService.assignToGroups(userid, payload).pipe(),
-      mergeMap(() => ctx.dispatch(new GetUsers()));
+  @Action(SaveUserGroups)
+  updateUserGroups(ctx: StateContext<AdminUserStateModel>, {userId, groups}: SaveUserGroups) {
+    return this.adminUserService.saveUserGroups(userId, groups).pipe(tap(() => {      
+      
+    }));
   }
 
   //#endregion 

@@ -2,23 +2,25 @@ import { GetGroup } from './../../admin-groups-list/state/admin.groups.action';
 import { Tab } from './../../../core/models/tab';
 import { GridColumn } from './../../../core/models/grid.column';
 import { Group } from './../../../core/models/group';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { GetGroups } from '../../admin-groups-list/state/admin.groups.action';
 import { AdminGroupState } from '../../admin-groups-list/state/admin-groups.state';
 import { Observable } from 'rxjs';
-import { GetUsers, GetUser, GetGroupsByUserId } from '../../admin-users-list/state/admin-users.actions';
+import { GetUsers, GetUser, GetUserGroups, SaveUserGroups } from '../../admin-users-list/state/admin-users.actions';
 import { AdminUserState } from '../../admin-users-list/state/admin-users.state';
 import { User } from 'src/app/core/models/User';
 import { Router, ActivatedRoute } from '@angular/router';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-user-groups',
   templateUrl: './admin-user-groups.component.html',
   styleUrls: ['./admin-user-groups.component.css']
 })
-export class AdminUserGroupsComponent implements OnInit {
+export class AdminUserGroupsComponent implements OnInit, OnDestroy {
 
+  userId: number;
   groups: Group[] = [];
   columns: GridColumn[] = [
     { type: 'checkbox', headerText: 'Select All', width: '100', field: '' },
@@ -26,6 +28,7 @@ export class AdminUserGroupsComponent implements OnInit {
   ];
 
   initialGroups: number[] = [];
+  componentActive = true;
   userList: Group[] = []  ;
 
 
@@ -33,31 +36,29 @@ export class AdminUserGroupsComponent implements OnInit {
   @Select(AdminUserState.getGroupsByUserId) groupsId$: Observable<number[]>;
 
   constructor(private store: Store,
-              private router: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.store.dispatch(new GetGroups());
-    this.groups$.subscribe(groups => (this.groups = groups));
-
-    const id = Number(this.router.snapshot.paramMap.get('id'));
-    this.store.dispatch(new GetGroupsByUserId(id));
+    this.groups$.subscribe(groups => this.groups = groups);
+    
+    // Get the id in the browser url and reach out for the User
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.userId = Number(params.get('id'));
+      this.store.dispatch(new GetUserGroups(this.userId));
+    }), 
+    takeWhile(() => this.componentActive);
     
     this.groupsId$.subscribe(groups => this.initialGroups = groups) ;
-    console.log('user', this.initialGroups);
   }
 
-  save(args) {
-      console.log('AdminUserGroupsComponent - save');
-      console.log(args);
-      const groupidArray: any[] = [];
+  ngOnDestroy(): void {
+    this.componentActive = false;
+  }
 
-      args.data.forEach(group => {
-          groupidArray.push(group.id);
-      });
-
-
-      // this.store.dispatch(new AssignToGroups(user.id, groupidArray));
-      this.store.dispatch(new GetGroups());
-
+  updateGroups(selectedGroups: Group[]) {
+    const groupIds = selectedGroups.map(group => group.id);
+    this.store.dispatch(new SaveUserGroups(this.userId, groupIds));
+    this.store.dispatch(new GetUserGroups(this.userId));
   }
 }

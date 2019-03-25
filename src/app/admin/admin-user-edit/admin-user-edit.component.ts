@@ -13,6 +13,8 @@ import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
 import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser } from '../admin-users-list/state/admin-users.actions';
 import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
 
+const CREATE_USER = 'Create User';
+const UPDATE_USER = 'Update User';
 const DISABLE_USER = 'Disable User';
 const ENABLE_USER = 'Enable User';
 
@@ -30,11 +32,13 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   tabs: Tab[] = [
     { link: '', name: 'Groups', isActive: true }
   ];
+  createUserButtonText: string;
   userActionText: string;
   errorMessage: string;
 
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
   @Select(AdminUserState.getCurrentUser) currentUser$: Observable<User>;
+  @Select(AdminUserState.getCurrentUserId) currentUserId$: Observable<number>;
 
   constructor(protected store: Store, 
               private fb: FormBuilder, 
@@ -57,7 +61,8 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     // Get the id in the browser url and reach out for the User
     this.activatedRoute.paramMap.subscribe(params => {
       this.userId = Number(params.get('id'));
-      this.store.dispatch(new GetUser(this.userId));      
+      this.store.dispatch(new GetUser(this.userId));
+      this.createUserButtonText = this.userId ? UPDATE_USER : CREATE_USER;
     }), 
     takeWhile(() => this.componentActive);
 
@@ -88,10 +93,10 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
 
         if (this.userId === 0) { // Create User
           await this.store.dispatch(new CreateUser(updatedUser));
-          this.currentUser$.subscribe(user => {
-            if (user) {              
+          this.currentUserId$.subscribe(userId => {
+            if (userId) {
               this.userForm.reset();
-              this.router.navigate([`/admin/users/${user.id}/edit`])
+              this.router.navigate([`/admin/users/${userId}/edit`])
             }
           }),
           takeWhile(() => this.componentActive);

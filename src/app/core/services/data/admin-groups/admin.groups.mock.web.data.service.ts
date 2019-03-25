@@ -11,9 +11,6 @@ import { Group } from 'src/app/core/models/group';
   })
 
 export class AdminGroupsWebDataService implements AdminGroupsDataService {
-    getPermissionsByGroupId(userId: number) {
-        throw new Error("Method not implemented.");
-    }
 
      
     private paging_batch_size:number = 25;
@@ -42,6 +39,22 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
         throw new Error("Method not implemented.");
     }
     getGroupsByUserId(userId: number) {
+        throw new Error("Method not implemented.");
+    }
+    
+    getPermissionsByGroupId(userId: number) {
+        throw new Error("Method not implemented.");
+    }
+    updateGroupPermissions(groupId: number, payload: number[]) {
+        throw new Error("Method not implemented.");
+    }
+    getGroupMembers(groupId: number): Observable<User[]> {
+        throw new Error("Method not implemented.");
+    }
+    addGroupMembers(groupId: number, payload: number[]) {
+        throw new Error("Method not implemented.");
+    }
+    removeGroupMembers(groupId: number, payload: number[]) {
         throw new Error("Method not implemented.");
     }
 

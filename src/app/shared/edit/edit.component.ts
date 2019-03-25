@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BaseComponent } from '../base/base.component';
+import { Store } from '@ngxs/store';
 
 
 @Component({
@@ -6,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css']
 })
-export class EditComponent implements OnInit {
+export class EditComponent extends BaseComponent implements OnInit {
 
-  constructor() { }
+  constructor(protected store: Store) {
+    super(store);
+  }
 
   ngOnInit() {
   }

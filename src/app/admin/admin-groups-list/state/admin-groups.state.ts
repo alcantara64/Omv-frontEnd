@@ -1,6 +1,7 @@
 import { Group } from './../../../core/models/group';
 import { AdminGroupsService } from './../../../core/services/business/admin-groups/admin-groups.service';
-import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup, SetCurrentGroupId, GetMembers, GetMembersByGroupId, GetPermissionsByGroupId } from './admin.groups.action';
+import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup, 
+        SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers } from './admin.groups.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs/operators';
 import { AdminGroupStatus } from 'src/app/core/enum/admin-user-status';
@@ -8,15 +9,14 @@ import { Permission } from 'src/app/core/enum/permission';
 import { AdminMembersService } from 'src/app/core/services/business/admin-members/admin-members.service';
 import { Member } from 'src/app/core/models/member';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
+import { User } from 'src/app/core/models/user';
 
 export class AdminGroupStateModel {
   groups: Group[];
   currentGroupId: number | null;
   currentGroup: Group;
   permissionIds: number[];
-  members: Member[];
-  memberIds: number[];
-
+  members: User[];
 }
 
 @State<AdminGroupStateModel>({
@@ -26,8 +26,7 @@ export class AdminGroupStateModel {
     currentGroupId: null,
     currentGroup: null,
     permissionIds: null,
-    members: null,
-    memberIds: null
+    members: []
   }
 })
 export class AdminGroupState {
@@ -65,15 +64,9 @@ export class AdminGroupState {
   }
 
   @Selector()
-  static getMembers(state: AdminGroupStateModel) {
+  static getGroupMembers(state: AdminGroupStateModel) {
     return state.members;
   }
-
-  @Selector()
-  static getMembersByGroupId(state: AdminGroupStateModel) {
-    return state.memberIds;
-  }
-
 
   @Selector()
   static getPermissionsByGroupId(state: AdminGroupStateModel) {
@@ -151,18 +144,6 @@ export class AdminGroupState {
       mergeMap(() => ctx.dispatch(new GetGroups()));
   }
 
-  @Action(GetMembers)
-  getMembers({ getState, setState }: StateContext<AdminGroupStateModel>) {
-    return this.adminMembersService.getMembers().pipe(tap(members => {
-      const state = getState();
-      setState({
-        ...state,
-        members: members
-      });
-    }));
-  }
-
-
   @Action(SetCurrentGroupId)
   setCurrentGroupId({ getState, setState }: StateContext<AdminGroupStateModel>, { id }: SetCurrentGroupId) {
     var state = getState();
@@ -172,26 +153,20 @@ export class AdminGroupState {
     });
   }
 
-  @Action(GetMembersByGroupId)
-  getMembersByGroupId({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetMembersByGroupId) {
-    return this.adminMembersService.getMembersByGroupId(groupId).pipe(tap(members => {
+  @Action(GetGroupMembers)
+  getGroupMembers({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetGroupMembers) {
+    return this.adminGroupService.getGroupMembers(groupId).pipe(tap(users => {
       const state = getState();
-      const memberArr: number[] = [];
-      members.forEach(member => {
-        if (member.id === 9 || member.id === 2) {
-          memberArr.push(member.id);
-        }
-      });
       return setState({
         ...state,
-        memberIds: memberArr
+        members: users
       });
 
     }));
   }
 
-  @Action(GetPermissionsByGroupId)
-  getPermissionsByGroupId({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetPermissionsByGroupId) {
+  @Action(GetGroupPermissions)
+  getGroupPermissions({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetGroupPermissions) {
     return this.adminPermissionService.getPermissionsByGroupId(groupId).pipe(tap(permissions => {
       const state = getState();
       const permissionsArr: number[] = [];
@@ -207,5 +182,27 @@ export class AdminGroupState {
 
     }));
   }
+
+  @Action(UpdateGroupPermissions)
+  updateGroupPermissions(ctx: StateContext<AdminGroupStateModel>, {groupId, payload}: UpdateGroupPermissions) {
+    return this.adminGroupService.updateGroupPermissions(groupId, payload).pipe(tap(() => {      
+      
+    }));
+  }
+
+  @Action(AddGroupMembers)
+  addGroupMembers(ctx: StateContext<AdminGroupStateModel>, {groupId, payload}: AddGroupMembers) {
+    return this.adminGroupService.addGroupMembers(groupId, payload).pipe(tap(() => {      
+      
+    }));
+  }
+
+  @Action(RemoveGroupMembers)
+  removeGroupMembers(ctx: StateContext<AdminGroupStateModel>, {groupId, payload}: RemoveGroupMembers) {
+    return this.adminGroupService.removeGroupMembers(groupId, payload).pipe(tap(() => {      
+      
+    }));
+  }
+
   //#endregion
 }

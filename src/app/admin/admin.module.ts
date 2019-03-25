@@ -28,7 +28,7 @@ import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.compon
 import { AdminGroupsDataService } from '../core/services/data/admin-groups/admin-groups.data.service';
 import { AdminGroupsMockDataService } from '../core/services/data/admin-groups/admin-groups.mock.data.service';
 import { AdminGroupsWebDataService } from '../core/services/data/admin-groups/admin.groups.mock.web.data.service';
-import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DropDownListAllModule, AutoCompleteAllModule, MultiSelectAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ModalComponent } from '../shared/modal/modal.component';
 import { AdminUsersTabsComponent } from './admin-users-list/admin-users-tabs/admin-users-tabs.component';
@@ -60,7 +60,8 @@ import { AdminMembersWebDataService } from '../core/services/data/admin-members/
     DropDownButtonModule,
     SliderModule,
     TextBoxModule,
-    DropDownListAllModule,    
+    DropDownListAllModule,   
+    MultiSelectAllModule,
     ReactiveFormsModule,
     NgxsModule.forFeature([
       AdminUserState,

@@ -8,7 +8,7 @@ import { Store } from '@ngxs/store';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  styleUrls: ['./list.component.css', '../../app.component.css']
 })
 export class ListComponent extends BaseComponent implements OnInit {
   
@@ -38,6 +38,9 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Input()
   buttonOneText: string;
 
+  @Input()
+  secondButtonText: string;
+
   @Output()
   firstAction = new EventEmitter<Object[]>();
 
@@ -49,6 +52,9 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   @Output()
   buttonOneEvent = new EventEmitter<Object[]>();
+
+  @Output()
+  secondButtonEvent = new EventEmitter<any[]>();
 
   public selIndex: any[] = [];
 
@@ -95,7 +101,7 @@ export class ListComponent extends BaseComponent implements OnInit {
     }
   }
 
-  public dataBound(args): void {
+  dataBound(args): void {
     if (this.selIndex.length) {
       this.grid.selectRows(this.selIndex);
       this.selIndex = [];
@@ -105,5 +111,9 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   buttonone() {
     this.buttonOneEvent.emit(this.selectedRecords);
+  }
+
+  performSecondButtonEvent() {
+    this.secondButtonEvent.emit(this.selectedRecords);
   }
 }

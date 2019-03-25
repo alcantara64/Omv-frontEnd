@@ -3,10 +3,8 @@
           [columns]="columns"
           [isToolBarVisible]="false"
           [initialRecords]="initialGroups"
-          [selectedRecords] = "selectedGroups"
-          [buttonOneText] = "'Update Groups'"
-          (buttonOneEvent)="save($event)"
-          >
+          [buttonOneText] = "userId ? 'Update Groups' : ''"
+          (buttonOneEvent)="updateGroups($event)">
 </app-list>
 
 

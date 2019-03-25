@@ -64,9 +64,14 @@ export class SearchUsers {
   constructor(public name: string, public groupid: number) { }
 }
  
-export class GetGroupsByUserId{
-  static readonly type = '[Admin Users Edit Page] GetGroupsByUserId';
+export class GetUserGroups {
+  static readonly type = '[Admin Users] GetUserGroups';
 
   constructor(public userId: number) { }
+}
 
+export class SaveUserGroups {
+  static readonly type = '[Admin Users] SaveUserGroups';
+
+  constructor(public userId: number, public groups: number[]) { }
 }

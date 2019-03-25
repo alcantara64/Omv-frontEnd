@@ -15,6 +15,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
 import { AdminGroupStatus } from 'src/app/core/enum/admin-user-status';
+import { EditComponent } from 'src/app/shared/edit/edit.component';
 
 const CREATE_GROUP = 'Create Group';
 const UPDATE_GROUP = 'Update Group';
@@ -29,7 +30,7 @@ const MEDIA_ACCESS = 2;
   templateUrl: './admin-group-edit.component.html',
   styleUrls: ['./admin-group-edit.component.css']
 })
-export class AdminGroupEditComponent extends ListComponent implements OnInit {
+export class AdminGroupEditComponent extends EditComponent implements OnInit {
 
   componentActive = true;
   showPermissions: boolean;
@@ -57,7 +58,7 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
     private activatedRoute: ActivatedRoute) {
     super(store);
 
-    this.store.dispatch(new ShowLeftNav(false));
+    this.ShowLefNav(false);
   }
 
   ngOnInit() {
@@ -114,7 +115,7 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
           takeWhile(() => this.componentActive);
         } else {
           await this.store.dispatch(new UpdateGroup(updatedGroup.id, updatedGroup));          
-          this.groupForm.reset(this.groupForm.value);          
+          this.groupForm.reset(this.groupForm.value);        
         }        
       }
     } else {

@@ -46,4 +46,8 @@ export class AdminUsersService {
   getGroupsByUserId(userid: number): Observable<Group[]> {
     return this.AdminUserService.getGroupsByUserId(userid);
   }
+
+  saveUserGroups(userId: number, groups: number[]) {
+    return this.AdminUserService.saveUserGroups(userId, groups);
+  }
 }
