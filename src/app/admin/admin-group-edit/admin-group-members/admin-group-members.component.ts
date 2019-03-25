@@ -4,7 +4,8 @@ import { Member } from 'src/app/core/models/member';
 import { Select, Store } from '@ngxs/store';
 import { AdminGroupState } from '../../admin-groups-list/state/admin-groups.state';
 import { Observable } from 'rxjs';
-import { GetMembers } from '../../admin-groups-list/state/admin.groups.action';
+import { GetMembers, GetMembersByGroupId } from '../../admin-groups-list/state/admin.groups.action';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-group-members',
@@ -25,12 +26,14 @@ export class AdminGroupMembersComponent implements OnInit {
  @Select(AdminGroupState.getMembersByGroupId) getMemberId$: Observable<number []>;
 
  memberIds: number[] =[];
-  constructor(private store: Store) { }
+  constructor(private store: Store, private router:ActivatedRoute) { }
 
   ngOnInit() {
     this.store.dispatch(new GetMembers());
 
     this.getMembers$.subscribe(members => (this.members = members));
+    const id = Number(this.router.snapshot.paramMap.get('id'));
+    this.store.dispatch(new GetMembersByGroupId(id));
     this.getMemberId$.subscribe(memberIds => (this.memberIds = memberIds));
   }
 

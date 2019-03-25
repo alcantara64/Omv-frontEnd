@@ -21,7 +21,7 @@ export class AdminUserGroupsComponent implements OnInit {
 
   groups: Group[] = [];
   columns: GridColumn[] = [
-    { type: 'checkbox', headerText: 'Select All', width: '100', field: 'id' },
+    { type: 'checkbox', headerText: 'Select All', width: '100', field: '' },
     { type: '', headerText: 'Groups', width: '', field: 'name' }
   ];
 

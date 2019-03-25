@@ -74,7 +74,7 @@ export class AdminGroupState {
     return state.memberIds;
   }
 
-  
+
   @Selector()
   static getPermissionsByGroupId(state: AdminGroupStateModel) {
     return state.permissionIds;
@@ -178,7 +178,7 @@ export class AdminGroupState {
       const state = getState();
       const memberArr: number[] = [];
       members.forEach(member => {
-        if (member.id === 6 || member.id === 2) {
+        if (member.id === 9 || member.id === 2) {
           memberArr.push(member.id);
         }
       });
@@ -196,7 +196,7 @@ export class AdminGroupState {
       const state = getState();
       const permissionsArr: number[] = [];
       permissions.forEach(group => {
-        if (group.id === 6 || group.id === 2) {
+        if (group.id === 3 || group.id === 2) {
           permissionsArr.push(group.id);
         }
       });

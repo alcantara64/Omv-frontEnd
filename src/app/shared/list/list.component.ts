@@ -66,17 +66,17 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectionOptions = { checkboxOnly: true, persistSelection: true };
-    this.grid.selectedRowIndex = 1;
-    this.grid.selectedRowIndex = 2;
-    this.grid.selectedRowIndex = 3;
-    if (!this.initialRecords) {
-      return;
-    }
-    this.initialRecords.forEach(record => {
-      this.grid.selectRow(1, true);
-    });
-
+    this.selectionOptions = { checkboxOnly: true, type: 'Multiple' };
+    // this.grid.selectedRowIndex = 1;
+    // this.grid.selectedRowIndex = 2;
+    // this.grid.selectedRowIndex = 3;
+    // if (!this.initialRecords) {
+    //   return;
+    // }
+    // this.initialRecords.forEach(record => {
+    //   this.grid.selectRow(1, true);
+    // });
+    this.dataBound(this.initialRecords);
   }
 
 
@@ -120,15 +120,15 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   rowDataBound(args) {
     //console.log("ListComponent - rowDataBound");
-    if(!this.initialRecords){
+    if (!this.initialRecords) {
       return;
     }
-  
+
     if (this.initialRecords.includes(args.data["id"])) {
       this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
 
     }
-    else{
+    else {
       return;
     }
   }

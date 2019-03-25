@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { Permission } from 'src/app/core/enum/permission';
 import { GetPermission } from '../../admin-permissions/state/admin-permissions.action';
 import { AdminGroupState } from '../../admin-groups-list/state/admin-groups.state';
+import { ActivatedRoute } from '@angular/router';
+import { GetPermissionsByGroupId } from '../../admin-groups-list/state/admin.groups.action';
 
 @Component({
   selector: 'app-admin-group-permissions',
@@ -25,13 +27,16 @@ export class AdminGroupPermissionsComponent implements OnInit {
   @Select(AdminGroupState.getPermissionsByGroupId) getPermissionId$: Observable<number []>;
 
   permissionIds: number[] =[];
-  constructor(private store: Store) { }
+  constructor(private store: Store, private router : ActivatedRoute) { }
 
   ngOnInit() {
     this.store.dispatch(new GetPermission());
 
     this.getPermissions$.subscribe(permissions => ( this.permissions = permissions));
     this.getPermissionId$.subscribe(permissionIds => (this.permissionIds = permissionIds));
+    const id = Number(this.router.snapshot.paramMap.get('id'));
+    this.store.dispatch(new GetPermissionsByGroupId(id));
+    
   }
 
 }
