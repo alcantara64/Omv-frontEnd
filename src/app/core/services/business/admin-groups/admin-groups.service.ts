@@ -2,6 +2,7 @@ import { Group } from './../../../models/group';
 import { Injectable } from '@angular/core';
 import { AdminGroupsDataService } from '../../data/admin-groups/admin-groups.data.service';
 import { Observable } from 'rxjs';
+import { Permission } from 'src/app/core/enum/permission';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,9 @@ export class AdminGroupsService {
    
   assignToGroups(groupId: number, payload: number[]) {
     return this.AdminGroupsDataService.assignToGroups(groupId, payload);
+  }
+
+  getPermissionsByGroupId(groupId){
+    return this.AdminGroupsDataService.getPermissionsByGroupId(groupId);
   }
 }

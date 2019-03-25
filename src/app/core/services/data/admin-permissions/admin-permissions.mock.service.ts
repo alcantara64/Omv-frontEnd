@@ -16,5 +16,8 @@ export  class AdminPermissionsMockService implements AdminPermissionsDataService
     getPermissions(): Observable<Permission[]> {
         return this.httpClient.get<Permission[]>(this.mockUrl);
       }
+    getPermissionsByGroupId(groupId: number):Observable<Permission[]> {
+        return this.httpClient.get<any>(`${this.mockUrl}`);
+      }
     
 }

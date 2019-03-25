@@ -7,6 +7,7 @@ import { Permission } from 'src/app/core/enum/permission';
     providedIn: 'root'
 })
 export abstract class AdminPermissionsDataService {
-    
+
     abstract getPermissions(): Observable<Permission[]>;
+    abstract getPermissionsByGroupId(groupId: number);
 }

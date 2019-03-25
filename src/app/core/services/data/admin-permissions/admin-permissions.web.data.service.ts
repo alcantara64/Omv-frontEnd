@@ -8,6 +8,9 @@ import { Permission } from 'src/app/core/enum/permission';
     providedIn: 'root'
 })
 export  class AdminPermissionsWebService implements AdminPermissionsDataService  {
+    getPermissionsByGroupId(groupId: number):Observable<Permission[]> {
+        throw new Error("Method not implemented.");
+    }
     getPermissions(): Observable<Permission[]> {
         throw new Error("Method not implemented.");
     }
