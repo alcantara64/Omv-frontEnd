@@ -75,3 +75,7 @@ export class GetMembersByGroupId{
   constructor(public groupId: number) { }
 
 }
+export class GetMediaAccess {
+  static readonly type = '[Admin Users Page] GetMediaAccess';
+
+}

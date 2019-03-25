@@ -1,6 +1,6 @@
 import { Group } from './../../../core/models/group';
 import { AdminGroupsService } from './../../../core/services/business/admin-groups/admin-groups.service';
-import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup, SetCurrentGroupId, GetMembers, GetMembersByGroupId, GetPermissionsByGroupId } from './admin.groups.action';
+import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup, SetCurrentGroupId, GetMembers, GetMembersByGroupId, GetPermissionsByGroupId, GetMediaAccess } from './admin.groups.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs/operators';
 import { AdminGroupStatus } from 'src/app/core/enum/admin-user-status';
@@ -8,6 +8,8 @@ import { Permission } from 'src/app/core/enum/permission';
 import { AdminMembersService } from 'src/app/core/services/business/admin-members/admin-members.service';
 import { Member } from 'src/app/core/models/member';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
+import { MediaAccess } from 'src/app/core/models/media-access';
+import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';
 
 export class AdminGroupStateModel {
   groups: Group[];
@@ -16,7 +18,7 @@ export class AdminGroupStateModel {
   permissionIds: number[];
   members: Member[];
   memberIds: number[];
-
+  mediaAccess: MediaAccess;
 }
 
 @State<AdminGroupStateModel>({
@@ -27,7 +29,8 @@ export class AdminGroupStateModel {
     currentGroup: null,
     permissionIds: null,
     members: null,
-    memberIds: null
+    memberIds: null,
+    mediaAccess:null
   }
 })
 export class AdminGroupState {
@@ -70,6 +73,11 @@ export class AdminGroupState {
   }
 
   @Selector()
+  static getMediaAccess(state: AdminGroupStateModel){
+    return state.mediaAccess;
+  }
+
+  @Selector()
   static getMembersByGroupId(state: AdminGroupStateModel) {
     return state.memberIds;
   }
@@ -82,7 +90,8 @@ export class AdminGroupState {
   //#endregion 
 
   constructor(private adminGroupService: AdminGroupsService, private adminMembersService: AdminMembersService,
-    private adminPermissionService: AdminPermissionsService) { }
+    private adminPermissionService: AdminPermissionsService,
+    private adminMediaAccessService: AdminMediaAccessService) { }
 
   //#region A C T I O N S
 
@@ -207,5 +216,18 @@ export class AdminGroupState {
 
     }));
   }
+
+  @Action(GetMediaAccess)
+  getMediaAccess({ getState, setState }: StateContext<AdminGroupStateModel>) {
+    return this.adminMediaAccessService.getMediaAccess().pipe(tap(mediaAccess => {
+      const state = getState();
+      setState({
+        ...state,
+        mediaAccess: mediaAccess
+      });
+      console.log('media field', mediaAccess);
+    }));
+  }
+
   //#endregion
 }

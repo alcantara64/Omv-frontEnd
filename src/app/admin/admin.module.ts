@@ -47,7 +47,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AdminMembersDataService } from '../core/services/data/admin-members/admin-members.data.service';
 import { AdminMembersMockDataService } from '../core/services/data/admin-members/admin-member.mock.data.service';
 import { AdminMembersWebDataService } from '../core/services/data/admin-members/admin-member.web.data.service';
-
+import { AdminMediaAccessDataService } from '../core/services/data/admin-media-access/admin-media-access.data.service';
+import { AdminMediaAccessMockDataService } from '../core/services/data/admin-media-access/admin-media-access.mock.service';
+import { AdminMediaAccessWebDataService } from '../core/services/data/admin-media-access/admin-media-access.web.service';
+import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 @NgModule({
   imports: [
     SharedModule,
@@ -62,6 +65,7 @@ import { AdminMembersWebDataService } from '../core/services/data/admin-members/
     TextBoxModule,
     DropDownListAllModule,    
     ReactiveFormsModule,
+    TreeViewModule,
     NgxsModule.forFeature([
       AdminUserState,
       AdminGroupState,
@@ -92,6 +96,7 @@ import { AdminMembersWebDataService } from '../core/services/data/admin-members/
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
     { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
     { provide: AdminMembersDataService, useClass: environment.useMocks ? AdminMembersMockDataService : AdminMembersWebDataService },
+    { provide: AdminMediaAccessDataService, useClass: environment.useMocks ? AdminMediaAccessMockDataService : AdminMediaAccessWebDataService },
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
 })
