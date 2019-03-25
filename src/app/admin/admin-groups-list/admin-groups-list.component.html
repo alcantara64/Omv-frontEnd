@@ -1,20 +1,48 @@
-<h6>Review Groups
-  <span style="float:right;">
-    <button ejs-button class="btn-color float-right">
-      <img src="../../../assets/images/plus-icon.svg" class="pr-2" />
-      Add New Group
-    </button>
-</span></h6><br> <br>
-<div style="display: block; margin: 20px 0">
-  <div style="display: inline-block; color: #033b5c; font-size: 14px;  font-family:  'OpenSans', sans-serif" class="col-md-6">
-    Total: 7
-  </div>
-  <div style="display: inline-block; text-align: right" class="col-md-6">
-    <span style="color: #033b5c; display: inline-block; font-size: 14px;  font-weight: 600; font-family:  'OpenSans', sans-serif;  margin: 0 10px ">Selected:</span>
-    <span style="color: #0097a9; display: inline-block; font-size: 14px;   font-weight: 600;font-family:  'OpenSans', sans-serif; margin: 0 10px">Delete</span>
-    <span style="color: #0097a9; display: inline-block; font-size: 14px;  font-weight: 600; font-family:  'OpenSans', sans-serif; margin: 0 10px">Disable</span>
-    <span style="color: #0097a9; display: inline-block; font-size: 14px;  font-weight: 600;font-family:  'OpenSans', sans-serif;  margin:0 10px">Edit</span>
-  </div>
-</div>
+<div>
 
-<app-list [listData]="groups" [columns]="columns"></app-list>
+    <div class="row">      
+      <div class="pb-3 col-md-12">
+        <span class="pt-3">
+          <button ejs-button class="btn-color float-right" (click)="edit('0')">
+            <img src="../../../assets/images/plus-icon.svg" class="pr-2"  />
+
+            Add New Group
+          </button>
+        </span>
+      </div>
+    </div>
+    <ejs-dialog #groupDialog
+    [visible]='false'
+    [buttons]='saveDlgButtons'
+    [header]="'Assign Groups to Permissions'"
+    [showCloseIcon]='true'
+    [width]='300'
+    [height]="500"
+    >
+    <ng-template #content>
+        <ejs-listview #listviewgroup
+            id='group-list'
+            [dataSource]='permissions'
+            [showCheckBox]='true'
+            [fields]='groupFields'
+           >
+          </ejs-listview>
+    </ng-template>
+</ejs-dialog>
+    <div class="">
+        <app-list [listData]="groups"
+        [columns]="columns"
+        [selectedRecords]="selectedGroups"
+        [isToolBarVisible]="true"
+        [firstActionButtonText]="statusChange"
+        [secondActionButtonText]="'Assign User to Group'"
+        (firstAction)="changeGroupStatus($event)"
+        (secondAction)="assignGroupsToPermissions($event)"
+        (navigate)="edit($event)"
+        [shouldEdit]="true"
+  >
+</app-list>
+    </div>
+
+
+</div>

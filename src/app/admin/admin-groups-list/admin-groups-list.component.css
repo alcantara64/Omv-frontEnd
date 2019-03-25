@@ -20,14 +20,7 @@
   text-transform: none!important;
 }
 
-.e-icons::before {
-  content: '\e83d';
-  color: white;
-  font-weight: bolder;
-  font-size: 10px;
-  display: inline-block;
-  margin: 0 10px;
-}
+
 .upload-rectangle{
   width: 171px;
   height: 27px;

@@ -1,8 +1,9 @@
 import { GridColumn } from './../../core/models/grid.column';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectEventArgs } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectEventArgs, CellSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-list',
@@ -10,8 +11,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent extends BaseComponent implements OnInit {
-
+  
   selectedRecords = [];
+
+  @Input()
+  initialRecords = [];
 
   @Input()
   listData = [];
@@ -23,10 +27,16 @@ export class ListComponent extends BaseComponent implements OnInit {
   isToolBarVisible: boolean;
 
   @Input()
+  shouldEdit: boolean;
+
+  @Input()
   firstActionButtonText: string;
 
   @Input()
   secondActionButtonText: string;
+
+  @Input()
+  buttonOneText: string;
 
   @Output()
   firstAction = new EventEmitter<Object[]>();
@@ -36,18 +46,23 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   @Output()
   navigate = new EventEmitter<string>();
-  
+
+  @Output()
+  buttonOneEvent = new EventEmitter<Object[]>();
+
+  public selIndex: any[] = [];
+
   @ViewChild('grid')
   public grid: GridComponent;
   gridData: any[];
   public selectionOptions: SelectionSettingsModel;
 
-  constructor() {
-    super();
+  constructor(protected store: Store) {
+    super(store);
   }
 
   ngOnInit() {
-    this.selectionOptions = { checkboxMode: 'ResetOnRowClick'};
+    this.selectionOptions = { checkboxOnly: true, persistSelection: true };
   }
 
   performFirstAction() {
@@ -58,20 +73,37 @@ export class ListComponent extends BaseComponent implements OnInit {
     this.secondAction.emit(this.selectedRecords);
   }
 
-  performNavigation() {
-    // let id = this.gridData[]
-    // for (let i = 0; i < this.gridData.length; i++) {
-    //   this.gridData[i].id = id;
-    // }
-    // this.navigate.emit();
-   // this.router.navigate('/edit/groups')
+  performNavigation(args: any) {
+    let data = this.grid.getRowInfo(args.target);
+
+    let rowdata = data.rowData as any;
+    this.navigate.emit(rowdata.id);
   }
 
-  rowSelected(args: RowSelectEventArgs) {    
+  rowSelected(args: RowSelectEventArgs) {
+    this.selectedRecords = this.grid.getSelectedRecords();
+    console.log(this.selectedRecords);
+  }
+
+  rowDeselected(args: RowDeselectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
   }
 
-  rowDeselected(args: RowDeselectEventArgs) {    
+  rowDataBound(args) {
+    if (this.initialRecords.includes(args.data["id"])) {
+      this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
+    }
+  }
+
+  public dataBound(args): void {
+    if (this.selIndex.length) {
+      this.grid.selectRows(this.selIndex);
+      this.selIndex = [];
+    }
     this.selectedRecords = this.grid.getSelectedRecords();
+  }
+
+  buttonone() {
+    this.buttonOneEvent.emit(this.selectedRecords);
   }
 }

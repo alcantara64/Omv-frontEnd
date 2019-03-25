@@ -1,22 +1,29 @@
 <div *ngIf="isToolBarVisible" style="padding-top:2rem;padding-bottom: .5rem;">
   <span>
     <label class="grid-toolbar-item-label">
-      Total Users: {{ listData.length }}
+      Total Users: {{ listData?.length }}
     </label>
   </span>
   <span class="float-right">
     <label class="grid-toolbar-item-label">
       Selected:
     </label>
-    <button class="grid-toolbar-item-button" (click)="performFirstAction()" [disabled]="!(selectedRecords.length > 0)">
+    <button *ngIf="firstActionButtonText" class="grid-toolbar-item-button" (click)="performFirstAction()" [disabled]="!(selectedRecords.length > 0)">
       {{ firstActionButtonText }}
     </button>
-    <button class="grid-toolbar-item-button" (click)="performSecondAction()" [disabled]="!(selectedRecords.length > 0)">
+    <button *ngIf="secondActionButtonText" class="grid-toolbar-item-button" (click)="performSecondAction()" [disabled]="!(selectedRecords.length > 0)">
       {{ secondActionButtonText }}
     </button>
   </span>
 </div>
-<ejs-grid #grid [dataSource]="listData" (rowSelected)="rowSelected($event)" (rowDeselected)="rowDeselected($event)" id="Grid">
+<ejs-grid #grid
+    [dataSource]="listData"
+    (rowDataBound)='rowDataBound($event)'
+    (dataBound)='dataBound($event)'
+    (rowSelected)="rowSelected($event)"
+    (rowDeselected)="rowDeselected($event)"
+    [allowSorting]='true'    
+    id="Grid">
   <e-columns>
     <ng-template #template ngFor let-column [ngForOf]="columns">
       <e-column
@@ -25,6 +32,17 @@
         [headerText]="column.headerText"
         [width]="column.width">
       </e-column>
+
     </ng-template>
+    <e-column *ngIf="shouldEdit" field='' headerText='' width=80>
+        <ng-template #template>
+            <a class="link" (click)="performNavigation($event)">Edit</a>
+        </ng-template>
+    </e-column>
   </e-columns>
 </ejs-grid>
+<br/>
+<div style='margin-top: 16px;' class="float-right">
+    <button *ngIf="buttonOneText"   type="button" class="btn btn-primary" style="margin-right:8px" (click)="buttonone()">{{buttonOneText}}</button>
+    <!-- <button [visible]="false" type="button" class="btn btn-primary">Add Member</button> -->
+ </div>

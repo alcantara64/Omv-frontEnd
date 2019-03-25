@@ -6,8 +6,9 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Developer +2",
+    "groupId":[1,2],
     "status": 0,
-    "isAssigned": true
+    "isAssigned": false
   },
   {
     "id": 2,
@@ -16,6 +17,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Admin",
+    "groupId":[1,3],
     "status": 1,
     "isAssigned": true
   },
@@ -26,6 +28,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "",
+    "groupId":[3,5],
     "status": 0,
     "isAssigned": false
   },
@@ -36,6 +39,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Admin +1",
+    "groupId":[4,6],
     "status": 1,
     "isAssigned": true
   },
@@ -46,6 +50,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Developer +4",
+    "groupId":[4],
     "status": 1,
     "isAssigned": true
   },
@@ -56,6 +61,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Admin +2",
+    "groupId":[1,2,4,5],
     "status": 0,
     "isAssigned": true
   },
@@ -66,6 +72,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "",
+    "groupId":[1,2,5,6],
     "status": 0,
     "isAssigned": false
   },
@@ -76,6 +83,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Developer +1",
+    "groupId":[1,7],
     "status": 0,
     "isAssigned": true
   },
@@ -86,6 +94,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Admin +2",
+    "groupId":[2],
     "status": 0,
     "isAssigned": true
   },
@@ -96,6 +105,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Developer +2",
+    "groupId":[9],
     "status": 0,
     "isAssigned": false
   },
@@ -106,6 +116,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Developer",
+    "groupId":[6],
     "status": 0,
     "isAssigned": true
   },
@@ -116,6 +127,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Developer +1",
+    "groupId":[1,2,5],
     "status": 1,
     "isAssigned": true
   },
@@ -126,6 +138,7 @@
     "email": "jackmichaels@gmail.com",
     "modifiedBy": "Adam Smith",
     "groups": "Developer +2",
+    "groupId":[2,4,5],
     "status": 0,
     "isAssigned": true
   }

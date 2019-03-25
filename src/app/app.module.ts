@@ -1,7 +1,8 @@
 import { LeftnavComponent } from './shared/leftnav/leftnav.component';
 import { AppState } from './state/app.state';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +21,7 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { SharedModule } from './shared/shared.module';
-import { AdminUserEditComponent } from './admin/admin-user-edit/admin-user-edit.component';
+import {TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AdminUserEditComponent } from './admin/admin-user-edit/admin-user-edit.
     HttpClientModule,   
     SharedModule, 
     AdminModule,
+    TreeViewModule,
     NgxsModule.forRoot([
       AppState
     ]),
@@ -48,6 +50,6 @@ import { AdminUserEditComponent } from './admin/admin-user-edit/admin-user-edit.
     AdminUsersService
    ],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA , NO_ERRORS_SCHEMA]
 })
 export class AppModule { }

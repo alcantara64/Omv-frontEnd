@@ -5,6 +5,7 @@ export class User {
   email: string;
   modifiedBy: string;
   groups: string;
+  groupIds: number [];
   status: number;
   isAssigned: boolean;
 }

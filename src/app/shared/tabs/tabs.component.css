@@ -1,0 +1,30 @@
+.nav {
+  display: block;
+  height: 50px;
+  width: 100%;
+  margin: 0;
+  position: relative;
+}
+
+.nav > li {
+  display: inline-block;
+  margin: 0 33px 0 0;
+}
+
+.nav > li > a {
+  display: inline-block;
+  font-size: 17px;
+  color: #5b7f95;
+  cursor: pointer;
+  text-decoration: none;
+  width: 100%;
+  padding: 4px 0;
+  font-family: 'OpenSans', sans-serif;
+}
+
+.active {
+  border-bottom: solid 5px #033b5c;
+  box-sizing: border-box!important;
+  color: #033b5c!important;
+  font-weight: 600!important;
+}

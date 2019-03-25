@@ -1,47 +1,72 @@
 import { User } from 'src/app/core/models/User';
 
 export class GetUsers {
-  static readonly type = '[Admin Users Page] GetUsers';
+  static readonly type = '[Admin Users] GetUsers';
+}
+
+export class GetUser {
+  static readonly type = '[Admin Users] GetUser';
+
+  constructor(public id: number) { }
+}
+
+export class CreateUser {
+  static readonly type = '[Admin Users] CreateUser';
+
+  constructor(public payload: User) { }
 }
 
 export class UpdateUser {
-  static readonly type = '[Admin Users Page] UpdateUser';
+  static readonly type = '[Admin Users] UpdateUser';
 
   constructor(public id: number, public payload: User) { }
 }
 
 export class DeleteUser {
-  static readonly type = '[Admin Users Page] DeleteUser';
+  static readonly type = '[Admin Users] DeleteUser';
 
   constructor(public id: number, public payload: User) { }
 }
 
 export class DisableUser {
-  static readonly type = '[Admin Users Page] DisableUser';
+  static readonly type = '[Admin Users] DisableUser';
 
   constructor(public id: number, public payload: User) { }
 }
 
 export class EnableUser {
-  static readonly type = '[Admin Users Page] EnableUser';
+  static readonly type = '[Admin Users] EnableUser';
 
   constructor(public id: number, public payload: User) { }
 }
 
 export class AssignToGroups {
-  static readonly type = '[Admin Users Page] AssignToGroups';
+  static readonly type = '[Admin Users] AssignToGroups';
 
-  constructor(public id: number, public payload: User) { }
+  constructor(public userid: number, public payload: number[]) { }
 }
 
-export class SetSelectedUserId {
-  static readonly type = '[Admin Users Page] SetSelectedUser';
+export class SetCurrentUserId {
+  static readonly type = '[Admin Users] SetCurrentUserId';
 
-  constructor(public id: number) { } 
+  constructor(public id: number) { }
 }
 
 export class SetSelectedUserIds {
-  static readonly type = '[Admin Users Page] SetSelectedUsers';
+  static readonly type = '[Admin Users] SetSelectedUsers';
 
   constructor(public id: number[]) { }
+}
+
+export class SearchUsers {
+  static readonly type = '[Admin Users] SearchUsers';
+
+  constructor(public name: string, public groupid: number) { }
+}
+ 
+export class GetGroupsByUserId{
+  static readonly type = '[Admin Users Edit Page] GetGroupsByUserId';
+
+  constructor(public userId: number) { }
+
 }

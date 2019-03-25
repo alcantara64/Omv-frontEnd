@@ -1,0 +1,12 @@
+
+<app-list [listData]="groups"
+          [columns]="columns"
+          [isToolBarVisible]="false"
+          [initialRecords]="initialGroups"
+          [selectedRecords] = "selectedGroups"
+          [buttonOneText] = "'Update Groups'"
+          (buttonOneEvent)="save($event)"
+          >
+</app-list>
+
+

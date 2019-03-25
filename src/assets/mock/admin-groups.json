@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "description": "Administrators",
+    "lastModified": "01/01/2019",
+    "modifiedBy": "Adam Smith",
+    "members": 6,
+    "status": 0,
+    "isAssigned": false
+  },
+  {
+    "id": 2,
+    "name": "AS",
+    "description": "Assurance Engineers",
+    "lastModified": "0/1/2019",
+    "modifiedBy": "Jeremiah Johnson",
+    "members": 45,
+    "status": 1,
+    "isAssigned": true
+  },
+  {
+    "id": 3,
+    "name": "IC",
+    "description": "Inspection Contractors",
+    "lastModified": "0/1/2019",
+    "modifiedBy": "Adam Smith",
+    "members": 6,
+    "status": 0,
+    "isAssigned": false
+  },
+  {
+    "id": 4,
+    "name": "RCE",
+    "description": "Responsible Civil Engineers",
+    "lastModified": "0/1/2019",
+    "modifiedBy": "Jeremiah Johnson",
+    "members": 45,
+    "status": 1,
+    "isAssigned": false
+  },
+  {
+    "id": 5,
+    "name": "Developer",
+    "description": "Super Admins",
+    "lastModified": "0/1/2019",
+    "modifiedBy": "Adam Smith",
+    "members": 6,
+    "status": 0,
+    "isAssigned": true
+  },
+  {
+    "id": 6,
+    "name": "MS",
+    "description": "Marine Supervisors",
+    "lastModified": "0/1/2019",
+    "modifiedBy": "Jeremiah Johnson",
+    "members": 45,
+    "status": 1,
+    "isAssigned": true
+  },
+  {
+    "id": 7,
+    "name": "MSR",
+    "description": "Marine Supervisors Relief",
+    "lastModified": "0/1/2019",
+    "modifiedBy": "Adam Smith",
+    "members": 6,
+    "status": 0,
+    "isAssigned": true
+  }
+]

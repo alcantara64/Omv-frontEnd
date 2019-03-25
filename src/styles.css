@@ -29,10 +29,12 @@ html, body {
   font-size: 12px;
 }
 .container {
-    max-width: 1440px !important;
-    padding-left: 7rem !important;
-    padding-right:7rem !important;
-    height: 100%;
+  position: static;
+  display: block;
+  bottom: 0!important;
+  max-width: 1440px !important;
+  padding-left: 7rem !important;
+  padding-right:7rem !important;
 }
 .cursor{
     cursor: pointer;
