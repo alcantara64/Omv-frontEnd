@@ -18,4 +18,5 @@ export abstract class AdminGroupsDataService {
     abstract updateGroup(id: number, payload: Group);
     abstract assignToGroups(groupId: number, payload: number[]);
     abstract getGroupsByUserId(userId: number);
+    abstract getPermissionsByGroupId(userId: number);
 }

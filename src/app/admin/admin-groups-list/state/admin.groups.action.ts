@@ -57,3 +57,21 @@ export class SetSelectedGroupIds {
 
   constructor(public id: number[]) { }
 }
+
+export class GetMembers {
+  static readonly type = '[Admin Users Page] GetMembers';
+
+}
+
+export class GetPermissionsByGroupId{
+  static readonly type = '[Admin Users Edit Page] GetPermissionsByGroupId';
+
+  constructor(public groupId: number) { }
+
+}
+export class GetMembersByGroupId{
+  static readonly type = '[Admin Users Edit Page] GetMembersByGroupId';
+
+  constructor(public groupId: number) { }
+
+}

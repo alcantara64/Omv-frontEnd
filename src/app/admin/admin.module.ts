@@ -44,6 +44,9 @@ import { AdminGroupPermissionsComponent } from './admin-group-edit/admin-group-p
 import { AdminGroupMembersComponent } from './admin-group-edit/admin-group-members/admin-group-members.component';
 import { AdminGroupMediaAccessComponent } from './admin-group-edit/admin-group-media-access/admin-group-media-access.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AdminMembersDataService } from '../core/services/data/admin-members/admin-members.data.service';
+import { AdminMembersMockDataService } from '../core/services/data/admin-members/admin-member.mock.data.service';
+import { AdminMembersWebDataService } from '../core/services/data/admin-members/admin-member.web.data.service';
 
 @NgModule({
   imports: [
@@ -88,6 +91,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
     { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
+    { provide: AdminMembersDataService, useClass: environment.useMocks ? AdminMembersMockDataService : AdminMembersWebDataService },
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
 })

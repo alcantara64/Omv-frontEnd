@@ -21,7 +21,7 @@ export class AdminUserGroupsComponent implements OnInit {
 
   groups: Group[] = [];
   columns: GridColumn[] = [
-    { type: 'checkbox', headerText: 'Select All', width: '100', field: 'id' },
+    { type: 'checkbox', headerText: 'Select All', width: '100', field: '' },
     { type: '', headerText: 'Groups', width: '', field: 'name' }
   ];
 
@@ -42,7 +42,7 @@ export class AdminUserGroupsComponent implements OnInit {
     const id = Number(this.router.snapshot.paramMap.get('id'));
     this.store.dispatch(new GetGroupsByUserId(id));
     
-    this.groupsId$.subscribe(users => this.initialGroups = users) ;
+    this.groupsId$.subscribe(groups => this.initialGroups = groups) ;
     console.log('user', this.initialGroups);
 
   }

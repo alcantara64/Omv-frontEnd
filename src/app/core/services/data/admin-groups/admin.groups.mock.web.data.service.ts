@@ -11,6 +11,9 @@ import { Group } from 'src/app/core/models/group';
   })
 
 export class AdminGroupsWebDataService implements AdminGroupsDataService {
+    getPermissionsByGroupId(userId: number) {
+        throw new Error("Method not implemented.");
+    }
 
      
     private paging_batch_size:number = 25;
