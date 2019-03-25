@@ -11,12 +11,11 @@ import { Store } from '@ngxs/store';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent extends BaseComponent implements OnInit {
+  
+  selectedRecords = [];
 
   @Input()
   initialRecords = [];
-
-
-  selectedRecords = [];
 
   @Input()
   listData = [];
@@ -51,10 +50,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Output()
   buttonOneEvent = new EventEmitter<Object[]>();
 
-
-
   public selIndex: any[] = [];
-
 
   @ViewChild('grid')
   public grid: GridComponent;
@@ -67,24 +63,10 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.selectionOptions = { checkboxOnly: true, persistSelection: true };
-    this.grid.selectedRowIndex = 1;
-    this.grid.selectedRowIndex = 2;
-    //this.grid.selectedRowIndex = 3;
-    if (!this.initialRecords) {
-      return;
-    }
-    else {
-      this.initialRecords.forEach(record => {
-        this.grid.selectRow(1, true);
-      });
-    }
   }
-
 
   performFirstAction() {
     this.firstAction.emit(this.selectedRecords);
-
-
   }
 
   performSecondAction() {
@@ -95,17 +77,7 @@ export class ListComponent extends BaseComponent implements OnInit {
     let data = this.grid.getRowInfo(args.target);
 
     let rowdata = data.rowData as any;
-
-    console.log(rowdata.id);
     this.navigate.emit(rowdata.id);
-  }
-
-  navigateToEditScreen() {
-    let id: string;
-    for (let i = 0; i < this.gridData.length; i++) {
-      this.gridData[i].id = id;
-    }
-
   }
 
   rowSelected(args: RowSelectEventArgs) {
@@ -115,16 +87,11 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   rowDeselected(args: RowDeselectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
-
-
   }
 
   rowDataBound(args) {
-    //console.log("ListComponent - rowDataBound");
-
     if (this.initialRecords.includes(args.data["id"])) {
       this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
-
     }
   }
 
@@ -134,9 +101,7 @@ export class ListComponent extends BaseComponent implements OnInit {
       this.selIndex = [];
     }
     this.selectedRecords = this.grid.getSelectedRecords();
-    console.log("selectedRecords " + this.selectedRecords);
   }
-
 
   buttonone() {
     this.buttonOneEvent.emit(this.selectedRecords);
