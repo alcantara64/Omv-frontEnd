@@ -1,17 +1,15 @@
 
 <app-header></app-header>
-<div class="layout">
-  <div class="container">
-    <div class="row pt-4">
-      <div *ngIf="showLeftNav$ | async" class="col-md-3">
-        <app-leftnav></app-leftnav>
-      </div>
-      <div [ngClass]="(showLeftNav$ | async) ? 'col-md-9' : 'col-md-12'">
-        <router-outlet></router-outlet>
-      </div>
+<div class="container">
+  <div class="row pt-4">
+    <div *ngIf="showLeftNav$ | async" class="col-md-3">
+      <app-leftnav></app-leftnav>
+    </div>
+    <div [ngClass]="(showLeftNav$ | async) ? 'col-md-9' : 'col-md-12'">
+      <div id="spinnerContainer"></div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-
 
 

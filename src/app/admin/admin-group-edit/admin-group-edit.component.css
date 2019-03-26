@@ -1,64 +1,43 @@
-
-  .breadcrumb{
-    padding-bottom: 21px;
-    background-color: #F3F8FB;
-  }
-  .breadcrumb > li + li:before {
-    color: black;
-    content: "<";
-    padding: 0 5px;
-}
-ins{
-  font-family: 'SourceSansPro', sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 2.57;
-  letter-spacing: 0.6px;
+.btnBack{
+  display: inline-block;
+  margin: 0 0 30px 0;
   color: #0097a9;
-  cursor: pointer;
-  text-decoration: none;
-  }
+  font-weight: 500;
+  font-size: 14px;
+}
 
-  h4{
-    font-family: 'OpenSans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #033b5c;
-  }
-  h5{
-    font-family: 'OpenSans', sans-serif;
-    font-size: 14px;
-    line-height: 1.88;
-    letter-spacing: 0.1px;
-    color: #5b7f95;
-  }
-  label{
-    font-family: 'OpenSans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.1px;
-    color: #5b7f95;
-    height: 34px;
-  }
-  ::placeholder{
-    font-family: 'OpenSans', sans-serif;
-    font-size: 16px;
-    letter-spacing: 0.1px;
-    color: #033b5c;
-  }
-  .btn{
-    width: 155px;
-    height: 41px;
-    border-radius: 8px;
-    border: solid 1px #0097a9;
-    background-color: #0097a9;
-  }
-  .e-tab-text{
-    text-transform: capitalize !important;
-  }
-.e-tab .e-content {
-    margin-top: 10px;
+.btnBack:before {
+  content: "\e84b";
+  padding: 0 10px;
 }
-.e-grid .e-gridheader {
-    padding-right: 0px!important;
+
+h4{
+  font-family: 'OpenSans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #033b5c;
 }
+
+h5{
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  line-height: 1.88;
+  letter-spacing: 0.1px;
+  color: #5b7f95;
+}
+
+label{
+  font-family: 'OpenSans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  color: #5b7f95;
+  height: 34px;
+}
+
+/*::placeholder{*/
+  /*font-family: 'OpenSans', sans-serif;*/
+  /*font-size: 16px;*/
+  /*letter-spacing: 0.1px;*/
+  /*color: #033b5c;*/
+/*}*/

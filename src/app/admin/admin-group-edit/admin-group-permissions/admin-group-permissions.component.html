@@ -1,4 +1,7 @@
-<app-list [listData]="permissions" [columns]="columns" [initialRecords] ="permissionIds" [selectedRecords]="selectedPermission" 
-          [isToolBarVisible]="false" [shouldEdit]="false">
+<app-list [listData]="permissions" [columns]="columns" 
+          [initialRecords] ="groupPermissions" 
+          [selectedRecords]="selectedPermission" 
+          [isToolBarVisible]="false" [shouldEdit]="false"
+          [buttonOneText] = "groupId ? 'Update Permission' : ''"
+          (buttonOneEvent)="updatePermissions($event)">>
 </app-list>
-<button type="button" class="btn btn-primary float-right" style='margin-top: 16px;'>Update Permissions</button>

@@ -1,17 +1,6 @@
-<h4>Group Information</h4><br>
-<form>
-  <div class="form-group">
-    <label>Group Name</label>
-    <input class="form-control form-control-lg" type="text" placeholder="Admin">
-    <h5>Maybe some tip for the field</h5>
-  </div><br>
-  <div class="form-group">
-    <label>Description</label>
-    <input class="form-control form-control-lg" type="text" placeholder="Admin">
-    <h5>Maybe some tip for the field</h5>
-  </div><br><br>
-  
-  <button type="button" class="btn btn-primary" style="margin: 0 10px">Update Group</button>
-  <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Disable Group</button>
-  <button type="button" class="btn btn-primary" style="display:inline; margin: 0 10px">Delete Group</button>
-</form>
+<button type="submit" class="btn btn-primary" [disabled]="isfirstButtonDisabled" style="margin: 0 10px">
+  {{ firstButtonText }}
+</button>
+<button type="button" class="btn btn-primary" *ngIf="isSecondButtonVisible" style="display:inline; margin: 0 10px" (click)="performSecondEvent()"> 
+  {{ secondButtonText }}
+</button>

@@ -1,4 +1,4 @@
-import { Group } from './../../../core/models/group';
+import { Group } from '../../../core/models/group';
 
 export class GetGroups {
   static readonly type = '[Admin Groups] GetGroups';
@@ -59,21 +59,37 @@ export class SetSelectedGroupIds {
 }
 
 export class GetMembers {
-  static readonly type = '[Admin Users Page] GetMembers';
-
+  static readonly type = '[Admin Groups] GetMembers';
 }
 
-export class GetPermissionsByGroupId{
-  static readonly type = '[Admin Users Edit Page] GetPermissionsByGroupId';
+export class GetGroupPermissions {
+  static readonly type = '[Admin Groups] GetGroupPermissions';
 
   constructor(public groupId: number) { }
-
 }
-export class GetMembersByGroupId{
-  static readonly type = '[Admin Users Edit Page] GetMembersByGroupId';
+
+export class UpdateGroupPermissions {
+  static readonly type = '[Admin Groups] UpdateGroupPermissions';
+
+  constructor(public groupId: number, public payload: number[]) { }
+}
+
+export class GetGroupMembers{
+  static readonly type = '[Admin Groups] GetGroupMembers';
 
   constructor(public groupId: number) { }
+}
 
+export class AddGroupMembers {
+  static readonly type = '[Admin Groups] AddGroupMembers';
+
+  constructor(public groupId: number, public payload: number[]) { }
+}
+
+export class RemoveGroupMembers {
+  static readonly type = '[Admin Groups] RemoveGroupMembers';
+
+  constructor(public groupId: number, public payload: number[]) { }
 }
 export class GetMediaAccess {
   static readonly type = '[Admin Users Page] GetMediaAccess';

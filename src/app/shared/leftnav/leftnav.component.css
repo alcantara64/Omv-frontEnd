@@ -1,9 +1,9 @@
-/* @import '../../assets/css/button-styles.css'; */
-.e-sidebar {
-  position: relative;
+#sidebar-section {
+  background: white;
+  margin-bottom: 0!important;
+  clear-after: bottom;
   height: 100%;
 }
-
 .dashboard-texts {
   line-height: 45px;
   font-family: 'OpenSans', sans-serif;
@@ -35,12 +35,6 @@ ul {
 
 }
 
-.Rectangle {
-  width: 100%;
-  height: 600px;
-  background-color: #ffffff;
-}
-
 .e-dropup-icon:before {
   content: '\e988';
 }
@@ -53,10 +47,6 @@ ul {
   background: #E8F6F7 !important;
   color: #033b5c !important;
   font-weight: 600 !important;
-}
-
-.e-ddl-icon:before {
-  content: '\e82e';
 }
 
 .active-tab {

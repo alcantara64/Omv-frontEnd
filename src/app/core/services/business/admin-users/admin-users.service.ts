@@ -1,3 +1,5 @@
+import { User_SearchInputDTO } from './../../../dtos/user-search-input.dto';
+import { User_SearchOutputDTO } from './../../../dtos/user-search-output.dto';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { User } from '../../../models/User';
@@ -11,8 +13,8 @@ export class AdminUsersService {
 
   constructor(private AdminUserService: AdminUsersDataService) { }
 
-  getUsers(): Observable<User[]> {
-    return this.AdminUserService.getUsers();
+  getUsers(request: User_SearchInputDTO): Observable<User_SearchOutputDTO[]> {
+    return this.AdminUserService.getUsers(request);
   }
 
   getUser(id: number): Observable<User> {
@@ -45,5 +47,9 @@ export class AdminUsersService {
 
   getGroupsByUserId(userid: number): Observable<Group[]> {
     return this.AdminUserService.getGroupsByUserId(userid);
+  }
+
+  saveUserGroups(userId: number, groups: number[]) {
+    return this.AdminUserService.saveUserGroups(userId, groups);
   }
 }

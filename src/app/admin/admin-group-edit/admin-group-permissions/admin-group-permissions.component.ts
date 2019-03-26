@@ -1,13 +1,15 @@
+import { UpdateGroupPermissions } from '../../state/admin-groups/admin.groups.action';
 import { Component, OnInit } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
-import { AdminPermissionState } from '../../admin-permissions/state/admin-permissions.state';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Permission } from 'src/app/core/enum/permission';
-import { GetPermission } from '../../admin-permissions/state/admin-permissions.action';
-import { AdminGroupState } from '../../admin-groups-list/state/admin-groups.state';
+import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { ActivatedRoute } from '@angular/router';
-import { GetPermissionsByGroupId } from '../../admin-groups-list/state/admin.groups.action';
+import { GetGroupPermissions } from '../../state/admin-groups/admin.groups.action';
+import { takeWhile } from 'rxjs/operators';
+import { AdminPermissionState } from '../../state/admin-permissions/admin-permissions.state';
+import { GetPermissions } from '../../state/admin-permissions/admin-permissions.action';
 
 @Component({
   selector: 'app-admin-group-permissions',
@@ -16,6 +18,8 @@ import { GetPermissionsByGroupId } from '../../admin-groups-list/state/admin.gro
 })
 export class AdminGroupPermissionsComponent implements OnInit {
 
+  groupId: number;
+  componentActive = true;
   permissions: Permission[] = [];
   selectedPermission: any[] = [];
   initialRecords: number [] = [];
@@ -23,20 +27,36 @@ export class AdminGroupPermissionsComponent implements OnInit {
     {type: "checkbox", headerText: "Select All", width: "100", field: ""},
     {type: "", headerText: "Permission Title", width: "", field: "name"}
   ];
-  @Select(AdminPermissionState.getPermissions) getPermissions$: Observable<Permission[]>;
-  @Select(AdminGroupState.getPermissionsByGroupId) getPermissionId$: Observable<number []>;
 
-  permissionIds: number[] =[];
-  constructor(private store: Store, private router : ActivatedRoute) { }
+  @Select(AdminPermissionState.getPermissions) getAllPermissions$: Observable<Permission[]>;
+  @Select(AdminGroupState.getPermissionsByGroupId) getUserPermissions$: Observable<number[]>;
+
+  groupPermissions: number[] =[];
+
+  constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.store.dispatch(new GetPermission());
+    this.store.dispatch(new GetPermissions());
 
-    this.getPermissions$.subscribe(permissions => ( this.permissions = permissions));
-    this.getPermissionId$.subscribe(permissionIds => (this.permissionIds = permissionIds));
-    const id = Number(this.router.snapshot.paramMap.get('id'));
-    this.store.dispatch(new GetPermissionsByGroupId(id));
+    this.getAllPermissions$.subscribe(permissions => this.permissions = permissions);
     
+    // Get the id in the browser url and reach out for the Group
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.groupId = Number(params.get('id'));
+      this.store.dispatch(new GetGroupPermissions(this.groupId));
+    }), 
+    takeWhile(() => this.componentActive);
+    
+    this.getUserPermissions$.subscribe(permissions => this.groupPermissions = permissions);
   }
 
+  ngOnDestroy(): void {
+    this.componentActive = false;
+  }
+
+  updatePermissions(permissions: Permission[]) {
+    const _permissions = permissions.map(permission => permission.id);
+    this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions));
+    this.store.dispatch(new GetGroupPermissions(this.groupId));
+  }
 }

@@ -5,7 +5,7 @@ import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.comp
 
 const routes: Routes = [
   {
-    path: "dashboard",
+    path: '',
     component: DashboardComponent
   },
   {

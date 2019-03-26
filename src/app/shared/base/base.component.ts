@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { permission } from "src/app/core/enum/permission";
 import { Store } from "@ngxs/store";
-import { ShowLeftNav } from "src/app/state/app.actions";
+import {SetPageTitle, ShowLeftNav} from "src/app/state/app.actions";
+import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
 
 export class BaseComponent implements OnInit {
   private _permission: string;
@@ -12,6 +13,30 @@ export class BaseComponent implements OnInit {
 
   ngOnInit() {}
 
+  ngAfterViewInit() {
+    //createSpinner() method is used to create spinner
+    // createSpinner({
+    //   // Specify the target for the spinner to show
+    //   target: document.getElementById('spinnerContainer')
+    // });
+    
+
+    
+  
+  }
+
+  protected ShowSpinner(show: boolean) {
+    createSpinner({
+      // Specify the target for the spinner to show
+      target: document.getElementById('spinnerContainer')
+    });
+    if (show) {      
+      showSpinner(document.getElementById('spinnerContainer'));
+    } else {
+      hideSpinner(document.getElementById('spinnerContainer'));
+    }
+  }
+
   get Permission(): string {
     return this._permission;
   }
@@ -21,5 +46,9 @@ export class BaseComponent implements OnInit {
 
   protected ShowLefNav(show: boolean) {
     this.store.dispatch(new ShowLeftNav(show));
+  }
+
+  protected PageTitle(pageTitle: string) {
+    this.store.dispatch(new SetPageTitle(pageTitle));
   }
 }

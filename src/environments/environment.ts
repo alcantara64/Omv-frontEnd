@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  useMocks: true
+  useMocks: false,
+  api: {
+    baseUrl: 'http://omv.test.eminenttechnology.com/OMV.Api/api'
+  }
 };
 
 /*

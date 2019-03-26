@@ -4,15 +4,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
-import { AdminUserState } from './../admin-users-list/state/admin-users.state';
+import { AdminUserState } from '../state/admin-users/admin-users.state';
 import { User } from './../../core/models/user';
 import { Tab } from './../../core/models/tab';
 import { Group } from './../../core/models/group';
 import { ListComponent } from 'src/app/shared/list/list.component';
-import { AdminGroupState } from '../admin-groups-list/state/admin-groups.state';
-import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser } from '../admin-users-list/state/admin-users.actions';
-import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
+import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
+import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser } from '../state/admin-users/admin-users.actions';
+import { UserStatus } from 'src/app/core/enum/user-status.enum';
 
+const CREATE_USER = 'Create User';
+const UPDATE_USER = 'Update User';
 const DISABLE_USER = 'Disable User';
 const ENABLE_USER = 'Enable User';
 
@@ -30,11 +32,13 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   tabs: Tab[] = [
     { link: '', name: 'Groups', isActive: true }
   ];
+  createUserButtonText: string;
   userActionText: string;
   errorMessage: string;
 
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
   @Select(AdminUserState.getCurrentUser) currentUser$: Observable<User>;
+  @Select(AdminUserState.getCurrentUserId) currentUserId$: Observable<number>;
 
   constructor(protected store: Store, 
               private fb: FormBuilder, 
@@ -42,6 +46,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
               private activatedRoute: ActivatedRoute) {
     super(store);
     this.ShowLefNav(false);
+    this.PageTitle('Admin User Edit')
   }
 
   ngOnInit() {
@@ -57,14 +62,15 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     // Get the id in the browser url and reach out for the User
     this.activatedRoute.paramMap.subscribe(params => {
       this.userId = Number(params.get('id'));
-      this.store.dispatch(new GetUser(this.userId));      
+      this.store.dispatch(new GetUser(this.userId));
+      this.createUserButtonText = this.userId ? UPDATE_USER : CREATE_USER;
     }), 
     takeWhile(() => this.componentActive);
 
     // Get the currentUser
     this.currentUser$.subscribe(user => {      
       if (user) { // Existing User
-        this.userActionText = user.status == AdminUserStatus.Active ? DISABLE_USER : ENABLE_USER;
+        this.userActionText = user.status == UserStatus.Active ? DISABLE_USER : ENABLE_USER;
         this.userForm = this.fb.group({
           id: user.id,
           name: [ user.name, [ Validators.required ] ],
@@ -88,10 +94,10 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
 
         if (this.userId === 0) { // Create User
           await this.store.dispatch(new CreateUser(updatedUser));
-          this.currentUser$.subscribe(user => {
-            if (user) {              
+          this.currentUserId$.subscribe(userId => {
+            if (userId) {
               this.userForm.reset();
-              this.router.navigate([`/admin/users/${user.id}/edit`])
+              this.router.navigate([`/admin/users/${userId}/edit`])
             }
           }),
           takeWhile(() => this.componentActive);
