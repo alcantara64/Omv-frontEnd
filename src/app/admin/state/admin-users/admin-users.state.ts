@@ -116,7 +116,7 @@ export class AdminUserState {
       const state = getState();
       setState({
         ...state,
-        users: users,
+        users: users
       });
     }));
   }

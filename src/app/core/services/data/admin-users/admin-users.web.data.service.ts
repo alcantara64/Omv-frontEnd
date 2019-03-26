@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AdminUsersDataService } from './admin-users.data.service';
@@ -19,9 +19,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "-1"
+      'Content-Type':  'application/json',
     })
   };
 
@@ -29,9 +27,17 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
 
   getUsers(request: User_SearchInputDTO): Observable<User_SearchOutputDTO[]> {
     var requestUri = environment.api.baseUrl + `/v1/users`;
-    console.log("trade item endpoint", requestUri);
 
-    return this.httpClient.get<User_SearchOutputDTO[]>(requestUri, this.httpOptions).pipe(map(response => response),
+    const options = {
+      params: new HttpParams()
+    };
+    if(request) {
+      if (request.Name) {
+        options.params = options.params.set('name', request.Name);
+      }
+    }
+
+    return this.httpClient.get<User_SearchOutputDTO[]>(requestUri, options).pipe(map(response => response),
       catchError(e => {
         console.log("error trying to retrieve users ", e);
         return of(null);

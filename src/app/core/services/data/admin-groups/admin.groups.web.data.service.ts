@@ -7,6 +7,7 @@ import { Group } from "src/app/core/models/group";
 import { Role_GetAllOutputDTO } from "src/app/core/dtos/role-get-all-output.dto";
 import { environment } from "src/environments/environment";
 import { catchError, map } from "rxjs/operators";
+import { Permission } from 'src/app/core/enum/permission';
 
 @Injectable({
   providedIn: "root"
@@ -55,11 +56,8 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
   assignToGroups(groupId: number, payload: number[]) {
     throw new Error("Method not implemented.");
   }
-  getGroupsByUserId(userId: number) {
-    throw new Error("Method not implemented.");
-  }
 
-  getPermissionsByGroupId(userId: number) {
+  getGroupPermissions(groupId: number): Observable<Permission[]> {
     throw new Error("Method not implemented.");
   }
   updateGroupPermissions(groupId: number, payload: number[]) {

@@ -6,6 +6,7 @@ import { Group } from "src/app/core/models/group";
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/core/models/user';
 import { Role_GetAllOutputDTO } from 'src/app/core/dtos/role-get-all-output.dto';
+import { Permission } from 'src/app/core/enum/permission';
 
 @Injectable({
   providedIn: "root"
@@ -57,11 +58,7 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
     return this.httpClient.put<any>(`${this.mockUrl}`, payload);
   }
 
-  getGroupsByUserId(userId: number) {
-    return this.httpClient.get<any>(`${this.mockUrl}`);
-  }
-
-  getPermissionsByGroupId(groupId: number) {
+  getGroupPermissions(groupId: number): Observable<Permission[]> {
     return this.httpClient.get<any>(`${this.mockUrl}`);
   }
 

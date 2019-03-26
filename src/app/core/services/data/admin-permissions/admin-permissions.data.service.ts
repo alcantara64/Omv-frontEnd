@@ -9,5 +9,4 @@ import { Permission } from 'src/app/core/enum/permission';
 export abstract class AdminPermissionsDataService {
 
     abstract getPermissions(): Observable<Permission[]>;
-    abstract getPermissionsByGroupId(groupId: number);
 }

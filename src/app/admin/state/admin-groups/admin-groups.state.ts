@@ -160,7 +160,7 @@ export class AdminGroupState {
 
   @Action(GetGroupPermissions)
   getGroupPermissions({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetGroupPermissions) {
-    return this.adminPermissionsService.getPermissionsByGroupId(groupId).pipe(tap(permissions => {
+    return this.adminGroupService.getGroupPermissions(groupId).pipe(tap(permissions => {
       const state = getState();
       const permissionsArr: number[] = [];
       permissions.forEach(group => {
