@@ -1,7 +1,21 @@
-<app-list [listData]="members" [columns]="columns" [selectedRecords]="selectedmembers" 
-[initialRecords]="memberIds"
-          [isToolBarVisible]="false" [shouldEdit]="false">
+<app-list [listData]="groupMembers" [columns]="columns" [shouldEdit]="false"
+	[isToolBarVisible]="false"
+	[buttonOneText] = "groupId ? 'Add Member(s)' : ''"
+	(buttonOneEvent)="addGroupMembers($event)"
+	[secondButtonText]="groupId ? 'Remove Member(s)': ''"
+	(secondButtonEvent)="removeGroupMembers($event)">
 </app-list>
+<ejs-dialog #groupDialog
+	[visible]='false'
+	[buttons]='dialogButtons'
+	[header]="'Add Member(s) to Group'"
+	[showCloseIcon]='true'
+	[width]='500'
+	[height]="300">
+	<ng-template #content>
+		<ejs-multiselect id='users' [dataSource]='users' [mode]="'Box'" [fields]='usersFields' [placeholder]="'Users'" [(value)]="userIds"></ejs-multiselect>
+	</ng-template>
+</ejs-dialog>
 <div style='margin-top: 16px;' class="float-right">
     <button type="button" class="btn omv-green" style="margin-right:8px">Remove Member</button>
     <button type="button" class="btn omv-green">Add Member</button>

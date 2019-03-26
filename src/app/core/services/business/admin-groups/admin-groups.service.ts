@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { AdminGroupsDataService } from '../../data/admin-groups/admin-groups.data.service';
 import { Observable } from 'rxjs';
 import { Permission } from 'src/app/core/enum/permission';
+import { User } from 'src/app/core/models/user';
+import { Role_GetAllOutputDTO } from 'src/app/core/dtos/role-get-all-output.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class AdminGroupsService {
 
   constructor(private AdminGroupsDataService: AdminGroupsDataService) { }
 
-  getGroups(): Observable<Group[]> {
+  getGroups(): Observable<Role_GetAllOutputDTO[]> {
     return this.AdminGroupsDataService.getGroups();
   }
 
@@ -39,7 +41,23 @@ export class AdminGroupsService {
     return this.AdminGroupsDataService.assignToGroups(groupId, payload);
   }
 
-  getPermissionsByGroupId(groupId){
+  getGroupPermissions(groupId: number){
     return this.AdminGroupsDataService.getPermissionsByGroupId(groupId);
+  }
+
+  updateGroupPermissions(groupId: number, payload: number[]) {
+    return this.AdminGroupsDataService.updateGroupPermissions(groupId, payload);
+  }
+
+  getGroupMembers(groupId: number): Observable<User[]> {
+    return this.AdminGroupsDataService.getGroupMembers(groupId);
+  }
+
+  addGroupMembers(groupId: number, payload: number[]) {
+    return this.AdminGroupsDataService.addGroupMembers(groupId, payload);
+  }
+
+  removeGroupMembers(groupId: number, payload: number[]) {
+    return this.AdminGroupsDataService.removeGroupMembers(groupId, payload);
   }
 }

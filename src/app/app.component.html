@@ -6,6 +6,7 @@
       <app-leftnav></app-leftnav>
     </div>
     <div [ngClass]="(showLeftNav$ | async) ? 'col-md-9' : 'col-md-12'">
+      <div id="spinnerContainer"></div>
       <router-outlet></router-outlet>
     </div>
   </div>

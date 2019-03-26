@@ -1,8 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AdminUsersDataService } from './admin-users.data.service';
 import { User } from 'src/app/core/models/User';
+import { User_SearchInputDTO } from 'src/app/core/dtos/user-search-input.dto';
+import { User_SearchOutputDTO } from 'src/app/core/dtos/user-search-output.dto';
+import { environment } from 'src/environments/environment';
+import { map, catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -13,14 +17,30 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
 
   private paging_batch_size:number = 25;
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "-1"
+    })
+  };
+
   constructor(private httpClient: HttpClient) { }
 
-  getUsers(): Observable<User[]> {
-    throw new Error("Method not implemented.");
+  getUsers(request: User_SearchInputDTO): Observable<User_SearchOutputDTO[]> {
+    var requestUri = environment.api.baseUrl + `/v1/users`;
+    console.log("trade item endpoint", requestUri);
+
+    return this.httpClient.get<User_SearchOutputDTO[]>(requestUri, this.httpOptions).pipe(map(response => response),
+      catchError(e => {
+        console.log("error trying to retrieve users ", e);
+        return of(null);
+      })
+    );
   }
 
   getUser(id: number): Observable<User> {
-    throw new Error("Method not implemented.");
+    return null;
   }
 
   deleteUser(id: number, payload: User) {
@@ -49,6 +69,10 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
   }
   
   getGroupsByUserId(userid: number) {
+    throw new Error("Method not implemented.");
+  }
+  
+  saveUserGroups(userId: number, groups: number[]) {
     throw new Error("Method not implemented.");
   }
 

@@ -2,6 +2,8 @@
 import { Group } from './../../../models/group';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User } from 'src/app/core/models/user';
+import { Role_GetAllOutputDTO } from 'src/app/core/dtos/role-get-all-output.dto';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +12,7 @@ export abstract class AdminGroupsDataService {
 
     constructor() { }
    
-    abstract getGroups(): Observable<Group[]>;
+    abstract getGroups(): Observable<Role_GetAllOutputDTO[]>;
     abstract getGroup(id: number): Observable<Group>;
     abstract createGroup(payload: Group): Observable<Group>;
     abstract disableGroup(id: number, payload: Group);
@@ -19,4 +21,8 @@ export abstract class AdminGroupsDataService {
     abstract assignToGroups(groupId: number, payload: number[]);
     abstract getGroupsByUserId(userId: number);
     abstract getPermissionsByGroupId(userId: number);
+    abstract updateGroupPermissions(groupId: number, payload: number[]);
+    abstract getGroupMembers(groupId: number): Observable<User[]>;
+    abstract addGroupMembers(groupId: number, payload: number[]);
+    abstract removeGroupMembers(groupId: number, payload: number[]);
 }

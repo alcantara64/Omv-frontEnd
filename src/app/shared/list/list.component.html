@@ -23,6 +23,7 @@
     (rowSelected)="rowSelected($event)"
     (rowDeselected)="rowDeselected($event)"
     [allowSorting]='true'    
+    (created)='gridCreated()'    
     id="Grid">
   <e-columns>
     <ng-template #template ngFor let-column [ngForOf]="columns">
@@ -37,12 +38,12 @@
     <e-column *ngIf="shouldEdit" field='' headerText='' width=80>
         <ng-template #template>
             <a class="link" (click)="performNavigation($event)">Edit</a>
-        </ng-template>
+        </ng-template> 
     </e-column>
   </e-columns>
 </ejs-grid>
 <br/>
 <div style='margin-top: 16px;' class="float-right">
-    <button *ngIf="buttonOneText" type="button" class="btn omv-green" style="margin-right:8px" (click)="buttonone()">{{buttonOneText}}</button>
-    <!-- <button [visible]="false" type="button" class="btn btn-primary">Add Member</button> -->
- </div>
+  <button *ngIf="buttonOneText" type="button" class="btn btn-primary" style="margin-right:8px" (click)="buttonone()">{{buttonOneText}}</button>
+  <button *ngIf="secondButtonText" type="button" class="btn btn-primary" style="margin-right:8px" (click)="performSecondButtonEvent()">{{ secondButtonText }}</button>
+</div>
