@@ -7,6 +7,7 @@ import { tap, mergeMap } from 'rxjs/operators';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
 import { User } from 'src/app/core/models/entity/user';
 import { GroupStatus } from 'src/app/core/enum/group-status.enum';
+import { Group_permissionDTO } from 'src/app/core/dtos/permission.dto';
 
 export class AdminGroupStateModel {
   groups: Group[];
@@ -14,6 +15,7 @@ export class AdminGroupStateModel {
   currentGroup: Group;
   permissionIds: number[];
   members: User[];
+  permissions: Group_permissionDTO[];
 }
 
 @State<AdminGroupStateModel>({
@@ -23,7 +25,8 @@ export class AdminGroupStateModel {
     currentGroupId: null,
     currentGroup: null,
     permissionIds: null,
-    members: []
+    members: [],
+    permissions: null
   }
 })
 export class AdminGroupState {
@@ -159,17 +162,17 @@ export class AdminGroupState {
 
   @Action(GetGroupPermissions)
   getGroupPermissions({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetGroupPermissions) {
-    return this.adminGroupService.getGroupPermissions(groupId).pipe(tap(permissions => {
+    return this.adminPermissionsService.getPermissions().pipe(tap(permissions => {
       const state = getState();
-      const permissionsArr: number[] = [];
-      permissions.forEach(group => {
-        if (group.id === 3 || group.id === 2) {
-          permissionsArr.push(group.id);
-        }
-      });
+      // const permissionsArr: number[] = [];
+      // permissions.forEach(group => {
+      //   if (group.id === 3 || group.id === 2) {
+      //     permissionsArr.push(group.id);
+      //   }
+      // });
       return setState({
         ...state,
-        permissionIds: permissionsArr
+        permissions: permissions
       });
 
     }));
