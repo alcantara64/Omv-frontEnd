@@ -3,9 +3,10 @@ import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { GetPermissions } from './admin-permissions.action';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
+import { Group_permissionDTO } from 'src/app/core/dtos/permission.dto';
 
 export class AdminPermissionStateModel {
-  permissions: Permission[];
+  permissions: Group_permissionDTO[];
 }
 
 @State<AdminPermissionStateModel>({
