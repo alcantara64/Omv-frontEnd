@@ -1,3 +1,4 @@
+import { Role_GetAllOutputDTO } from './../../../dtos/output/roles/Role_GetAllOutputDTO';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
@@ -7,6 +8,7 @@ import { Group } from "src/app/core/models/entity/group";
 import { environment } from "src/environments/environment";
 import { catchError, map } from "rxjs/operators";
 import { Permission } from 'src/app/core/enum/permission';
+import 'automapper-ts';
 
 @Injectable({
   providedIn: "root"
@@ -28,11 +30,28 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     var requestUri = environment.api.baseUrl + `/v1/roles`;
     console.log("trade item endpoint", requestUri);
 
-    return this.httpClient.get<Group[]>(requestUri, this.httpOptions)
-          .pipe(
-            map(response => response),
+    return this.httpClient.get<Role_GetAllOutputDTO[]>(requestUri).pipe(map(
+            response =>{
+                automapper
+                  .createMap(Role_GetAllOutputDTO, Group)
+                  .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleId'))
+                  .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleName'))
+                  .forMember('isSystem', function(opts) { opts.mapFrom('isSystem'); })
+                   .forMember('status', function(opts) { opts.mapFrom('status'); })
+
+
+                 .forMember('createdOn', function(opts) { opts.mapFrom('createdOn'); })
+                  .forMember('createdBy', function(opts) { opts.mapFrom('createdBy'); })
+                  .forMember('modifiedOn', function(opts) { opts.mapFrom('modifiedOn'); })
+                  .forMember('modifiedBy', function(opts) { opts.mapFrom('modifiedBy'); })
+
+                  var _response = automapper.map(Role_GetAllOutputDTO, Group, response);
+                  console.log('AdminGroupsWebDataService - getGroups: ', _response);
+                  return _response;
+
+            }),
             catchError(e => {
-              console.log("error trying to retrieve roles ", e);
+              console.log("error trying to retrieve users ", e);
               return of(null);
             })
           );

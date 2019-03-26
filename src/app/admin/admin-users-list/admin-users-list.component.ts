@@ -45,7 +45,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   statusChange: string;
   ENABLE = 'Enable';
   DISABLE = 'Disable';
-  public groupFields = { text: 'roleName', value: 'roleId' };
+  public groupFields = { text: 'name', value: 'id' };
   groupid: number;
   name: string;
   urlparam: string;
@@ -74,8 +74,8 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     const groupidArray: any[] = [];
 
     groupdata.forEach(group => {
-      console.log("AdminUsersListComponent - groupdata loop" + group.roleId);
-      groupidArray.push(group.roleId);
+      console.log("AdminUsersListComponent - groupdata loop" + group.id);
+      groupidArray.push(group.id);
     });
 
     this.selectedUsers.forEach(user => {

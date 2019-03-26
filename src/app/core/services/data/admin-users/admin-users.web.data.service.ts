@@ -87,7 +87,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
     return this.httpClient.get<User_GetByIdOutputDTO[]>(requestUri).pipe(map(
 
       response =>{
-          //response
+
           automapper
             .createMap(response, User)
             .forMember('userId', function(opts) { opts.mapFrom('userId'); })
