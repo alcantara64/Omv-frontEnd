@@ -27,7 +27,7 @@ import { NgxsModule } from '@ngxs/store';
 import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
 import { AdminGroupsDataService } from '../core/services/data/admin-groups/admin-groups.data.service';
 import { AdminGroupsMockDataService } from '../core/services/data/admin-groups/admin-groups.mock.data.service';
-import { AdminGroupsWebDataService } from '../core/services/data/admin-groups/admin.groups.mock.web.data.service';
+import { AdminGroupsWebDataService } from '../core/services/data/admin-groups/admin.groups.web.data.service';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ModalComponent } from '../shared/modal/modal.component';
