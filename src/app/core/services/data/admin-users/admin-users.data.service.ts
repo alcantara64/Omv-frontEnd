@@ -11,8 +11,6 @@ export abstract class AdminUsersDataService {
 
     abstract getUsers(name:string, groupid:number): Observable<User[]>;
     abstract getUser(id: number): Observable<User>;
-    abstract disableUser(id: number, payload: User);
-    abstract enableUser(id: number, payload: User);
     abstract createUser (payload: User);
     abstract updateUser(id: number, payload: User) ;
     abstract updateGroups(userid: number, payload: number[], isAddRoles:boolean);

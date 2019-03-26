@@ -24,13 +24,6 @@ export class AdminGroupsService {
     return this.AdminGroupsDataService.createGroup(payload);
   }
 
-  disableGroup(id: number, payload: Group){
-    return this.AdminGroupsDataService.disableGroup(id, payload);
-  }
-
-  enableGroup(id: number, payload: Group) {
-    return this.AdminGroupsDataService.enableGroup(id, payload);
-  }
 
   updateGroup(id: number, payload: Group) {
     return this.AdminGroupsDataService.updateGroup(id, payload);

@@ -20,13 +20,7 @@ export class AdminUsersService {
     return this.AdminUserService.getUser(id);
   }
 
-  disableUser(id: number, payload: User) {
-    return this.AdminUserService.disableUser(id, payload);
-  }
 
-  enableUser(id: number, payload: User) {
-    return this.AdminUserService.enableUser(id, payload);
-  }
 
   createUser(payload: User) {
     return this.AdminUserService.createUser(payload);

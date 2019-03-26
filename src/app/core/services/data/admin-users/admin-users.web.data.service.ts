@@ -75,7 +75,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
 
       }),
       catchError(e => {
-        console.log("error trying to retrieve users ", e);
+        console.log("'AdminUsersWebDataService - getUsers error:", e);
         return of(null);
       })
     );
@@ -111,7 +111,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
 
       }),
       catchError(e => {
-        console.log("error trying to retrieve users ", e);
+        console.log("'AdminUsersWebDataService - getUser error:", e);
         return of(null);
       })
     );
@@ -119,15 +119,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
 
   }
 
-  disableUser(id: number, payload: User) {
-    payload.status = 0;
-    return this.updateUser(id, payload);
-  }
 
-  enableUser(id: number, payload: User) {
-    payload.status = 1;
-    return this.updateUser(id, payload);
-  }
 
   createUser(payload: User) {
     var requestUri = environment.api.baseUrl + `/v1/users`;

@@ -123,13 +123,15 @@ export class AdminGroupState {
 
   @Action(DisableGroup)
   disableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload }: DisableGroup) {
-    return this.adminGroupService.disableGroup(id, payload).pipe(),
+    payload.status = 0;
+    return this.adminGroupService.updateGroup(id, payload).pipe(),
       mergeMap(() => ctx.dispatch(new GetGroups()));
   }
 
   @Action(EnableGroup)
   enableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload }: EnableGroup) {
-    return this.adminGroupService.enableGroup(id, payload).pipe(),
+    payload.status = 1;
+    return this.adminGroupService.updateGroup(id, payload).pipe(),
       mergeMap(() => ctx.dispatch(new GetGroups()));
   }
 
