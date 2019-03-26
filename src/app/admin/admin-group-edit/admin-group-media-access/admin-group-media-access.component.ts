@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminGroupState } from '../../admin-groups-list/state/admin-groups.state';
+import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
 import { MediaAccess } from 'src/app/core/models/media-access';
 import { Select, Store } from '@ngxs/store';
-import { GetMediaAccess } from '../../admin-groups-list/state/admin.groups.action';
 import { DataManager, JsonAdaptor, Query, ODataV4Adaptor } from '@syncfusion/ej2-data';
+import { GetMediaAccess } from '../../state/admin-groups/admin.groups.action';
 
 @Component({
   selector: 'app-admin-group-media-access',
