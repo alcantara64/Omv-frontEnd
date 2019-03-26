@@ -1,4 +1,4 @@
-import { Group } from '../../../core/models/group';
+import { Group } from '../../../core/models/entity/group';
 
 export class GetGroups {
   static readonly type = '[Admin Groups] GetGroups';
@@ -6,13 +6,13 @@ export class GetGroups {
 
 export class GetGroup {
   static readonly type = '[Admin Groups] GetGroup';
-  
+
   constructor(public id: number) { }
 }
 
 export class CreateGroup {
   static readonly type = '[Admin Groups] CreateGroup';
-  
+
   constructor(public payload: Group) { }
 }
 

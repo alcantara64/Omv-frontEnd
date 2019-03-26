@@ -12,7 +12,7 @@ import { setSpinner, createSpinner, showSpinner, hideSpinner } from '@syncfusion
   styleUrls: ['./list.component.css', '../../app.component.css']
 })
 export class ListComponent extends BaseComponent implements OnInit {
-  
+
   selectedRecords = [];
 
   @Input()
@@ -42,6 +42,9 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Input()
   secondButtonText: string;
 
+  @Input()
+  checkField: string;
+
   @Output()
   firstAction = new EventEmitter<Object[]>();
 
@@ -49,7 +52,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   secondAction = new EventEmitter<Object[]>();
 
   @Output()
-  navigate = new EventEmitter<string>();
+  navigate = new EventEmitter<any>();
 
   @Output()
   buttonOneEvent = new EventEmitter<Object[]>();
@@ -70,11 +73,10 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.selectionOptions = { checkboxOnly: true, persistSelection: true };
-    console.log('ListComponent - ngOnInit');    
-  }  
+    console.log('ListComponent - ngOnInit');
+  }
 
   gridCreated(): void {
-    setSpinner({ type: 'Bootstrap' });
     console.log('ListComponent - gridCreated');
   }
 
@@ -90,7 +92,7 @@ export class ListComponent extends BaseComponent implements OnInit {
     let data = this.grid.getRowInfo(args.target);
 
     let rowdata = data.rowData as any;
-    this.navigate.emit(rowdata.id);
+    this.navigate.emit(rowdata);
   }
 
   rowSelected(args: RowSelectEventArgs) {
@@ -104,7 +106,10 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   rowDataBound(args) {
     console.log('ListComponent - rowDataBound');
-    if (this.initialRecords.includes(args.data["id"])) {
+    if (!this.initialRecords) return;
+
+
+    if (this.initialRecords.includes(args.data[this.checkField])) {
       this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
     }
 
@@ -117,7 +122,7 @@ export class ListComponent extends BaseComponent implements OnInit {
       this.grid.selectRows(this.selIndex);
       this.selIndex = [];
     }
-    this.selectedRecords = this.grid.getSelectedRecords();    
+    this.selectedRecords = this.grid.getSelectedRecords();
   }
 
   buttonone() {

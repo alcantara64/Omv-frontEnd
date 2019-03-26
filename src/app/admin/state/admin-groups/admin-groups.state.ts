@@ -1,16 +1,15 @@
-import { Group } from '../../../core/models/group';
+import { Group } from '../../../core/models/entity/group';
 import { AdminGroupsService } from '../../../core/services/business/admin-groups/admin-groups.service';
-import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup, 
+import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup,
         SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers } from './admin.groups.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs/operators';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
-import { User } from 'src/app/core/models/user';
-import { Role_GetAllOutputDTO } from 'src/app/core/dtos/role-get-all-output.dto';
+import { User } from 'src/app/core/models/entity/user';
 import { GroupStatus } from 'src/app/core/enum/group-status.enum';
 
 export class AdminGroupStateModel {
-  groups: Role_GetAllOutputDTO[];
+  groups: Group[];
   currentGroupId: number | null;
   currentGroup: Group;
   permissionIds: number[];
@@ -65,7 +64,7 @@ export class AdminGroupState {
   static getPermissionsByGroupId(state: AdminGroupStateModel) {
     return state.permissionIds;
   }
-  //#endregion 
+  //#endregion
 
   constructor(private adminGroupService: AdminGroupsService,
     private adminPermissionsService: AdminPermissionsService) { }
@@ -178,22 +177,22 @@ export class AdminGroupState {
 
   @Action(UpdateGroupPermissions)
   updateGroupPermissions(ctx: StateContext<AdminGroupStateModel>, {groupId, payload}: UpdateGroupPermissions) {
-    return this.adminGroupService.updateGroupPermissions(groupId, payload).pipe(tap(() => {      
-      
+    return this.adminGroupService.updateGroupPermissions(groupId, payload).pipe(tap(() => {
+
     }));
   }
 
   @Action(AddGroupMembers)
   addGroupMembers(ctx: StateContext<AdminGroupStateModel>, {groupId, payload}: AddGroupMembers) {
-    return this.adminGroupService.addGroupMembers(groupId, payload).pipe(tap(() => {      
-      
+    return this.adminGroupService.addGroupMembers(groupId, payload).pipe(tap(() => {
+
     }));
   }
 
   @Action(RemoveGroupMembers)
   removeGroupMembers(ctx: StateContext<AdminGroupStateModel>, {groupId, payload}: RemoveGroupMembers) {
-    return this.adminGroupService.removeGroupMembers(groupId, payload).pipe(tap(() => {      
-      
+    return this.adminGroupService.removeGroupMembers(groupId, payload).pipe(tap(() => {
+
     }));
   }
 

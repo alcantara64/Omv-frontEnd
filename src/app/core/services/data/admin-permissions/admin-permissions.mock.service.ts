@@ -1,4 +1,4 @@
-import { User } from './../../../models/user';
+import { User } from '../../../models/entity/user';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdminPermissionsDataService } from './admin-permissions.data.service';
@@ -16,5 +16,5 @@ export  class AdminPermissionsMockService implements AdminPermissionsDataService
     getPermissions(): Observable<Permission[]> {
         return this.httpClient.get<Permission[]>(this.mockUrl);
       }
-    
+
 }

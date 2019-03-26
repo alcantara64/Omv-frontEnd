@@ -5,6 +5,7 @@ import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import {Title} from "@angular/platform-browser";
 import {ActivatedRoute, ParamMap} from "@angular/router";
+import * as automapper from 'automapper-ts';
 
 @Component({
   selector: 'app-root',
@@ -32,10 +33,6 @@ export class AppComponent {
   currentUser : User;
 
   ngOnInit(): void {
-    // console.log('showLeftNav - ', this.showLeftNav);
-
-    // this.showLeftNav$.subscribe(value => this.showLeftNav = value);
-
 
     // this.authn.getUser().then(user => {
     //   this.currentUser = user;

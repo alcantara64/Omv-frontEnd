@@ -1,11 +1,10 @@
-import { User_SearchInputDTO } from './../../../dtos/user-search-input.dto';
-import { User_SearchOutputDTO } from './../../../dtos/user-search-output.dto';
+import { User_SearchInputDTO } from '../../../dtos/input/users/User_SearchInputDTO';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdminUsersDataService } from './admin-users.data.service';
 import { map } from 'rxjs/operators';
-import { User } from 'src/app/core/models/user';
+import { User } from 'src/app/core/models/entity/user';
 
 
 @Injectable({
@@ -18,9 +17,9 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
   private mockCRUDurl: string = 'https://omvclient.free.beeceptor.com';
   constructor(private httpClient: HttpClient) { }
 
-  getUsers(request: User_SearchInputDTO): Observable<User_SearchOutputDTO[]> {
+  getUsers(name:string, groupid:number): Observable<User[]> {
     var mockUrl = `./assets/mock/admin-users.json`;
-    var data = this.httpClient.get<User_SearchOutputDTO[]>(mockUrl);
+    var data = this.httpClient.get<User[]>(mockUrl);
 
     return data;
   }
@@ -28,7 +27,7 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
   getUser(id: number): Observable<User> {
     var mockUrl = `./assets/mock/admin-users.json`;
     var data = this.httpClient.get<User[]>(mockUrl).pipe(map(users => {
-      return users.find(user => user.id === id);
+      return users.find(user => user.userId === id);
     }));
 
     return data;
@@ -55,11 +54,11 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
     return this.httpClient.put<any>(mockUrl, payload);
   }
 
-  createUser(payload: User): Observable<User> {
+  createUser(payload: User) {
     var mockUrl = `./assets/mock/admin-users.json`;
     return this.httpClient.get<User>(mockUrl).pipe(map(user => {
       var _user = new User();
-      _user.id = 3;
+      _user.userId = 3;
       return _user;
     }));
   }
@@ -67,16 +66,16 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
   updateUser(id: number, payload: User) {
     var mockUrl = `./assets/mock/admin-users.json`;
     return this.httpClient.get<User[]>(mockUrl).pipe(map(users => {
-      return users.find(user => user.id === id);
-    }));    
+      return users.find(user => user.userId === id);
+    }));
   }
 
-  assignToGroups(userid: number, payload: number[]) {
+  updateGroups(userid: number, payload: number[]) {
     var mockUrl = `./assets/mock/admin-users.json`;
     return this.httpClient.put<any>(mockUrl, payload);
   }
 
-  getGroupsByUserId(userid: number) {
+  getGroups(userid: number) {
     var mockUrl = `./assets/mock/admin-users.json`;
     var data = this.httpClient.get<User>(mockUrl);
 

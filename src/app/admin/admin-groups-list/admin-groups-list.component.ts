@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
-import { Group } from 'src/app/core/models/group';
+import { Group } from 'src/app/core/models/entity/group';
 import { ShowLeftNav } from 'src/app/state/app.actions';
 import { AdminGroupType } from 'src/app/core/enum/admin-user-type';
 import { permission, Permission } from 'src/app/core/enum/permission';
@@ -49,7 +49,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
   public target: string = '.control-section';
   permissions: Permission[];
-   
+
   public saveDlgBtnClick: EmitType<object> = () => {
     var permissionData = this.groupDialogList.getSelectedItems().data;
     let permissionidArray:any[] = [];
@@ -65,8 +65,8 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
     this.permissionDialog.hide();
     this.store.dispatch(new GetPermissions());
-  } 
-  
+  }
+
   public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
 
   constructor(protected store: Store, private activatedRoute: ActivatedRoute, private router:Router ){
@@ -87,8 +87,8 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
       this.displayGroups(params.type);
     });
 
-    // this.groups$.subscribe(groups => (this.groups = groups));  
-    this.permissions$.subscribe(permissions => (this.permissions = permissions));  
+    // this.groups$.subscribe(groups => (this.groups = groups));
+    this.permissions$.subscribe(permissions => (this.permissions = permissions));
   }
 
 

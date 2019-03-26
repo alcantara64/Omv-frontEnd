@@ -1,5 +1,5 @@
-export class User_SearchOutputDTO {
-  userId: string;
+export class User {
+  userId: number;
   userName: string;
   emailAddress: string;
   firstName: string;
