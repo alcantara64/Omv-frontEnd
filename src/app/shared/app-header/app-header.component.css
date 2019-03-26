@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 .navbar {
   display: block!important;
   padding: 0!important;
   position: static;
   height: 58px;
   width: 100%;
+  min-width: 1190px;
   box-sizing: border-box!important;
 }
 
@@ -72,35 +74,33 @@ a {
     background: #0097a9 !important;
 }
 
-.header-item {
-    padding-right: 1rem;
-}
-
 .nav {
     width: 100%;
 }
 
 .navbar1 {
   margin-top: -30px!important;
+  padding: 0!important;
 }
 
 .navbar2 {
   margin-top: 0!important;
   padding: 0!important;
+  min-width: 750px;
+  overflow: hidden;
 }
 
 .header-link-text {
-    font-family: 'OpenSans', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 3rem;
-    letter-spacing: normal;
-    text-align: center;
-    color: #5b7f95;
-    padding-bottom: 0px;
-    padding: 1rem;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 3rem;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5b7f95;
+  padding: 1rem;
 }
 
 hr {

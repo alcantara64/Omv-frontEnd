@@ -1,9 +1,10 @@
+import { User_SearchInputDTO } from './../../../dtos/user-search-input.dto';
+import { User_SearchOutputDTO } from './../../../dtos/user-search-output.dto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdminUsersDataService } from './admin-users.data.service';
 import { map } from 'rxjs/operators';
-import { AdminUserStatus } from 'src/app/core/enum/admin-user-status';
 import { User } from 'src/app/core/models/user';
 
 
@@ -13,14 +14,13 @@ import { User } from 'src/app/core/models/user';
 
 export class AdminUsersMockDataService implements AdminUsersDataService {
 
-
   private paging_batch_size:number = 25;
   private mockCRUDurl: string = 'https://omvclient.free.beeceptor.com';
   constructor(private httpClient: HttpClient) { }
 
-  getUsers(): Observable<User[]> {
+  getUsers(request: User_SearchInputDTO): Observable<User_SearchOutputDTO[]> {
     var mockUrl = `./assets/mock/admin-users.json`;
-    var data = this.httpClient.get<User[]>(mockUrl);
+    var data = this.httpClient.get<User_SearchOutputDTO[]>(mockUrl);
 
     return data;
   }
@@ -81,5 +81,10 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
     var data = this.httpClient.get<User>(mockUrl);
 
     return data;
+  }
+
+  saveUserGroups(userId: number, groups: number[]) {
+    var mockUrl = `./assets/mock/admin-users.json`;
+    return this.httpClient.get<User>(mockUrl);
   }
 }

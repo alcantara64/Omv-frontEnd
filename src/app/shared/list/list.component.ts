@@ -4,11 +4,12 @@ import { BaseComponent } from '../base/base.component';
 import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectEventArgs, CellSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { setSpinner, createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  styleUrls: ['./list.component.css', '../../app.component.css']
 })
 export class ListComponent extends BaseComponent implements OnInit {
   
@@ -38,6 +39,9 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Input()
   buttonOneText: string;
 
+  @Input()
+  secondButtonText: string;
+
   @Output()
   firstAction = new EventEmitter<Object[]>();
 
@@ -49,6 +53,9 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   @Output()
   buttonOneEvent = new EventEmitter<Object[]>();
+
+  @Output()
+  secondButtonEvent = new EventEmitter<any[]>();
 
   public selIndex: any[] = [];
 
@@ -63,6 +70,12 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.selectionOptions = { checkboxOnly: true, persistSelection: true };
+    console.log('ListComponent - ngOnInit');    
+  }  
+
+  gridCreated(): void {
+    setSpinner({ type: 'Bootstrap' });
+    console.log('ListComponent - gridCreated');
   }
 
   performFirstAction() {
@@ -90,20 +103,28 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   rowDataBound(args) {
+    console.log('ListComponent - rowDataBound');
     if (this.initialRecords.includes(args.data["id"])) {
       this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
     }
+
   }
 
-  public dataBound(args): void {
+  dataBound(args): void {
+    console.log('ListComponent - dataBound');
+
     if (this.selIndex.length) {
       this.grid.selectRows(this.selIndex);
       this.selIndex = [];
     }
-    this.selectedRecords = this.grid.getSelectedRecords();
+    this.selectedRecords = this.grid.getSelectedRecords();    
   }
 
   buttonone() {
     this.buttonOneEvent.emit(this.selectedRecords);
+  }
+
+  performSecondButtonEvent() {
+    this.secondButtonEvent.emit(this.selectedRecords);
   }
 }

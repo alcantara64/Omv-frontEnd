@@ -1,7 +1,10 @@
+import { User_SearchInputDTO } from './../../../core/dtos/user-search-input.dto';
 import { User } from 'src/app/core/models/User';
 
 export class GetUsers {
   static readonly type = '[Admin Users] GetUsers';
+
+  constructor(public request?: User_SearchInputDTO) { }
 }
 
 export class GetUser {
@@ -64,9 +67,14 @@ export class SearchUsers {
   constructor(public name: string, public groupid: number) { }
 }
  
-export class GetGroupsByUserId{
-  static readonly type = '[Admin Users Edit Page] GetGroupsByUserId';
+export class GetUserGroups {
+  static readonly type = '[Admin Users] GetUserGroups';
 
   constructor(public userId: number) { }
+}
 
+export class SaveUserGroups {
+  static readonly type = '[Admin Users] SaveUserGroups';
+
+  constructor(public userId: number, public groups: number[]) { }
 }

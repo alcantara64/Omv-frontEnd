@@ -13,7 +13,4 @@ export class AdminPermissionsService {
   getPermissions(): Observable<Permission[]> {
     return this.AdminPermissionsDataService.getPermissions();
   }
-  getPermissionsByGroupId(groupId: number):Observable<Permission[]> {
-    return this.AdminPermissionsDataService.getPermissionsByGroupId(groupId);
-  }
 }
