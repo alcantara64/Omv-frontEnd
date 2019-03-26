@@ -1,51 +1,44 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item" routerLink="/admin/groups"><a href="#" class="breadcrumbs__element"><ins></ins></a>
-      </li>
-      <li class="breadcrumb-item" routerLink="/admin/groups"><a 
-          class="breadcrumbs__element"><ins>BACK</ins></a></li>
-    </ol>
-  </nav>
-  <div class="row">
-    <div class="col-sm-6">
-      <h4>Group Information</h4><br>
-      <form novalidate (ngSubmit)="save()" [formGroup]="groupForm">
-        <div class="form-group">
-          <label for="nameId">Group Name</label>
-          <input class="form-control form-control-lg" id="nameId" type="text" placeholder="Enter a group name"
-            formControlName="name"
-            [ngClass]="{'is-invalid': (groupForm.get('name').touched ||
-                                       groupForm.get('name').dirty) &&
-                                       !groupForm.get('name').valid }" />
-          <span class="invalid-feedback">
-            <h5> Please enter a name </h5>
-          </span>
-        </div><br>
-        <div class="form-group">
-          <label for="descriptionId">Description</label>
-          <input class="form-control form-control-lg" id="descriptionId" type="text" placeholder="Enter a description for the group"
-            formControlName="description"
-            [ngClass]="{'is-invalid': (groupForm.get('description').touched ||
-                                      groupForm.get('description').dirty) &&
-                                      !groupForm.get('description').valid }" />          
-        </div><br><br>
-        <button type="submit" class="btn btn-primary" [disabled]="!groupForm.valid || !groupForm.dirty" style="margin: 0 10px">
-          {{ createGroupButtonText }}
-        </button>
-        <button type="button" class="btn btn-primary" *ngIf="groupId" style="display:inline; margin: 0 10px" (click)="changeStatus()"> 
-          {{ groupActionText }}
-        </button>
-      </form>
-    </div>
-    <div class="col-sm-6">
-      <div class="control-section e-tab-section">
-        <div class="e-sample-resize-container">
-            <app-tabs [tabs]="groupItemTabs" (navigate)="switchTabs($event)"></app-tabs>
-            <app-admin-group-permissions *ngIf="showPermissions"></app-admin-group-permissions>
-            <app-admin-group-members *ngIf="showMembers"></app-admin-group-members>
-            <app-admin-group-media-access *ngIf="showMediaAccess"></app-admin-group-media-access>
-        </div>
-      </div>
-    </div>  
+<div class="btnBack">BACK</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <h4>Group Information</h4><br>
+    <form novalidate (ngSubmit)="save()" [formGroup]="groupForm">
+      <div class="form-group">
+        <label for="nameId">Group Name</label>
+        <input class="form-control form-control-lg" id="nameId" type="text" placeholder="Enter a group name"
+          formControlName="name"
+          [ngClass]="{'is-invalid': (groupForm.get('name').touched ||
+                                     groupForm.get('name').dirty) &&
+                                     !groupForm.get('name').valid }" />
+        <span class="invalid-feedback">
+          <h5> Please enter a name </h5>
+        </span>
+      </div><br>
+      <div class="form-group">
+        <label for="descriptionId">Description</label>
+        <input class="form-control form-control-lg" id="descriptionId" type="text" placeholder="Enter a description for the group"
+          formControlName="description"
+          [ngClass]="{'is-invalid': (groupForm.get('description').touched ||
+                                    groupForm.get('description').dirty) &&
+                                    !groupForm.get('description').valid }" />
+      </div><br><br>
+      <button type="submit" class="btn omv-green" [disabled]="!groupForm.valid || !groupForm.dirty" style="margin: 0 10px">
+        {{ createGroupButtonText }}
+      </button>
+      <button type="button" class="btn omv-green" *ngIf="groupId" style="display:inline; margin: 0 10px" (click)="changeStatus()">
+        {{ groupActionText }}
+      </button>
+    </form>
   </div>
-  
+  <div class="col-sm-6">
+    <div class="control-section e-tab-section">
+      <div class="e-sample-resize-container">
+          <app-tabs [tabs]="groupItemTabs" (navigate)="switchTabs($event)"></app-tabs>
+          <app-admin-group-permissions *ngIf="showPermissions"></app-admin-group-permissions>
+          <app-admin-group-members *ngIf="showMembers"></app-admin-group-members>
+          <app-admin-group-media-access *ngIf="showMediaAccess"></app-admin-group-media-access>
+      </div>
+    </div>
+  </div>
+</div>

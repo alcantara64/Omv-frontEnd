@@ -75,6 +75,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     // this.store.dispatch(new ShowLeftNav(true));
     this.ShowLefNav(true);
     this.Permission = permission.VIEW_GROUP;
+    this.PageTitle('Admin Groups');
   }
 
   ngOnInit() {

@@ -42,6 +42,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
               private activatedRoute: ActivatedRoute) {
     super(store);
     this.ShowLefNav(false);
+    this.PageTitle('Admin User Edit')
   }
 
   ngOnInit() {

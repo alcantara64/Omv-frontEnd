@@ -58,6 +58,7 @@ export class AdminGroupEditComponent extends ListComponent implements OnInit {
     super(store);
 
     this.store.dispatch(new ShowLeftNav(false));
+    this.PageTitle('Admin Group Edit');
   }
 
   ngOnInit() {

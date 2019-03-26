@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 .navbar {
   display: block!important;
   padding: 0!important;
@@ -90,17 +91,16 @@ a {
 }
 
 .header-link-text {
-    font-family: 'OpenSans', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 3rem;
-    letter-spacing: normal;
-    text-align: center;
-    color: #5b7f95;
-    padding-bottom: 0px;
-    padding: 1rem;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 3rem;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5b7f95;
+  padding: 1rem;
 }
 
 hr {

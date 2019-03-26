@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { AuthService, User } from './core/services/data/appsettings/auth.service';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import {Title} from "@angular/platform-browser";
+import {ActivatedRoute, ParamMap} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -10,12 +12,17 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'omv-client-portal';
 
   showLeftNav: boolean = false;
+  // currentPageTitle: string;
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
+  @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
+  private currentPageTitle: string;
 
-  constructor(public authn: AuthService) {
+  constructor(public authn: AuthService, private title: Title, private activatedRoute: ActivatedRoute) {
+    this.currentPageTitle$.subscribe( (res) => {
+      res === 'OMV Client Portal' ? this.title.setTitle(res) : this.title.setTitle(res + ' - OMV Client Portal');
+    })
   }
 
   messages: string[] = [];
@@ -82,5 +89,5 @@ export class AppComponent {
   public onLogout() {
     this.clearMessages();
     this.authn.logout().catch(err => this.addError(err));
-  }  
+  }
 }

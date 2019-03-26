@@ -99,6 +99,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     super(store);
     this.ShowLefNav(true);
     this.Permission = permission.VIEW_USERS;
+    this.PageTitle('Admin User');
 
   }
 

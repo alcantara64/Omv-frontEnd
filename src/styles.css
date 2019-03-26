@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import './assets/css/material.css';
-@import './assets/css/button-styles.css';
 @import "../node_modules/@syncfusion/ej2-base/styles/material.css";
 @import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
 @import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
@@ -10,7 +9,7 @@
   border: 0px solid rgba(0, 0, 0, 0.12) !important ;
 
 }
-  
+
 .stroke{
   border-bottom: 3px solid #0097a9;
   border-top: 0px solid rgba(0,0,0,.1);
@@ -69,50 +68,50 @@ html, body {
     --cssuiBreadcrumbsDividerColor: var(--breadcrumbsDividerColor, inherit);
     --cssuiBreadcrumbsDividerSize: var(--breadcrumbsDividerSize, 16px);
     --cssuiBreadcrumbsIndent:  var(--breadcrumbsIndent, 8px);
-    
+
     padding-left: 0;
     margin-top: 0;
     margin-bottom: 0;
     list-style: none;
-  
+
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   .breadcrumbs__item{
     display: inline-block;
     position: relative;
-   
+
     padding-right: calc(var(--cssuiBreadcrumbsDividerSize) + var(--cssuiBreadcrumbsIndent));
     margin-right: var(--cssuiBreadcrumbsIndent);
-    
+
     color: var(--cssuiBreadcrumbsTextColor);
   }
-  
+
   .breadcrumbs__item:after{
     content: var(--cssuiBreadcrumbsDivider);
     width: var(--cssuiBreadcrumbsDividerSize);
     height: var(--cssuiBreadcrumbsDividerSize);
-  
+
     line-height: 1;
     text-align: center;
-    
+
     font-family: "Arial", sans-serif;
     font-size: var(--cssuiBreadcrumbsDividerSize);
     color: var(--cssuiBreadcrumbsDividerColor);
-  
+
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
   }
-  
+
   .breadcrumbs__item_active{
     margin-right: 0;
     padding-right: 0;
     color: var(--cssuiBreadcrumbsTextColorActive);
   }
-  
+
   .breadcrumbs__item_active:after{
     display: none;
   }
@@ -174,3 +173,57 @@ html, body {
   letter-spacing: normal;
   color: #5b7f95 !important;
 }
+
+/************ OMV Button **************/
+.omv-green {
+  background: #009B77!important;
+  color: #ffffff!important;
+  text-transform: initial !important;
+  padding: 10px 35px!important;
+  margin: 7px;
+  border: none;
+  border-radius: 4px;
+}
+
+.omv-primary{
+  background: #0097A9!important;
+  color: #ffffff!important;
+  text-transform: initial !important;
+  padding: 10px 35px!important;
+  margin: 7px;
+  border: none;
+  border-radius: 8px;
+}
+
+.omv-primary[disabled]{
+  background: #74f1f8 !important;
+  color: #ffffff!important;
+}
+
+.omv-primary-plus{
+  text-transform: initial !important;
+  color: #ffffff!important;
+  background: #0097A9!important;
+  display: inline-block;
+  padding: 10px 18px 10px 38px !important;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 7px;
+  border: none;
+  border-radius: 4px;
+}
+
+.omv-primary-plus[disabled] {
+  background: #adf0f8 !important;
+  color: #ffffff!important;
+}
+
+.omv-primary-plus::before{
+  content: url("./assets/images/plus-icon.svg")!important;
+  display: inline-block;
+  position: absolute;
+  margin: -1px 0 0 -25px;
+  border: none;
+  border-radius: 4px;
+}
+/************ End OMV Button **************/

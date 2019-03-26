@@ -9,16 +9,16 @@
       </button>
       <div class="content">
         <ul>
-          <li [ngClass]="{ 'selected-background': selected === 'uploads' || value === 'users' }" class="cursor media-child-text">
+          <li [ngClass]="{ 'selected-background': selected === 'uploads' || value === 'users' }" class="cursor ">
             Uploads
           </li>
-          <li [ngClass]="{ 'selected-background': selected === 'folder' || value === 'users' }" class="media-child-text cursor">
+          <li [ngClass]="{ 'selected-background': selected === 'folder' || value === 'users' }" class=" cursor">
             Folder Structure
           </li>
-          <li [ngClass]="{ 'selected-background': selected === 'bulk-uploader' }" class="media-child-text cursor">
+          <li [ngClass]="{ 'selected-background': selected === 'bulk-uploader' }" class=" cursor">
             Bulk Uploader
           </li>
-          <li [ngClass]="{ 'selected-background': selected === 'metadata' || value === 'users' }" class="media-child-text cursor">
+          <li [ngClass]="{ 'selected-background': selected === 'metadata' || value === 'users' }" class=" cursor">
             MetaData Details
           </li>
         </ul>
@@ -32,24 +32,24 @@
       <button class="collapsible">Work Planning</button>
       <div class="content">
         <ul>
-          <li [ngClass]="{ 'selected-background': selected === 'Work' || value === 'users' }" class="cursor media-child-text">
+          <li [ngClass]="{ 'selected-background': selected === 'Work' || value === 'users' }" class="cursor ">
             Work Templates
           </li>
-          <li [ngClass]="{ 'selected-background': selected === 'work-sets' || value === 'users' }" class="media-child-text cursor">
+          <li [ngClass]="{ 'selected-background': selected === 'work-sets' || value === 'users' }" class=" cursor">
             Work Sets
           </li>
         </ul>
       </div>
-      <button class="collapsible" [ngClass]="(value === 'groups' || value === 'users') ? 'active' : 'sample'">Users</button>
+      <button class="collapsible" [ngClass]="(value === 'groups' || value === 'users') ? 'active' : ''">Users</button>
       <div class="content" [ngStyle]="{'max-height': (value === 'groups' || value === 'users') ? '500px' : ''}">
         <ul>
-          <li routerLink="/admin/groups" [ngClass]="{ 'selected-background': selected === 'groups' || value === 'users' }" class="cursor media-child-text" (click)="markAsSelected('groups')">
+          <li routerLink="/admin/groups" [ngClass]="{ 'selected-background': selected === 'groups' || value === 'users' }" class="cursor " (click)="markAsSelected('groups')">
             Groups
           </li>
-          <li routerLink="/admin/users" [ngClass]="{ 'selected-background': selected === 'users' || value === 'users' }" class="media-child-text cursor" (click)="markAsSelected('users')">
+          <li routerLink="/admin/users" [ngClass]="{ 'selected-background': selected === 'users' || value === 'users' }" class=" cursor" (click)="markAsSelected('users')">
             Users
           </li>
-          <li [ngClass]="{ 'selected-background': selected === 'permissions' || value === 'users' }" class="media-child-text cursor">
+          <li [ngClass]="{ 'selected-background': selected === 'permissions' || value === 'users' }" class=" cursor">
             Permissions
           </li>
         </ul>

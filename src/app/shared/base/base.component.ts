@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { permission } from "src/app/core/enum/permission";
 import { Store } from "@ngxs/store";
-import { ShowLeftNav } from "src/app/state/app.actions";
+import {SetPageTitle, ShowLeftNav} from "src/app/state/app.actions";
 
 export class BaseComponent implements OnInit {
   private _permission: string;
@@ -21,5 +21,9 @@ export class BaseComponent implements OnInit {
 
   protected ShowLefNav(show: boolean) {
     this.store.dispatch(new ShowLeftNav(show));
+  }
+
+  protected PageTitle(pageTitle: string) {
+    this.store.dispatch(new SetPageTitle(pageTitle));
   }
 }
