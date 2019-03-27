@@ -59,7 +59,7 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
     return this.httpClient.put<any>(`${this.mockUrl}`, payload);
   }
 
-  getPermissions(groupId: number): Observable<string[]> {
+  getPermissions(groupId: number): Observable<Permission[]> {
     return this.httpClient.get<any>(`${this.mockUrl}`);
   }
 
@@ -70,11 +70,11 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
     }));
   }
 
-  getMembers(groupId: number): Observable<number[]> {
+  getMembers(groupId: number): Observable<User[]> {
     var mockUrl = `./assets/mock/admin-users.json`;
-    var d:Observable<number[]> = new Observable<number[]>()[1];
-    return d;
-
+    return this.httpClient.get<User[]>(mockUrl).pipe(map(users => {
+      return users.filter(x => x.userId === 1 || x.userId === 4);
+    }));
   }
 
   addMembers(groupId: number, payload: number[]) {

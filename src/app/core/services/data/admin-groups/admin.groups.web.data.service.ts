@@ -64,9 +64,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
-  getGroupPermissions(groupId: number): Observable<import("../../../enum/permission").Permission[]> {
-    throw new Error("Method not implemented.");
-  }
+
   getGroup(id: number): Observable<Group> {
     var requestUri = environment.api.baseUrl + `/v1/roles/${id}`;
 
@@ -144,17 +142,24 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
   }
 
 
-  getPermissions(groupId: number): Observable<string[]> {
+  getPermissions(groupId: number): Observable<Permission[]> {
     var requestUri = environment.api.baseUrl + `/v1/roles/${groupId}/permissions`;
-
-    var _response:string[] = [];
 
     return this.httpClient.get<Role_GetPermissionsByIdOutputDTO[]>(requestUri).pipe(map(
       response => {
-        response.forEach(r => {
-          _response.push(r.permissionId);
-        });
+        automapper
+          .createMap(Role_GetPermissionsByIdOutputDTO, Permission)
+          .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('permissionId'))
+          .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('permissionDescription'))
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
 
+
+          .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
+          .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); })
+          .forMember('modifiedOn', function (opts) { opts.mapFrom('modifiedOn'); })
+          .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); })
+
+        var _response = automapper.map(Role_GetPermissionsByIdOutputDTO, Permission, response);
         console.log('AdminGroupsWebDataService - getPermissions: ', _response);
         return _response;
 
@@ -180,20 +185,20 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
-  getMembers(groupId: number): Observable<number[]> {
+  getMembers(groupId: number): Observable<User[]> {
     var requestUri = environment.api.baseUrl + `/v1/roles/${groupId}/members`;
-
-    var _response:number[] = [];
-
 
     return this.httpClient.get<Role_GetMembersByIdOutputDTO []>(requestUri).pipe(map(
       response => {
-        response.forEach(r => {
-          _response.push(r.userId);
-        });
+        automapper
+          .createMap(Role_GetMembersByIdOutputDTO , Permission)
+          .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('userId'));
 
+
+        var _response = automapper.map(Role_GetMembersByIdOutputDTO , User, response);
         console.log('AdminGroupsWebDataService - getMembers: ', _response);
-          return _response;
+        return _response;
+
       }),
       catchError(e => {
         console.log("AdminGroupsWebDataService - getMembers error:", e);
@@ -201,6 +206,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
+
   addMembers(groupId: number, payload: number[]) {
     var requestUri = environment.api.baseUrl + `/v1/roles/${groupId}/members`;
 

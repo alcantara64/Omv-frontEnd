@@ -50,7 +50,7 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
       }
     }),
     takeWhile(() => this.componentActive);
-    
+
     this.userGroups$.subscribe(groups => {
       if (groups) {
         this.userGroupIds = groups.map(x => x.id);
@@ -68,6 +68,6 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
       console.log('AdminUserGroupsComponent - updateGroups');
       this.store.dispatch(new GetUserGroups(this.userId));
     });
-    
+
   }
 }

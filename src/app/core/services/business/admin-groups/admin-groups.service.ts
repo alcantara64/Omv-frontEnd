@@ -30,7 +30,7 @@ export class AdminGroupsService {
   }
 
 
-  getGroupPermissions(groupId: number): Observable<string[]> {
+  getGroupPermissions(groupId: number): Observable<Permission[]> {
     return this.AdminGroupsDataService.getPermissions(groupId);
   }
 
@@ -38,7 +38,7 @@ export class AdminGroupsService {
     return this.AdminGroupsDataService.updatePermissions(groupId, payload);
   }
 
-  getGroupMembers(groupId: number): Observable<number[]> {
+  getGroupMembers(groupId: number): Observable<User[]> {
     return this.AdminGroupsDataService.getMembers(groupId);
   }
 

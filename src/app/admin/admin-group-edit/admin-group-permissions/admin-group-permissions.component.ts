@@ -22,14 +22,14 @@ export class AdminGroupPermissionsComponent implements OnInit {
   componentActive = true;
   permissions: Permission[] = [];
   selectedPermission: any[] = [];
-  groupPermissions: string [];
+  groupPermissions: string [] = [];
   columns: GridColumn[] = [
     {type: "checkbox", headerText: "Select All", width: "100", field: ""},
     {type: "", headerText: "Permission Title", width: "", field: "name"}
   ];
 
   @Select(AdminPermissionState.getPermissions) getAllPermissions$: Observable<Permission[]>;
-  @Select(AdminGroupState.getPermissionsByGroupId) getUserPermissions$: Observable<string[]>;
+  @Select(AdminGroupState.getPermissionsByGroupId) getUserPermissions$: Observable<Permission[]>;
 
 
 
@@ -43,11 +43,24 @@ export class AdminGroupPermissionsComponent implements OnInit {
     // Get the id in the browser url and reach out for the Group
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
-      this.store.dispatch(new GetGroupPermissions(this.groupId));
+      this.store.dispatch(new GetGroupPermissions(this.groupId))
+              .toPromise().then(()=>{
+                this.getUserPermissions$.subscribe(permissions => {
+                  console.log("AdminGroupPermissionsComponent - ngOnInit permissions: " + permissions);
+                  if (permissions) {
+                    this.groupPermissions = permissions.map(x => x.id);
+                  }
+
+
+                });
+              });
+
+
+
     }),
     takeWhile(() => this.componentActive);
 
-    this.getUserPermissions$.subscribe(permissions => this.groupPermissions = permissions);
+
   }
 
   ngOnDestroy(): void {
