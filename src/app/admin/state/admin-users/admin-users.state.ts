@@ -179,7 +179,8 @@ export class AdminUserState {
   ) {
     payload.status = 1;
 
-    this.adminUserService.updateUser(id, payload).subscribe(() => {
+    this.adminUserService.updateUser(id, payload).subscribe((response) => {
+      console.log(response);
       ctx.dispatch(new GetUsers());
 
      });

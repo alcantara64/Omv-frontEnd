@@ -11,6 +11,7 @@ export enum userType
 }
 
 export class Permission {
-  id: number;
+  id: string;
   name: string;
+  status: number;
 }

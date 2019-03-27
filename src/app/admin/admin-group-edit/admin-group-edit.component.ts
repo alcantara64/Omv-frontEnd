@@ -78,7 +78,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
         this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
         this.groupForm = this.fb.group({
           id: group.id,
-          name: [ group.name, [ Validators.required ] ],
+          name: [ group.roleName, [ Validators.required ] ],
           description: [ group.description, [ Validators.required ] ]
         });
         this.group = group;

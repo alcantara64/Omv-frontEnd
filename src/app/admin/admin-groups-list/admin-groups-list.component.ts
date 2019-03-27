@@ -30,16 +30,16 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     { type: "", headerText: "Last Modified", width: "100", field: "modifiedBy" },
     { type: "", headerText: "Members", width: "50", field: "members" }
   ];
-  public permissionFields: Object = { text: "name", value: "id" };
+  public permissionFields= { text: 'name', value: 'id' };
   ENABLE: string = "Enable";
   DISABLE: string = "Disable";
 
-  public groupFields: Object = { text: "name", value: "id" };
+  public groupFields: Object = { text: 'name', value: 'id' };
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
   @Select(AdminGroupState.getActiveGroups) activeGroups$: Observable<Group[]>;
   @Select(AdminGroupState.getDisabledGroups) disabledGroups$: Observable<Group[]>;
 
-  @Select(AdminPermissionState.getPermissions) permissions$: Observable<Permission[]>;
+  @Select(AdminPermissionState.getPermissions) getAllPermissions$: Observable<Permission[]>;
   urlparam: string;
   statusChange: string;
   @ViewChild('groupDialog') public permissionDialog: DialogComponent;
@@ -48,7 +48,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   public groupDialogList: any;
 
   public target: string = '.control-section';
-  permissions: Permission[];
+  permissions: Permission[] = [];
 
   public saveDlgBtnClick: EmitType<object> = () => {
     var permissionData = this.groupDialogList.getSelectedItems().data;
@@ -80,15 +80,13 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.store.dispatch(new GetPermissions());
 
+    this.store.dispatch(new GetPermissions());
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetGroups());
       this.displayGroups(params.type);
     });
-
-    // this.groups$.subscribe(groups => (this.groups = groups));
-    this.permissions$.subscribe(permissions => (this.permissions = permissions));
+    this.getAllPermissions$.subscribe(permissions => (this.permissions = permissions));
   }
 
 
@@ -100,10 +98,9 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
         this.statusChange = this.DISABLE;
         break;
       case AdminGroupType.Disabled:
-        this.disabledGroups$.subscribe(
-          disabledGroups => (this.groups = disabledGroups)
-        );
+        this.disabledGroups$.subscribe(disabledGroups => (this.groups = disabledGroups));
         this.statusChange = this.ENABLE;
+        console.log('disable groups' , this.groups);
         break;
       default:
         break;
@@ -112,7 +109,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
   changeGroupStatus(groups: Group[]){
     groups.forEach(group => {
-      if ((this.statusChange = this.ENABLE)) {
+      if ((this.statusChange === this.ENABLE)) {
         this.store.dispatch(new EnableGroup(group.id, group));
       } else {
         this.store.dispatch(new DisableGroup(group.id, group));

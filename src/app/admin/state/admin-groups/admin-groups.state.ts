@@ -1,7 +1,9 @@
 import { Group } from '../../../core/models/entity/group';
 import { AdminGroupsService } from '../../../core/services/business/admin-groups/admin-groups.service';
-import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup,
-        SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers, GetMediaAccess } from './admin.groups.action';
+import {
+  GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup,
+  SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers, GetMediaAccess
+} from './admin.groups.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs/operators';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
@@ -28,7 +30,7 @@ export class AdminGroupStateModel {
     currentGroupId: null,
     currentGroup: null,
     permissionIds: null,
-    mediaAccess:null,
+    mediaAccess: null,
     members: [],
 
   }
@@ -49,7 +51,7 @@ export class AdminGroupState {
 
   @Selector()
   static getDisabledGroups(state: AdminGroupStateModel) {
-    return state.groups.filter(x => x.status === GroupStatus.Disabled);
+    return state.groups.filter(x => x.status === 0);
   }
 
   @Selector()
@@ -68,7 +70,7 @@ export class AdminGroupState {
   }
 
   @Selector()
-  static getMediaAccess(state: AdminGroupStateModel){
+  static getMediaAccess(state: AdminGroupStateModel) {
     return state.mediaAccess;
   }
 
@@ -134,15 +136,16 @@ export class AdminGroupState {
   @Action(DisableGroup)
   disableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload }: DisableGroup) {
     payload.status = 0;
-    return this.adminGroupService.updateGroup(id, payload).pipe(),
-      mergeMap(() => ctx.dispatch(new GetGroups()));
+    return this.adminGroupService.updateGroup(id, payload).subscribe(
+      () => { ctx.dispatch(new GetGroups()); });
   }
 
   @Action(EnableGroup)
   enableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload }: EnableGroup) {
     payload.status = 1;
-    return this.adminGroupService.updateGroup(id, payload).pipe(),
-      mergeMap(() => ctx.dispatch(new GetGroups()));
+    return this.adminGroupService.updateGroup(id, payload).subscribe(() => {
+      ctx.dispatch(new GetGroups());
+    });
   }
 
   @Action(AssignToPermission)
@@ -202,21 +205,21 @@ export class AdminGroupState {
   }
 
   @Action(UpdateGroupPermissions)
-  updateGroupPermissions(ctx: StateContext<AdminGroupStateModel>, {groupId, payload}: UpdateGroupPermissions) {
+  updateGroupPermissions(ctx: StateContext<AdminGroupStateModel>, { groupId, payload }: UpdateGroupPermissions) {
     return this.adminGroupService.updateGroupPermissions(groupId, payload).pipe(tap(() => {
 
     }));
   }
 
   @Action(AddGroupMembers)
-  addGroupMembers(ctx: StateContext<AdminGroupStateModel>, {groupId, payload}: AddGroupMembers) {
+  addGroupMembers(ctx: StateContext<AdminGroupStateModel>, { groupId, payload }: AddGroupMembers) {
     return this.adminGroupService.addGroupMembers(groupId, payload).pipe(tap(() => {
 
     }));
   }
 
   @Action(RemoveGroupMembers)
-  removeGroupMembers(ctx: StateContext<AdminGroupStateModel>, {groupId, payload}: RemoveGroupMembers) {
+  removeGroupMembers(ctx: StateContext<AdminGroupStateModel>, { groupId, payload }: RemoveGroupMembers) {
     return this.adminGroupService.removeGroupMembers(groupId, payload).pipe(tap(() => {
 
     }));

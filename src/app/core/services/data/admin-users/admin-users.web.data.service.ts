@@ -167,7 +167,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
         console.log('AdminUsersWebDataService - updateUser error: ', e);
         return of(null);
       })
-    )
+    );
   }
 
   updateGroups(userid: number, payload: number[], isAddRoles: boolean) {

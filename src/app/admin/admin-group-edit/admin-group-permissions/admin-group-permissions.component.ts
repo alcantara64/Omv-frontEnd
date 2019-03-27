@@ -55,7 +55,7 @@ export class AdminGroupPermissionsComponent implements OnInit {
   }
 
   updatePermissions(permissions: Permission[]) {
-    const _permissions = permissions.map(permission => permission.id);
+    const _permissions = permissions.map(permission => Number(permission.id));
     this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions));
     this.store.dispatch(new GetGroupPermissions(this.groupId));
   }

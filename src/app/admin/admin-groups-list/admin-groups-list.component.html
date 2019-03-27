@@ -25,7 +25,7 @@
         id="group-list"
         [dataSource]="permissions"
         [showCheckBox]="true"
-        [fields]="groupFields"
+        [fields]="permissionFields"
       >
       </ejs-listview>
     </ng-template>
@@ -37,7 +37,7 @@
       [selectedRecords]="selectedGroups"
       [isToolBarVisible]="true"
       [firstActionButtonText]="statusChange"
-      [secondActionButtonText]="'Assign User to Group'"
+      [secondActionButtonText]="'Assign Groups To Permissions'"
       (firstAction)="changeGroupStatus($event)"
       (secondAction)="assignGroupsToPermissions($event)"
       (navigate)="edit($event)"
