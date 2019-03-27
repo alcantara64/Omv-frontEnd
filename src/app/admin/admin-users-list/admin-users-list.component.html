@@ -16,46 +16,25 @@
           Search
         </button>
 
-        <button ejs-button class="omv-primary-plus" (click)="edit('0')">
+        <button ejs-button class="omv-primary-plus" (click)="edit()">
           Add New User
         </button>
-
       </span>
     </div>
   </div>
 
-  <ejs-dialog #groupDialog
-    [visible]='false'
-    [buttons]='saveDlgButtons'
-    [header]="'Assign Users to Groups'"
-    [showCloseIcon]='true'
-    [width]='300'
-    [height]="500"
-    >
+  <ejs-dialog #groupDialog [visible]='false' [buttons]='saveDlgButtons' [header]="'Assign Users to Groups'"
+    [showCloseIcon]='true' [width]='300' [height]="500">
     <ng-template #content>
-        <ejs-listview #listviewgroup
-            id='group-list'
-            [dataSource]='groups'
-            [showCheckBox]='true'
-            [fields]='groupFields'
-           >
-          </ejs-listview>
+      <ejs-listview #listviewgroup id='group-list' [dataSource]='groups' [showCheckBox]='true' [fields]='groupFields'></ejs-listview>
     </ng-template>
   </ejs-dialog>
 
   <div class="">
-    <app-list [listData]="users"
-              [columns]="columns"
-              [selectedRecords]="selectedUsers"
-              [isToolBarVisible]="true"
-              [firstActionButtonText]="statusChange"
-              [secondActionButtonText]="'Assign User to Group'"
-              (firstAction)="changeUsersStatus($event)"
-              (secondAction)="assignUsersToGroups($event)"
-              (navigate)="edit($event)"
-              [shouldEdit]="true"
-              [checkField]="'userId'"
-        >
+    <app-list [listData]="users" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true"
+      [firstActionButtonText]="statusChange" [secondActionButtonText]="'Assign User to Group'"
+      (firstAction)="changeUsersStatus($event)" (secondAction)="assignUsersToGroups($event)" (navigate)="edit($event)"
+      [shouldEdit]="true" [checkField]="'userId'">
     </app-list>
   </div>
 

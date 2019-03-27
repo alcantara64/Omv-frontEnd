@@ -5,7 +5,7 @@ export class User {
   firstName: string;
   lastName: string;
   displayName: string
-  roleName: string;
+  roleNames: string;
   status: number;
   statusName: string;
   createdOn: Date;

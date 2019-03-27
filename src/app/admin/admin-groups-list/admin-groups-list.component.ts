@@ -67,7 +67,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     this.store.dispatch(new GetPermissions());
   }
 
-  public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
+  saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
 
   constructor(protected store: Store, private activatedRoute: ActivatedRoute, private router:Router ){
     super(store);
@@ -124,9 +124,11 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     this.selectedGroups = groups;
   }
 
-  edit(id: number) {
-    this.store.dispatch(new SetCurrentGroupId(id));
-    this.router.navigate([`/admin/groups/${id}/edit`]);
+  edit(data: Group) {
+    if (!data) {
+      this.router.navigate([`/admin/groups/0/edit`]);
+    } else {
+      this.router.navigate([`/admin/groups/${data.id}/edit`]);
+    }
   }
-
 }

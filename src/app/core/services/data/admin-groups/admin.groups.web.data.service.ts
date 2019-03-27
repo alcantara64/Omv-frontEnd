@@ -1,3 +1,4 @@
+import { Role_InsertInputDTO } from './../../../dtos/input/roles/Role_InsertInputDTO';
 import { Role_GetAllOutputDTO } from './../../../dtos/output/roles/Role_GetAllOutputDTO';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -8,7 +9,8 @@ import { Group } from "src/app/core/models/entity/group";
 import { environment } from "src/environments/environment";
 import { catchError, map } from "rxjs/operators";
 import { Permission } from 'src/app/core/enum/permission';
-import 'automapper-ts';
+import * as automapper from 'automapper-ts';
+import { Role_UpdateInputDTO } from 'src/app/core/dtos/input/roles/Role_UpdateInputDTO';
 
 @Injectable({
   providedIn: "root"
@@ -56,6 +58,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
             })
           );
   }
+  
   getGroup(id: number): Observable<Group> {
     var requestUri = environment.api.baseUrl + `/v1/roles/${id}`;
 
@@ -85,14 +88,48 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
+
   createGroup(payload: Group): Observable<Group> {
-    throw new Error("Method not implemented.");
+    var requestUri = environment.api.baseUrl + `/v1/groups`;
+
+    automapper
+      .createMap(payload, Role_InsertInputDTO)
+      .forMember('roleId', function (opts) { opts.mapFrom('RoleId'); })
+      .forMember('roleName', function (opts) { opts.mapFrom('RoleName'); })
+      .forMember('isSystem', function (opts) { opts.mapFrom('IsSystem'); })
+
+    var request = automapper.map(payload, Role_InsertInputDTO, payload);
+    console.log('AdminGroupsWebDataService - createGroup: ', request);
+
+    return this.httpClient.post(requestUri, request).pipe(
+      catchError(e => {
+        console.log('AdminGroupsWebDataService - createUser error: ', e);
+        return of(null);
+      })
+    );
   }
 
 
   updateGroup(id: number, payload: Group) {
-    throw new Error("Method not implemented.");
+    var requestUri = environment.api.baseUrl + `/v1/groups/${id}`;
+
+    automapper
+      .createMap(payload, Role_UpdateInputDTO)
+      .forMember('roleId', function (opts) { opts.mapFrom('RoleId'); })
+      .forMember('roleName', function (opts) { opts.mapFrom('RoleName'); })
+      .forMember('isSystem', function (opts) { opts.mapFrom('IsSystem'); })
+
+    var request = automapper.map(payload, Role_UpdateInputDTO, payload);
+    console.log('AdminGroupsWebDataService - updateUser: ', request);
+
+    return this.httpClient.put(requestUri, request).pipe(
+      catchError(e => {
+        console.log('AdminGroupsWebDataService - updateUser error: ', e);
+        return of(null);
+      })
+    );
   }
+
   assignToGroups(groupId: number, payload: number[]) {
     throw new Error("Method not implemented.");
   }

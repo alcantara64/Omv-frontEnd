@@ -10,6 +10,10 @@ export class GetGroup {
   constructor(public id: number) { }
 }
 
+export class ClearGroup {
+  static readonly type = '[Admin Groups] ClearGroup';
+}
+
 export class CreateGroup {
   static readonly type = '[Admin Groups] CreateGroup';
 
@@ -60,6 +64,10 @@ export class SetSelectedGroupIds {
 
 export class GetMembers {
   static readonly type = '[Admin Groups] GetMembers';
+}
+
+export class ClearMembers {
+  static readonly type = '[Admin Groups] ClearMembers';
 }
 
 export class GetGroupPermissions {

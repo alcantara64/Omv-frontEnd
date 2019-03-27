@@ -105,14 +105,12 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   rowDataBound(args) {
-    console.log('ListComponent - rowDataBound');
-    if (!this.initialRecords) return;
-
-
-    if (this.initialRecords.includes(args.data[this.checkField])) {
-      this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
+    if (this.initialRecords) {
+      if (this.initialRecords.includes(args.data[this.checkField])) {
+        console.log('rowDataBound args: this.initialRecords after', this.initialRecords);
+        this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
+      }
     }
-
   }
 
   dataBound(args): void {

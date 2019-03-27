@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
 export class AdminUserEditGuard implements CanDeactivate<AdminUserEditComponent> {
   canDeactivate(component: AdminUserEditComponent): Observable<boolean> | Promise<boolean> | boolean {
     if (component.userForm.dirty) {
-      const userName = component.userForm.get('name').value || 'New User';
-      return confirm (`Navigate away and lose all changes to ${userName}`);
+      const firstName = component.userForm.get('firstName').value || 'New User';
+      return confirm (`Navigate away and lose all changes to ${firstName}`);
     }
     return true;
   }

@@ -1,6 +1,6 @@
 import { GroupStatus as GroupStatus } from './../../core/enum/group-status.enum';
 import { Tab } from 'src/app/core/models/tab';
-import { GetGroup, CreateGroup, UpdateGroup, EnableGroup, DisableGroup } from '../state/admin-groups/admin.groups.action';
+import { GetGroup, CreateGroup, UpdateGroup, EnableGroup, DisableGroup, ClearGroup } from '../state/admin-groups/admin.groups.action';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
@@ -22,7 +22,7 @@ const MEDIA_ACCESS = 2;
 @Component({
   selector: 'app-admin-group-edit',
   templateUrl: './admin-group-edit.component.html',
-  styleUrls: ['./admin-group-edit.component.css']
+  styleUrls: ['./admin-group-edit.component.css', './../../app.component.css']
 })
 export class AdminGroupEditComponent extends EditComponent implements OnInit {
 
@@ -61,14 +61,20 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     this.groupForm = this.fb.group({
       id: [''],
       name: [ '', [ Validators.required ] ],
-      description: [ '' ]
+      description: [ '' ],
+      isSystem: [false]
     });
 
     // Get the id in the browser url and reach out for the group
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
-      this.store.dispatch(new GetGroup(this.groupId));
-      this.createGroupButtonText = this.groupId ? UPDATE_GROUP : CREATE_GROUP;
+      if (this.groupId) {
+        this.store.dispatch(new GetGroup(this.groupId));
+        this.createGroupButtonText = UPDATE_GROUP;
+      } else {
+        this.store.dispatch(new ClearGroup());
+        this.createGroupButtonText = CREATE_GROUP;
+      }
     }),
     takeWhile(() => this.componentActive);
 
@@ -76,10 +82,11 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     this.currentGroup$.subscribe(group => {
       if (group) { // Existing Group
         this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
-        this.groupForm = this.fb.group({
+        this.groupForm.setValue({
           id: group.id,
           name: [ group.name, [ Validators.required ] ],
-          description: [ group.description, [ Validators.required ] ]
+          description: [ group.description, [ Validators.required ] ],
+          isSystem: [group.isSystem]
         });
         this.group = group;
       }
@@ -96,10 +103,11 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   async save() {
     if (this.groupForm.valid) {
       if (this.groupForm.dirty) {
-        const updatedGroup: Group = { ...this.group, ...this.groupForm.value };
+        const group: Group = { ...this.group, ...this.groupForm.value };
 
         if (this.groupId === 0) {
-          await this.store.dispatch(new CreateGroup(updatedGroup));
+          console.log('AdminGroupEditComponent - save: ', this.groupForm.value);
+          await this.store.dispatch(new CreateGroup(group));
           this.currentGroupId$.subscribe(groupId => {
             if (groupId) {
               this.groupForm.reset();
@@ -108,7 +116,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
           }),
           takeWhile(() => this.componentActive);
         } else {
-          await this.store.dispatch(new UpdateGroup(updatedGroup.id, updatedGroup));
+          await this.store.dispatch(new UpdateGroup(group.id, group));
           this.groupForm.reset(this.groupForm.value);
         }
       }

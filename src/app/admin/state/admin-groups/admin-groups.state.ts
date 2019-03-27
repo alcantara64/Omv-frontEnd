@@ -1,7 +1,7 @@
 import { Group } from '../../../core/models/entity/group';
 import { AdminGroupsService } from '../../../core/services/business/admin-groups/admin-groups.service';
 import { GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup,
-        SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers } from './admin.groups.action';
+        SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers, ClearGroup } from './admin.groups.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs/operators';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
@@ -94,6 +94,15 @@ export class AdminGroupState {
         currentGroup: group ? group : null
       });
     }));
+  }
+
+  @Action(ClearGroup)
+  clearGroup({ getState, setState }: StateContext<AdminGroupStateModel>) {    
+    const state = getState();
+    setState({
+      ...state,
+      currentGroup: null
+    });
   }
 
   @Action(CreateGroup)

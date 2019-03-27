@@ -1,3 +1,4 @@
+import { ClearUserGroups } from './../../state/admin-users/admin-users.actions';
 import { GetGroup } from '../../state/admin-groups/admin.groups.action';
 import { Tab } from './../../../core/models/tab';
 import { GridColumn } from './../../../core/models/grid.column';
@@ -7,10 +8,9 @@ import { Store, Select } from '@ngxs/store';
 import { GetGroups } from '../../state/admin-groups/admin.groups.action';
 import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
-import { GetUsers, GetUser, GetUserGroups, SaveUserGroups } from '../../state/admin-users/admin-users.actions';
+import { GetUserGroups, UpdateUserGroups } from '../../state/admin-users/admin-users.actions';
 import { AdminUserState } from '../../state/admin-users/admin-users.state';
-import { User } from 'src/app/core/models/entity/user';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({
@@ -27,13 +27,11 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
     { type: '', headerText: 'Groups', width: '', field: 'name' }
   ];
 
-  initialGroups: number[] = [];
+  userGroupIds: number[] = [];
   componentActive = true;
-  userList: Group[] = []  ;
-
 
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
-  @Select(AdminUserState.getGroupsByUserId) groupsId$: Observable<number[]>;
+  @Select(AdminUserState.getGroups) userGroups$: Observable<Group[]>;
 
   constructor(private store: Store,
               private activatedRoute: ActivatedRoute) { }
@@ -45,11 +43,19 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
     // Get the id in the browser url and reach out for the User
     this.activatedRoute.paramMap.subscribe(params => {
       this.userId = Number(params.get('id'));
-      this.store.dispatch(new GetUserGroups(this.userId));
+      if (this.userId) {
+        this.store.dispatch(new GetUserGroups(this.userId));
+      } else {
+        this.store.dispatch(new ClearUserGroups());
+      }
     }),
     takeWhile(() => this.componentActive);
-
-    this.groupsId$.subscribe(groups => this.initialGroups = groups) ;
+    
+    this.userGroups$.subscribe(groups => {
+      if (groups) {
+        this.userGroupIds = groups.map(x => x.id);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -58,7 +64,10 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
 
   updateGroups(selectedGroups: Group[]) {
     const groupIds = selectedGroups.map(group => group.id);
-    this.store.dispatch(new SaveUserGroups(this.userId, groupIds));
-    this.store.dispatch(new GetUserGroups(this.userId));
+    this.store.dispatch(new UpdateUserGroups(this.userId, groupIds)).toPromise().then(() => {
+      console.log('AdminUserGroupsComponent - updateGroups');
+      this.store.dispatch(new GetUserGroups(this.userId));
+    });
+    
   }
 }

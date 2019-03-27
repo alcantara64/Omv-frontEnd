@@ -1,9 +1,6 @@
 import { AddGroupMembers } from '../../state/admin-groups/admin.groups.action';
-import { UpdateGroups } from '../../state/admin-users/admin-users.actions';
-import { Group } from 'src/app/core/models/entity/group';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
-import { Member } from 'src/app/core/models/member';
 import { Select, Store } from '@ngxs/store';
 import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';

@@ -19,7 +19,7 @@ import {
   EnableUser,
   SearchUsers,
   SetCurrentUserId,
-  UpdateGroups
+  UpdateUserGroups
 } from '../state/admin-users/admin-users.actions';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { permission } from 'src/app/core/enum/permission';
@@ -79,7 +79,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     });
 
     this.selectedUsers.forEach(user => {
-      this.store.dispatch(new UpdateGroups(user.userId, groupidArray, true));
+      this.store.dispatch(new UpdateUserGroups(user.userId, groupidArray, true));
     });
 
     this.groupDialog.hide();
@@ -114,7 +114,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
 
   displayUsers(param: string) {
-
     this.urlparam = param;
     switch (param) {
       case AdminUserType.Active:
@@ -139,7 +138,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   changeUsersStatus(users: User[]) {
-
     users.forEach(user => {
       if ((this.statusChange === this.ENABLE)) {
         this.store.dispatch(new EnableUser(user.userId, user));
@@ -147,8 +145,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
         this.store.dispatch(new DisableUser(user.userId, user));
       }
     });
-
-
   }
 
   assignUsersToGroups(users: User[]) {
@@ -157,9 +153,11 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.selectedUsers = users;
   }
 
-  edit(data: any) {
-    var id = data.userId;
-    this.store.dispatch(new SetCurrentUserId(id));
-    this.router.navigate([`/admin/users/${id}/edit`]);
+  edit(data: User) {
+    if (!data) {
+      this.router.navigate([`/admin/users/0/edit`]);
+    } else {
+      this.router.navigate([`/admin/users/${data.userId}/edit`]);
+    }
   }
 }

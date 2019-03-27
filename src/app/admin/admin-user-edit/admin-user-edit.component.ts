@@ -10,7 +10,7 @@ import { Tab } from './../../core/models/tab';
 import { Group } from '../../core/models/entity/group';
 import { ListComponent } from 'src/app/shared/list/list.component';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
-import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser } from '../state/admin-users/admin-users.actions';
+import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser, ClearUser } from '../state/admin-users/admin-users.actions';
 import { UserStatus } from 'src/app/core/enum/user-status.enum';
 
 const CREATE_USER = 'Create User';
@@ -41,7 +41,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   @Select(AdminUserState.getCurrentUserId) currentUserId$: Observable<number>;
 
   constructor(protected store: Store,
-              private fb: FormBuilder,
+              private formBuilder: FormBuilder,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
     super(store);
@@ -50,19 +50,25 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   }
 
   ngOnInit() {
-
     // Initialize the userForm
-    this.userForm = this.fb.group({
+    this.userForm = this.formBuilder.group({
       id: [''],
-      name: [ '', [ Validators.required ] ],
-      email: [ '', [ Validators.required, Validators.email ] ]
+      firstName: [ '', [ Validators.required ] ],
+      lastName: [ '', [ Validators.required ] ],
+      userName: [ '', [ Validators.required ] ],
+      emailAddress: [ '', [ Validators.required, Validators.email ] ]
     });
 
     // Get the id in the browser url and reach out for the User
     this.activatedRoute.paramMap.subscribe(params => {
       this.userId = Number(params.get('id'));
-      this.store.dispatch(new GetUser(this.userId));
-      this.createUserButtonText = this.userId ? UPDATE_USER : CREATE_USER;
+      if (this.userId) {
+        this.store.dispatch(new GetUser(this.userId));
+        this.createUserButtonText = UPDATE_USER;
+      } else {
+        this.store.dispatch(new ClearUser());
+        this.createUserButtonText = CREATE_USER;
+      }
     }),
     takeWhile(() => this.componentActive);
 
@@ -70,12 +76,16 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     this.currentUser$.subscribe(user => {
       if (user) { // Existing User
         this.userActionText = user.status == UserStatus.Active ? DISABLE_USER : ENABLE_USER;
-        this.userForm = this.fb.group({
+        this.userForm.setValue({
           id: user.userId,
-          name: [ user.displayName, [ Validators.required ] ],
-          email: [ user.emailAddress, [ Validators.required, Validators.email ] ]
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userName: user.userName,
+          emailAddress: user.emailAddress
         });
         this.user = user;
+      } else {
+        this.userForm.reset();
       }
     }),
     takeWhile(() => this.componentActive);
@@ -85,13 +95,13 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     this.componentActive = false;
   }
 
-  async save() {
+  save() {
     if (this.userForm.valid) {
       if (this.userForm.dirty) {
-        const updatedUser: User = { ...this.user, ...this.userForm.value };
+        const user: User = { ...this.user, ...this.userForm.value };
 
         if (this.userId === 0) { // Create User
-          await this.store.dispatch(new CreateUser(updatedUser));
+          this.store.dispatch(new CreateUser(user));
           this.currentUserId$.subscribe(userId => {
             if (userId) {
               this.userForm.reset();
@@ -100,7 +110,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
           }),
           takeWhile(() => this.componentActive);
         } else { // Update User
-          await this.store.dispatch(new UpdateUser(updatedUser.userId, updatedUser));
+          this.store.dispatch(new UpdateUser(user.userId, user));
           this.userForm.reset(this.userForm.value);
         }
       }
