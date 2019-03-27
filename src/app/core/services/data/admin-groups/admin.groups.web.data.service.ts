@@ -39,6 +39,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
           .createMap(Role_GetAllOutputDTO, Group)
           .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleId'))
           .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleName'))
+          .forMember('memberCount', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('memberCount'))
           .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
           .forMember('status', function (opts) { opts.mapFrom('status'); })
 
@@ -71,6 +72,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
           .createMap(Role_GetAllOutputDTO, Group)
           .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleId'))
           .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleName'))
+          .forMember('memberCount', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('memberCount'))
           .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
           .forMember('status', function (opts) { opts.mapFrom('status'); })
 
@@ -112,7 +114,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     );
   }
 
-  
+
 
   updateGroup(id: number, payload: Group) {
     var requestUri = environment.api.baseUrl + `/v1/roles/${id}`;

@@ -35,9 +35,9 @@
       [selectedRecords]="selectedGroups"
       [isToolBarVisible]="true"
       [firstActionButtonText]="statusChange"
-      [secondActionButtonText]="'Assign Groups To Permissions'"
+
       (firstAction)="changeGroupStatus($event)"
-      (secondAction)="assignGroupsToPermissions($event)"
+
       (navigate)="edit($event)"
       [shouldEdit]="true"
     >

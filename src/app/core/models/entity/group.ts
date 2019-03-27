@@ -3,6 +3,7 @@ export class Group {
   name: string;
   isSystem: boolean;
   description: string;
+  memberCount: number;
   modifiedOn: string;
   modifiedBy: string;
   status: number;
