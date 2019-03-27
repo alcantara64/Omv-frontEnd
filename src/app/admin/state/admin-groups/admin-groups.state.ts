@@ -18,9 +18,9 @@ export class AdminGroupStateModel {
   groups: Group[];
   currentGroupId: number | null;
   currentGroup: Group;
-  currentGroupPermission: Permission[];
+  currentGroupPermission: string[];
   currentGroupmediaAccess: MediaAccess;
-  currentGroupmembers: User[];
+  currentGroupmembers: number[];
 
 }
 

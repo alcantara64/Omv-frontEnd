@@ -22,14 +22,14 @@ export class AdminGroupPermissionsComponent implements OnInit {
   componentActive = true;
   permissions: Permission[] = [];
   selectedPermission: any[] = [];
-  groupPermissions: Permission [];
+  groupPermissions: string [];
   columns: GridColumn[] = [
     {type: "checkbox", headerText: "Select All", width: "100", field: ""},
     {type: "", headerText: "Permission Title", width: "", field: "name"}
   ];
 
   @Select(AdminPermissionState.getPermissions) getAllPermissions$: Observable<Permission[]>;
-  @Select(AdminGroupState.getPermissionsByGroupId) getUserPermissions$: Observable<Permission[]>;
+  @Select(AdminGroupState.getPermissionsByGroupId) getUserPermissions$: Observable<string[]>;
 
 
 
@@ -55,10 +55,11 @@ export class AdminGroupPermissionsComponent implements OnInit {
   }
 
   updatePermissions(permissions: Permission[]) {
-    const _permissions = permissions.map(permission => Number(permission.id));
-    this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
-      console.log('AdminUserGroupsComponent - updateGroups');
-      this.store.dispatch(new GetGroupPermissions(this.groupId));
-    });
+    const _permissions = permissions.map(permission => (permission.id));
+    console.log('AdminUserGroupsComponent - updatePermissions ' + _permissions);
+     this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
+       console.log('AdminUserGroupsComponent - updatePermissions call GetGroupPermissions');
+       this.store.dispatch(new GetGroupPermissions(this.groupId));
+     });
   }
 }

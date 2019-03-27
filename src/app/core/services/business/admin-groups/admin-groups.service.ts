@@ -30,15 +30,15 @@ export class AdminGroupsService {
   }
 
 
-  getGroupPermissions(groupId: number): Observable<Permission[]> {
+  getGroupPermissions(groupId: number): Observable<string[]> {
     return this.AdminGroupsDataService.getPermissions(groupId);
   }
 
-  updateGroupPermissions(groupId: number, payload: number[]) {
+  updateGroupPermissions(groupId: number, payload: string[]) {
     return this.AdminGroupsDataService.updatePermissions(groupId, payload);
   }
 
-  getGroupMembers(groupId: number): Observable<User[]> {
+  getGroupMembers(groupId: number): Observable<number[]> {
     return this.AdminGroupsDataService.getMembers(groupId);
   }
 
