@@ -179,8 +179,8 @@ html, body {
   background: #009B77!important;
   color: #ffffff!important;
   text-transform: initial !important;
-  padding: 10px 35px!important;
-  margin: 7px;
+  padding: 10px 25px!important;
+  margin: 5px;
   border: none;
   border-radius: 4px;
 }
@@ -189,8 +189,8 @@ html, body {
   background: #0097A9!important;
   color: #ffffff!important;
   text-transform: initial !important;
-  padding: 10px 35px!important;
-  margin: 7px;
+  padding: 10px 25px!important;
+  margin: 5px;
   border: none;
   border-radius: 8px;
 }
@@ -205,10 +205,10 @@ html, body {
   color: #ffffff!important;
   background: #0097A9!important;
   display: inline-block;
-  padding: 10px 18px 10px 38px !important;
+  padding: 10px 15px 10px 28px !important;
   font-size: 14px;
   font-weight: 600;
-  margin: 7px;
+  margin: 5px;
   border: none;
   border-radius: 4px;
 }
