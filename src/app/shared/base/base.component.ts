@@ -14,14 +14,6 @@ export class BaseComponent implements OnInit {
   ngOnInit() {}
 
   ngAfterViewInit() {
-    //createSpinner() method is used to create spinner
-    // createSpinner({
-    //   // Specify the target for the spinner to show
-    //   target: document.getElementById('spinnerContainer')
-    // });
-
-
-
 
   }
 

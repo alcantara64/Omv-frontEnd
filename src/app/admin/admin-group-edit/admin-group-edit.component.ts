@@ -62,7 +62,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
       id: [''],
       name: [ '', [ Validators.required ] ],
       description: [ '' ],
-      isSystem: [false]
+      isSystem: ['false']
     });
 
     // Get the id in the browser url and reach out for the group
@@ -87,7 +87,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
           id: group.id,
           name: [ group.name ],
           description: [ group.description ],
-          isSystem: [group.isSystem]
+          isSystem: ['false']
         });
         this.group = group;
         console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);
@@ -120,6 +120,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
         } else {
           await this.store.dispatch(new UpdateGroup(group.id, group));
           this.groupForm.reset(this.groupForm.value);
+          console.log("AdminGroupEditComponent - save" + this.groupForm.value);
         }
       }
     } else {

@@ -22,16 +22,16 @@ export class AdminGroupPermissionsComponent implements OnInit {
   componentActive = true;
   permissions: Permission[] = [];
   selectedPermission: any[] = [];
-  initialRecords: number [] = [];
+  groupPermissions: Permission [];
   columns: GridColumn[] = [
     {type: "checkbox", headerText: "Select All", width: "100", field: ""},
     {type: "", headerText: "Permission Title", width: "", field: "name"}
   ];
 
   @Select(AdminPermissionState.getPermissions) getAllPermissions$: Observable<Permission[]>;
-  @Select(AdminGroupState.getPermissionsByGroupId) getUserPermissions$: Observable<number[]>;
+  @Select(AdminGroupState.getPermissionsByGroupId) getUserPermissions$: Observable<Permission[]>;
 
-  groupPermissions: number[] =[];
+
 
   constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
@@ -39,14 +39,14 @@ export class AdminGroupPermissionsComponent implements OnInit {
     this.store.dispatch(new GetPermissions());
 
     this.getAllPermissions$.subscribe(permissions => this.permissions = permissions);
-    
+
     // Get the id in the browser url and reach out for the Group
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
       this.store.dispatch(new GetGroupPermissions(this.groupId));
-    }), 
+    }),
     takeWhile(() => this.componentActive);
-    
+
     this.getUserPermissions$.subscribe(permissions => this.groupPermissions = permissions);
   }
 
@@ -56,7 +56,9 @@ export class AdminGroupPermissionsComponent implements OnInit {
 
   updatePermissions(permissions: Permission[]) {
     const _permissions = permissions.map(permission => Number(permission.id));
-    this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions));
-    this.store.dispatch(new GetGroupPermissions(this.groupId));
+    this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
+      console.log('AdminUserGroupsComponent - updateGroups');
+      this.store.dispatch(new GetGroupPermissions(this.groupId));
+    });
   }
 }
