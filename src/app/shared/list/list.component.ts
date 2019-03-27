@@ -130,4 +130,13 @@ export class ListComponent extends BaseComponent implements OnInit {
   performSecondButtonEvent() {
     this.secondButtonEvent.emit(this.selectedRecords);
   }
+
+  ngDoCheck(){
+    //console.log("ListComponent - ngDoCheck");
+  }
+
+  ngOnChanges(){
+    console.log("ListComponent - ngOnChanges");
+    this.ShowSpinner(false);
+  }
 }

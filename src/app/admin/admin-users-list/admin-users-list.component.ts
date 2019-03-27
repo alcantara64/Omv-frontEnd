@@ -72,6 +72,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   target = '.control-section';
 
   saveDlgBtnClick: EmitType<object> = () => {
+    this.ShowSpinner(true);
     const groupdata = this.groupDialogList.getSelectedItems().data;
 
     const groupidArray: any[] = [];
@@ -105,6 +106,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ShowSpinner(true);
     this.store.dispatch(new GetGroups());
 
     this.activatedRoute.params.subscribe(params => {
@@ -145,34 +147,17 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   changeUsersStatus(users: User[]) {
-    this.ShowSpinner(true);
 
+    this.ShowSpinner(true);
+    console.log("AdminUsersListComponent - changeUsersStatus - start");
     let count:number = 1;
 
     users.forEach(user => {
 
       if ((this.statusChange === this.ENABLE)) {
-        this.store.dispatch(new EnableUser(user.userId, user)).toPromise().then(()=>{
-            console.log("AdminUsersListComponent - changeUsersStatus - EnableUser - count"+count);
-            if (users.length === count)
-            {
-              console.log("AdminUsersListComponent - changeUsersStatus - EnableUser - Showspinner off"+count);
-              this.ShowSpinner(false);
-            }else{
-              count = count + 1;
-            }
-        });
+        this.store.dispatch(new EnableUser(user.userId, user));
       } else {
-        this.store.dispatch(new DisableUser(user.userId, user)).toPromise().then(()=>{
-          console.log("AdminUsersListComponent - changeUsersStatus - EnableUser - count"+count);
-          if (users.length === count)
-            {
-              console.log("AdminUsersListComponent - changeUsersStatus - EnableUser - Showspinner off"+count);
-              this.ShowSpinner(false);
-            }else{
-              count = count + 1;
-            }
-        });
+        this.store.dispatch(new DisableUser(user.userId, user));
       }
     });
   }
