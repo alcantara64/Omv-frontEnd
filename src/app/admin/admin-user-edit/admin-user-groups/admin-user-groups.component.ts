@@ -1,7 +1,7 @@
 import { GetGroup } from '../../state/admin-groups/admin.groups.action';
 import { Tab } from './../../../core/models/tab';
 import { GridColumn } from './../../../core/models/grid.column';
-import { Group } from './../../../core/models/group';
+import { Group } from '../../../core/models/entity/group';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { GetGroups } from '../../state/admin-groups/admin.groups.action';
@@ -9,7 +9,7 @@ import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
 import { GetUsers, GetUser, GetUserGroups, SaveUserGroups } from '../../state/admin-users/admin-users.actions';
 import { AdminUserState } from '../../state/admin-users/admin-users.state';
-import { User } from 'src/app/core/models/User';
+import { User } from 'src/app/core/models/entity/user';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 
@@ -41,14 +41,14 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(new GetGroups());
     this.groups$.subscribe(groups => this.groups = groups);
-    
+
     // Get the id in the browser url and reach out for the User
     this.activatedRoute.paramMap.subscribe(params => {
       this.userId = Number(params.get('id'));
       this.store.dispatch(new GetUserGroups(this.userId));
-    }), 
+    }),
     takeWhile(() => this.componentActive);
-    
+
     this.groupsId$.subscribe(groups => this.initialGroups = groups) ;
   }
 

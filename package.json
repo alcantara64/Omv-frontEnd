@@ -39,6 +39,8 @@
     "@syncfusion/ej2-angular-treegrid": "^16.4.55",
     "@syncfusion/ej2-layouts": "^16.4.55",
     "@syncfusion/ej2-ng-navigations": "^16.2.50",
+    "automapper": "^1.0.0",
+    "automapper-ts": "^1.9.0",
     "bootstrap": "^4.3.1",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",

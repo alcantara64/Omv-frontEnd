@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
 import { Observable } from "rxjs";
-import { Group } from 'src/app/core/models/group';
+import { Group } from 'src/app/core/models/entity/group';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
@@ -30,7 +30,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   showPermissions: boolean;
   showMembers: boolean;
   showMediaAccess: boolean;
-  
+
   groupId: number;
   groupForm: FormGroup;
   group = new Group();
@@ -46,8 +46,8 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   @Select(AdminGroupState.getCurrentGroup) currentGroup$: Observable<Group>;
   @Select(AdminGroupState.getCurrentGroupId) currentGroupId$: Observable<number>;
 
-  constructor(protected store: Store, 
-    private fb: FormBuilder, 
+  constructor(protected store: Store,
+    private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute) {
     super(store);
@@ -69,13 +69,13 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
       this.groupId = Number(params.get('id'));
       this.store.dispatch(new GetGroup(this.groupId));
       this.createGroupButtonText = this.groupId ? UPDATE_GROUP : CREATE_GROUP;
-    }), 
+    }),
     takeWhile(() => this.componentActive);
 
     // Get the current group
-    this.currentGroup$.subscribe(group => {      
+    this.currentGroup$.subscribe(group => {
       if (group) { // Existing Group
-        this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;        
+        this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
         this.groupForm = this.fb.group({
           id: group.id,
           name: [ group.name, [ Validators.required ] ],
@@ -98,7 +98,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
       if (this.groupForm.dirty) {
         const updatedGroup: Group = { ...this.group, ...this.groupForm.value };
 
-        if (this.groupId === 0) { 
+        if (this.groupId === 0) {
           await this.store.dispatch(new CreateGroup(updatedGroup));
           this.currentGroupId$.subscribe(groupId => {
             if (groupId) {
@@ -108,9 +108,9 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
           }),
           takeWhile(() => this.componentActive);
         } else {
-          await this.store.dispatch(new UpdateGroup(updatedGroup.id, updatedGroup));          
-          this.groupForm.reset(this.groupForm.value);        
-        }        
+          await this.store.dispatch(new UpdateGroup(updatedGroup.id, updatedGroup));
+          this.groupForm.reset(this.groupForm.value);
+        }
       }
     } else {
       this.errorMessage = "Please correct the validation errors.";
@@ -142,7 +142,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
         break;
       case MEDIA_ACCESS:
         this.showMediaAccess = true;
-        break;    
+        break;
       default:
         break;
     }

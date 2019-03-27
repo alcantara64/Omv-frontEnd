@@ -1,12 +1,14 @@
+import { Role_GetAllOutputDTO } from './../../../dtos/output/roles/Role_GetAllOutputDTO';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { User } from "src/app/core/models/User";
+import { User } from "src/app/core/models/entity/user";
 import { AdminGroupsDataService } from "./admin-groups.data.service";
-import { Group } from "src/app/core/models/group";
-import { Role_GetAllOutputDTO } from "src/app/core/dtos/role-get-all-output.dto";
+import { Group } from "src/app/core/models/entity/group";
 import { environment } from "src/environments/environment";
 import { catchError, map } from "rxjs/operators";
+import { Permission } from 'src/app/core/enum/permission';
+import 'automapper-ts';
 
 @Injectable({
   providedIn: "root"
@@ -25,15 +27,32 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getGroups(): Observable<Role_GetAllOutputDTO[]> {
+  getGroups(): Observable<Group[]> {
     var requestUri = environment.api.baseUrl + `/v1/roles`;
-    console.log("trade item endpoint", requestUri);
 
-    return this.httpClient.get<Role_GetAllOutputDTO[]>(requestUri, this.httpOptions)
-          .pipe(
-            map(response => response),
+
+    return this.httpClient.get<Role_GetAllOutputDTO[]>(requestUri).pipe(map(
+            response =>{
+                automapper
+                  .createMap(Role_GetAllOutputDTO, Group)
+                  .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleId'))
+                  .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleName'))
+                  .forMember('isSystem', function(opts) { opts.mapFrom('isSystem'); })
+                   .forMember('status', function(opts) { opts.mapFrom('status'); })
+
+
+                 .forMember('createdOn', function(opts) { opts.mapFrom('createdOn'); })
+                  .forMember('createdBy', function(opts) { opts.mapFrom('createdBy'); })
+                  .forMember('modifiedOn', function(opts) { opts.mapFrom('modifiedOn'); })
+                  .forMember('modifiedBy', function(opts) { opts.mapFrom('modifiedBy'); })
+
+                  var _response = automapper.map(Role_GetAllOutputDTO, Group, response);
+                  console.log('AdminGroupsWebDataService - getGroups: ', _response);
+                  return _response;
+
+            }),
             catchError(e => {
-              console.log("error trying to retrieve roles ", e);
+              console.log("AdminGroupsWebDataService - getGroups error: ", e);
               return of(null);
             })
           );
@@ -42,17 +61,39 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     throw new Error("Method not implemented.");
 }
   getGroup(id: number): Observable<Group> {
-    return null;
+    var requestUri = environment.api.baseUrl + `/v1/roles/${id}`;
+
+    return this.httpClient.get<Role_GetAllOutputDTO[]>(requestUri).pipe(map(
+      response =>{
+          automapper
+            .createMap(Role_GetAllOutputDTO, Group)
+            .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleId'))
+            .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleName'))
+            .forMember('isSystem', function(opts) { opts.mapFrom('isSystem'); })
+             .forMember('status', function(opts) { opts.mapFrom('status'); })
+
+
+           .forMember('createdOn', function(opts) { opts.mapFrom('createdOn'); })
+            .forMember('createdBy', function(opts) { opts.mapFrom('createdBy'); })
+            .forMember('modifiedOn', function(opts) { opts.mapFrom('modifiedOn'); })
+            .forMember('modifiedBy', function(opts) { opts.mapFrom('modifiedBy'); })
+
+            var _response = automapper.map(Role_GetAllOutputDTO, Group, response);
+            console.log('AdminGroupsWebDataService - getGroup: ', _response);
+            return _response;
+
+      }),
+      catchError(e => {
+        console.log("AdminGroupsWebDataService - getGroup error:", e);
+        return of(null);
+      })
+    );
   }
   createGroup(payload: Group): Observable<Group> {
     throw new Error("Method not implemented.");
   }
-  disableGroup(id: number, payload: Group) {
-    throw new Error("Method not implemented.");
-  }
-  enableGroup(id: number, payload: Group) {
-    throw new Error("Method not implemented.");
-  }
+
+
   updateGroup(id: number, payload: Group) {
     throw new Error("Method not implemented.");
   }
@@ -63,19 +104,19 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     throw new Error("Method not implemented.");
   }
 
-  getPermissionsByGroupId(userId: number) {
+  getPermissions(groupId: number): Observable<Permission[]> {
     throw new Error("Method not implemented.");
   }
-  updateGroupPermissions(groupId: number, payload: number[]) {
+  updatePermissions(groupId: number, payload: number[]) {
     throw new Error("Method not implemented.");
   }
-  getGroupMembers(groupId: number): Observable<User[]> {
+  getMembers(groupId: number): Observable<User[]> {
     throw new Error("Method not implemented.");
   }
-  addGroupMembers(groupId: number, payload: number[]) {
+  addMembers(groupId: number, payload: number[]) {
     throw new Error("Method not implemented.");
   }
-  removeGroupMembers(groupId: number, payload: number[]) {
+  removeMembers(groupId: number, payload: number[]) {
     throw new Error("Method not implemented.");
   }
 }

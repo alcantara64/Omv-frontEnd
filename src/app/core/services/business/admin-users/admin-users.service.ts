@@ -1,10 +1,9 @@
-import { User_SearchInputDTO } from './../../../dtos/user-search-input.dto';
-import { User_SearchOutputDTO } from './../../../dtos/user-search-output.dto';
+import { User_SearchInputDTO } from '../../../dtos/input/users/User_SearchInputDTO';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { User } from '../../../models/User';
+import { User } from '../../../models/entity/user';
 import { AdminUsersDataService } from '../../data/admin-users/admin-users.data.service';
-import { Group } from 'src/app/core/models/group';
+import { Group } from 'src/app/core/models/entity/group';
 
 @Injectable({
   providedIn: 'root'
@@ -13,43 +12,29 @@ export class AdminUsersService {
 
   constructor(private AdminUserService: AdminUsersDataService) { }
 
-  getUsers(request: User_SearchInputDTO): Observable<User_SearchOutputDTO[]> {
-    return this.AdminUserService.getUsers(request);
+  getUsers(name: string, groupId: number): Observable<User[]> {
+    return this.AdminUserService.getUsers(name, groupId);
   }
 
   getUser(id: number): Observable<User> {
     return this.AdminUserService.getUser(id);
   }
 
-  disableUser(id: number, payload: User) {
-    return this.AdminUserService.disableUser(id, payload);
-  }
 
-  deleteUser(id: number, payload: User) {
-    return this.AdminUserService.deleteUser(id, payload);
-  }
 
-  enableUser(id: number, payload: User) {
-    return this.AdminUserService.enableUser(id, payload);
-  }
-
-  createUser(payload: User): Observable<User> {
+  createUser(payload: User) {
     return this.AdminUserService.createUser(payload);
   }
 
-  updateUser(id: number, payload: User) {
+  updateUser(id: number, payload: User)  {
     return this.AdminUserService.updateUser(id, payload);
   }
 
-  assignToGroups(userid: number, payload: number[]) {
-    return this.AdminUserService.assignToGroups(userid, payload);
+  updateGroups(userid: number, payload: number[], isAddRoles:boolean) {
+    return this.AdminUserService.updateGroups(userid, payload, isAddRoles);
   }
 
-  getGroupsByUserId(userid: number): Observable<Group[]> {
-    return this.AdminUserService.getGroupsByUserId(userid);
-  }
-
-  saveUserGroups(userId: number, groups: number[]) {
-    return this.AdminUserService.saveUserGroups(userId, groups);
+  getGroups(userid: number): Observable<Group[]> {
+    return this.AdminUserService.getGroups(userid);
   }
 }

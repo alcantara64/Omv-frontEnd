@@ -1,6 +1,6 @@
 import { AddGroupMembers } from '../../state/admin-groups/admin.groups.action';
-import { AssignToGroups } from '../../state/admin-users/admin-users.actions';
-import { Group } from 'src/app/core/models/group';
+import { UpdateGroups } from '../../state/admin-users/admin-users.actions';
+import { Group } from 'src/app/core/models/entity/group';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
 import { Member } from 'src/app/core/models/member';
@@ -9,7 +9,7 @@ import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
 import { GetMembers, GetGroupMembers, RemoveGroupMembers } from '../../state/admin-groups/admin.groups.action';
 import { ActivatedRoute } from '@angular/router';
-import { User } from 'src/app/core/models/user';
+import { User } from 'src/app/core/models/entity/user';
 import { takeWhile } from 'rxjs/operators';
 import { EmitType } from '@syncfusion/ej2-base';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -52,7 +52,7 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
       this.store.dispatch(new GetGroupMembers(this.groupId));
-    }), 
+    }),
     takeWhile(() => this.componentActive);
 
     this.getGroupMembers$.subscribe(memberIds => (this.groupMembers = memberIds));
@@ -73,7 +73,7 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
 
   removeGroupMembers(members: User[]) {
     if (members.length > 0) {
-      const _members = members.map(member => member.id);
+      const _members = members.map(member => member.userId);
       this.store.dispatch(new RemoveGroupMembers(this.groupId, _members));
       this.store.dispatch(new GetGroupMembers(this.groupId));
     }
@@ -87,7 +87,7 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
 
     this.membersDialog.hide();
     this.store.dispatch(new GetGroupMembers(this.groupId));
-  } 
+  }
 
   dialogButtons: Object[] = [
     { click: this.addMembersClick.bind(this), buttonModel: { content: 'Add Member(s)', isPrimary: true }}

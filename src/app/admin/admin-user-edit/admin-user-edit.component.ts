@@ -5,9 +5,9 @@ import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 import { AdminUserState } from '../state/admin-users/admin-users.state';
-import { User } from './../../core/models/user';
+import { User } from '../../core/models/entity/user';
 import { Tab } from './../../core/models/tab';
-import { Group } from './../../core/models/group';
+import { Group } from '../../core/models/entity/group';
 import { ListComponent } from 'src/app/shared/list/list.component';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser } from '../state/admin-users/admin-users.actions';
@@ -24,7 +24,7 @@ const ENABLE_USER = 'Enable User';
   styleUrls: ['./admin-user-edit.component.css', './../../app.component.css']
 })
 export class AdminUserEditComponent extends ListComponent implements OnInit, OnDestroy {
-  
+
   componentActive = true;
   userId: number;
   userForm: FormGroup;
@@ -40,8 +40,8 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   @Select(AdminUserState.getCurrentUser) currentUser$: Observable<User>;
   @Select(AdminUserState.getCurrentUserId) currentUserId$: Observable<number>;
 
-  constructor(protected store: Store, 
-              private fb: FormBuilder, 
+  constructor(protected store: Store,
+              private fb: FormBuilder,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
     super(store);
@@ -55,8 +55,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     this.userForm = this.fb.group({
       id: [''],
       name: [ '', [ Validators.required ] ],
-      email: [ '', [ Validators.required, Validators.email ] ],
-      description: [ '' ]
+      email: [ '', [ Validators.required, Validators.email ] ]
     });
 
     // Get the id in the browser url and reach out for the User
@@ -64,18 +63,17 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
       this.userId = Number(params.get('id'));
       this.store.dispatch(new GetUser(this.userId));
       this.createUserButtonText = this.userId ? UPDATE_USER : CREATE_USER;
-    }), 
+    }),
     takeWhile(() => this.componentActive);
 
     // Get the currentUser
-    this.currentUser$.subscribe(user => {      
+    this.currentUser$.subscribe(user => {
       if (user) { // Existing User
         this.userActionText = user.status == UserStatus.Active ? DISABLE_USER : ENABLE_USER;
         this.userForm = this.fb.group({
-          id: user.id,
-          name: [ user.name, [ Validators.required ] ],
-          email: [ user.email, [ Validators.required, Validators.email ] ],
-          description: [ user.description ]
+          id: user.userId,
+          name: [ user.displayName, [ Validators.required ] ],
+          email: [ user.emailAddress, [ Validators.required, Validators.email ] ]
         });
         this.user = user;
       }
@@ -102,9 +100,9 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
           }),
           takeWhile(() => this.componentActive);
         } else { // Update User
-          await this.store.dispatch(new UpdateUser(updatedUser.id, updatedUser));
-          this.userForm.reset(this.userForm.value);          
-        }        
+          await this.store.dispatch(new UpdateUser(updatedUser.userId, updatedUser));
+          this.userForm.reset(this.userForm.value);
+        }
       }
     } else {
       this.errorMessage = "Please correct the validation errors.";

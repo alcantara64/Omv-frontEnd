@@ -1,13 +1,12 @@
-import { User_SearchOutputDTO } from './../../core/dtos/user-search-output.dto';
 import { EmitType } from '@syncfusion/ej2-base';
 import { AdminUserType } from './../../core/enum/admin-user-type';
 import { GetGroups } from '../state/admin-groups/admin.groups.action';
-import { Group } from './../../core/models/group';
+import { Group } from '../../core/models/entity/group';
 import { ShowLeftNav } from './../../state/app.actions';
 import { ListComponent } from './../../shared/list/list.component';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ToolbarItems } from '@syncfusion/ej2-angular-grids';
-import { User } from 'src/app/core/models/User';
+import { User } from 'src/app/core/models/entity/user';
 import { Observable } from 'rxjs';
 import { GridColumn } from 'src/app/core/models/grid.column';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
@@ -20,7 +19,7 @@ import {
   EnableUser,
   SearchUsers,
   SetCurrentUserId,
-  AssignToGroups
+  UpdateGroups
 } from '../state/admin-users/admin-users.actions';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { permission } from 'src/app/core/enum/permission';
@@ -30,7 +29,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DISABLED } from '@angular/forms/src/model';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ListViewComponent } from '@syncfusion/ej2-angular-lists';
-import { User_SearchInputDTO } from 'src/app/core/dtos/user-search-input.dto';
+import { User_SearchInputDTO } from 'src/app/core/dtos/input/users/User_SearchInputDTO';
 
 @Component({
   selector: 'app-admin-users-list',
@@ -42,11 +41,11 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
   selectedUsers: User[];
   groups: Group[] = [];
-  users: User_SearchOutputDTO[];
+  users: User[];
   statusChange: string;
   ENABLE = 'Enable';
   DISABLE = 'Disable';
-  public groupFields = { text: 'roleName', value: 'roleId' };
+  public groupFields = { text: 'name', value: 'id' };
   groupid: number;
   name: string;
   urlparam: string;
@@ -55,12 +54,12 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     { type: '', headerText: 'Name', width: '', field: 'displayName' },
     { type: '', headerText: 'Email', width: '', field: 'emailAddress' },
     { type: '', headerText: 'Last Modified', width: '', field: 'modifiedBy' },
-    { type: '', headerText: 'Group', width: '150', field: 'roleName' }
+    { type: '', headerText: 'Group', width: '150', field: 'roleNames' }
   ];
 
-  @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User_SearchOutputDTO[]>;
-  @Select(AdminUserState.getUnassignedUsers) unassignedUsers$: Observable<User_SearchOutputDTO[]>;
-  @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User_SearchOutputDTO[]>;
+  @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User[]>;
+  @Select(AdminUserState.getUnassignedUsers) unassignedUsers$: Observable<User[]>;
+  @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User[]>;
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
 
   @ViewChild('groupDialog') groupDialog: DialogComponent;
@@ -71,18 +70,21 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
   saveDlgBtnClick: EmitType<object> = () => {
     const groupdata = this.groupDialogList.getSelectedItems().data;
+
     const groupidArray: any[] = [];
 
     groupdata.forEach(group => {
+      console.log("AdminUsersListComponent - groupdata loop" + group.id);
       groupidArray.push(group.id);
     });
 
     this.selectedUsers.forEach(user => {
-      this.store.dispatch(new AssignToGroups(user.id, groupidArray));
+      this.store.dispatch(new UpdateGroups(user.userId, groupidArray, true));
     });
 
     this.groupDialog.hide();
     this.store.dispatch(new GetUsers());
+    this.groupDialogList.uncheckAllItems();
   }
 
   public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true } }];
@@ -112,6 +114,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
 
   displayUsers(param: string) {
+
     this.urlparam = param;
     switch (param) {
       case AdminUserType.Active:
@@ -132,17 +135,20 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   search() {
-    this.store.dispatch(new SearchUsers(this.name, this.groupid));
+    this.store.dispatch(new GetUsers(this.name, this.groupid));
   }
 
   changeUsersStatus(users: User[]) {
+
     users.forEach(user => {
       if ((this.statusChange === this.ENABLE)) {
-        this.store.dispatch(new EnableUser(user.id, user));
+        this.store.dispatch(new EnableUser(user.userId, user));
       } else {
-        this.store.dispatch(new DisableUser(user.id, user));
+        this.store.dispatch(new DisableUser(user.userId, user));
       }
     });
+
+
   }
 
   assignUsersToGroups(users: User[]) {
@@ -151,7 +157,8 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.selectedUsers = users;
   }
 
-  edit(id: number) {
+  edit(data: any) {
+    var id = data.userId;
     this.store.dispatch(new SetCurrentUserId(id));
     this.router.navigate([`/admin/users/${id}/edit`]);
   }

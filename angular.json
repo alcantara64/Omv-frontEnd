@@ -27,7 +27,7 @@
               "src/assets/css/material.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": [],
+            "scripts": [ "node_modules/automapper-ts/dist/automapper.min.js" ],
             "es5BrowserSupport": true
           },
           "configurations": {

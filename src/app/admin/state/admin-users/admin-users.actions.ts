@@ -1,10 +1,10 @@
-import { User_SearchInputDTO } from './../../../core/dtos/user-search-input.dto';
-import { User } from 'src/app/core/models/User';
+import { User_SearchInputDTO } from '../../../core/dtos/input/users/User_SearchInputDTO';
+import { User } from 'src/app/core/models/entity/user';
 
 export class GetUsers {
   static readonly type = '[Admin Users] GetUsers';
 
-  constructor(public request?: User_SearchInputDTO) { }
+  constructor(public name?: string, public groupId? : number) { }
 }
 
 export class GetUser {
@@ -43,10 +43,10 @@ export class EnableUser {
   constructor(public id: number, public payload: User) { }
 }
 
-export class AssignToGroups {
-  static readonly type = '[Admin Users] AssignToGroups';
+export class UpdateGroups {
+  static readonly type = '[Admin Users] UpdateGroups';
 
-  constructor(public userid: number, public payload: number[]) { }
+  constructor(public userid: number, public payload: number[], public isAddRoles?: boolean) { }
 }
 
 export class SetCurrentUserId {
@@ -66,7 +66,7 @@ export class SearchUsers {
 
   constructor(public name: string, public groupid: number) { }
 }
- 
+
 export class GetUserGroups {
   static readonly type = '[Admin Users] GetUserGroups';
 
