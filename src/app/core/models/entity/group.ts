@@ -1,6 +1,6 @@
 export class Group {
   id: number;
-  roleName: string;
+  name: string;
   isSystem: boolean;
   description: string;
   modifiedOn: string;

@@ -82,13 +82,15 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     this.currentGroup$.subscribe(group => {
       if (group) { // Existing Group
         this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
+        console.log('AdminGroupEditComponent - ngOnInit: groupDetails ', group);
         this.groupForm.setValue({
           id: group.id,
-          name: [ group.roleName, [ Validators.required ] ],
-          description: [ group.description, [ Validators.required ] ],
+          name: [ group.name ],
+          description: [ group.description ],
           isSystem: [group.isSystem]
         });
         this.group = group;
+        console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);
       }
     }),
     takeWhile(() => this.componentActive);

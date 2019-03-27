@@ -93,13 +93,13 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
   }
 
   createGroup(payload: Group): Observable<Group> {
-    var requestUri = environment.api.baseUrl + `/v1/groups`;
+    var requestUri = environment.api.baseUrl + `/v1/roles`;
 
     automapper
       .createMap(payload, Role_InsertInputDTO)
-      .forMember('roleId', function (opts) { opts.mapFrom('RoleId'); })
-      .forMember('roleName', function (opts) { opts.mapFrom('RoleName'); })
-      .forMember('isSystem', function (opts) { opts.mapFrom('IsSystem'); })
+      .forMember('id', function (opts) { opts.mapFrom('roleId'); })
+      .forMember('name', function (opts) { opts.mapFrom('roleName'); })
+      .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
 
     var request = automapper.map(payload, Role_InsertInputDTO, payload);
     console.log('AdminGroupsWebDataService - createGroup: ', request);
@@ -115,15 +115,17 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
   
 
   updateGroup(id: number, payload: Group) {
-    var requestUri = environment.api.baseUrl + `/v1/groups/${id}`;
+    var requestUri = environment.api.baseUrl + `/v1/roles/${id}`;
 
     automapper
       .createMap(payload, Role_UpdateInputDTO)
-      .forMember('roleId', function (opts) { opts.mapFrom('RoleId'); })
-      .forMember('roleName', function (opts) { opts.mapFrom('RoleName'); })
-      .forMember('isSystem', function (opts) { opts.mapFrom('IsSystem'); })
+      .forMember('roleName', function (opts) { opts.mapFrom('name'); })
+      .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
+      .forMember('status', function (opts) { opts.mapFrom('status'); })
 
     var request = automapper.map(payload, Role_UpdateInputDTO, payload);
+
+    request.isSystem = request.isSystem.toString();
     console.log('AdminGroupsWebDataService - updateUser: ', request);
 
     return this.httpClient.put(requestUri, request).pipe(
@@ -135,23 +137,17 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
   }
 
   assignToGroups(groupId: number, payload: number[]) {
-      var requestUri = environment.api.baseUrl + `/v1/users/${groupId}/roles`;
-  
-      var request = new Role_InsertInputDTO();
-      request.RoleId = payload;
-  
-      return this.httpClient.post(requestUri, request).pipe(
-        catchError(e => {
-          console.log('AdminUsersWebDataService - assignToGroups error: ', e);
-          return of(null);
-        })
-      )
-  
-  
-    
-  }
-  getGroupsByUserId(userId: number) {
-    throw new Error("Method not implemented.");
+    var requestUri = environment.api.baseUrl + `/v1/users/${groupId}/roles`;
+
+    var request = new Role_InsertInputDTO();
+    request.RoleId = payload;
+
+    return this.httpClient.post(requestUri, request).pipe(
+      catchError(e => {
+        console.log('AdminUsersWebDataService - assignToGroups error: ', e);
+        return of(null);
+      })
+    );
   }
 
   getPermissions(groupId: number): Observable<Permission[]> {

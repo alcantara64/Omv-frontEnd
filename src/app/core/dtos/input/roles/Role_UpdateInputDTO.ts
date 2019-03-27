@@ -1,5 +1,5 @@
 export class Role_UpdateInputDTO {
   RoleName: string;
-  IsSystem: boolean;
+  IsSystem: string;
   Status: number;
 }
