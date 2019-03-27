@@ -43,6 +43,10 @@ import { AdminGroupPermissionsComponent } from './admin-group-edit/admin-group-p
 import { AdminGroupMembersComponent } from './admin-group-edit/admin-group-members/admin-group-members.component';
 import { AdminGroupMediaAccessComponent } from './admin-group-edit/admin-group-media-access/admin-group-media-access.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AdminMediaAccessDataService } from '../core/services/data/admin-media-access/admin-media-access.data.service';
+import { AdminMediaAccessMockDataService } from '../core/services/data/admin-media-access/admin-media-access.mock.service';
+import { AdminMediaAccessWebDataService } from '../core/services/data/admin-media-access/admin-media-access.web.service';
+import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 import { AdminPermissionState } from './state/admin-permissions/admin-permissions.state';
 
 @NgModule({
@@ -60,6 +64,7 @@ import { AdminPermissionState } from './state/admin-permissions/admin-permission
     DropDownListAllModule,   
     MultiSelectAllModule,
     ReactiveFormsModule,
+    TreeViewModule,
     NgxsModule.forFeature([
       AdminUserState,
       AdminGroupState,
@@ -89,6 +94,7 @@ import { AdminPermissionState } from './state/admin-permissions/admin-permission
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
     { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
+    { provide: AdminMediaAccessDataService, useClass: environment.useMocks ? AdminMediaAccessMockDataService : AdminMediaAccessWebDataService },
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
 })

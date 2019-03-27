@@ -99,3 +99,7 @@ export class RemoveGroupMembers {
 
   constructor(public groupId: number, public payload: number[]) { }
 }
+export class GetMediaAccess {
+  static readonly type = '[Admin Users Page] GetMediaAccess';
+
+}

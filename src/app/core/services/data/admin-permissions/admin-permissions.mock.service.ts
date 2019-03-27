@@ -10,6 +10,9 @@ import { HttpClient } from '@angular/common/http';
     providedIn: 'root'
 })
 export  class AdminPermissionsMockService implements AdminPermissionsDataService {
+    getPermissions(): Observable<Permission[]> {
+        throw new Error("Method not implemented.");
+    }
 
     mockUrl = `./assets/mock/permissions.json`;
     constructor(private httpClient: HttpClient) {}

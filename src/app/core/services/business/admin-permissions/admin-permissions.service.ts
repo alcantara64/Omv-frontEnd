@@ -11,7 +11,7 @@ export class AdminPermissionsService {
 
   constructor(private AdminPermissionsDataService: AdminPermissionsDataService) { }
 
-  // getPermissions(): Observable<Group_permissionDTO[]> {
-  //   return this.AdminPermissionsDataService.getPermissions();
-  // }
+  getPermissions(): Observable<Permission[]> {
+    return this.AdminPermissionsDataService.getPermissions();
+  }
 }
