@@ -60,11 +60,14 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User[]>;
   @Select(AdminUserState.getUnassignedUsers) unassignedUsers$: Observable<User[]>;
   @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User[]>;
-  @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
+  @Select(AdminGroupState.getActiveGroups) groups$: Observable<Group[]>;
 
   @ViewChild('groupDialog') groupDialog: DialogComponent;
 
   @ViewChild('listviewgroup') groupDialogList: any;
+
+  @ViewChild('nameselect') nameSelect: TextBoxComponent;
+  @ViewChild('groupselect') groupSelect: DropDownListComponent;
 
   target = '.control-section';
 
@@ -107,9 +110,13 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetUsers());
       this.displayUsers(params.type);
+      this.nameSelect.value = "";
+      this.groupSelect.index = null;
+
     });
 
     this.groups$.subscribe(groups => (this.groups = groups));
+
   }
 
 
@@ -138,11 +145,34 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   changeUsersStatus(users: User[]) {
+    this.ShowSpinner(true);
+
+    let count:number = 1;
+
     users.forEach(user => {
+
       if ((this.statusChange === this.ENABLE)) {
-        this.store.dispatch(new EnableUser(user.userId, user));
+        this.store.dispatch(new EnableUser(user.userId, user)).toPromise().then(()=>{
+            console.log("AdminUsersListComponent - changeUsersStatus - EnableUser - count"+count);
+            if (users.length === count)
+            {
+              console.log("AdminUsersListComponent - changeUsersStatus - EnableUser - Showspinner off"+count);
+              this.ShowSpinner(false);
+            }else{
+              count = count + 1;
+            }
+        });
       } else {
-        this.store.dispatch(new DisableUser(user.userId, user));
+        this.store.dispatch(new DisableUser(user.userId, user)).toPromise().then(()=>{
+          console.log("AdminUsersListComponent - changeUsersStatus - EnableUser - count"+count);
+          if (users.length === count)
+            {
+              console.log("AdminUsersListComponent - changeUsersStatus - EnableUser - Showspinner off"+count);
+              this.ShowSpinner(false);
+            }else{
+              count = count + 1;
+            }
+        });
       }
     });
   }

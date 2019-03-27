@@ -2,10 +2,10 @@
 
   <div class="row">
     <div class="pb-3 col-md-4">
-      <ejs-textbox placeholder="Name" floatLabelType="Auto"   [(value)] ='name' ></ejs-textbox>
+      <ejs-textbox #nameselect placeholder="Name" [showClearButton]="true" floatLabelType="Auto"   [(value)] ='name' ></ejs-textbox>
     </div>
     <div class="pb-3 col-md-4">
-      <ejs-dropdownlist name="group" id="group" [fields]='groupFields'  [(value)] ='groupid'
+      <ejs-dropdownlist #groupselect name="group" id="group" [fields]='groupFields'  [(value)] ='groupid' [showClearButton]="true"
         [dataSource]="groups"  [placeholder]="'Select'" floatLabelType='Auto'>
       </ejs-dropdownlist>
     </div>
