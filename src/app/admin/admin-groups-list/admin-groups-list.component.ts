@@ -124,7 +124,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     this.selectedGroups = groups;
   }
 
-  edit(data: Group) {
+  edit(data?: Group) {
     if (!data) {
       this.router.navigate([`/admin/groups/0/edit`]);
     } else {

@@ -168,7 +168,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.selectedUsers = users;
   }
 
-  edit(data: User) {
+  edit(data?: User) {
     if (!data) {
       this.router.navigate([`/admin/users/0/edit`]);
     } else {

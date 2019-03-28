@@ -22,7 +22,7 @@ export class AppComponent {
   @Select(AppState.setNotification) notificationMessages$: Observable<string>;
 
   private currentPageTitle: string;
-  private notificationMessages: string;
+  public notificationMessages: string;
   private notificationColour: string;
 
   constructor(public authn: AuthService, private title: Title, private activatedRoute: ActivatedRoute, private store:Store) {

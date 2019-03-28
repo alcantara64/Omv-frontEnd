@@ -252,7 +252,7 @@ html, body {
   display: block;
   position: fixed;
   right: 60px;
-  bottom: 40px;
+  top: 60px;
   z-index: 1000;
   padding: 25px 10px;
   border-radius: 5px;
