@@ -64,9 +64,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
-  getGroupPermissions(groupId: number): Observable<import("../../../enum/permission").Permission[]> {
-    throw new Error("Method not implemented.");
-  }
+
   getGroup(id: number): Observable<Group> {
     var requestUri = environment.api.baseUrl + `/v1/roles/${id}`;
 
@@ -151,8 +149,8 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       response => {
         automapper
           .createMap(Role_GetPermissionsByIdOutputDTO, Permission)
-          .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleId'))
-          .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('permissionId'))
+          .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('permissionId'))
+          .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('permissionDescription'))
           .forMember('status', function (opts) { opts.mapFrom('status'); })
 
 
@@ -172,7 +170,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
-  updatePermissions(groupId: number, payload: number[]) {
+  updatePermissions(groupId: number, payload: string[]) {
     var requestUri = environment.api.baseUrl + `/v1/roles/${groupId}/permissions`;
 
     var request = new Role_InsertPermissionInputDTO();
@@ -193,12 +191,13 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     return this.httpClient.get<Role_GetMembersByIdOutputDTO []>(requestUri).pipe(map(
       response => {
         automapper
-          .createMap(Role_GetMembersByIdOutputDTO , Permission)
+          .createMap(Role_GetMembersByIdOutputDTO , User)
           .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('userId'));
 
 
         var _response = automapper.map(Role_GetMembersByIdOutputDTO , User, response);
-        console.log('AdminGroupsWebDataService - getMembers: ', _response);
+        console.log('AdminGroupsWebDataService - getMembers: ', response);
+
         return _response;
 
       }),
@@ -208,6 +207,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
+
   addMembers(groupId: number, payload: number[]) {
     var requestUri = environment.api.baseUrl + `/v1/roles/${groupId}/members`;
 

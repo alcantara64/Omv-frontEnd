@@ -51,7 +51,7 @@ export class AdminUserGroupsComponent extends BaseComponent implements OnInit, O
       }
     }),
     takeWhile(() => this.componentActive);
-    
+
     this.userGroups$.subscribe(groups => {
       if (groups) {
         this.userGroupIds = groups.map(x => x.id);
@@ -70,6 +70,6 @@ export class AdminUserGroupsComponent extends BaseComponent implements OnInit, O
       this.store.dispatch(new GetUserGroups(this.userId));
       this.setNotification('User Group Updated');
     });
-    
+
   }
 }

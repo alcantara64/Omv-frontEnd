@@ -34,7 +34,7 @@ export class AdminGroupsService {
     return this.AdminGroupsDataService.getPermissions(groupId);
   }
 
-  updateGroupPermissions(groupId: number, payload: number[]) {
+  updateGroupPermissions(groupId: number, payload: string[]) {
     return this.AdminGroupsDataService.updatePermissions(groupId, payload);
   }
 

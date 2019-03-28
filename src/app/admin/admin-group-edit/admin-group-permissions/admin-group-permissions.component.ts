@@ -23,7 +23,7 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
   componentActive = true;
   permissions: Permission[] = [];
   selectedPermission: any[] = [];
-  groupPermissions: Permission [];
+  groupPermissions: string [] = [];
   columns: GridColumn[] = [
     {type: "checkbox", headerText: "Select All", width: "100", field: ""},
     {type: "", headerText: "Permission Title", width: "", field: "name"}
@@ -33,8 +33,8 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
   @Select(AdminGroupState.getPermissionsByGroupId) getUserPermissions$: Observable<Permission[]>;
 
 
-
-  constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
+  constructor(private store: Store, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.store.dispatch(new GetPermissions());
@@ -44,11 +44,23 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
     // Get the id in the browser url and reach out for the Group
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
-      this.store.dispatch(new GetGroupPermissions(this.groupId));
-    }),
-    takeWhile(() => this.componentActive);
+      this.store.dispatch(new GetGroupPermissions(this.groupId))
+        .toPromise().then(() => {
+        this.getUserPermissions$.subscribe(permissions => {
+          console.log("AdminGroupPermissionsComponent - ngOnInit permissions: " + permissions);
+          if (permissions) {
+            this.groupPermissions = permissions.map(x => x.id);
+          }
 
-    this.getUserPermissions$.subscribe(permissions => this.groupPermissions = permissions);
+
+        });
+      });
+
+
+    }),
+      takeWhile(() => this.componentActive);
+
+
   }
 
   ngOnDestroy(): void {

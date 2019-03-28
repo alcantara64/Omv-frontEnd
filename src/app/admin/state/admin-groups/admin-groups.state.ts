@@ -77,6 +77,7 @@ export class AdminGroupState {
 
   @Selector()
   static getPermissionsByGroupId(state: AdminGroupStateModel) {
+    console.log(" AdminGroupState - getPermissionsByGroupId " + state.currentGroupPermission);
     return state.currentGroupPermission;
   }
   //#endregion
