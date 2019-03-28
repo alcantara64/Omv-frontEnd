@@ -191,12 +191,13 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     return this.httpClient.get<Role_GetMembersByIdOutputDTO []>(requestUri).pipe(map(
       response => {
         automapper
-          .createMap(Role_GetMembersByIdOutputDTO , Permission)
+          .createMap(Role_GetMembersByIdOutputDTO , User)
           .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('userId'));
 
 
         var _response = automapper.map(Role_GetMembersByIdOutputDTO , User, response);
-        console.log('AdminGroupsWebDataService - getMembers: ', _response);
+        console.log('AdminGroupsWebDataService - getMembers: ', response);
+
         return _response;
 
       }),
