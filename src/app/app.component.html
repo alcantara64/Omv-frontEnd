@@ -1,5 +1,13 @@
 
 <app-header></app-header>
+<div *ngIf="notificationMessages !== null"
+     [ngClass]="{'omv-notifications': notificationMessages !== null }"
+     [ngStyle]="{background: notificationColour}">
+  <div class="omv-notification-message">{{ notificationMessages }}</div>
+  <div class="omv-notification-close">
+    <span class="e-icons  e-add-icon"></span>
+  </div>
+</div>
 <div class="container">
   <div class="row pt-4">
     <div *ngIf="showLeftNav$ | async" class="col-md-3">

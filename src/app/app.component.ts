@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import {Title} from "@angular/platform-browser";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import * as automapper from 'automapper-ts';
+import {messageType} from "./state/app.actions";
 
 @Component({
   selector: 'app-root',
@@ -18,12 +19,36 @@ export class AppComponent {
   // currentPageTitle: string;
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
   @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
+  @Select(AppState.setNotification) notificationMessages$: Observable<string>;
+
   private currentPageTitle: string;
+  private notificationMessages: string;
+  private notificationColour: string;
 
   constructor(public authn: AuthService, private title: Title, private activatedRoute: ActivatedRoute) {
     this.currentPageTitle$.subscribe( (res) => {
       res === 'OMV Client Portal' ? this.title.setTitle(res) : this.title.setTitle(res + ' - OMV Client Portal');
+    });
+
+    this.notificationMessages$.subscribe( (res: any) => {
+      this.notificationMessages = res.message;
+      switch (res.messageType) {
+        case 'success': {
+          this.notificationColour = '#7DFF7D';
+          break;
+        }
+        case 'warning': {
+          this.notificationColour = '#FFC97E';
+          break;
+        }
+        case 'error': {
+          this.notificationColour = '#FF1F00';
+          break;
+        }
+
+      }
     })
+
   }
 
   messages: string[] = [];

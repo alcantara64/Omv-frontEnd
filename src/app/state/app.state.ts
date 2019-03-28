@@ -1,20 +1,26 @@
-import {SetPageTitle, ShowLeftNav} from './app.actions';
-import { State, Selector, Action, StateContext } from '@ngxs/store';
+import {ClearNotification, messageType, SetNotification, SetPageTitle, ShowLeftNav} from './app.actions';
+import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
 
 
 export class AppStateModel {
   showLeftNav: boolean;
-  setPageTitle: string
+  setPageTitle: string;
+  message: string;
+  messageType: messageType;
 }
 
 @State<AppStateModel>({
   name: 'app',
   defaults: {
     showLeftNav: false,
-    setPageTitle: 'OMV Client Portal'
+    setPageTitle: 'OMV Client Portal',
+    message: null,
+    messageType: messageType.success,
   }
 })
 export class AppState {
+
+  constructor(protected store: Store) {}
   
   @Selector()
   static getLeftNavVisibility(state: AppStateModel) { 
@@ -24,6 +30,11 @@ export class AppState {
   @Selector()
   static getPageTitle(state: AppStateModel) {
     return state.setPageTitle;
+  }
+
+  @Selector()
+  static setNotification(state: AppStateModel) {
+    return {message: state.message, messageType: state.messageType};
   }
 
   @Action(ShowLeftNav)
@@ -43,4 +54,32 @@ export class AppState {
     });
   }
 
+  @Action(ClearNotification)
+  clearNotification({getState,setState}: StateContext<AppStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      message: null,
+      messageType: messageType.success
+    })
+  }
+
+  @Action(SetNotification)
+  setNotification({getState, setState}: StateContext<AppStateModel>, {message, messageType}: SetNotification) {
+    this.store.dispatch(new ClearNotification);
+    const state = getState();
+
+    setTimeout(()=>{
+      setState({
+        ...state,
+        message: message,
+        messageType: messageType
+      });
+
+      setTimeout(()=>{
+        this.store.dispatch(new ClearNotification)
+      }, 10000);
+
+    }, 1)
+  }
 }

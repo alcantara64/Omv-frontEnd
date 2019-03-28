@@ -10,13 +10,14 @@ import { GetGroupPermissions } from '../../state/admin-groups/admin.groups.actio
 import { takeWhile } from 'rxjs/operators';
 import { AdminPermissionState } from '../../state/admin-permissions/admin-permissions.state';
 import { GetPermissions } from '../../state/admin-permissions/admin-permissions.action';
+import {BaseComponent} from "../../../shared/base/base.component";
 
 @Component({
   selector: 'app-admin-group-permissions',
   templateUrl: './admin-group-permissions.component.html',
   styleUrls: ['./admin-group-permissions.component.css']
 })
-export class AdminGroupPermissionsComponent implements OnInit {
+export class AdminGroupPermissionsComponent extends BaseComponent implements OnInit {
 
   groupId: number;
   componentActive = true;
@@ -59,6 +60,7 @@ export class AdminGroupPermissionsComponent implements OnInit {
     this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
       console.log('AdminUserGroupsComponent - updateGroups');
       this.store.dispatch(new GetGroupPermissions(this.groupId));
+      this.setNotification('Permission Updated');
     });
   }
 }

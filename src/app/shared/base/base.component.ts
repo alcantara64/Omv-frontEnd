@@ -1,15 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { permission } from "src/app/core/enum/permission";
 import { Store } from "@ngxs/store";
-import {SetPageTitle, ShowLeftNav} from "src/app/state/app.actions";
+import {messageType, SetNotification, SetPageTitle, ShowLeftNav} from "src/app/state/app.actions";
 import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
 
 export class BaseComponent implements OnInit {
   private _permission: string;
 
-  constructor(protected store: Store) {
-    console.log("Base - constructor");
-  }
+    constructor(protected store: Store) {
+      console.log("Base - constructor");
+    }
 
   ngOnInit() {}
 
@@ -42,5 +42,9 @@ export class BaseComponent implements OnInit {
 
   protected PageTitle(pageTitle: string) {
     this.store.dispatch(new SetPageTitle(pageTitle));
+  }
+
+  protected setNotification(message: string, messageType?: messageType) {
+    this.store.dispatch(new SetNotification(message, messageType));
   }
 }

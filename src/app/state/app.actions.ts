@@ -9,3 +9,20 @@ export class SetPageTitle {
 
   constructor(public payload: string) { }
 }
+
+export class ClearNotification {
+  static readonly type = '[Notification] ClearNotification';
+}
+
+export enum messageType {
+  success = "success",
+  warning = "warning",
+  error = "error",
+}
+
+export class SetNotification {
+
+  static readonly type = '[Notification] SetNotification';
+
+  constructor(public message: string | null, public messageType? : messageType) { }
+}

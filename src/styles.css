@@ -227,3 +227,51 @@ html, body {
   border-radius: 4px;
 }
 /************ End OMV Button **************/
+
+
+/************ OMV Badge **************/
+.omv-orange-badge {
+  font-family: 'EMprint', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  color: #033b5c;
+  border-radius: 10px;
+  background-color: #ffc72c;
+  padding: 5px 10px;
+}
+/************ End OMV Badge **************/
+
+/************ OMV Notification **************/
+@keyframes omv-notifications-animate {
+  from {right: -350px}
+  to {right: 60px}
+}
+
+.omv-notifications {
+  display: block;
+  position: fixed;
+  right: 60px;
+  bottom: 40px;
+  z-index: 1000;
+  padding: 25px 10px;
+  border-radius: 5px;
+  animation: omv-notifications-animate 1s linear;
+}
+
+.omv-notification-message {
+  display: inline-block;
+  width: 300px;
+  color: white;
+  text-align: center;
+  font-size: medium;
+  font-weight: bolder;
+  font-family: "Open Sans", sans-serif;
+}
+
+.omv-notification-close {
+  display: inline-block;
+  float: right;
+  width: 50px;
+}
+/************ End OMV Notification **************/

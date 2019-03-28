@@ -12,13 +12,14 @@ import { GetUserGroups, UpdateUserGroups } from '../../state/admin-users/admin-u
 import { AdminUserState } from '../../state/admin-users/admin-users.state';
 import { ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
+import {BaseComponent} from "../../../shared/base/base.component";
 
 @Component({
   selector: 'app-admin-user-groups',
   templateUrl: './admin-user-groups.component.html',
   styleUrls: ['./admin-user-groups.component.css']
 })
-export class AdminUserGroupsComponent implements OnInit, OnDestroy {
+export class AdminUserGroupsComponent extends BaseComponent implements OnInit, OnDestroy {
 
   userId: number;
   groups: Group[] = [];
@@ -67,6 +68,7 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new UpdateUserGroups(this.userId, groupIds)).toPromise().then(() => {
       console.log('AdminUserGroupsComponent - updateGroups');
       this.store.dispatch(new GetUserGroups(this.userId));
+      this.setNotification('User Group Updated');
     });
     
   }
