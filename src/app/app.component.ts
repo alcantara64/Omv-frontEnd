@@ -1,12 +1,12 @@
 import { AppState } from './state/app.state';
 import { Component } from '@angular/core';
 import { AuthService, User } from './core/services/data/appsettings/auth.service';
-import { Select } from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import { Observable } from 'rxjs';
 import {Title} from "@angular/platform-browser";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import * as automapper from 'automapper-ts';
-import {messageType} from "./state/app.actions";
+import {ClearNotification, messageType} from "./state/app.actions";
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,7 @@ export class AppComponent {
   private notificationMessages: string;
   private notificationColour: string;
 
-  constructor(public authn: AuthService, private title: Title, private activatedRoute: ActivatedRoute) {
+  constructor(public authn: AuthService, private title: Title, private activatedRoute: ActivatedRoute, private store:Store) {
     this.currentPageTitle$.subscribe( (res) => {
       res === 'OMV Client Portal' ? this.title.setTitle(res) : this.title.setTitle(res + ' - OMV Client Portal');
     });
@@ -49,6 +49,11 @@ export class AppComponent {
       }
     })
 
+  }
+
+
+  public clearNotification() {
+    this.store.dispatch(new ClearNotification);
   }
 
   messages: string[] = [];

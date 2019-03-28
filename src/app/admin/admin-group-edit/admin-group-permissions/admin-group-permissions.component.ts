@@ -33,7 +33,8 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
   @Select(AdminGroupState.getPermissionsByGroupId) getUserPermissions$: Observable<Permission[]>;
 
 
-  constructor(private store: Store, private activatedRoute: ActivatedRoute) {
+  constructor(protected store: Store, protected activatedRoute: ActivatedRoute) {
+    super(store);
   }
 
   ngOnInit() {
@@ -68,7 +69,7 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
   }
 
   updatePermissions(permissions: Permission[]) {
-    const _permissions = permissions.map(permission => Number(permission.id));
+    const _permissions = permissions.map(permission => permission.id);
     this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
       console.log('AdminUserGroupsComponent - updateGroups');
       this.store.dispatch(new GetGroupPermissions(this.groupId));

@@ -34,8 +34,8 @@ export class AdminUserGroupsComponent extends BaseComponent implements OnInit, O
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
   @Select(AdminUserState.getGroups) userGroups$: Observable<Group[]>;
 
-  constructor(private store: Store,
-              private activatedRoute: ActivatedRoute) { }
+  constructor(protected store: Store,
+              protected activatedRoute: ActivatedRoute) { super(store) }
 
   ngOnInit() {
     this.store.dispatch(new GetGroups());
