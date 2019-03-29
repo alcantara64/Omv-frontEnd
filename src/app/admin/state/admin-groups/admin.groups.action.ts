@@ -82,7 +82,7 @@ export class UpdateGroupPermissions {
   constructor(public groupId: number, public payload: string[]) { }
 }
 
-export class GetGroupMembers{
+export class GetGroupMembers {
   static readonly type = '[Admin Groups] GetGroupMembers';
 
   constructor(public groupId: number) { }
@@ -102,4 +102,16 @@ export class RemoveGroupMembers {
 export class GetMediaAccess {
   static readonly type = '[Admin Groups Page] GetMediaAccess';
 
+}
+export class GetRoleMediaAccess {
+  static readonly type = '[Admin Groups] GetRoleMediaAccess';
+
+  constructor(public groupId: number) { }
+}
+export class UpdateRoleMediaAccess {
+  static readonly type = '[Admin Groups] UpdateRoleMediaAccess';
+
+  constructor(public groupid: number, public payload: number[]) {
+
+  }
 }

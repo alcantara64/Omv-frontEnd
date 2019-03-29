@@ -1,10 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
 import { MediaAccess } from 'src/app/core/models/media-access';
 import { Select, Store } from '@ngxs/store';
-import { DataManager, JsonAdaptor, Query, ODataV4Adaptor } from '@syncfusion/ej2-data';
-import { GetMediaAccess } from '../../state/admin-groups/admin.groups.action';
+import { DataManager, JsonAdaptor, Query, ODataV4Adaptor, WebApiAdaptor } from '@syncfusion/ej2-data';
+import { GetMediaAccess, GetRoleMediaAccess, UpdateGroupPermissions, UpdateRoleMediaAccess } from '../../state/admin-groups/admin.groups.action';
+import { EmitType } from '@syncfusion/ej2-base';
+import { NodeExpandEventArgs, NodeClickEventArgs, NodeSelectEventArgs } from '@syncfusion/ej2-navigations';
+import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';
+import { TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
+import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { Role_GetDirectoriesByIdOutputDTO } from 'src/app/core/dtos/output/roles/Role_GetDirectoriesByIdOutputDTO';
 
 @Component({
   selector: 'app-admin-group-media-access',
@@ -12,32 +19,66 @@ import { GetMediaAccess } from '../../state/admin-groups/admin.groups.action';
   styleUrls: ['./admin-group-media-access.component.css']
 })
 export class AdminGroupMediaAccessComponent implements OnInit {
+  @ViewChild('tree') tree: TreeViewComponent;
   @Select(AdminGroupState.getMediaAccess) getMediaAccess$: Observable<MediaAccess[]>;
-  mediaAccess: MediaAccess[];
+  @Select(AdminGroupState.getRoleMediaAccessIds) currentGroupMediaAccessIds$: Observable<number[]>
+
+  public mediaAccess: { [key: string]: Object }[] = [];
   public field: Object;
-  constructor(private store: Store) { }
+  public dataManager: any;
+  groupId: number;
+  checkedNode: string[] = [];
+
+  constructor(private store: Store, private activatedRoute: ActivatedRoute, private adminMediaService: AdminMediaAccessService) { }
 
   ngOnInit() {
-    this.store.dispatch(new GetMediaAccess());
-
-    this.getMediaAccess$.subscribe(mediaAccess => (this.mediaAccess = mediaAccess));
-    this.field = { dataSource: this.mediaAccess, id: 'id', parentID: 'pid', text: 'name', hasChildren: 'hasChild' };
-    // this.query = new Query().select('id,name').take(5);
-    // this.query1 = new Query().select('childid,childname').take(2);
-    // this.field = {
-    //   dataSource: this.mediaAccess, id: 'id', text: 'name', query:this.query, hasChildren: 'id',
-    //   child: { dataSource: this.mediaAccess, id: 'childid',query:this.query1, parentID: 'id', text: 'childname' }
-    // };
-
-    console.log('field',  this.field);
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.groupId = Number(params.get('id'));
+      this.store.dispatch(new GetRoleMediaAccess(this.groupId));
+    }
+    );
+    this.currentGroupMediaAccessIds$.subscribe((checkedNodes) => {
+      setTimeout(() => {
+        this.checkedNode = checkedNodes.map(String);
+      }, 10);
+    });
+    this.adminMediaService.getMediaAccess().subscribe(data => {
+      this.mediaAccess = data;
+      this.mediaAccess.forEach(item => {
+        if (item.directoryParentId === 0) {
+          item.directoryParentId = undefined;
+        }
+      })
+      this.field = {
+        dataSource: this.mediaAccess, id: 'directoryId', parentID: 'directoryParentId',
+        text: 'directoryName', hasChildren: 'hasChild'
+      };
+    });
   }
-  show(args?): void {
+
+  nodeChecked(args: any): void {
+    this.checkedNode = this.tree.checkedNodes;
+    console.log('The checked node\'s id is: ' + this.checkedNode);
+
+  }
+
+  show: EmitType<EmitType<NodeClickEventArgs>> = (args) => {
+
     let popup: HTMLElement = document.getElementById('loading');
     popup.style.display = '';
   }
   // Hide loading message, after tree data has been loaded
-  public hide(args?): void {
+  public hide(args): void {
     let popup: HTMLElement = document.getElementById('loading') as HTMLElement;
     popup.style.display = 'none';
+  }
+
+  updateMediaAccess() {
+    var ids = this.checkedNode.map(v => parseInt(v));
+    this.store.dispatch(new UpdateRoleMediaAccess(this.groupId, ids)).toPromise().then(() => {
+      console.log('AdminUserGroupsComponent - updateGroups');
+      this.store.dispatch(new GetRoleMediaAccess(this.groupId));
+      // this.setNotification('Permission Updated');
+    });
   }
 }

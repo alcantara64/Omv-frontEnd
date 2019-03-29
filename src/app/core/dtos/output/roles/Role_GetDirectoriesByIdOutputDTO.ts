@@ -1,9 +1,9 @@
 import { BaseDTO } from './../../BaseDTO';
 export class Role_GetDirectoriesByIdOutputDTO extends BaseDTO {
   
-  DirectoryId: number;
-  DirectoryName: string;
-  DirectoryParentId: number;
-  HasChild: boolean;
+  directoryId: number;
+  directoryName: string;
+  directoryParentId: number;
+  hasChild: boolean;
   
 }

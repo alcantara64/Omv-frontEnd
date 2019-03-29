@@ -1,3 +1,8 @@
-<ejs-treeview  #tree [fields]='field' [showCheckBox]='true' >
+<ejs-treeview  #tree [fields]='field' [showCheckBox]='true' [selectedNodes] = "checkedNode" 
+[checkedNodes] = "checkedNode" (nodeChecked)='nodeChecked($event)'>
 
 </ejs-treeview>
+
+    <button class="grid-toolbar-item-button" (click)="updateMediaAccess()" >
+        Update Media Access
+      </button>
