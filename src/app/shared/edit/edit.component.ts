@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { Store } from '@ngxs/store';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class EditComponent extends BaseComponent implements OnInit {
 
   @Output() secondButtonEvent = new EventEmitter<any>();
 
-  constructor(protected store: Store) {
+  constructor(protected store: Store, protected router: Router) {
     super(store);
   }
 

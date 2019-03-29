@@ -71,11 +71,10 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
   saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
 
-  constructor(protected store: Store, private activatedRoute: ActivatedRoute, private router:Router ){
+  constructor(protected store: Store, private activatedRoute: ActivatedRoute, protected router:Router ){
     super(store);
-
-    this.ShowLefNav(true);
     this.Permission = permission.VIEW_GROUP;
+    this.ShowLefNav(true);
     this.PageTitle('Admin Groups');
   }
 
@@ -88,6 +87,10 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
       this.displayGroups(params.type);
     });
     this.getAllPermissions$.subscribe(permissions => (this.permissions = permissions));
+
+    if (!this.userHasPermission) {
+      this.router.navigate(['dashboard']);
+    }
   }
 
 

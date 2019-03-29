@@ -1,3 +1,4 @@
+import { Permission } from 'src/app/core/enum/permission';
 import { User } from '../../../models/entity/user';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -15,4 +16,5 @@ export abstract class AdminUsersDataService {
     abstract updateUser(id: number, payload: User) ;
     abstract updateGroups(userid: number, payload: number[], isAddRoles:boolean);
     abstract getGroups(userid: number);
+    abstract getPermissions(userid: number): Observable<Permission[]>;
 }

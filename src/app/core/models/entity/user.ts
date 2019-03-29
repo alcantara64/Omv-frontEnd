@@ -13,3 +13,15 @@ export class User {
   modifiedOn: Date;
   modifiedBy: string;
 }
+
+export interface LoggedInUser{
+  firstName: string;
+  lastName: string;
+  id: string;
+  role: Array<UserRole>;
+}
+
+export enum UserRole {
+  None = 0,
+  Admin= 1
+}

@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { User } from '../../../models/entity/user';
 import { AdminUsersDataService } from '../../data/admin-users/admin-users.data.service';
 import { Group } from 'src/app/core/models/entity/group';
+import { Permission } from 'src/app/core/enum/permission';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,6 @@ export class AdminUsersService {
     return this.AdminUserService.getUser(id);
   }
 
-
-
   createUser(payload: User) {
     return this.AdminUserService.createUser(payload);
   }
@@ -36,5 +35,9 @@ export class AdminUsersService {
 
   getGroups(userid: number): Observable<Group[]> {
     return this.AdminUserService.getGroups(userid);
+  }
+
+  getPermissions(userid: number): Observable<Permission[]> {
+    return this.AdminUserService.getPermissions(userid);
   }
 }
