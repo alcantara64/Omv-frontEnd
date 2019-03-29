@@ -101,9 +101,11 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
 
     automapper
       .createMap(payload, Role_InsertInputDTO)
-      .forMember('id', function (opts) { opts.mapFrom('roleId'); })
-      .forMember('name', function (opts) { opts.mapFrom('roleName'); })
-      .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
+      .forMember('RoleId', function (opts) { opts.mapFrom('RoleId'); })
+      .forMember('RoleName', function (opts) { opts.mapFrom('RoleName'); })
+      .forMember('IsSystem', function (opts) { opts.mapFrom('IsSystem'); })
+      .forMember('Status', function (opts) { opts.mapFrom('Status'); })
+      .forMember('Description', function (opts) { opts.mapFrom('RoleDescription'); })
 
     var request = automapper.map(payload, Role_InsertInputDTO, payload);
     console.log('AdminGroupsWebDataService - createGroup: ', request);

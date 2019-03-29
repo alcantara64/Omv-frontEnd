@@ -128,15 +128,18 @@ export class AdminGroupState {
 
   @Action(CreateGroup)
   createGroup(ctx: StateContext<AdminGroupStateModel>, { payload }: CreateGroup) {
-    return this.adminGroupService.createGroup(payload).pipe(tap(group => {
-      console.log('state group: ', group);
-      const state = ctx.getState();
-      ctx.setState({
-        ...state,
-        currentGroupId: group.id
-      });
-      ctx.dispatch(new GetGroups());
-    }));
+    return this.adminGroupService.createGroup(payload).pipe(
+      tap(result => {
+        console.log('state group: ', result);
+        const group = result as Group;
+        const state = ctx.getState();
+        ctx.setState({
+          ...state,
+          currentGroupId: group.id
+        });
+        ctx.dispatch(new GetGroups());
+      })
+    );
   }
 
   @Action(UpdateGroup)

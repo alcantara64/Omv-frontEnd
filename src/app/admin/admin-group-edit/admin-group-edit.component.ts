@@ -89,6 +89,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
 
     // Get the current group
     this.currentGroup$.subscribe(group => {
+      console.log('Chyke is here--- ', group);
       if (group) { // Existing Group
         this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
         console.log('AdminGroupEditComponent - ngOnInit: groupDetails ', group);
@@ -100,6 +101,14 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
         });
         this.group = group;
         console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);
+      } else {
+        // let newForm = this.groupForm.setValue({
+        //   name: this.groupForm.value[name],
+        //   description: this.groupForm.value[description],
+        //   isSystem:  this.groupForm.value[isSystem]
+        // });
+
+        console.log('Chyke is here:  ', this.groupForm.value);
       }
     }),
     takeWhile(() => this.componentActive);
@@ -122,7 +131,12 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
 
         if (this.groupId === 0) {
           console.log('AdminGroupEditComponent - save: ', this.groupForm.value);
-          await this.store.dispatch(new CreateGroup(group));
+          this.groupForm.value.RoleId = this.groupId;
+          this.groupForm.value.Status = 1;
+          this.groupForm.value.RoleName = this.groupForm.value.name;
+          this.groupForm.value.RoleDescription = this.groupForm.value.description;
+          this.groupForm.value.IsSystem = this.groupForm.value.isSystem;
+          await this.store.dispatch(new CreateGroup(this.groupForm.value));
           this.currentGroupId$.subscribe(groupId => {
             if (groupId) {
               this.groupForm.reset();
