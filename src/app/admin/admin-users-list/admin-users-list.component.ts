@@ -1,3 +1,4 @@
+import { BaseComponent } from './../../shared/base/base.component';
 import { EmitType } from '@syncfusion/ej2-base';
 import { AdminUserType } from './../../core/enum/admin-user-type';
 import { GetGroups } from '../state/admin-groups/admin.groups.action';
@@ -95,14 +96,13 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
   constructor(
     protected store: Store,
-    private router: Router,
+    protected router: Router,
     private activatedRoute: ActivatedRoute
   ) {
     super(store);
-    this.ShowLefNav(true);
     this.Permission = permission.VIEW_USERS;
+    this.ShowLefNav(true);
     this.PageTitle('Admin User');
-
   }
 
   ngOnInit() {
@@ -119,6 +119,9 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
     this.groups$.subscribe(groups => (this.groups = groups));
 
+    if (!this.userHasPermission) {
+      this.router.navigate(['dashboard']);
+    }
   }
 
 

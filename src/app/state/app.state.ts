@@ -4,15 +4,24 @@ import {
   Confirmation,
   messageType,
   SetNotification,
-  SetPageTitle,
-  ShowLeftNav, ClearConfirmation
+  ClearConfirmation, 
+  SetPageTitle, ShowLeftNav, SetLoggedInUser, LogOut, GetUserPermissions, GetLoggedInUser
 } from './app.actions';
 import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
+import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
+import { AuthService } from '../core/services/business/auth.service';
+import { Permission } from '../core/enum/permission';
+import { GetPermissions } from '../admin/state/admin-permissions/admin-permissions.action';
+import { GetUser } from '../admin/state/admin-users/admin-users.actions';
+import { tap } from 'rxjs/operators';
 
 
 export class AppStateModel {
   showLeftNav: boolean;
   setPageTitle: string;
+  currentUser: any;
+  currentUserId: number;
+  permissions: Permission[];
   message: string;
   messageType: messageType;
   confirmationBox: boolean;
@@ -24,6 +33,9 @@ export class AppStateModel {
   defaults: {
     showLeftNav: false,
     setPageTitle: 'OMV Client Portal',
+    currentUser: null,
+    currentUserId: 1,
+    permissions: [],
     message: null,
     messageType: messageType.success,
     confirmationBox: false,
@@ -31,8 +43,6 @@ export class AppStateModel {
   }
 })
 export class AppState {
-
-  constructor(protected store: Store) {}
 
   @Selector()
   static getLeftNavVisibility(state: AppStateModel) {
@@ -43,6 +53,23 @@ export class AppState {
   static getPageTitle(state: AppStateModel) {
     return state.setPageTitle;
   }
+
+  @Selector()
+  static getCurrentUser(state: AppStateModel) {
+    return state.currentUser;
+  }
+
+  @Selector()
+  static getCurrentUserId(state: AppStateModel) {
+    return state.currentUserId;
+  }
+
+  @Selector()
+  static getUserPermissions(state: AppStateModel) {
+    return state.permissions;
+  }
+
+  constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
 
   @Selector()
   static setNotification(state: AppStateModel) {
@@ -77,6 +104,50 @@ export class AppState {
     });
   }
 
+  @Action(GetLoggedInUser)
+  getLoggedinUser({ getState, setState }: StateContext<AppStateModel>, { userId }: GetLoggedInUser) {
+    return this.adminUsersService.getUser(userId).pipe(
+      tap(user => {
+        const state = getState();
+        setState({
+          ...state,
+          currentUser: user
+        });
+      })
+    );
+  }
+
+  @Action(SetLoggedInUser)
+  setLoggedInUser({getState, setState}: StateContext<AppStateModel>, { payload }: SetPageTitle) {
+    const state = getState();
+    setState({
+      ...state,
+      currentUser: payload
+    });
+  }
+
+  @Action(LogOut)
+  logOut({getState, setState}: StateContext<AppStateModel>, { payload }: SetPageTitle) {
+    const state = getState();
+    setState({
+      ...state,
+      currentUser: null
+    });
+    return this.authService.logOut();    
+  }
+
+  @Action(GetUserPermissions)
+  getUserPermissions({ getState, setState }: StateContext<AppStateModel>, { userId }: GetUserPermissions) {
+    return this.adminUsersService.getPermissions(userId).pipe(
+      tap(permissions => {
+        const state = getState();
+        setState({
+          ...state,
+          permissions: permissions
+        });
+      })
+    );
+  }
   @Action(ClearNotification)
   clearNotification({getState,setState}: StateContext<AppStateModel>) {
     const state = getState();
@@ -88,19 +159,19 @@ export class AppState {
   }
 
   @Action(SetNotification)
-  setNotification({getState, setState}: StateContext<AppStateModel>, {message, messageType}: SetNotification) {
-    this.store.dispatch(new ClearNotification);
-    const state = getState();
+  setNotification(ctx: StateContext<AppStateModel>, {message, messageType}: SetNotification) {
+    ctx.dispatch(new ClearNotification);
+    const state = ctx.getState();
 
     setTimeout(()=>{
-      setState({
+      ctx.setState({
         ...state,
         message: message,
         messageType: messageType
       });
 
       setTimeout(()=>{
-        this.store.dispatch(new ClearNotification)
+        ctx.dispatch(new ClearNotification)
       }, 10000);
 
     }, 1)
@@ -128,16 +199,16 @@ export class AppState {
   }
 
   @Action(Confirmation)
-  confirmation({getState, setState}: StateContext<AppStateModel>) {
-    const state = getState();
+  confirmation(ctx: StateContext<AppStateModel>) {
+    const state = ctx.getState();
 
-    setState({
+    ctx.setState({
       ...state,
       confirmation: true,
     });
 
     setTimeout(()=>{
-      this.store.dispatch(new ClearConfirmation)
+      ctx.dispatch(new ClearConfirmation)
     }, 100)
   }
 }

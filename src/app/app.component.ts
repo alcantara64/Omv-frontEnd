@@ -64,7 +64,7 @@ export class AppComponent {
   public Confirmation() {
     setTimeout(()=>{
       this.closeConfirmationBox();
-    },100);
+    },1000);
     this.store.dispatch(new Confirmation);
   }
 

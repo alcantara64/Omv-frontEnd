@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { permission } from "src/app/core/enum/permission";
+import { permission, Permission } from "src/app/core/enum/permission";
 import {Select, Store} from "@ngxs/store";
 import {
   Confirmation,
@@ -7,23 +7,61 @@ import {
   SetNotification,
   SetPageTitle,
   ShowConfirmationBox,
-  ShowLeftNav
+  ShowLeftNav,
+  GetUserPermissions
 } from "src/app/state/app.actions";
 import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
-import {AppState} from "../../state/app.state";
-import {Observable} from "rxjs";
+import { AppState } from 'src/app/state/app.state';
+import { Observable } from 'rxjs';
 
 
 export class BaseComponent implements OnInit {
   @Select(AppState.confirmation) confirmation$: Observable<string>;
 
   private _permission: string;
+  userHasPermission: boolean;
 
-    constructor(protected store: Store) {
-      console.log("Base - constructor");
-    }
+  currentUserId: number;
 
-  ngOnInit() {}
+  permission: string;
+
+
+
+  @Select(AppState.getUserPermissions) userPermissions$: Observable<Permission[]>;
+  @Select(AppState.getCurrentUserId) currentUserId$: Observable<number>;
+
+  constructor(protected store: Store) {
+    console.log("BaseComponent - constructor", this._permission);
+
+    this.currentUserId$.subscribe(userId => {
+      this.currentUserId = userId;
+      if (this.currentUserId) {
+        this.store.dispatch(new GetUserPermissions(userId));
+      }
+    });
+
+    this.userPermissions$.subscribe(permissions => {
+      // console.log('BaseComponent - ngOnInit: _permission', this._permission);
+      if (this._permission) {        
+        console.log('BaseComponent - ngOnInit: _permission', this._permission);
+        var permissionNames = permissions.map(p => p.name);
+        this.userHasPermission = permissionNames.includes(this._permission);
+        
+        if (!this.userHasPermission) {
+          console.log('BaseComponent - ngOnInit: userHasPermission', this.userHasPermission);
+        }
+      }
+      this.Permission = "";
+    });
+  }
+
+  ngOnInit() {
+    console.log("BaseComponent - ngOnInit");
+
+    // if (this.currentUserId) {
+    //   this.store.dispatch(new GetUserPermissions(this.currentUserId));
+    // }
+  }
 
   ngAfterViewInit() {
 
