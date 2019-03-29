@@ -92,6 +92,13 @@ export class RemoveGroupMembers {
   constructor(public groupId: number, public payload: number[]) { }
 }
 export class GetMediaAccess {
-  static readonly type = '[Admin Users Page] GetMediaAccess';
+  static readonly type = '[Admin Groups Page] GetMediaAccess';
 
+}
+export class GetMediaHierachialAccess{
+  static readonly type = '[Admin Groups]  GetMediaHierachialAccess';
+}
+
+export class GetSelectedNodes{
+  static readonly type = '[Admin Groups]  GetSelectedNodes';
 }

@@ -2,10 +2,10 @@ import { Group } from '../../../core/models/entity/group';
 import { AdminGroupsService } from '../../../core/services/business/admin-groups/admin-groups.service';
 import {
   GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup,
-  SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers, GetMediaAccess
+  SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers, GetMediaAccess, GetMediaHierachialAccess, GetSelectedNodes
 } from './admin.groups.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
-import { tap, mergeMap } from 'rxjs/operators';
+import { tap, mergeMap, map } from 'rxjs/operators';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
 import { User } from 'src/app/core/models/entity/user';
 import { GroupStatus } from 'src/app/core/enum/group-status.enum';
@@ -18,7 +18,7 @@ export class AdminGroupStateModel {
   currentGroupId: number | null;
   currentGroup: Group;
   permissionIds: number[];
-  mediaAccess: MediaAccess;
+  mediaAccess: MediaAccess[];
   members: User[];
 
 }
@@ -224,6 +224,18 @@ export class AdminGroupState {
 
     }));
   }
+
+  @Action(GetMediaHierachialAccess)
+  getMediaHierachialAccess({ getState, setState }: StateContext<AdminGroupStateModel>) {
+    return this.adminMediaAccessService.getHierachialData().pipe(tap(mediaAccess => {
+      const state = getState();
+      setState({
+        ...state,
+        mediaAccess: mediaAccess
+      });
+    }));
+  }
+
 
   //#endregion
 }

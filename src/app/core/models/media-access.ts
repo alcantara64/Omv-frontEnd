@@ -1,5 +1,8 @@
 export class MediaAccess {
     id: number;
     name: string;
-    child:[];
+    child: [];
+    pid: number;
+    hasChild: boolean;
+    isChecked: boolean;
 }
