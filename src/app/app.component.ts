@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import {Title} from "@angular/platform-browser";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import * as automapper from 'automapper-ts';
-import {ClearNotification, messageType} from "./state/app.actions";
+import {ClearNotification, Confirmation, messageType, ShowConfirmationBox} from "./state/app.actions";
 
 @Component({
   selector: 'app-root',
@@ -20,6 +20,7 @@ export class AppComponent {
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
   @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
   @Select(AppState.setNotification) notificationMessages$: Observable<string>;
+  @Select(AppState.showConfirmationBox) showConfirmationBox$: Observable<string>;
 
   private currentPageTitle: string;
   public notificationMessages: string;
@@ -54,6 +55,17 @@ export class AppComponent {
 
   public clearNotification() {
     this.store.dispatch(new ClearNotification);
+  }
+
+  public closeConfirmationBox() {
+    this.store.dispatch(new ShowConfirmationBox(false))
+  }
+
+  public Confirmation() {
+    setTimeout(()=>{
+      this.closeConfirmationBox();
+    },100);
+    this.store.dispatch(new Confirmation);
   }
 
   messages: string[] = [];

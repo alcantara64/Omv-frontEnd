@@ -1,10 +1,22 @@
 import { Component, OnInit } from "@angular/core";
 import { permission } from "src/app/core/enum/permission";
-import { Store } from "@ngxs/store";
-import {messageType, SetNotification, SetPageTitle, ShowLeftNav} from "src/app/state/app.actions";
+import {Select, Store} from "@ngxs/store";
+import {
+  Confirmation,
+  messageType,
+  SetNotification,
+  SetPageTitle,
+  ShowConfirmationBox,
+  ShowLeftNav
+} from "src/app/state/app.actions";
 import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
+import {AppState} from "../../state/app.state";
+import {Observable} from "rxjs";
+
 
 export class BaseComponent implements OnInit {
+  @Select(AppState.confirmation) confirmation$: Observable<string>;
+
   private _permission: string;
 
     constructor(protected store: Store) {
@@ -46,5 +58,17 @@ export class BaseComponent implements OnInit {
 
   protected setNotification(message: string, messageType?: messageType) {
     this.store.dispatch(new SetNotification(message, messageType));
+  }
+
+  protected confirm(show: boolean) {
+    this.store.dispatch(new ShowConfirmationBox(show));
+  }
+
+  protected isConfirmed() {
+    let confirmed: boolean;
+    this.confirmation$.subscribe( (res) => {
+      res === 'true' ? confirmed = true : confirmed = false;
+    })
+    return confirmed;
   }
 }

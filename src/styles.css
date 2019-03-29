@@ -275,3 +275,58 @@ html, body {
   width: 50px;
 }
 /************ End OMV Notification **************/
+
+/************ OMV Confirmation **************/
+.confirmationArea {
+  display: block;
+  position: fixed;
+  z-index: 200;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  bottom: 0;
+  margin: 0!important;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.confirmationBox {
+  display: block;
+  position: fixed;
+  z-index: 300;
+  left: 30vw;
+  right: 30vw;
+  top: 100px;
+  width: 40vw;
+  min-height: 150px;
+  background: white;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 5px black;
+}
+
+.confirmationMessage {
+  display: block;
+  text-align: center;
+  font-size: larger;
+  font-weight: bold;
+}
+
+.confirmationAction {
+  display: block;
+  margin: 20px 0 0 0;
+  padding: 0 10px;
+}
+
+.confirmationAction button {
+  display: inline-block;
+  float: right;
+  text-align: center;
+  background: #0097A9;
+  color: #ffffff;
+  text-transform: initial !important;
+  padding: 10px 25px!important;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+}
+/************ End OMV Confirmation **************/

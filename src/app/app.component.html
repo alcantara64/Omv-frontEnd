@@ -11,10 +11,16 @@
 </div>
 
 
-<div class="confirmationBox">
-  <div class="confirmationMessage"></div>
-  <div class="confirmationAction"></div>
+<div *ngIf="(showConfirmationBox$ | async) === true" class="confirmationArea" (click)="closeConfirmationBox()"></div>
+<div class="confirmationBox" *ngIf="(showConfirmationBox$ | async) === true">
+  <div class="confirmationMessage">This is a sample confirmation message</div>
+  <div class="confirmationAction">
+    <button (click)="Confirmation()">Confirm</button>
+    <button (click)="closeConfirmationBox()" style="background: #d0d0d0!important; color: #323232">Cancel</button>
+  </div>
 </div>
+
+
 <div class="container">
   <div class="row pt-4">
     <div *ngIf="showLeftNav$ | async" class="col-md-3">
