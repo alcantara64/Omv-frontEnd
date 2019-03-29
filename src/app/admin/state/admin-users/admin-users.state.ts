@@ -7,17 +7,15 @@ import {
   UpdateUser,
   EnableUser,
   DisableUser,
-  SearchUsers,
-  SetCurrentUserId,
   GetUser,
-  UpdateGroups,
-  GetUserGroups as GetGroups,
+  UpdateUserGroups,
+  GetUserGroups,
   CreateUser,
-  SaveUserGroups
+  ClearUser,
+  ClearUserGroups
 } from "./admin-users.actions";
 import { User } from "src/app/core/models/entity/user";
 import { UserStatus } from "src/app/core/enum/user-status.enum";
-import { User_SearchInputDTO } from "src/app/core/dtos/input/users/User_SearchInputDTO";
 import { Group } from "src/app/core/models/entity/group";
 
 export class AdminUserStateModel {
@@ -52,7 +50,7 @@ export class AdminUserState {
 
   @Selector()
   static getUnassignedUsers(state: AdminUserStateModel) {
-    return state.users.filter(x => x.roleName);
+    return state.users.filter(x => !x.roleNames);
   }
 
   @Selector()
@@ -71,7 +69,7 @@ export class AdminUserState {
   }
 
   @Selector()
-  static getGroupsByUserId(state: AdminUserStateModel) {
+  static getGroups(state: AdminUserStateModel) {
     return state.groups;
   }
   //#endregion
@@ -79,10 +77,7 @@ export class AdminUserState {
   // #region A C T I O N S
 
   @Action(GetUsers)
-  getUsers(
-    { getState, setState }: StateContext<AdminUserStateModel>,
-    { name, groupId }: GetUsers
-  ) {
+  getUsers({ getState, setState }: StateContext<AdminUserStateModel>, { name, groupId }: GetUsers) {
     return this.adminUserService.getUsers(name, groupId).pipe(
       tap(users => {
         const state = getState();
@@ -94,27 +89,8 @@ export class AdminUserState {
     );
   }
 
-  @Action(GetGroups)
-  getGroups(
-    { getState, setState }: StateContext<AdminUserStateModel>,
-    { userId }: GetGroups
-  ) {
-    return this.adminUserService.getGroups(userId).pipe(
-      tap(groups => {
-        const state = getState();
-        return setState({
-          ...state,
-          groups: groups
-        });
-      })
-    );
-  }
-
   @Action(GetUser)
-  getUser(
-    { getState, setState }: StateContext<AdminUserStateModel>,
-    { id }: GetUser
-  ) {
+  getUser({ getState, setState }: StateContext<AdminUserStateModel>, { id }: GetUser) {
     return this.adminUserService.getUser(id).pipe(
       tap(user => {
         const state = getState();
@@ -126,70 +102,81 @@ export class AdminUserState {
     );
   }
 
+  @Action(ClearUser)
+  clearUser({ getState, setState }: StateContext<AdminUserStateModel>) {    
+    const state = getState();
+    setState({
+      ...state,
+      currentUser: null
+    });
+  }
+
+  @Action(GetUserGroups)
+  getGroups({ getState, setState }: StateContext<AdminUserStateModel>, { userId }: GetUserGroups) {
+    return this.adminUserService.getGroups(userId).pipe(
+      tap(groups => {
+        const state = getState();
+        return setState({
+          ...state,
+          groups: groups
+        });
+      })
+    );
+  }
+
+  @Action(ClearUserGroups)
+  clearGroups({ getState, setState }: StateContext<AdminUserStateModel>) {    
+    const state = getState();
+    setState({
+      ...state,
+      groups: null
+    });
+  }
+
   @Action(CreateUser)
   createUser(ctx: StateContext<AdminUserStateModel>, { payload }: CreateUser) {
     return this.adminUserService.createUser(payload).pipe(
-      tap(result => {}),
-      mergeMap(() => ctx.dispatch(new GetUsers()))
+      tap(result => {
+        console.log('Create User - result: ', result);
+        var user = result as User;
+        const state = ctx.getState();
+        ctx.setState({
+          ...state,
+          currentUserId: user.userId
+        });
+      })
     );
   }
 
   @Action(UpdateUser)
-  updateUser(
-    ctx: StateContext<AdminUserStateModel>,
-    { id, payload }: UpdateUser
-  ) {
+  updateUser(ctx: StateContext<AdminUserStateModel>, { id, payload }: UpdateUser) {
     return this.adminUserService.updateUser(id, payload).pipe(
       tap(result => {}),
       mergeMap(() => ctx.dispatch(new GetUsers()))
     );
   }
 
-  @Action(UpdateGroups)
-  updateGroups(
-    ctx: StateContext<AdminUserStateModel>,
-    { userid, payload, isAddRoles }: UpdateGroups
-  ) {
+  @Action(UpdateUserGroups)
+  updateGroups(ctx: StateContext<AdminUserStateModel>, { userid, payload, isAddRoles }: UpdateUserGroups) {
     return this.adminUserService.updateGroups(userid, payload, isAddRoles).subscribe(() => {
-      ctx.dispatch(new GetUsers());
-
+      ctx.dispatch(new GetUsers());      
      });
-
   }
 
   @Action(DisableUser)
-  disableUser(
-    ctx: StateContext<AdminUserStateModel>,
-    { id, payload }: DisableUser
-  ) {
+  disableUser(ctx: StateContext<AdminUserStateModel>, { id, payload }: DisableUser) {
     payload.status = 0;
-
-
     this.adminUserService.updateUser(id, payload).subscribe(() => {
       ctx.dispatch(new GetUsers());
-
      });
-
   }
 
   @Action(EnableUser)
-  enableUser(
-    ctx: StateContext<AdminUserStateModel>,
-    { id, payload }: EnableUser
-  ) {
+  enableUser(ctx: StateContext<AdminUserStateModel>, { id, payload }: EnableUser) {
     payload.status = 1;
-
-    this.adminUserService.updateUser(id, payload).subscribe((response) => {
-      console.log(response);
+    this.adminUserService.updateUser(id, payload).subscribe(() => {
       ctx.dispatch(new GetUsers());
-
      });
-
-
-
-
-
-
   }
 
   //#endregion

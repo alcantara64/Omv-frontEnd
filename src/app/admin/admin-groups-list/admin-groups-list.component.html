@@ -2,9 +2,7 @@
   <div class="row">
     <div class="pb-3 col-md-12">
       <span class="pt-3">
-        <button ejs-button class="btn-color float-right" (click)="edit('0')">
-          <img src="../../../assets/images/plus-icon.svg" class="pr-2" />
-
+        <button ejs-button class="omv-primary-plus float-right" (click)="edit()">
           Add New Group
         </button>
       </span>
@@ -37,9 +35,9 @@
       [selectedRecords]="selectedGroups"
       [isToolBarVisible]="true"
       [firstActionButtonText]="statusChange"
-      [secondActionButtonText]="'Assign Groups To Permissions'"
+
       (firstAction)="changeGroupStatus($event)"
-      (secondAction)="assignGroupsToPermissions($event)"
+
       (navigate)="edit($event)"
       [shouldEdit]="true"
     >

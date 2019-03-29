@@ -19,7 +19,7 @@ import {
   EnableUser,
   SearchUsers,
   SetCurrentUserId,
-  UpdateGroups
+  UpdateUserGroups
 } from '../state/admin-users/admin-users.actions';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { permission } from 'src/app/core/enum/permission';
@@ -60,15 +60,19 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User[]>;
   @Select(AdminUserState.getUnassignedUsers) unassignedUsers$: Observable<User[]>;
   @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User[]>;
-  @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
+  @Select(AdminGroupState.getActiveGroups) groups$: Observable<Group[]>;
 
   @ViewChild('groupDialog') groupDialog: DialogComponent;
 
   @ViewChild('listviewgroup') groupDialogList: any;
 
+  @ViewChild('nameselect') nameSelect: TextBoxComponent;
+  @ViewChild('groupselect') groupSelect: DropDownListComponent;
+
   target = '.control-section';
 
   saveDlgBtnClick: EmitType<object> = () => {
+    this.ShowSpinner(true);
     const groupdata = this.groupDialogList.getSelectedItems().data;
 
     const groupidArray: any[] = [];
@@ -79,7 +83,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     });
 
     this.selectedUsers.forEach(user => {
-      this.store.dispatch(new UpdateGroups(user.userId, groupidArray, true));
+      this.store.dispatch(new UpdateUserGroups(user.userId, groupidArray, true));
     });
 
     this.groupDialog.hide();
@@ -102,19 +106,23 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ShowSpinner(true);
     this.store.dispatch(new GetGroups());
 
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetUsers());
       this.displayUsers(params.type);
+      this.nameSelect.value = "";
+      this.groupSelect.index = null;
+
     });
 
     this.groups$.subscribe(groups => (this.groups = groups));
+
   }
 
 
   displayUsers(param: string) {
-
     this.urlparam = param;
     switch (param) {
       case AdminUserType.Active:
@@ -140,15 +148,18 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
   changeUsersStatus(users: User[]) {
 
+    this.ShowSpinner(true);
+    console.log("AdminUsersListComponent - changeUsersStatus - start");
+    let count:number = 1;
+
     users.forEach(user => {
+
       if ((this.statusChange === this.ENABLE)) {
         this.store.dispatch(new EnableUser(user.userId, user));
       } else {
         this.store.dispatch(new DisableUser(user.userId, user));
       }
     });
-
-
   }
 
   assignUsersToGroups(users: User[]) {
@@ -157,9 +168,11 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     this.selectedUsers = users;
   }
 
-  edit(data: any) {
-    var id = data.userId;
-    this.store.dispatch(new SetCurrentUserId(id));
-    this.router.navigate([`/admin/users/${id}/edit`]);
+  edit(data?: User) {
+    if (!data) {
+      this.router.navigate([`/admin/users/0/edit`]);
+    } else {
+      this.router.navigate([`/admin/users/${data.userId}/edit`]);
+    }
   }
 }

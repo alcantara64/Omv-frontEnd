@@ -83,4 +83,6 @@ label{
 .e-grid .e-gridheader {
   padding-right: 0px!important;
 }
-
+.e-add-icon:before{
+  content:'\e917';
+}

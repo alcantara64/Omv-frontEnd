@@ -1,11 +1,11 @@
 
 
-    <button ejs-button class='dlgbtn' #promptButton (click)="promptBtnClick()">Prompt</button>
+    <button ejs-button class='dlgbtn' #promptButton>Prompt</button>
 <ejs-dialog id="modalDialog"
- #dialog 
-  [visible]='true' 
-  [content]='data' 
-  (open)="modalBtnClick()" 
+ #dialog
+  [visible]='true'
+  [content]='data'
+  (open)="modalBtnClick()"
   (close)="modalBtnClick()"
   [width]= 'width' >
   <ng-template #content>

@@ -2,60 +2,39 @@
 
   <div class="row">
     <div class="pb-3 col-md-4">
-      <ejs-textbox placeholder="Name" floatLabelType="Auto"   [(value)] ='name' ></ejs-textbox>
+      <ejs-textbox #nameselect placeholder="Name" [showClearButton]="true" floatLabelType="Auto"   [(value)] ='name' ></ejs-textbox>
     </div>
     <div class="pb-3 col-md-4">
-      <ejs-dropdownlist name="group" id="group" [fields]='groupFields'  [(value)] ='groupid'
+      <ejs-dropdownlist #groupselect name="group" id="group" [fields]='groupFields'  [(value)] ='groupid' [showClearButton]="true"
         [dataSource]="groups"  [placeholder]="'Select'" floatLabelType='Auto'>
       </ejs-dropdownlist>
     </div>
     <div class="pb-3 col-md-4">
-      <div class="pt-3">
+      <span class="pt-3">
 
         <button ejs-button class="omv-green" (click)="search()">
           Search
         </button>
 
-        <button ejs-button class="omv-primary-plus" (click)="edit('0')">
+        <button ejs-button class="omv-primary-plus" (click)="edit()">
           Add New User
         </button>
-
-      </div>
+      </span>
     </div>
   </div>
 
-  <ejs-dialog #groupDialog
-    [visible]='false'
-    [buttons]='saveDlgButtons'
-    [header]="'Assign Users to Groups'"
-    [showCloseIcon]='true'
-    [width]='300'
-    [height]="500"
-    >
+  <ejs-dialog #groupDialog [visible]='false' [buttons]='saveDlgButtons' [header]="'Assign Users to Groups'"
+    [showCloseIcon]='true' [width]='300' [height]="500">
     <ng-template #content>
-        <ejs-listview #listviewgroup
-            id='group-list'
-            [dataSource]='groups'
-            [showCheckBox]='true'
-            [fields]='groupFields'
-           >
-          </ejs-listview>
+      <ejs-listview #listviewgroup id='group-list' [dataSource]='groups' [showCheckBox]='true' [fields]='groupFields'></ejs-listview>
     </ng-template>
   </ejs-dialog>
 
   <div class="">
-    <app-list [listData]="users"
-              [columns]="columns"
-              [selectedRecords]="selectedUsers"
-              [isToolBarVisible]="true"
-              [firstActionButtonText]="statusChange"
-              [secondActionButtonText]="'Assign User to Group'"
-              (firstAction)="changeUsersStatus($event)"
-              (secondAction)="assignUsersToGroups($event)"
-              (navigate)="edit($event)"
-              [shouldEdit]="true"
-              [checkField]="'userId'"
-        >
+    <app-list [listData]="users" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true"
+      [firstActionButtonText]="statusChange" [secondActionButtonText]="'Assign User to Group'"
+      (firstAction)="changeUsersStatus($event)" (secondAction)="assignUsersToGroups($event)" (navigate)="edit($event)"
+      [shouldEdit]="true" [checkField]="'userId'">
     </app-list>
   </div>
 

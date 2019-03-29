@@ -1,15 +1,23 @@
-import { GroupStatus as GroupStatus } from './../../core/enum/group-status.enum';
-import { Tab } from 'src/app/core/models/tab';
-import { GetGroup, CreateGroup, UpdateGroup, EnableGroup, DisableGroup } from '../state/admin-groups/admin.groups.action';
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {GroupStatus as GroupStatus} from './../../core/enum/group-status.enum';
+import {Tab} from 'src/app/core/models/tab';
+import {
+  ClearGroup,
+  CreateGroup,
+  DisableGroup,
+  EnableGroup,
+  GetGroup,
+  UpdateGroup
+} from '../state/admin-groups/admin.groups.action';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
-import { Observable } from "rxjs";
-import { Group } from 'src/app/core/models/entity/group';
-import { Router, ActivatedRoute } from '@angular/router';
-import { takeWhile } from 'rxjs/operators';
-import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
-import { EditComponent } from 'src/app/shared/edit/edit.component';
+import {Observable} from "rxjs";
+import {Group} from 'src/app/core/models/entity/group';
+import {ActivatedRoute, Router} from '@angular/router';
+import {takeWhile} from 'rxjs/operators';
+import {AdminGroupState} from '../state/admin-groups/admin-groups.state';
+import {EditComponent} from 'src/app/shared/edit/edit.component';
+import {messageType} from "../../state/app.actions";
 
 const CREATE_GROUP = 'Create Group';
 const UPDATE_GROUP = 'Update Group';
@@ -22,7 +30,7 @@ const MEDIA_ACCESS = 2;
 @Component({
   selector: 'app-admin-group-edit',
   templateUrl: './admin-group-edit.component.html',
-  styleUrls: ['./admin-group-edit.component.css']
+  styleUrls: ['./admin-group-edit.component.css', './../../app.component.css']
 })
 export class AdminGroupEditComponent extends EditComponent implements OnInit {
 
@@ -61,14 +69,20 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     this.groupForm = this.fb.group({
       id: [''],
       name: [ '', [ Validators.required ] ],
-      description: [ '' ]
+      description: [ '' ],
+      isSystem: ['false']
     });
 
     // Get the id in the browser url and reach out for the group
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
-      this.store.dispatch(new GetGroup(this.groupId));
-      this.createGroupButtonText = this.groupId ? UPDATE_GROUP : CREATE_GROUP;
+      if (this.groupId) {
+        this.store.dispatch(new GetGroup(this.groupId));
+        this.createGroupButtonText = UPDATE_GROUP;
+      } else {
+        this.store.dispatch(new ClearGroup());
+        this.createGroupButtonText = CREATE_GROUP;
+      }
     }),
     takeWhile(() => this.componentActive);
 
@@ -76,12 +90,15 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     this.currentGroup$.subscribe(group => {
       if (group) { // Existing Group
         this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
-        this.groupForm = this.fb.group({
+        console.log('AdminGroupEditComponent - ngOnInit: groupDetails ', group);
+        this.groupForm.setValue({
           id: group.id,
-          name: [ group.roleName, [ Validators.required ] ],
-          description: [ group.description, [ Validators.required ] ]
+          name: [ group.name ],
+          description: [ group.description ],
+          isSystem: ['false']
         });
         this.group = group;
+        console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);
       }
     }),
     takeWhile(() => this.componentActive);
@@ -96,35 +113,47 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   async save() {
     if (this.groupForm.valid) {
       if (this.groupForm.dirty) {
-        const updatedGroup: Group = { ...this.group, ...this.groupForm.value };
+        const group: Group = { ...this.group, ...this.groupForm.value };
 
         if (this.groupId === 0) {
-          await this.store.dispatch(new CreateGroup(updatedGroup));
+          console.log('AdminGroupEditComponent - save: ', this.groupForm.value);
+          await this.store.dispatch(new CreateGroup(group));
           this.currentGroupId$.subscribe(groupId => {
             if (groupId) {
               this.groupForm.reset();
-              this.router.navigate([`/admin/groups/${groupId}/edit`])
+              this.router.navigate([`/admin/groups/${groupId}/edit`]);
+              this.setNotification('Group Created')
             }
           }),
           takeWhile(() => this.componentActive);
         } else {
-          await this.store.dispatch(new UpdateGroup(updatedGroup.id, updatedGroup));
+          await this.store.dispatch(new UpdateGroup(group.id, group));
           this.groupForm.reset(this.groupForm.value);
+          this.setNotification('Group Updated');
+          console.log("AdminGroupEditComponent - save" + this.groupForm.value);
         }
       }
     } else {
       this.errorMessage = "Please correct the validation errors.";
+      this.setNotification('Please correct the validation errors', messageType.error);
     }
   }
 
   changeStatus() {
-    if (this.groupActionText === ENABLE_GROUP) {
-      this.store.dispatch(new EnableGroup(this.groupId, this.group));
-      this.groupActionText = DISABLE_GROUP;
-    } else {
-      this.store.dispatch(new DisableGroup(this.groupId, this.group));
-      this.groupActionText = ENABLE_GROUP;
-    }
+    this.confirm(true);
+    this.confirmation$.subscribe((res: any)=>{
+      if (res === true) {
+        if (this.groupActionText === ENABLE_GROUP) {
+          this.store.dispatch(new EnableGroup(this.groupId, this.group));
+          this.setNotification(this.group.name + ' was enable', messageType.success);
+          this.groupActionText = DISABLE_GROUP;
+        } else {
+          this.store.dispatch(new DisableGroup(this.groupId, this.group));
+          this.setNotification(this.group.name + ' was disabled', messageType.error);
+          this.groupActionText = ENABLE_GROUP;
+        }
+      }
+    })
   }
 
   switchTabs(tabLink: any) {

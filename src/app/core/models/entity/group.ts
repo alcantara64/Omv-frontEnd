@@ -1,8 +1,9 @@
 export class Group {
   id: number;
-  roleName: string;
+  name: string;
   isSystem: boolean;
   description: string;
+  memberCount: number;
   modifiedOn: string;
   modifiedBy: string;
   status: number;

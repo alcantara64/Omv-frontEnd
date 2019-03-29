@@ -27,8 +27,9 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "50", field: "" },
     { type: "", headerText: "Name", width: "100", field: "name" },
-    { type: "", headerText: "Last Modified", width: "100", field: "modifiedBy" },
-    { type: "", headerText: "Members", width: "50", field: "members" }
+    { type: "", headerText: "Last Modified", width: "100", field: "modifiedOn" },
+    { type: "", headerText: "Modified By", width: "100", field: "modifiedBy" },
+    { type: "", headerText: "Members", width: "100", field: "memberCount" }
   ];
   public permissionFields= { text: 'name', value: 'id' };
   ENABLE: string = "Enable";
@@ -51,6 +52,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   permissions: Permission[] = [];
 
   public saveDlgBtnClick: EmitType<object> = () => {
+    this.ShowSpinner(true);
     var permissionData = this.groupDialogList.getSelectedItems().data;
     let permissionidArray:any[] = [];
 
@@ -67,12 +69,11 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     this.store.dispatch(new GetPermissions());
   }
 
-  public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
+  saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
 
   constructor(protected store: Store, private activatedRoute: ActivatedRoute, private router:Router ){
     super(store);
 
-    // this.store.dispatch(new ShowLeftNav(true));
     this.ShowLefNav(true);
     this.Permission = permission.VIEW_GROUP;
     this.PageTitle('Admin Groups');
@@ -80,7 +81,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
   ngOnInit() {
 
-
+    this.ShowSpinner(true);
     this.store.dispatch(new GetPermissions());
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetGroups());
@@ -100,7 +101,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
       case AdminGroupType.Disabled:
         this.disabledGroups$.subscribe(disabledGroups => (this.groups = disabledGroups));
         this.statusChange = this.ENABLE;
-        console.log('disable groups' , this.groups);
+
         break;
       default:
         break;
@@ -108,6 +109,8 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   }
 
   changeGroupStatus(groups: Group[]){
+    this.ShowSpinner(true);
+
     groups.forEach(group => {
       if ((this.statusChange === this.ENABLE)) {
         this.store.dispatch(new EnableGroup(group.id, group));
@@ -121,9 +124,11 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     this.selectedGroups = groups;
   }
 
-  edit(id: number) {
-    this.store.dispatch(new SetCurrentGroupId(id));
-    this.router.navigate([`/admin/groups/${id}/edit`]);
+  edit(data?: Group) {
+    if (!data) {
+      this.router.navigate([`/admin/groups/0/edit`]);
+    } else {
+      this.router.navigate([`/admin/groups/${data.id}/edit`]);
+    }
   }
-
 }

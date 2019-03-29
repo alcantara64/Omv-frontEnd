@@ -1,17 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Store, Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
-import { AdminUserState } from '../state/admin-users/admin-users.state';
-import { User } from '../../core/models/entity/user';
-import { Tab } from './../../core/models/tab';
-import { Group } from '../../core/models/entity/group';
-import { ListComponent } from 'src/app/shared/list/list.component';
-import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
-import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser } from '../state/admin-users/admin-users.actions';
-import { UserStatus } from 'src/app/core/enum/user-status.enum';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Select, Store} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {takeWhile} from 'rxjs/operators';
+import {AdminUserState} from '../state/admin-users/admin-users.state';
+import {User} from '../../core/models/entity/user';
+import {Tab} from './../../core/models/tab';
+import {Group} from '../../core/models/entity/group';
+import {ListComponent} from 'src/app/shared/list/list.component';
+import {AdminGroupState} from '../state/admin-groups/admin-groups.state';
+import {
+  ClearUser,
+  CreateUser,
+  DisableUser,
+  EnableUser,
+  GetUser,
+  UpdateUser
+} from '../state/admin-users/admin-users.actions';
+import {UserStatus} from 'src/app/core/enum/user-status.enum';
+import {messageType} from "../../state/app.actions";
 
 const CREATE_USER = 'Create User';
 const UPDATE_USER = 'Update User';
@@ -41,7 +49,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   @Select(AdminUserState.getCurrentUserId) currentUserId$: Observable<number>;
 
   constructor(protected store: Store,
-              private fb: FormBuilder,
+              private formBuilder: FormBuilder,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
     super(store);
@@ -50,19 +58,25 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   }
 
   ngOnInit() {
-
     // Initialize the userForm
-    this.userForm = this.fb.group({
+    this.userForm = this.formBuilder.group({
       id: [''],
-      name: [ '', [ Validators.required ] ],
-      email: [ '', [ Validators.required, Validators.email ] ]
+      firstName: [ '', [ Validators.required ] ],
+      lastName: [ '', [ Validators.required ] ],
+      userName: [ '', [ Validators.required ] ],
+      emailAddress: [ '', [ Validators.required, Validators.email ] ]
     });
 
     // Get the id in the browser url and reach out for the User
     this.activatedRoute.paramMap.subscribe(params => {
       this.userId = Number(params.get('id'));
-      this.store.dispatch(new GetUser(this.userId));
-      this.createUserButtonText = this.userId ? UPDATE_USER : CREATE_USER;
+      if (this.userId) {
+        this.store.dispatch(new GetUser(this.userId));
+        this.createUserButtonText = UPDATE_USER;
+      } else {
+        this.store.dispatch(new ClearUser());
+        this.createUserButtonText = CREATE_USER;
+      }
     }),
     takeWhile(() => this.componentActive);
 
@@ -70,12 +84,16 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     this.currentUser$.subscribe(user => {
       if (user) { // Existing User
         this.userActionText = user.status == UserStatus.Active ? DISABLE_USER : ENABLE_USER;
-        this.userForm = this.fb.group({
+        this.userForm.setValue({
           id: user.userId,
-          name: [ user.displayName, [ Validators.required ] ],
-          email: [ user.emailAddress, [ Validators.required, Validators.email ] ]
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userName: user.userName,
+          emailAddress: user.emailAddress
         });
         this.user = user;
+      } else {
+        this.userForm.reset();
       }
     }),
     takeWhile(() => this.componentActive);
@@ -85,23 +103,25 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     this.componentActive = false;
   }
 
-  async save() {
+  save() {
     if (this.userForm.valid) {
       if (this.userForm.dirty) {
-        const updatedUser: User = { ...this.user, ...this.userForm.value };
+        const user: User = { ...this.user, ...this.userForm.value };
 
         if (this.userId === 0) { // Create User
-          await this.store.dispatch(new CreateUser(updatedUser));
+          this.store.dispatch(new CreateUser(user));
           this.currentUserId$.subscribe(userId => {
             if (userId) {
               this.userForm.reset();
-              this.router.navigate([`/admin/users/${userId}/edit`])
+              this.router.navigate([`/admin/users/${userId}/edit`]);
+              this.setNotification('Created user successfully');
             }
           }),
           takeWhile(() => this.componentActive);
         } else { // Update User
-          await this.store.dispatch(new UpdateUser(updatedUser.userId, updatedUser));
+          this.store.dispatch(new UpdateUser(user.userId, user));
           this.userForm.reset(this.userForm.value);
+          this.setNotification('User Updated successfully');
         }
       }
     } else {
@@ -113,9 +133,11 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     if (this.userActionText === ENABLE_USER) {
       this.store.dispatch(new EnableUser(this.userId, this.user));
       this.userActionText = DISABLE_USER;
+      this.setNotification(this.user.displayName + ' was Enabled')
     } else {
       this.store.dispatch(new DisableUser(this.userId, this.user));
       this.userActionText = ENABLE_USER;
+      this.setNotification(this.user.displayName + ' was Disabled', messageType.error)
     }
   }
 }

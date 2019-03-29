@@ -10,6 +10,10 @@ export class GetGroup {
   constructor(public id: number) { }
 }
 
+export class ClearGroup {
+  static readonly type = '[Admin Groups] ClearGroup';
+}
+
 export class CreateGroup {
   static readonly type = '[Admin Groups] CreateGroup';
 
@@ -62,6 +66,10 @@ export class GetMembers {
   static readonly type = '[Admin Groups] GetMembers';
 }
 
+export class ClearMembers {
+  static readonly type = '[Admin Groups] ClearMembers';
+}
+
 export class GetGroupPermissions {
   static readonly type = '[Admin Groups] GetGroupPermissions';
 
@@ -71,7 +79,7 @@ export class GetGroupPermissions {
 export class UpdateGroupPermissions {
   static readonly type = '[Admin Groups] UpdateGroupPermissions';
 
-  constructor(public groupId: number, public payload: number[]) { }
+  constructor(public groupId: number, public payload: string[]) { }
 }
 
 export class GetGroupMembers{
@@ -94,11 +102,4 @@ export class RemoveGroupMembers {
 export class GetMediaAccess {
   static readonly type = '[Admin Groups Page] GetMediaAccess';
 
-}
-export class GetMediaHierachialAccess{
-  static readonly type = '[Admin Groups]  GetMediaHierachialAccess';
-}
-
-export class GetSelectedNodes{
-  static readonly type = '[Admin Groups]  GetSelectedNodes';
 }

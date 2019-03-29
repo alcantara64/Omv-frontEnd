@@ -28,15 +28,15 @@ export class AdminGroupMediaAccessComponent implements OnInit {
     //   dataSource: this.mediaAccess, id: 'id', text: 'name', query:this.query, hasChildren: 'id',
     //   child: { dataSource: this.mediaAccess, id: 'childid',query:this.query1, parentID: 'id', text: 'childname' }
     // };
-    
+
     console.log('field',  this.field);
   }
-  show(args): void {
+  show(args?): void {
     let popup: HTMLElement = document.getElementById('loading');
     popup.style.display = '';
   }
   // Hide loading message, after tree data has been loaded
-  public hide(args): void {
+  public hide(args?): void {
     let popup: HTMLElement = document.getElementById('loading') as HTMLElement;
     popup.style.display = 'none';
   }
