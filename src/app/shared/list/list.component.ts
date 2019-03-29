@@ -67,8 +67,8 @@ export class ListComponent extends BaseComponent implements OnInit {
   gridData: any[];
   public selectionOptions: SelectionSettingsModel;
 
-  constructor(protected store: Store, protected router: Router) {
-    super(store, router);
+  constructor(protected store: Store) {
+    super(store);
   }
 
   ngOnInit() {
@@ -129,5 +129,14 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   performSecondButtonEvent() {
     this.secondButtonEvent.emit(this.selectedRecords);
+  }
+
+  ngDoCheck(){
+    //console.log("ListComponent - ngDoCheck");
+  }
+
+  ngOnChanges(){
+    console.log("ListComponent - ngOnChanges");
+    this.ShowSpinner(false);
   }
 }

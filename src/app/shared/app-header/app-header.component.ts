@@ -23,6 +23,6 @@ export class AppHeaderComponent implements OnInit, DoCheck {
   }
 
   logout() {
-    this.store.dispatch(new LogOut());
+    // this.store.dispatch(new LogOut());
   }
 }

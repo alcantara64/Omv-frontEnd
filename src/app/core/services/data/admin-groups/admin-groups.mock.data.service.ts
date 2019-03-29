@@ -31,7 +31,7 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
     var mockUrl = `./assets/mock/admin-groups.json`;
     var data = this.httpClient.get<Group[]>(mockUrl).pipe(map(group => {
       var _group = new Group();
- 
+
       return _group;
     }));
     return data;
@@ -63,7 +63,7 @@ export class AdminGroupsMockDataService implements AdminGroupsDataService {
     return this.httpClient.get<any>(`${this.mockUrl}`);
   }
 
-  updatePermissions(groupId: number, payload: number[]) {
+  updatePermissions(groupId: number, payload: string[]) {
     var mockUrl = `./assets/mock/admin-groups.json`;
     return this.httpClient.get<Group[]>(mockUrl).pipe(map(permissions => {
 

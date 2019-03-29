@@ -1,41 +1,41 @@
 <div id="sidebar-section">
   <div class="bg-light border-right" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
-      <button class="button-cls sidebar-heading dashboard-texts " (click)="setActiveTab(dashboardLink)" [ngClass]="{ 'selected-background button-cls-focused': isDashboardActive }">
+      <button class="button-cls sidebar-heading dashboard-texts " (click)="setActiveTab(dashboardLink)">
         <a class=" valign"> Admin Dashboard </a>
       </button>
-      <button class="collapsible" (click)="mediaMenuClicked()" [ngClass]="{ 'selected-background': selected === 'Media' || value === 'users' }">
+      <button class="collapsible" (click)="mediaMenuClicked()">
         Media
       </button>
       <div class="content" *ngIf="isMediaMenuOpen">
         <ul>
-          <li [ngClass]="{ 'selected-background': selected === 'uploads' || value === 'users' }" class="cursor media-child-text">
+          <li class="cursor media-child-text">
             Uploads
           </li>
-          <li [ngClass]="{ 'selected-background': selected === 'folder' || value === 'users' }" class="media-child-text cursor">
+          <li class="media-child-text cursor">
             Folder Structure
           </li>
-          <li [ngClass]="{ 'selected-background': selected === 'bulk-uploader' }" class="media-child-text cursor">
+          <li class="media-child-text cursor">
             Bulk Uploader
           </li>
-          <li [ngClass]="{ 'selected-background': selected === 'metadata' || value === 'users' }" class="media-child-text cursor">
+          <li class="media-child-text cursor">
             MetaData Details
           </li>
         </ul>
       </div>
-      <button class="button-cls sidebar-heading dashboard-texts " [ngClass]="{ 'selected-background': selected === 'KPI' || value === 'users' }">
+      <button class="button-cls sidebar-heading dashboard-texts ">
         KPIs
       </button>
-      <button class="button-cls sidebar-heading dashboard-texts " [ngClass]="{ 'selected-background': selected === 'Filter' || value === 'users' }">
+      <button class="button-cls sidebar-heading dashboard-texts ">
         Filters
       </button>
       <button class="collapsible" (click)="workPlanningMenuClicked()">Work Planning</button>
       <div class="content" *ngIf="isWorkPlanningMenuOpen">
         <ul>
-          <li [ngClass]="{ 'selected-background': selected === 'Work' || value === 'users' }" class="cursor media-child-text">
+          <li class="cursor media-child-text">
             Work Templates
           </li>
-          <li [ngClass]="{ 'selected-background': selected === 'work-sets' || value === 'users' }" class="media-child-text cursor">
+          <li class="media-child-text cursor">
             Work Sets
           </li>
         </ul>

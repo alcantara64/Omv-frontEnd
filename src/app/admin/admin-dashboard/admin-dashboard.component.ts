@@ -14,7 +14,7 @@ export class AdminDashboardComponent extends BaseComponent implements OnInit {
 
   
   constructor(public store: Store, protected router: Router) {
-    super(store, router);
+    super(store);
     this.store.dispatch(new ShowLeftNav(true));
     this.PageTitle('Admin Dashboard');
     this.Permission = permission.VIEW_ADMIN_DASHBOARD;

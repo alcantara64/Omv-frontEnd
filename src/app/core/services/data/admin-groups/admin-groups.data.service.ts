@@ -16,9 +16,8 @@ export abstract class AdminGroupsDataService {
     abstract getGroup(id: number): Observable<Group>;
     abstract createGroup(payload: Group): Observable<Group>;
     abstract updateGroup(id: number, payload: Group);
-    abstract assignToGroups(groupId: number, payload: number[]);
     abstract getPermissions(groupId: number): Observable<Permission[]>;
-    abstract updatePermissions(groupId: number, payload: number[]);
+    abstract updatePermissions(groupId: number, payload: string[]);
     abstract getMembers(groupId: number): Observable<User[]>;
     abstract addMembers(groupId: number, payload: number[]);
     abstract removeMembers(groupId: number, payload: number[]);

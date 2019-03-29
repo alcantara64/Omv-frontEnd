@@ -11,15 +11,16 @@ import { User } from 'src/app/core/models/entity/user';
 import { GroupStatus } from 'src/app/core/enum/group-status.enum';
 import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';
 import { MediaAccess } from 'src/app/core/models/media-access';
+import { Permission } from 'src/app/core/enum/permission';
 
 
 export class AdminGroupStateModel {
   groups: Group[];
   currentGroupId: number | null;
   currentGroup: Group;
-  permissionIds: number[];
-  mediaAccess: MediaAccess;
-  members: User[];
+  currentGroupPermission: Permission[];
+  currentGroupmediaAccess: MediaAccess;
+  currentGroupmembers: User[];
 
 }
 
@@ -29,9 +30,9 @@ export class AdminGroupStateModel {
     groups: [],
     currentGroupId: null,
     currentGroup: null,
-    permissionIds: null,
-    mediaAccess: null,
-    members: [],
+    currentGroupPermission: null,
+    currentGroupmediaAccess: null,
+    currentGroupmembers: [],
 
   }
 })
@@ -66,17 +67,18 @@ export class AdminGroupState {
 
   @Selector()
   static getGroupMembers(state: AdminGroupStateModel) {
-    return state.members;
+    return state.currentGroupmembers;
   }
 
   @Selector()
   static getMediaAccess(state: AdminGroupStateModel) {
-    return state.mediaAccess;
+    return state.currentGroupmediaAccess;
   }
 
   @Selector()
   static getPermissionsByGroupId(state: AdminGroupStateModel) {
-    return state.permissionIds;
+    console.log(" AdminGroupState - getPermissionsByGroupId " + state.currentGroupPermission);
+    return state.currentGroupPermission;
   }
   //#endregion
 
@@ -109,7 +111,7 @@ export class AdminGroupState {
   }
 
   @Action(ClearGroup)
-  clearGroup({ getState, setState }: StateContext<AdminGroupStateModel>) {    
+  clearGroup({ getState, setState }: StateContext<AdminGroupStateModel>) {
     const state = getState();
     setState({
       ...state,
@@ -157,11 +159,6 @@ export class AdminGroupState {
     });
   }
 
-  @Action(AssignToPermission)
-  assignToPermission(ctx: StateContext<AdminGroupStateModel>, { groupid, payload }: AssignToPermission) {
-    return this.adminGroupService.assignToGroups(groupid, payload).pipe(),
-      mergeMap(() => ctx.dispatch(new GetGroups()));
-  }
 
   @Action(SetCurrentGroupId)
   setCurrentGroupId({ getState, setState }: StateContext<AdminGroupStateModel>, { id }: SetCurrentGroupId) {
@@ -178,29 +175,24 @@ export class AdminGroupState {
       const state = getState();
       return setState({
         ...state,
-        members: users
+        currentGroupmembers: users
       });
 
     }));
   }
 
-  // @Action(GetGroupPermissions)
-  // getGroupPermissions({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetGroupPermissions) {
-  //   return this.adminPermissionsService.getPermissions().pipe(tap(permissions => {
-  //     const state = getState();
-  //     // const permissionsArr: number[] = [];
-  //     // permissions.forEach(group => {
-  //     //   if (group.id === 3 || group.id === 2) {
-  //     //     permissionsArr.push(group.id);
-  //     //   }
-  //     // });
-  //     // return setState({
-  //     //   ...state,
-  //     //   permissions: permissions
-  //     // });
+   @Action(GetGroupPermissions)
+   getGroupPermissions({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetGroupPermissions) {
+     return this.adminGroupService.getGroupPermissions(groupId).pipe(tap(permissions => {
+       const state = getState();
 
-  //   }));
-  // }
+        return setState({
+          ...state,
+          currentGroupPermission: permissions
+        });
+
+     }));
+   }
 
   @Action(GetMediaAccess)
   getMediaAccess({ getState, setState }: StateContext<AdminGroupStateModel>) {
@@ -208,7 +200,7 @@ export class AdminGroupState {
       const state = getState();
       setState({
         ...state,
-        mediaAccess: mediaAccess
+        currentGroupmediaAccess: mediaAccess
       });
     }));
   }

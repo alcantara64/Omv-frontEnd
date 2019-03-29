@@ -29,15 +29,12 @@ export class AdminGroupsService {
     return this.AdminGroupsDataService.updateGroup(id, payload);
   }
 
-  assignToGroups(groupId: number, payload: number[]) {
-    return this.AdminGroupsDataService.assignToGroups(groupId, payload);
-  }
 
   getGroupPermissions(groupId: number): Observable<Permission[]> {
     return this.AdminGroupsDataService.getPermissions(groupId);
   }
 
-  updateGroupPermissions(groupId: number, payload: number[]) {
+  updateGroupPermissions(groupId: number, payload: string[]) {
     return this.AdminGroupsDataService.updatePermissions(groupId, payload);
   }
 

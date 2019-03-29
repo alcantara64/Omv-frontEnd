@@ -1,6 +1,14 @@
+import {
+  ShowConfirmationBox,
+  ClearNotification,
+  Confirmation,
+  messageType,
+  SetNotification,
+  ClearConfirmation, 
+  SetPageTitle, ShowLeftNav, SetLoggedInUser, LogOut, GetUserPermissions, GetLoggedInUser
+} from './app.actions';
+import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
-import { SetPageTitle, ShowLeftNav, SetLoggedInUser, LogOut, GetUserPermissions, GetLoggedInUser } from './app.actions';
-import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { AuthService } from '../core/services/business/auth.service';
 import { Permission } from '../core/enum/permission';
 import { GetPermissions } from '../admin/state/admin-permissions/admin-permissions.action';
@@ -14,6 +22,10 @@ export class AppStateModel {
   currentUser: any;
   currentUserId: number;
   permissions: Permission[];
+  message: string;
+  messageType: messageType;
+  confirmationBox: boolean;
+  confirmation: boolean;
 }
 
 @State<AppStateModel>({
@@ -23,13 +35,17 @@ export class AppStateModel {
     setPageTitle: 'OMV Client Portal',
     currentUser: null,
     currentUserId: 1,
-    permissions: []
+    permissions: [],
+    message: null,
+    messageType: messageType.success,
+    confirmationBox: false,
+    confirmation: false,
   }
 })
 export class AppState {
-  
+
   @Selector()
-  static getLeftNavVisibility(state: AppStateModel) { 
+  static getLeftNavVisibility(state: AppStateModel) {
     return state.showLeftNav;
   }
 
@@ -54,6 +70,21 @@ export class AppState {
   }
 
   constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
+
+  @Selector()
+  static setNotification(state: AppStateModel) {
+    return {message: state.message, messageType: state.messageType};
+  }
+
+  @Selector()
+  static showConfirmationBox(state: AppStateModel) {
+    return state.confirmationBox;
+  }
+
+  @Selector()
+  static confirmation(state: AppStateModel) {
+    return state.confirmation;
+  }
 
   @Action(ShowLeftNav)
   setLeftNavToggle({getState, setState}: StateContext<AppStateModel>, { payload }: ShowLeftNav) {
@@ -116,5 +147,68 @@ export class AppState {
         });
       })
     );
+  }
+  @Action(ClearNotification)
+  clearNotification({getState,setState}: StateContext<AppStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      message: null,
+      messageType: messageType.success
+    })
+  }
+
+  @Action(SetNotification)
+  setNotification(ctx: StateContext<AppStateModel>, {message, messageType}: SetNotification) {
+    ctx.dispatch(new ClearNotification);
+    const state = ctx.getState();
+
+    setTimeout(()=>{
+      ctx.setState({
+        ...state,
+        message: message,
+        messageType: messageType
+      });
+
+      setTimeout(()=>{
+        ctx.dispatch(new ClearNotification)
+      }, 10000);
+
+    }, 1)
+  }
+
+  @Action(ShowConfirmationBox)
+  showConfirmationBox({getState, setState}: StateContext<AppStateModel>, {show}: ShowConfirmationBox) {
+    const state = getState();
+
+    setState({
+      ...state,
+      confirmationBox: show,
+    });
+
+  }
+
+  @Action(ClearConfirmation)
+  clearConfirmation({getState, setState}: StateContext<AppStateModel>) {
+    const state = getState();
+
+    setState({
+      ...state,
+      confirmation: false,
+    });
+  }
+
+  @Action(Confirmation)
+  confirmation(ctx: StateContext<AppStateModel>) {
+    const state = ctx.getState();
+
+    ctx.setState({
+      ...state,
+      confirmation: true,
+    });
+
+    setTimeout(()=>{
+      ctx.dispatch(new ClearConfirmation)
+    }, 100)
   }
 }

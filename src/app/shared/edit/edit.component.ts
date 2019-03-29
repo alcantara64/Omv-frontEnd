@@ -22,7 +22,7 @@ export class EditComponent extends BaseComponent implements OnInit {
   @Output() secondButtonEvent = new EventEmitter<any>();
 
   constructor(protected store: Store, protected router: Router) {
-    super(store, router);
+    super(store);
   }
 
   ngOnInit() {

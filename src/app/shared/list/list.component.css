@@ -32,3 +32,13 @@
   color: #0097A9 !important;
 }
 
+.omv-orange-badge {
+  font-family: 'EMprint', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  color: #033b5c;
+  border-radius: 10px;
+  background-color: #ffc72c;
+  padding: 5px 10px;
+ }

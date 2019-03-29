@@ -79,7 +79,7 @@ export class GetGroupPermissions {
 export class UpdateGroupPermissions {
   static readonly type = '[Admin Groups] UpdateGroupPermissions';
 
-  constructor(public groupId: number, public payload: number[]) { }
+  constructor(public groupId: number, public payload: string[]) { }
 }
 
 export class GetGroupMembers{

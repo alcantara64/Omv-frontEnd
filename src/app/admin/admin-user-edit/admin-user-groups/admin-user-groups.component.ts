@@ -12,13 +12,14 @@ import { GetUserGroups, UpdateUserGroups } from '../../state/admin-users/admin-u
 import { AdminUserState } from '../../state/admin-users/admin-users.state';
 import { ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
+import {BaseComponent} from "../../../shared/base/base.component";
 
 @Component({
   selector: 'app-admin-user-groups',
   templateUrl: './admin-user-groups.component.html',
   styleUrls: ['./admin-user-groups.component.css']
 })
-export class AdminUserGroupsComponent implements OnInit, OnDestroy {
+export class AdminUserGroupsComponent extends BaseComponent implements OnInit, OnDestroy {
 
   userId: number;
   groups: Group[] = [];
@@ -33,8 +34,8 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
   @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
   @Select(AdminUserState.getGroups) userGroups$: Observable<Group[]>;
 
-  constructor(private store: Store,
-              private activatedRoute: ActivatedRoute) { }
+  constructor(protected store: Store,
+              protected activatedRoute: ActivatedRoute) { super(store) }
 
   ngOnInit() {
     this.store.dispatch(new GetGroups());
@@ -50,7 +51,7 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
       }
     }),
     takeWhile(() => this.componentActive);
-    
+
     this.userGroups$.subscribe(groups => {
       if (groups) {
         this.userGroupIds = groups.map(x => x.id);
@@ -67,7 +68,8 @@ export class AdminUserGroupsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new UpdateUserGroups(this.userId, groupIds)).toPromise().then(() => {
       console.log('AdminUserGroupsComponent - updateGroups');
       this.store.dispatch(new GetUserGroups(this.userId));
+      this.setNotification('User Group Updated');
     });
-    
+
   }
 }

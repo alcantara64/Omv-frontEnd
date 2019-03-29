@@ -1,13 +1,23 @@
 import { Component, OnInit } from "@angular/core";
 import { permission, Permission } from "src/app/core/enum/permission";
-import { Store, Select } from "@ngxs/store";
-import {SetPageTitle, ShowLeftNav, GetUserPermissions} from "src/app/state/app.actions";
+import {Select, Store} from "@ngxs/store";
+import {
+  Confirmation,
+  messageType,
+  SetNotification,
+  SetPageTitle,
+  ShowConfirmationBox,
+  ShowLeftNav,
+  GetUserPermissions
+} from "src/app/state/app.actions";
 import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
 import { AppState } from 'src/app/state/app.state';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+
 
 export class BaseComponent implements OnInit {
+  @Select(AppState.confirmation) confirmation$: Observable<string>;
+
   private _permission: string;
   userHasPermission: boolean;
 
@@ -20,7 +30,7 @@ export class BaseComponent implements OnInit {
   @Select(AppState.getUserPermissions) userPermissions$: Observable<Permission[]>;
   @Select(AppState.getCurrentUserId) currentUserId$: Observable<number>;
 
-  constructor(protected store: Store, protected router: Router) {
+  constructor(protected store: Store) {
     console.log("BaseComponent - constructor", this._permission);
 
     this.currentUserId$.subscribe(userId => {
@@ -41,6 +51,7 @@ export class BaseComponent implements OnInit {
           console.log('BaseComponent - ngOnInit: userHasPermission', this.userHasPermission);
         }
       }
+      this.Permission = "";
     });
   }
 
@@ -53,11 +64,7 @@ export class BaseComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    //createSpinner() method is used to create spinner
-    // createSpinner({
-    //   // Specify the target for the spinner to show
-    //   target: document.getElementById('spinnerContainer')
-    // });
+
   }
 
   public ShowSpinner(show: boolean) {
@@ -85,5 +92,21 @@ export class BaseComponent implements OnInit {
 
   protected PageTitle(pageTitle: string) {
     this.store.dispatch(new SetPageTitle(pageTitle));
+  }
+
+  protected setNotification(message: string, messageType?: messageType) {
+    this.store.dispatch(new SetNotification(message, messageType));
+  }
+
+  protected confirm(show: boolean) {
+    this.store.dispatch(new ShowConfirmationBox(show));
+  }
+
+  protected isConfirmed() {
+    let confirmed: boolean;
+    this.confirmation$.subscribe( (res) => {
+      res === 'true' ? confirmed = true : confirmed = false;
+    })
+    return confirmed;
   }
 }
