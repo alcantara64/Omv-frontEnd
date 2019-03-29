@@ -63,37 +63,14 @@ export class AdminGroupMediaAccessComponent implements OnInit {
 
   dataBound(evt: DataBoundEventArgs) {
 
-    // if (evt.data.length > 0) {
       this.currentGroupMediaAccessIds$.subscribe((checkedNodes) => {
-        // setTimeout(() => {
           this.checkedNode = checkedNodes.map(String);
-        // }, 10);
       });
-
-    // }
 
   }
 
   nodeChecked(args: any): void {
-    // let arr = args.data.map(ids => ids.id);
-    // if (args.action === 'check') {
 
-    //   for (var i = 0; i < arr.length; i++) {
-    //     //   var temp = [];
-    //     if (!(this.checkedNode.includes(arr[i]))) {
-    //       // 
-    //       this.checkedNode.push(arr[i]);
-    //     }
-    //     // else{
-    //     //   this.checkNodes.splice(i, 1); 
-    //     // }
-    //   }
-    // }
-    // if (args.action === 'uncheck') {
-    //   for (var i = 0; i < arr.length; i++) {
-    //     this.checkedNode.splice(arr[i], 1);
-    //   }
-    // }
     console.log('The checked node\'s id is: ' + this.tree.checkedNodes);
     console.log('selected child nodes', this.tree.getAllCheckedNodes());
   }
@@ -114,7 +91,6 @@ export class AdminGroupMediaAccessComponent implements OnInit {
     var ids = this.checkedNode.map(v => parseInt(v));
     this.store.dispatch(new UpdateRoleMediaAccess(this.groupId, ids)).toPromise().then(() => {
       this.store.dispatch(new GetRoleMediaAccess(this.groupId));
-      // this.setNotification('Permission Updated');
     });
   }
 }
