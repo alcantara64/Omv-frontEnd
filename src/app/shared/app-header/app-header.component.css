@@ -130,3 +130,43 @@ hr {
   margin-top: 10px;
   width: 100%;
 }
+
+.userInfo {
+  display: inline-block;
+}
+
+.arrowDown:before {
+  margin: 10px;
+  content: '\e83d';
+  color: white;
+  font-size: larger;
+  cursor: pointer;
+}
+
+.userDropdown {
+  display: none;
+}
+
+.userDropdown > ul {
+  display: block;
+  position: absolute;
+  top: 35px;
+  right: 60px;
+  width: 250px;
+  height: auto;
+  padding: 10px;
+  background: white;
+  box-shadow: 0 0 5px black;
+  z-index: 3000;
+  border-radius: 0 0 5px 5px;
+}
+
+.userDropdown > ul > li {
+  list-style: none;
+  display: block;
+  margin: 5px 0;
+  font-size: larger;
+  font-weight: bold;
+  color: #0097A9;
+  height: 40px;
+}
