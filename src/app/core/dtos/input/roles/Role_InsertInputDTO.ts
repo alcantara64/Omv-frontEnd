@@ -3,4 +3,5 @@ export class Role_InsertInputDTO {
   RoleName: string;
   IsSystem: boolean;
   Status: number;
+  RoleDescription: string;
 }
