@@ -70,7 +70,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
       id: [''],
       name: [ '', [ Validators.required ] ],
       description: [ '' ],
-      isSystem: ['false']
+      isSystem: [false]
     });
 
     // Get the id in the browser url and reach out for the group
@@ -95,7 +95,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
           id: group.id,
           name: [ group.name ],
           description: [ group.description ],
-          isSystem: ['false']
+          isSystem: group.isSystem
         });
         this.group = group;
         console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);
