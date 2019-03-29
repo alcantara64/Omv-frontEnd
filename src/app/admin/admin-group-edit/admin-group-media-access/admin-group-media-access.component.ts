@@ -16,7 +16,7 @@ import { Role_GetDirectoriesByIdOutputDTO } from 'src/app/core/dtos/output/roles
 @Component({
   selector: 'app-admin-group-media-access',
   templateUrl: './admin-group-media-access.component.html',
-  styleUrls: ['./admin-group-media-access.component.css']
+  styleUrls: ['./admin-group-media-access.component.css', '../../../app.component.css']
 })
 export class AdminGroupMediaAccessComponent implements OnInit {
   @ViewChild('tree') tree: TreeViewComponent;
