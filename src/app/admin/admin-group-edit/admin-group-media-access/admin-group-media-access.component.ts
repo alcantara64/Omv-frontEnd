@@ -6,12 +6,13 @@ import { Select, Store } from '@ngxs/store';
 import { DataManager, JsonAdaptor, Query, ODataV4Adaptor, WebApiAdaptor } from '@syncfusion/ej2-data';
 import { GetMediaAccess, GetRoleMediaAccess, UpdateGroupPermissions, UpdateRoleMediaAccess } from '../../state/admin-groups/admin.groups.action';
 import { EmitType } from '@syncfusion/ej2-base';
-import { NodeExpandEventArgs, NodeClickEventArgs, NodeSelectEventArgs } from '@syncfusion/ej2-navigations';
+import { NodeExpandEventArgs, NodeClickEventArgs, NodeSelectEventArgs, DataBoundEventArgs } from '@syncfusion/ej2-navigations';
 import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';
 import { TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Role_GetDirectoriesByIdOutputDTO } from 'src/app/core/dtos/output/roles/Role_GetDirectoriesByIdOutputDTO';
+import { Directory_GetAllOutputDTO } from 'src/app/core/dtos/output/directories/Directory_GetAllOutputDTO';
 
 @Component({
   selector: 'app-admin-group-media-access',
@@ -23,7 +24,7 @@ export class AdminGroupMediaAccessComponent implements OnInit {
   @Select(AdminGroupState.getMediaAccess) getMediaAccess$: Observable<MediaAccess[]>;
   @Select(AdminGroupState.getRoleMediaAccessIds) currentGroupMediaAccessIds$: Observable<number[]>
 
-  public mediaAccess: { [key: string]: Object }[] = [];
+  public mediaAccess: Role_GetDirectoriesByIdOutputDTO[] = [];
   public field: Object;
   public dataManager: any;
   groupId: number;
@@ -37,29 +38,64 @@ export class AdminGroupMediaAccessComponent implements OnInit {
       this.store.dispatch(new GetRoleMediaAccess(this.groupId));
     }
     );
-    this.currentGroupMediaAccessIds$.subscribe((checkedNodes) => {
-      setTimeout(() => {
-        this.checkedNode = checkedNodes.map(String);
-      }, 10);
-    });
+
     this.adminMediaService.getMediaAccess().subscribe(data => {
       this.mediaAccess = data;
       this.mediaAccess.forEach(item => {
         if (item.directoryParentId === 0) {
           item.directoryParentId = undefined;
         }
-      })
+        if (this.checkedNode.map(v => parseInt(v)).includes(item.directoryId)) {
+          item.isChecked = true;
+          item.expanded = true;
+        }
+      });
+
+      console.log(this.mediaAccess);
       this.field = {
         dataSource: this.mediaAccess, id: 'directoryId', parentID: 'directoryParentId',
         text: 'directoryName', hasChildren: 'hasChild'
       };
     });
+
+
+  }
+
+  dataBound(evt: DataBoundEventArgs) {
+
+    // if (evt.data.length > 0) {
+      this.currentGroupMediaAccessIds$.subscribe((checkedNodes) => {
+        // setTimeout(() => {
+          this.checkedNode = checkedNodes.map(String);
+        // }, 10);
+      });
+
+    // }
+
   }
 
   nodeChecked(args: any): void {
-    this.checkedNode = this.tree.checkedNodes;
-    console.log('The checked node\'s id is: ' + this.checkedNode);
+    // let arr = args.data.map(ids => ids.id);
+    // if (args.action === 'check') {
 
+    //   for (var i = 0; i < arr.length; i++) {
+    //     //   var temp = [];
+    //     if (!(this.checkedNode.includes(arr[i]))) {
+    //       // 
+    //       this.checkedNode.push(arr[i]);
+    //     }
+    //     // else{
+    //     //   this.checkNodes.splice(i, 1); 
+    //     // }
+    //   }
+    // }
+    // if (args.action === 'uncheck') {
+    //   for (var i = 0; i < arr.length; i++) {
+    //     this.checkedNode.splice(arr[i], 1);
+    //   }
+    // }
+    console.log('The checked node\'s id is: ' + this.tree.checkedNodes);
+    console.log('selected child nodes', this.tree.getAllCheckedNodes());
   }
 
   show: EmitType<EmitType<NodeClickEventArgs>> = (args) => {
@@ -74,9 +110,9 @@ export class AdminGroupMediaAccessComponent implements OnInit {
   }
 
   updateMediaAccess() {
+    this.checkedNode = this.tree.getAllCheckedNodes();
     var ids = this.checkedNode.map(v => parseInt(v));
     this.store.dispatch(new UpdateRoleMediaAccess(this.groupId, ids)).toPromise().then(() => {
-      console.log('AdminUserGroupsComponent - updateGroups');
       this.store.dispatch(new GetRoleMediaAccess(this.groupId));
       // this.setNotification('Permission Updated');
     });

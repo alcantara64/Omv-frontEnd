@@ -12,6 +12,7 @@ import { GroupStatus } from 'src/app/core/enum/group-status.enum';
 import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';
 import { MediaAccess } from 'src/app/core/models/media-access';
 import { Permission } from 'src/app/core/enum/permission';
+import { Directory_GetAllOutputDTO } from 'src/app/core/dtos/output/directories/Directory_GetAllOutputDTO';
 
 
 export class AdminGroupStateModel {
@@ -19,7 +20,7 @@ export class AdminGroupStateModel {
   currentGroupId: number | null;
   currentGroup: Group;
   currentGroupPermission: Permission[];
-  currentGroupmediaAccess: MediaAccess;
+  currentGroupmediaAccess: Directory_GetAllOutputDTO;
   currentGroupmembers: User[];
   currentGroupMediaAccessIds: number[];
 }
@@ -236,12 +237,12 @@ export class AdminGroupState {
   getRoleMediaAccessIds({ setState, getState }: StateContext<AdminGroupStateModel>, { groupId }: GetRoleMediaAccess) {
     return this.adminMediaAccessService.getMediaAccessIds(groupId).subscribe((mediaAccess) => {
       const state = getState();
-      let roleMediaAccess: any[] =[];
-      roleMediaAccess = mediaAccess.map(groupMediaAccess => groupMediaAccess.directoryId);
-      console.log('groupMediaAccess', roleMediaAccess);
+      let roleMediaAccessIds: any[] =[];
+      roleMediaAccessIds = mediaAccess.map(groupMediaAccess => groupMediaAccess.directoryId);
+      console.log('groupMediaAccess', roleMediaAccessIds);
       setState({
         ...state,
-        currentGroupMediaAccessIds: roleMediaAccess
+        currentGroupMediaAccessIds: roleMediaAccessIds
       });
     });
   }

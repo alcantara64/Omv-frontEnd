@@ -5,5 +5,6 @@ export class Role_GetDirectoriesByIdOutputDTO extends BaseDTO {
   directoryName: string;
   directoryParentId: number;
   hasChild: boolean;
-  
+  isChecked:boolean;
+  expanded: boolean;
 }
