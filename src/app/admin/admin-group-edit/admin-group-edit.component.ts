@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { EditComponent } from 'src/app/shared/edit/edit.component';
+import { permission } from 'src/app/core/enum/permission';
 
 const CREATE_GROUP = 'Create Group';
 const UPDATE_GROUP = 'Update Group';
@@ -47,11 +48,11 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   @Select(AdminGroupState.getCurrentGroupId) currentGroupId$: Observable<number>;
 
   constructor(protected store: Store,
+    protected router: Router,
     private fb: FormBuilder,
-    private router: Router,
     private activatedRoute: ActivatedRoute) {
-    super(store);
-
+    super(store, router);
+    this.Permission = permission.VIEW_GROUP_EDIT;
     this.ShowLefNav(false);
     this.PageTitle('Admin Group Edit');
   }
@@ -94,6 +95,10 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
       }
     }),
     takeWhile(() => this.componentActive);
+
+    if (!this.userHasPermission) {
+      this.router.navigate(['dashboard']);
+    }
 
     this.setActiveTab(PERMISSIONS_TAB);
   }

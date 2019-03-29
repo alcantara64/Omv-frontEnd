@@ -67,8 +67,8 @@ export class ListComponent extends BaseComponent implements OnInit {
   gridData: any[];
   public selectionOptions: SelectionSettingsModel;
 
-  constructor(protected store: Store) {
-    super(store);
+  constructor(protected store: Store, protected router: Router) {
+    super(store, router);
   }
 
   ngOnInit() {

@@ -69,24 +69,24 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
   saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
 
-  constructor(protected store: Store, private activatedRoute: ActivatedRoute, private router:Router ){
-    super(store);
-
-    // this.store.dispatch(new ShowLeftNav(true));
-    this.ShowLefNav(true);
+  constructor(protected store: Store, private activatedRoute: ActivatedRoute, protected router:Router ){
+    super(store, router);
     this.Permission = permission.VIEW_GROUP;
+    this.ShowLefNav(true);
     this.PageTitle('Admin Groups');
   }
 
   ngOnInit() {
-
-
     this.store.dispatch(new GetPermissions());
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetGroups());
       this.displayGroups(params.type);
     });
     this.getAllPermissions$.subscribe(permissions => (this.permissions = permissions));
+
+    if (!this.userHasPermission) {
+      this.router.navigate(['dashboard']);
+    }
   }
 
 

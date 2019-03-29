@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { AdminUsersDataService } from './admin-users.data.service';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/core/models/entity/user';
+import { Permission } from 'src/app/core/enum/permission';
 
 
 @Injectable({
@@ -85,5 +86,9 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
   saveUserGroups(userId: number, groups: number[]) {
     var mockUrl = `./assets/mock/admin-users.json`;
     return this.httpClient.get<User>(mockUrl);
+  }
+  
+  getPermissions(userid: number): Observable<Permission[]> {
+    throw new Error("Method not implemented.");
   }
 }

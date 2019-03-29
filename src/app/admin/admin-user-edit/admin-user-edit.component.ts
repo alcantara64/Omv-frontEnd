@@ -12,6 +12,7 @@ import { ListComponent } from 'src/app/shared/list/list.component';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
 import { UpdateUser, CreateUser, GetUser, DisableUser, EnableUser, ClearUser } from '../state/admin-users/admin-users.actions';
 import { UserStatus } from 'src/app/core/enum/user-status.enum';
+import { permission } from 'src/app/core/enum/permission';
 
 const CREATE_USER = 'Create User';
 const UPDATE_USER = 'Update User';
@@ -42,11 +43,12 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
 
   constructor(protected store: Store,
               private formBuilder: FormBuilder,
-              private router: Router,
+              protected router: Router,
               private activatedRoute: ActivatedRoute) {
-    super(store);
+    super(store, router);
+    this.Permission = permission.VIEW_USERS_EDIT;
     this.ShowLefNav(false);
-    this.PageTitle('Admin User Edit')
+    this.PageTitle('Admin User Edit');
   }
 
   ngOnInit() {
@@ -89,6 +91,10 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
       }
     }),
     takeWhile(() => this.componentActive);
+
+    if (!this.userHasPermission) {
+      this.router.navigate(['dashboard']);
+    }
   }
 
   ngOnDestroy() {

@@ -15,6 +15,7 @@ import { User_UpdateInputDTO } from 'src/app/core/dtos/input/users/User_UpdateIn
 import { User_GetRolesByIdOutputDTO } from 'src/app/core/dtos/output/users/User_GetRolesByIdOutputDTO';
 import { Group } from 'src/app/core/models/entity/group';
 import { User_InsertInputDTO } from 'src/app/core/dtos/input/users/User_InsertInputDTO';
+import { Permission, permission } from 'src/app/core/enum/permission';
 
 
 @Injectable({
@@ -185,5 +186,40 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
       var _response = automapper.map(groups, Group, groups);
       return _response;
     }));
+  }
+  
+  getPermissions(userid: number): Observable<Permission[]> {
+    var requestUri = environment.api.baseUrl + `/v1/users/${userid}/permissions`;
+
+    var permissions: Permission[] = [];
+    var perm = new Permission();
+    perm.name = permission.VIEW_USERS;
+    permissions.push(perm);
+    var perm2 = new Permission();
+    perm2.name = permission.VIEW_GROUP;
+    permissions.push(perm2);
+    var perm3 = new Permission();
+    perm3.name = permission.VIEW_ADMIN_DASHBOARD;
+    permissions.push(perm3);
+    var perm4 = new Permission();
+    perm4.name = permission.VIEW_GROUP_EDIT;
+    permissions.push(perm4);
+    var perm5 = new Permission();
+    perm5.name = permission.VIEW_USERS_EDIT;
+    permissions.push(perm5);
+
+    return of(permissions);
+
+
+    // return this.httpClient.get<User_GetRolesByIdOutputDTO>(requestUri).pipe(map(permissions => {
+    //   automapper
+    //     .createMap(permissions, Permission)
+    //     .forMember('id', function (opts) { opts.mapFrom('id'); })
+    //     .forMember('name', function (opts) { opts.mapFrom('name'); })
+    //     .forMember('status', function (opts) { opts.mapFrom('status'); })
+
+    //   var _response = automapper.map(permissions, Permission, permissions);
+    //   return _response;
+    // }));
   }
 }

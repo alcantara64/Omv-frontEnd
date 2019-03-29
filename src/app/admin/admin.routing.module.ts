@@ -13,15 +13,18 @@ import { AdminGroupsListComponent } from './admin-groups-list/admin-groups-list.
 import {AdminGroupEditComponent} from "./admin-group-edit/admin-group-edit.component";
 import { AdminGroupEditGuard } from './admin-group-edit/admin-group-edit.guard';
 import { AdminUserEditGuard } from './admin-user-edit/admin-user-edit.guard';
+import { AuthGuardService } from '../core/guards/auth-guard.service';
 
 const adminRoutes: Routes = [
   {
     path: 'admin',
     component: AdminDashboardComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'admin/dashboard',
     component: AdminDashboardComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'admin/users',
@@ -29,16 +32,19 @@ const adminRoutes: Routes = [
     children: [
       { path: '', redirectTo: 'active', pathMatch: 'full' },
       { path: ':type', component: AdminUsersListComponent }
-    ]
+    ],
+    canActivate: [AuthGuardService]
   },
   {
     path: 'admin/users/:id/edit',
     canDeactivate: [AdminUserEditGuard],
-    component: AdminUserEditComponent
+    component: AdminUserEditComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'admin/groups',
     component: AdminGroupsTabsComponent,
+    canActivate: [AuthGuardService],
     children: [
       { path: '', redirectTo: 'active', pathMatch: 'full' },
       { path: ':type', component: AdminGroupsListComponent }
@@ -47,7 +53,8 @@ const adminRoutes: Routes = [
   {
     path: 'admin/groups/:id/edit',
     canDeactivate: [AdminGroupEditGuard],
-    component: AdminGroupEditComponent
+    component: AdminGroupEditComponent,
+    canActivate: [AuthGuardService]
   }
 ];
 
