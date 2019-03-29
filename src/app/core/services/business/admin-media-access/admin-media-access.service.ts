@@ -14,7 +14,7 @@ export class AdminMediaAccessService {
   getHierachialData(): Observable<MediaAccess []>{
     return this.adminMediaAccessService.getMediasHiearachial();
   }
-  getMediaAccess(): Observable<any[]> {
+  getMediaAccess(): Observable<any> {
     return this.adminMediaAccessService.getMedias();
   }
 
