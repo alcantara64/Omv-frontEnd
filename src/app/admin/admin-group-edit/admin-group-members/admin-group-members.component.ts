@@ -28,11 +28,11 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
 
   columns: GridColumn[] = [
     {type: "checkbox", headerText: "Select All", width: "100", field: ""},
-    {type: "", headerText: "Name", width: "", field: "name"},
-    {type: "", headerText: "Email", width: "", field: "email"},
+    {type: "", headerText: "Name", width: "", field: "displayName"},
+    {type: "", headerText: "Email", width: "", field: "emailAddress"},
   ];
 
-  usersFields: Object = { text: 'name', value: 'id' };
+  usersFields: Object = { text: 'displayName', value: 'userId' };
   userIds: any;
 
   @Select(AdminUserState.getUsers) getUsers$: Observable<User[]>;
@@ -52,8 +52,8 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
     }),
     takeWhile(() => this.componentActive);
 
-    this.getGroupMembers$.subscribe(memberIds => (this.groupMembers = memberIds));
-    this.getUsers$.subscribe(users => (this.users = users));
+    this.getUsers$.subscribe(users => this.users = users);
+    this.getGroupMembers$.subscribe(memberIds => this.groupMembers = memberIds);
   }
 
   ngOnDestroy(): void {
@@ -77,13 +77,9 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
   }
 
   addMembersClick: EmitType<object> = () => {
-    console.log('autocomplete - member', this.userIds);
-
     this.store.dispatch(new AddGroupMembers(this.groupId, this.userIds));
     this.userIds = null;
-
     this.membersDialog.hide();
-    this.store.dispatch(new GetGroupMembers(this.groupId));
   }
 
   dialogButtons: Object[] = [

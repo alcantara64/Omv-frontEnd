@@ -19,10 +19,10 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { SharedModule } from './shared/shared.module';
 import {TreeViewModule} from "@syncfusion/ej2-angular-navigations";
-import { AuthGuardService } from './core/guards/auth-guard.service';
-import { AuthService } from './core/services/business/auth.service';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { StartupComponent } from './startup/startup.component';
+import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
+import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 
 @NgModule({
   declarations: [
@@ -41,6 +41,8 @@ import { StartupComponent } from './startup/startup.component';
     SharedModule, 
     AdminModule,
     TreeViewModule,
+    CheckBoxModule,
+    ToastModule,
     NgxsModule.forRoot([
       AppState
     ]),

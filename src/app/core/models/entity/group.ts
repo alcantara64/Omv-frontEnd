@@ -4,7 +4,7 @@ export class Group {
   isSystem: boolean;
   description: string;
   memberCount: number;
-  modifiedOn: string;
+  modifiedOn: Date;
   modifiedBy: string;
   status: number;
 }

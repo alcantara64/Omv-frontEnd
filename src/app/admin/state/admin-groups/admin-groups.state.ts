@@ -17,7 +17,7 @@ import { Directory_GetAllOutputDTO } from 'src/app/core/dtos/output/directories/
 
 export class AdminGroupStateModel {
   groups: Group[];
-  currentGroupId: number | null;
+  currentGroupId: number;
   currentGroup: Group;
   currentGroupPermission: Permission[];
   currentGroupmediaAccess: Directory_GetAllOutputDTO;
@@ -25,12 +25,23 @@ export class AdminGroupStateModel {
   currentGroupMediaAccessIds: number[];
 }
 
+const initialGroup: Group = {
+  id: 0,
+  name: '',
+  description: '',
+  isSystem: false,
+  memberCount: 0, 
+  status: 1,
+  modifiedBy: '',
+  modifiedOn: new Date()
+}
+
 @State<AdminGroupStateModel>({
   name: 'admin_groups',
   defaults: {
     groups: [],
     currentGroupId: null,
-    currentGroup: null,
+    currentGroup: initialGroup,
     currentGroupPermission: null,
     currentGroupmediaAccess: null,
     currentGroupmembers: [],
@@ -90,7 +101,6 @@ export class AdminGroupState {
   //#endregion
 
   constructor(private adminGroupService: AdminGroupsService,
-    private adminPermissionService: AdminPermissionsService,
     private adminMediaAccessService: AdminMediaAccessService) { }
 
   //#region A C T I O N S
@@ -122,53 +132,52 @@ export class AdminGroupState {
     const state = getState();
     setState({
       ...state,
-      currentGroup: null
+      currentGroup: initialGroup
     });
   }
 
   @Action(CreateGroup)
   createGroup(ctx: StateContext<AdminGroupStateModel>, { payload }: CreateGroup) {
     return this.adminGroupService.createGroup(payload).pipe(
-      tap(result => {
-        console.log('state group: ', result);
-        const group = result as Group;
+      tap(group => {
         const state = ctx.getState();
         ctx.setState({
           ...state,
           currentGroupId: group.id
         });
-        ctx.dispatch(new GetGroups());
       })
     );
   }
 
   @Action(UpdateGroup)
   updateGroup(ctx: StateContext<AdminGroupStateModel>, { payload, id }: UpdateGroup) {
-    return this.adminGroupService.updateGroup(id, payload).pipe(tap((group) => {
-      const state = ctx.getState();
-      ctx.setState({
-        ...state,
-        currentGroup: payload
-      });
-      ctx.dispatch(new GetGroups());
-    }));
+    return this.adminGroupService.updateGroup(id, payload);
+      // ctx.dispatch(new GetGroups());
   }
 
   @Action(DisableGroup)
-  disableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload }: DisableGroup) {
+  disableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload, refreshList }: DisableGroup) {
     payload.status = 0;
-    return this.adminGroupService.updateGroup(id, payload).subscribe(
-      () => { ctx.dispatch(new GetGroups()); });
+    return this.adminGroupService.updateGroup(id, payload).pipe(
+      tap(group => {
+        if (refreshList){
+          ctx.dispatch(new GetGroups());
+        }
+      })
+    );
   }
 
   @Action(EnableGroup)
-  enableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload }: EnableGroup) {
+  enableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload, refreshList }: EnableGroup) {
     payload.status = 1;
-    return this.adminGroupService.updateGroup(id, payload).subscribe(() => {
-      ctx.dispatch(new GetGroups());
-    });
+    return this.adminGroupService.updateGroup(id, payload).pipe(
+      tap(group => {
+        if (refreshList){
+          ctx.dispatch(new GetGroups()); 
+        }
+      })
+    );
   }
-
 
   @Action(SetCurrentGroupId)
   setCurrentGroupId({ getState, setState }: StateContext<AdminGroupStateModel>, { id }: SetCurrentGroupId) {
@@ -187,7 +196,6 @@ export class AdminGroupState {
         ...state,
         currentGroupmembers: users
       });
-
     }));
   }
 
@@ -218,21 +226,21 @@ export class AdminGroupState {
   @Action(UpdateGroupPermissions)
   updateGroupPermissions(ctx: StateContext<AdminGroupStateModel>, { groupId, payload }: UpdateGroupPermissions) {
     return this.adminGroupService.updateGroupPermissions(groupId, payload).pipe(tap(() => {
-
+      ctx.dispatch(new GetGroupPermissions(groupId));
     }));
   }
 
   @Action(AddGroupMembers)
   addGroupMembers(ctx: StateContext<AdminGroupStateModel>, { groupId, payload }: AddGroupMembers) {
-    return this.adminGroupService.addGroupMembers(groupId, payload).pipe(tap(() => {
-
+    return this.adminGroupService.addGroupMembers(groupId, payload).pipe(tap(() => {      
+      ctx.dispatch(new GetGroupMembers(groupId));
     }));
   }
 
   @Action(RemoveGroupMembers)
   removeGroupMembers(ctx: StateContext<AdminGroupStateModel>, { groupId, payload }: RemoveGroupMembers) {
     return this.adminGroupService.removeGroupMembers(groupId, payload).pipe(tap(() => {
-
+      ctx.dispatch(new GetGroupMembers(groupId));
     }));
   }
 

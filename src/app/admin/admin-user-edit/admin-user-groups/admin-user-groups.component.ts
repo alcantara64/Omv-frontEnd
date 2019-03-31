@@ -31,7 +31,7 @@ export class AdminUserGroupsComponent extends BaseComponent implements OnInit, O
   userGroupIds: number[] = [];
   componentActive = true;
 
-  @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
+  @Select(AdminGroupState.getActiveGroups) groups$: Observable<Group[]>;
   @Select(AdminUserState.getGroups) userGroups$: Observable<Group[]>;
 
   constructor(protected store: Store,
@@ -68,8 +68,6 @@ export class AdminUserGroupsComponent extends BaseComponent implements OnInit, O
     this.store.dispatch(new UpdateUserGroups(this.userId, groupIds)).toPromise().then(() => {
       console.log('AdminUserGroupsComponent - updateGroups');
       this.store.dispatch(new GetUserGroups(this.userId));
-      this.setNotification('User Group Updated');
     });
-
   }
 }

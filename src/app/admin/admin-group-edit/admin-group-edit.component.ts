@@ -68,10 +68,10 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   ngOnInit() {
     // Initialize the groupForm
     this.groupForm = this.fb.group({
-      id: [''],
+      id: '',
       name: [ '', [ Validators.required ] ],
-      description: [ '' ],
-      isSystem: [false]
+      description: '',
+      isSystem: false
     });
 
     // Get the id in the browser url and reach out for the group
@@ -89,26 +89,18 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
 
     // Get the current group
     this.currentGroup$.subscribe(group => {
-      console.log('Chyke is here--- ', group);
       if (group) { // Existing Group
         this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
         console.log('AdminGroupEditComponent - ngOnInit: groupDetails ', group);
         this.groupForm.setValue({
           id: group.id,
-          name: [ group.name ],
-          description: [ group.description ],
+          name: group.name,
+          description: group.description,
           isSystem: group.isSystem
         });
         this.group = group;
         console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);
       } else {
-        // let newForm = this.groupForm.setValue({
-        //   name: this.groupForm.value[name],
-        //   description: this.groupForm.value[description],
-        //   isSystem:  this.groupForm.value[isSystem]
-        // });
-
-        console.log('Chyke is here:  ', this.groupForm.value);
       }
     }),
     takeWhile(() => this.componentActive);
@@ -130,18 +122,13 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
         const group: Group = { ...this.group, ...this.groupForm.value };
 
         if (this.groupId === 0) {
-          console.log('AdminGroupEditComponent - save: ', this.groupForm.value);
-          this.groupForm.value.RoleId = this.groupId;
-          this.groupForm.value.Status = 1;
-          this.groupForm.value.RoleName = this.groupForm.value.name;
-          this.groupForm.value.RoleDescription = this.groupForm.value.description;
-          this.groupForm.value.IsSystem = this.groupForm.value.isSystem;
-          await this.store.dispatch(new CreateGroup(this.groupForm.value));
+          console.log('AdminGroupEditComponent - save: ', group);
+          await this.store.dispatch(new CreateGroup(group));
           this.currentGroupId$.subscribe(groupId => {
             if (groupId) {
               this.groupForm.reset();
               this.router.navigate([`/admin/groups/${groupId}/edit`]);
-              this.setNotification('Group Created')
+              this.setNotification('Group Created');
             }
           }),
           takeWhile(() => this.componentActive);
@@ -149,7 +136,6 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
           await this.store.dispatch(new UpdateGroup(group.id, group));
           this.groupForm.reset(this.groupForm.value);
           this.setNotification('Group Updated');
-          console.log("AdminGroupEditComponent - save" + this.groupForm.value);
         }
       }
     } else {
@@ -164,11 +150,11 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
       if (res === true) {
         if (this.groupActionText === ENABLE_GROUP) {
           this.store.dispatch(new EnableGroup(this.groupId, this.group));
-          this.setNotification(this.group.name + ' was enable', messageType.success);
+          // this.setNotification(this.group.name + ' was enable', messageType.success);
           this.groupActionText = DISABLE_GROUP;
         } else {
           this.store.dispatch(new DisableGroup(this.groupId, this.group));
-          this.setNotification(this.group.name + ' was disabled', messageType.error);
+          // this.setNotification(this.group.name + ' was disabled', messageType.error);
           this.groupActionText = ENABLE_GROUP;
         }
       }

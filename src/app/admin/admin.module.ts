@@ -48,6 +48,7 @@ import { AdminMediaAccessMockDataService } from '../core/services/data/admin-med
 import { AdminMediaAccessWebDataService } from '../core/services/data/admin-media-access/admin-media-access.web.service';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 import { AdminPermissionState } from './state/admin-permissions/admin-permissions.state';
+import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notifications';
 
 @NgModule({
   imports: [
@@ -65,6 +66,7 @@ import { AdminPermissionState } from './state/admin-permissions/admin-permission
     MultiSelectAllModule,
     ReactiveFormsModule,
     TreeViewModule,
+    ToastAllModule,
     NgxsModule.forFeature([
       AdminUserState,
       AdminGroupState,

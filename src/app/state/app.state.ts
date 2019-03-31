@@ -5,7 +5,7 @@ import {
   messageType,
   SetNotification,
   ClearConfirmation, 
-  SetPageTitle, ShowLeftNav, SetLoggedInUser, LogOut, GetUserPermissions, GetLoggedInUser
+  SetPageTitle, ShowLeftNav, SetLoggedInUser, LogOut, GetUserPermissions, GetLoggedInUser, DisplayToastMessage
 } from './app.actions';
 import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
@@ -14,7 +14,7 @@ import { Permission } from '../core/enum/permission';
 import { GetPermissions } from '../admin/state/admin-permissions/admin-permissions.action';
 import { GetUser } from '../admin/state/admin-users/admin-users.actions';
 import { tap } from 'rxjs/operators';
-
+import { Toast } from '../core/enum/toast';
 
 export class AppStateModel {
   showLeftNav: boolean;
@@ -26,6 +26,8 @@ export class AppStateModel {
   messageType: messageType;
   confirmationBox: boolean;
   confirmation: boolean;
+
+  toastMessage?: Toast;
 }
 
 @State<AppStateModel>({
@@ -40,6 +42,8 @@ export class AppStateModel {
     messageType: messageType.success,
     confirmationBox: false,
     confirmation: false,
+
+    toastMessage: null
   }
 })
 export class AppState {
@@ -69,7 +73,10 @@ export class AppState {
     return state.permissions;
   }
 
-  constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
+  @Selector()
+  static getToastMessage(state: AppStateModel) {
+    return state.toastMessage;
+  }  
 
   @Selector()
   static setNotification(state: AppStateModel) {
@@ -85,6 +92,8 @@ export class AppState {
   static confirmation(state: AppStateModel) {
     return state.confirmation;
   }
+
+  constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
 
   @Action(ShowLeftNav)
   setLeftNavToggle({getState, setState}: StateContext<AppStateModel>, { payload }: ShowLeftNav) {
@@ -148,6 +157,7 @@ export class AppState {
       })
     );
   }
+
   @Action(ClearNotification)
   clearNotification({getState,setState}: StateContext<AppStateModel>) {
     const state = getState();
@@ -201,14 +211,24 @@ export class AppState {
   @Action(Confirmation)
   confirmation(ctx: StateContext<AppStateModel>) {
     const state = ctx.getState();
-
     ctx.setState({
       ...state,
-      confirmation: true,
+      confirmation: true
     });
-
     setTimeout(()=>{
       ctx.dispatch(new ClearConfirmation)
     }, 100)
   }
+
+  @Action(DisplayToastMessage)
+  displayToastMessage({getState, setState}: StateContext<AppStateModel>, { message, type }: DisplayToastMessage) {
+    const state = getState();
+
+    const toast: Toast = { message: message, type: type };
+    setState({
+      ...state,
+      toastMessage: toast
+    });
+  }
+
 }

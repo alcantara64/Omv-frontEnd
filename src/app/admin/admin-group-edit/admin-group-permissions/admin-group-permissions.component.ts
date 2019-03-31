@@ -52,16 +52,9 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
           if (permissions) {
             this.groupPermissions = permissions.map(x => x.id);
           }
-
-
         });
       });
-
-
-    }),
-      takeWhile(() => this.componentActive);
-
-
+    }), takeWhile(() => this.componentActive);
   }
 
   ngOnDestroy(): void {
@@ -71,8 +64,6 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
   updatePermissions(permissions: Permission[]) {
     const _permissions = permissions.map(permission => permission.id);
     this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
-      console.log('AdminUserGroupsComponent - updateGroups');
-      this.store.dispatch(new GetGroupPermissions(this.groupId));
       this.setNotification('Permission Updated');
     });
   }

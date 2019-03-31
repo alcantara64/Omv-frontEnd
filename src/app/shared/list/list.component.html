@@ -1,4 +1,4 @@
-<div *ngIf="isToolBarVisible" style="padding-top:2rem;padding-bottom: .5rem;">
+<div *ngIf="isToolBarVisible" style="padding-top:2rem;padding-bottom: .3rem;">
   <span>
     <label class="grid-toolbar-item-label">
       Total Users: {{ listData?.length }}
@@ -16,29 +16,20 @@
     </button>
   </span>
 </div>
-<ejs-grid #grid
-    [dataSource]="listData"
-    (rowDataBound)='rowDataBound($event)'
-    (dataBound)='dataBound($event)'
-    (rowSelected)="rowSelected($event)"
-    (rowDeselected)="rowDeselected($event)"
-    [allowSorting]='true'    
-    (created)='gridCreated()'    
-    id="Grid">
+<ejs-grid #grid [dataSource]="listData" (rowDataBound)='rowDataBound($event)' (dataBound)='dataBound($event)'
+  (rowSelected)="rowSelected($event)" (rowDeselected)="rowDeselected($event)" [allowSorting]='true'
+  (created)='gridCreated()' id="Grid">
   <e-columns>
     <ng-template #template ngFor let-column [ngForOf]="columns">
-      <e-column
-        [field]="column.field"
-        [type]="column.type"
-        [headerText]="column.headerText"
-        [width]="column.width">
+      <e-column [field]="column.field" [type]="column.type" [headerText]="column.headerText" [width]="column.width"
+        [textAlign]="column.textAlign">
       </e-column>
 
     </ng-template>
-    <e-column *ngIf="shouldEdit" field='' headerText='' width=80>
-        <ng-template #template>
-            <a class="link" (click)="performNavigation($event)">Edit</a>
-        </ng-template> 
+    <e-column *ngIf="shouldEdit" field='' headerText='' width='70'>
+      <ng-template #template>
+        <a class="link" (click)="performNavigation($event)">Edit</a>
+      </ng-template>
     </e-column>
   </e-columns>
 </ejs-grid>

@@ -24,11 +24,9 @@ export class AdminGroupsService {
     return this.AdminGroupsDataService.createGroup(payload);
   }
 
-
   updateGroup(id: number, payload: Group) {
     return this.AdminGroupsDataService.updateGroup(id, payload);
   }
-
 
   getGroupPermissions(groupId: number): Observable<Permission[]> {
     return this.AdminGroupsDataService.getPermissions(groupId);

@@ -11,7 +11,7 @@ import {Group} from '../../core/models/entity/group';
 import {ListComponent} from 'src/app/shared/list/list.component';
 import {AdminGroupState} from '../state/admin-groups/admin-groups.state';
 import {
-  ClearUser,
+  InitializeUser,
   CreateUser,
   DisableUser,
   EnableUser,
@@ -44,7 +44,6 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   userActionText: string;
   errorMessage: string;
 
-  @Select(AdminGroupState.getGroups) groups$: Observable<Group[]>;
   @Select(AdminUserState.getCurrentUser) currentUser$: Observable<User>;
   @Select(AdminUserState.getCurrentUserId) currentUserId$: Observable<number>;
 
@@ -60,7 +59,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
   ngOnInit() {
     // Initialize the userForm
     this.userForm = this.formBuilder.group({
-      id: [''],
+      userId: [''],
       firstName: [ '', [ Validators.required ] ],
       lastName: [ '', [ Validators.required ] ],
       userName: [ '', [ Validators.required ] ],
@@ -74,7 +73,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
         this.store.dispatch(new GetUser(this.userId));
         this.createUserButtonText = UPDATE_USER;
       } else {
-        this.store.dispatch(new ClearUser());
+        this.store.dispatch(new InitializeUser());
         this.createUserButtonText = CREATE_USER;
       }
     }),
@@ -85,7 +84,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
       if (user) { // Existing User
         this.userActionText = user.status == UserStatus.Active ? DISABLE_USER : ENABLE_USER;
         this.userForm.setValue({
-          id: user.userId,
+          userId: user.userId,
           firstName: user.firstName,
           lastName: user.lastName,
           userName: user.userName,
@@ -109,19 +108,19 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
         const user: User = { ...this.user, ...this.userForm.value };
 
         if (this.userId === 0) { // Create User
+          console.log('testing create user - ', user);
           this.store.dispatch(new CreateUser(user));
           this.currentUserId$.subscribe(userId => {
             if (userId) {
               this.userForm.reset();
               this.router.navigate([`/admin/users/${userId}/edit`]);
-              this.setNotification('Created user successfully');
             }
           }),
           takeWhile(() => this.componentActive);
         } else { // Update User
+          console.log('testing update user - ', user);
           this.store.dispatch(new UpdateUser(user.userId, user));
           this.userForm.reset(this.userForm.value);
-          this.setNotification('User Updated successfully');
         }
       }
     } else {
@@ -133,11 +132,9 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     if (this.userActionText === ENABLE_USER) {
       this.store.dispatch(new EnableUser(this.userId, this.user));
       this.userActionText = DISABLE_USER;
-      this.setNotification(this.user.displayName + ' was Enabled')
     } else {
       this.store.dispatch(new DisableUser(this.userId, this.user));
       this.userActionText = ENABLE_USER;
-      this.setNotification(this.user.displayName + ' was Disabled', messageType.error)
     }
   }
 }

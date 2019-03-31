@@ -1,6 +1,8 @@
-export interface GridColumn {
-  type: string;
+export class GridColumn {
+  type?: string;
   headerText: string;
   field: string;
-  width: string;
+  width?: string;
+  textAlign?: string = 'right';
+  format?: string;
 }

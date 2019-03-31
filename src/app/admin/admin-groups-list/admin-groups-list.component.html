@@ -8,39 +8,18 @@
       </span>
     </div>
   </div>
-  <ejs-dialog
-    #groupDialog
-    [visible]="false"
-    [buttons]="saveDlgButtons"
-    [header]="'Assign Groups to Permissions'"
-    [showCloseIcon]="true"
-    [width]="300"
-    [height]="500"
-  >
+  <ejs-dialog #groupDialog [visible]="false" [buttons]="saveDlgButtons" [header]="'Assign Groups to Permissions'"
+    [showCloseIcon]="true" [width]="300" [height]="500">
     <ng-template #content>
-      <ejs-listview
-        #listviewgroup
-        id="group-list"
-        [dataSource]="permissions"
-        [showCheckBox]="true"
-        [fields]="permissionFields"
-      >
+      <ejs-listview #listviewgroup id="group-list" [dataSource]="permissions" [showCheckBox]="true"
+        [fields]="permissionFields">
       </ejs-listview>
     </ng-template>
-  </ejs-dialog>
+    </ejs-dialog>
   <div class="">
-    <app-list
-      [listData]="groups"
-      [columns]="columns"
-      [selectedRecords]="selectedGroups"
-      [isToolBarVisible]="true"
-      [firstActionButtonText]="statusChange"
-
-      (firstAction)="changeGroupStatus($event)"
-
-      (navigate)="edit($event)"
-      [shouldEdit]="true"
-    >
+    <app-list [listData]="groups" [columns]="columns" [selectedRecords]="selectedGroups" [isToolBarVisible]="true"
+      [firstActionButtonText]="statusChange" (firstAction)="changeGroupStatus($event)" (navigate)="edit($event)"
+      [shouldEdit]="true">
     </app-list>
   </div>
 </div>

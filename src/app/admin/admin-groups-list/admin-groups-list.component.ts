@@ -26,10 +26,11 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   groups: Group[];
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "50", field: "" },
-    { type: "", headerText: "Name", width: "100", field: "name" },
-    { type: "", headerText: "Last Modified", width: "100", field: "modifiedOn" },
-    { type: "", headerText: "Modified By", width: "100", field: "modifiedBy" },
-    { type: "", headerText: "Members", width: "100", field: "memberCount" }
+    { headerText: "Name", field: "name" },
+    { headerText: "Description", width: '180', field: "description" },
+    { headerText: "Last Modified", field: "modifiedOn", format: '{0:dd/MM/yyyy}' },
+    { headerText: "Modified By", field: "modifiedBy" },
+    { headerText: "Members", field: "memberCount", textAlign: 'center' }
   ];
   public permissionFields= { text: 'name', value: 'id' };
   ENABLE: string = "Enable";
@@ -93,7 +94,6 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     }
   }
 
-
   displayGroups(param: string) {
     this.urlparam = param;
     switch (param) {
@@ -113,12 +113,13 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
   changeGroupStatus(groups: Group[]){
     this.ShowSpinner(true);
-
+    const lastGroup = groups[groups.length - 1];
     groups.forEach(group => {
-      if ((this.statusChange === this.ENABLE)) {
-        this.store.dispatch(new EnableGroup(group.id, group));
+      let shouldRefreshList =  lastGroup.id === group.id; // Get fresh list of groups only when updating final group
+      if (this.statusChange === this.ENABLE) {
+        this.store.dispatch(new EnableGroup(group.id, group, shouldRefreshList));
       } else {
-        this.store.dispatch(new DisableGroup(group.id, group));
+        this.store.dispatch(new DisableGroup(group.id, group, shouldRefreshList));
       }
     });
   }

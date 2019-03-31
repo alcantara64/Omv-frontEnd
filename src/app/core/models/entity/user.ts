@@ -7,11 +7,11 @@ export class User {
   displayName: string
   roleNames: string;
   status: number;
-  statusName: string;
-  createdOn: Date;
-  createdBy: string;
-  modifiedOn: Date;
-  modifiedBy: string;
+  statusName?: string;
+  createdOn?: Date;
+  createdBy?: string;
+  modifiedOn?: Date;
+  modifiedBy?: string;
 }
 
 export interface LoggedInUser{

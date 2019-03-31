@@ -1,4 +1,5 @@
 import { User } from 'src/app/core/models/entity/user';
+import { ToastType } from '../core/enum/toast';
 export class ShowLeftNav {
   static readonly type = '[App] ShowLeftNav';
 
@@ -62,4 +63,10 @@ export class ShowConfirmationBox {
   static readonly type = '[ShowConfirmationBox] showConfirmationBox';
 
   constructor(public show: boolean ) {}
+}
+
+export class DisplayToastMessage {
+  static readonly type = '[App] DisplayToastMessage';
+
+  constructor(public message: string, public type: ToastType = ToastType.success) {}
 }

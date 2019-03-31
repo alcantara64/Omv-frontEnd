@@ -31,6 +31,7 @@ import { DISABLED } from '@angular/forms/src/model';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ListViewComponent } from '@syncfusion/ej2-angular-lists';
 import { User_SearchInputDTO } from 'src/app/core/dtos/input/users/User_SearchInputDTO';
+import { ToastComponent } from '@syncfusion/ej2-angular-notifications';
 
 @Component({
   selector: 'app-admin-users-list',
@@ -114,7 +115,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
       this.displayUsers(params.type);
       this.nameSelect.value = "";
       this.groupSelect.index = null;
-
     });
 
     this.groups$.subscribe(groups => (this.groups = groups));
@@ -123,7 +123,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
       this.router.navigate(['dashboard']);
     }
   }
-
 
   displayUsers(param: string) {
     this.urlparam = param;
@@ -150,17 +149,15 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   changeUsersStatus(users: User[]) {
-
-    this.ShowSpinner(true);
-    console.log("AdminUsersListComponent - changeUsersStatus - start");
-    let count:number = 1;
+    this.ShowSpinner(true);    
+    const lastUser = users[users.length - 1];
 
     users.forEach(user => {
-
+      let isLastUser =  lastUser.userId === user.userId; // Get fresh list of users only when updating final user
       if ((this.statusChange === this.ENABLE)) {
-        this.store.dispatch(new EnableUser(user.userId, user));
+        this.store.dispatch(new EnableUser(user.userId, user, true, isLastUser));
       } else {
-        this.store.dispatch(new DisableUser(user.userId, user));
+        this.store.dispatch(new DisableUser(user.userId, user, true, isLastUser));
       }
     });
   }

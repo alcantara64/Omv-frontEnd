@@ -36,7 +36,6 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
   getGroups(): Observable<Group[]> {
     var requestUri = environment.api.baseUrl + `/v1/roles`;
 
-
     return this.httpClient.get<Role_GetAllOutputDTO[]>(requestUri).pipe(map(
       response => {
         automapper
@@ -45,18 +44,16 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
           .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleName'))
           .forMember('memberCount', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('memberCount'))
           .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
+          .forMember('description', function (opts) { opts.mapFrom('description'); })
           .forMember('status', function (opts) { opts.mapFrom('status'); })
-
-
           .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
           .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); })
           .forMember('modifiedOn', function (opts) { opts.mapFrom('modifiedOn'); })
-          .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); })
+          .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); });
 
         var _response = automapper.map(Role_GetAllOutputDTO, Group, response);
         console.log('AdminGroupsWebDataService - getGroups: ', _response);
         return _response;
-
       }),
       catchError(e => {
         console.log("AdminGroupsWebDataService - getGroups error: ", e);
@@ -77,7 +74,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
           .forMember('memberCount', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('memberCount'))
           .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
           .forMember('status', function (opts) { opts.mapFrom('status'); })
-
+          .forMember('description', function (opts) { opts.mapFrom('description'); })
 
           .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
           .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); })
@@ -101,24 +98,41 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
 
     automapper
       .createMap(payload, Role_InsertInputDTO)
-      .forMember('RoleId', function (opts) { opts.mapFrom('RoleId'); })
-      .forMember('RoleName', function (opts) { opts.mapFrom('RoleName'); })
-      .forMember('IsSystem', function (opts) { opts.mapFrom('IsSystem'); })
-      .forMember('Status', function (opts) { opts.mapFrom('Status'); })
-      .forMember('Description', function (opts) { opts.mapFrom('RoleDescription'); })
+      .forMember('roleId', function (opts) { opts.mapFrom('id'); })
+      .forMember('rolename', function (opts) { opts.mapFrom('name'); })
+      .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
+      .forMember('status', function (opts) { opts.mapFrom('status'); })
+      .forMember('description', function (opts) { opts.mapFrom('description'); });
 
     var request = automapper.map(payload, Role_InsertInputDTO, payload);
-    console.log('AdminGroupsWebDataService - createGroup: ', request);
+    console.log('AdminGroupsWebDataService - createGroup request: ', request);
+    console.log('AdminGroupsWebDataService - createGroup payload: ', payload);
 
-    return this.httpClient.post(requestUri, request).pipe(
-      catchError(e => {
+    return this.httpClient.post(requestUri, request).pipe(map(
+      response => {
+        automapper
+          .createMap(Role_GetAllOutputDTO, Group)
+          .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleId'))
+          .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleName'))
+          .forMember('memberCount', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('memberCount'))
+          .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
+          .forMember('description', function (opts) { opts.mapFrom('description'); })
+
+          .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
+          .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); })
+          .forMember('modifiedOn', function (opts) { opts.mapFrom('modifiedOn'); })
+          .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); })
+
+        var _response = automapper.map(Role_GetAllOutputDTO, Group, response);
+        console.log('AdminGroupsWebDataService - createUser: ', _response);
+        return _response;
+      }), catchError(e => {
         console.log('AdminGroupsWebDataService - createUser error: ', e);
         return of(null);
       })
     );
   }
-
-
 
   updateGroup(id: number, payload: Group) {
     var requestUri = environment.api.baseUrl + `/v1/roles/${id}`;
@@ -128,15 +142,35 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       .forMember('roleName', function (opts) { opts.mapFrom('name'); })
       .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
       .forMember('status', function (opts) { opts.mapFrom('status'); })
+      .forMember('description', function (opts) { opts.mapFrom('description'); })
 
     var request = automapper.map(payload, Role_UpdateInputDTO, payload);
 
     request.isSystem = request.isSystem.toString();
-    request.roleName = request.roleName.toString();
+    request.roleName = request.roleName ? request.roleName.toString() : '';
     console.log('AdminGroupsWebDataService - updateUser: ', request);
 
-    return this.httpClient.put(requestUri, request).pipe(
-      catchError(e => {
+    return this.httpClient.put(requestUri, request).pipe(map(
+      response => {
+        automapper
+          .createMap(Role_GetAllOutputDTO, Group)
+          .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleId'))
+          .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleName'))
+          .forMember('memberCount', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('memberCount'))
+          .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
+          .forMember('description', function (opts) { opts.mapFrom('description'); })
+
+          .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
+          .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); })
+          .forMember('modifiedOn', function (opts) { opts.mapFrom('modifiedOn'); })
+          .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); })
+
+        var _response = automapper.map(Role_GetAllOutputDTO, Group, response);
+        console.log('AdminGroupsWebDataService - updateUser: ', _response);
+        return _response;
+
+      }), catchError(e => {
         console.log('AdminGroupsWebDataService - updateUser error: ', e);
         return of(null);
       })
@@ -172,6 +206,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
+
   updatePermissions(groupId: number, payload: string[]) {
     var requestUri = environment.api.baseUrl + `/v1/roles/${groupId}/permissions`;
 
@@ -187,14 +222,27 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
+
   getMembers(groupId: number): Observable<User[]> {
     var requestUri = environment.api.baseUrl + `/v1/roles/${groupId}/members`;
 
-    return this.httpClient.get<Role_GetMembersByIdOutputDTO []>(requestUri).pipe(map(
+    return this.httpClient.get<Role_GetMembersByIdOutputDTO[]>(requestUri).pipe(map(
       response => {
         automapper
           .createMap(Role_GetMembersByIdOutputDTO , User)
-          .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('userId'));
+          .forMember('userId', function (opts) { opts.mapFrom('userId'); })
+          .forMember('userName', function (opts) { opts.mapFrom('userName'); })
+          .forMember('emailAddress', function (opts) { opts.mapFrom('emailAddress'); })
+          .forMember('firstName', function (opts) { opts.mapFrom('firstName'); })
+          .forMember('lastName', function (opts) { opts.mapFrom('lastName'); })
+          .forMember('displayName', function (opts) { opts.mapFrom('displayName'); })
+          .forMember('roleNames', function (opts) { opts.mapFrom('roleNames'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
+          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
+          .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
+          .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); })
+          .forMember('modifiedOn', function (opts) { opts.mapFrom('modifiedOn'); })
+          .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); })
 
 
         var _response = automapper.map(Role_GetMembersByIdOutputDTO , User, response);
@@ -225,7 +273,20 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
       })
     );
   }
+
   removeMembers(groupId: number, payload: number[]) {
-    throw new Error("Method not implemented.");
+    var requestUri = environment.api.baseUrl + `/v1/roles/${groupId}/members`;
+
+    var request = new Role_InsertMembersInputDTO();
+    request.UserIds = payload;
+
+    console.log('AdminGroupsWebDataService - removeMembers: ', request);
+
+    return this.httpClient.put(requestUri, request).pipe(
+      catchError(e => {
+        console.log('AdminGroupsWebDataService - addMembers error: ', e);
+        return of(null);
+      })
+    );
   }
 }

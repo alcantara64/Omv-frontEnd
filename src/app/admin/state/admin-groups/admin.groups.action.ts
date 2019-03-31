@@ -29,13 +29,13 @@ export class UpdateGroup {
 export class DisableGroup {
   static readonly type = '[Admin Groups] DisableGroup';
 
-  constructor(public id: number, public payload: Group) { }
+  constructor(public id: number, public payload: Group, public refreshList?: boolean) { }
 }
 
 export class EnableGroup {
   static readonly type = '[Admin Groups] EnableGroup';
 
-  constructor(public id: number, public payload: Group) { }
+  constructor(public id: number, public payload: Group, public refreshList?: boolean) { }
 }
 
 export class SetCurrentGroup {

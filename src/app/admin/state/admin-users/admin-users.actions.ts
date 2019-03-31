@@ -13,8 +13,8 @@ export class GetUser {
   constructor(public id: number) { }
 }
 
-export class ClearUser {
-  static readonly type = '[Admin Users] ClearUser';
+export class InitializeUser {
+  static readonly type = '[Admin Users] InitializeUser';
 }
 
 export class CreateUser {
@@ -38,13 +38,13 @@ export class DeleteUser {
 export class DisableUser {
   static readonly type = '[Admin Users] DisableUser';
 
-  constructor(public id: number, public payload: User) { }
+  constructor(public id: number, public payload: User, public isMultiple?: boolean, public refreshList?: boolean) { }
 }
 
 export class EnableUser {
   static readonly type = '[Admin Users] EnableUser';
 
-  constructor(public id: number, public payload: User) { }
+  constructor(public id: number, public payload: User, public isMultiple?: boolean, public refreshList?: boolean) { }
 }
 
 export class GetUserGroups {

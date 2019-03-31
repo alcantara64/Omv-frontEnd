@@ -3,7 +3,6 @@ import { tap, mergeMap, map } from "rxjs/operators";
 import { AdminUsersService } from "../../../core/services/business/admin-users/admin-users.service";
 import {
   GetUsers,
-  DeleteUser,
   UpdateUser,
   EnableUser,
   DisableUser,
@@ -11,18 +10,30 @@ import {
   UpdateUserGroups,
   GetUserGroups,
   CreateUser,
-  ClearUser,
+  InitializeUser,
   ClearUserGroups
 } from "./admin-users.actions";
 import { User } from "src/app/core/models/entity/user";
 import { UserStatus } from "src/app/core/enum/user-status.enum";
 import { Group } from "src/app/core/models/entity/group";
+import { DisplayToastMessage } from 'src/app/state/app.actions';
 
 export class AdminUserStateModel {
   users: User[];
-  currentUserId: number | null;
+  currentUserId: number;
   currentUser: User;
   groups: Group[];
+}
+
+const initialUser: User = {
+  userId: 0,
+  displayName: '',
+  firstName: '',
+  lastName: '',
+  userName: '',
+  emailAddress: '',
+  roleNames: '',
+  status: 1
 }
 
 @State<AdminUserStateModel>({
@@ -31,7 +42,7 @@ export class AdminUserStateModel {
     users: [],
     currentUserId: null,
     currentUser: null,
-    groups: null
+    groups: []
   }
 })
 export class AdminUserState {
@@ -102,12 +113,12 @@ export class AdminUserState {
     );
   }
 
-  @Action(ClearUser)
-  clearUser({ getState, setState }: StateContext<AdminUserStateModel>) {    
+  @Action(InitializeUser)
+  initializeUser({ getState, setState }: StateContext<AdminUserStateModel>) {
     const state = getState();
     setState({
       ...state,
-      currentUser: null
+      currentUser: initialUser
     });
   }
 
@@ -138,6 +149,7 @@ export class AdminUserState {
     return this.adminUserService.createUser(payload).pipe(
       tap(result => {
         console.log('Create User - result: ', result);
+        ctx.dispatch(new DisplayToastMessage("User created successfully"));
         var user = result as User;
         const state = ctx.getState();
         ctx.setState({
@@ -151,32 +163,54 @@ export class AdminUserState {
   @Action(UpdateUser)
   updateUser(ctx: StateContext<AdminUserStateModel>, { id, payload }: UpdateUser) {
     return this.adminUserService.updateUser(id, payload).pipe(
-      tap(result => {}),
-      mergeMap(() => ctx.dispatch(new GetUsers()))
+      tap(user => {
+        ctx.dispatch(new DisplayToastMessage("User updated successfully"));
+      })
     );
   }
 
   @Action(UpdateUserGroups)
   updateGroups(ctx: StateContext<AdminUserStateModel>, { userid, payload, isAddRoles }: UpdateUserGroups) {
-    return this.adminUserService.updateGroups(userid, payload, isAddRoles).subscribe(() => {
-      ctx.dispatch(new GetUsers());      
-     });
+    return this.adminUserService.updateGroups(userid, payload, isAddRoles).pipe(
+      tap(() => {
+        if (isAddRoles) {
+          ctx.dispatch(new DisplayToastMessage("Groups were updated successfully."));
+          ctx.dispatch(new GetUsers());
+        } else {
+          var state = ctx.getState();
+          var user = state.currentUser;
+          ctx.dispatch(new DisplayToastMessage(`${user.displayName}'s groups were updated successfully.`));
+        }
+      })
+    );
   }
 
   @Action(DisableUser)
-  disableUser(ctx: StateContext<AdminUserStateModel>, { id, payload }: DisableUser) {
+  disableUser(ctx: StateContext<AdminUserStateModel>, { id, payload, isMultiple, refreshList }: DisableUser) {
     payload.status = 0;
-    this.adminUserService.updateUser(id, payload).subscribe(() => {
-      ctx.dispatch(new GetUsers());
-     });
+    this.adminUserService.updateUser(id, payload).subscribe(user => {
+      if (!isMultiple) {
+        ctx.dispatch(new DisplayToastMessage(`${user.displayName} was disabled successfully.`));
+      }
+      if (refreshList) {
+        ctx.dispatch(new GetUsers());
+        ctx.dispatch(new DisplayToastMessage("Successfully disabling user(s)"));
+      }
+    });
   }
 
   @Action(EnableUser)
-  enableUser(ctx: StateContext<AdminUserStateModel>, { id, payload }: EnableUser) {
+  enableUser(ctx: StateContext<AdminUserStateModel>, { id, payload, isMultiple, refreshList }: EnableUser) {
     payload.status = 1;
-    this.adminUserService.updateUser(id, payload).subscribe(() => {
-      ctx.dispatch(new GetUsers());
-     });
+    this.adminUserService.updateUser(id, payload).subscribe(user => {
+      if (!isMultiple) {
+        ctx.dispatch(new DisplayToastMessage(`${user.displayName} was enabled successfully.`));
+      }
+      if (refreshList) {
+        ctx.dispatch(new GetUsers());
+        ctx.dispatch(new DisplayToastMessage("Successfully enabling user(s)"));
+      }
+    });
   }
 
   //#endregion

@@ -1,25 +1,9 @@
 
 <app-header></app-header>
 
-<div *ngIf="notificationMessages !== null"
-     [ngClass]="{'omv-notifications': notificationMessages !== null }"
-     [ngStyle]="{background: notificationColour}">
-  <div class="omv-notification-message">{{ notificationMessages }}</div>
-  <div class="omv-notification-close">
-    <span class="e-icons e-add-icon" (click)="clearNotification()" style="font-size: larger"></span>
-  </div>
-</div>
-
-
-<div *ngIf="(showConfirmationBox$ | async) === true" class="confirmationArea" (click)="closeConfirmationBox()"></div>
-<div class="confirmationBox" *ngIf="(showConfirmationBox$ | async) === true">
-  <div class="confirmationMessage">This is a sample confirmation message</div>
-  <div class="confirmationAction">
-    <button (click)="Confirmation()">Confirm</button>
-    <button (click)="closeConfirmationBox()" style="background: #d0d0d0!important; color: #323232">Cancel</button>
-  </div>
-</div>
-
+<ejs-toast #element (created)="onCreate($event)" [position]='position' showProgressBar='true' showCloseButton='true'></ejs-toast>
+<!-- <ejs-toast id='elementToastTime' #confirmBox (created)="onCreate($event)" width='300px' height='150px' [buttons]='buttons'
+  title='Update User' content='Are you sure you want to update the user?' [position]='confirmBoxPosition'></ejs-toast> -->
 
 <div class="container">
   <div class="row pt-4">
@@ -32,5 +16,3 @@
     </div>
   </div>
 </div>
-
-
