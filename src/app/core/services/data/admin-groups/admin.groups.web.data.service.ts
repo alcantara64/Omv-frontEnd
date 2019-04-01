@@ -42,6 +42,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
           .createMap(Role_GetAllOutputDTO, Group)
           .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleId'))
           .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleName'))
+          .forMember('nameWithBadge', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('roleNameWithBadge'))
           .forMember('memberCount', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('memberCount'))
           .forMember('isSystem', function (opts) { opts.mapFrom('isSystem'); })
           .forMember('description', function (opts) { opts.mapFrom('description'); })
