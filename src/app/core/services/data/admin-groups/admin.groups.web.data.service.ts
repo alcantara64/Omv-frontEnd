@@ -283,7 +283,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
 
     console.log('AdminGroupsWebDataService - removeMembers: ', request);
 
-    return this.httpClient.put(requestUri, request).pipe(
+    return this.httpClient.delete(requestUri).pipe(
       catchError(e => {
         console.log('AdminGroupsWebDataService - addMembers error: ', e);
         return of(null);

@@ -29,7 +29,7 @@
                                     !groupForm.get('description').valid }" />
       </div><br>
       <div class="form-group">
-        <ejs-checkbox label="Is System's Group" id="isSystemId" type="checkbox" formControlName="isSystem"></ejs-checkbox>
+        <ejs-checkbox #checkbox label="Is System's Group" formControlName="isSystem"></ejs-checkbox>
       </div><br>
       <app-edit [firstButtonText]="createGroupButtonText" [isfirstButtonDisabled]="!groupForm.valid || !groupForm.dirty"
           [secondButtonText]="groupActionText" [isSecondButtonVisible]="groupId" (secondButtonEvent)="changeStatus()">

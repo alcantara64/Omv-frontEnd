@@ -13,6 +13,7 @@ import { AdminMediaAccessService } from 'src/app/core/services/business/admin-me
 import { MediaAccess } from 'src/app/core/models/media-access';
 import { Permission } from 'src/app/core/enum/permission';
 import { Directory_GetAllOutputDTO } from 'src/app/core/dtos/output/directories/Directory_GetAllOutputDTO';
+import { DisplayToastMessage } from 'src/app/state/app.actions';
 
 
 export class AdminGroupStateModel {
@@ -28,6 +29,7 @@ export class AdminGroupStateModel {
 const initialGroup: Group = {
   id: 0,
   name: '',
+  nameWithBadge: '',
   description: '',
   isSystem: false,
   memberCount: 0, 
@@ -232,8 +234,14 @@ export class AdminGroupState {
 
   @Action(AddGroupMembers)
   addGroupMembers(ctx: StateContext<AdminGroupStateModel>, { groupId, payload }: AddGroupMembers) {
-    return this.adminGroupService.addGroupMembers(groupId, payload).pipe(tap(() => {      
-      ctx.dispatch(new GetGroupMembers(groupId));
+    return this.adminGroupService.addGroupMembers(groupId, payload).pipe(tap(response => {
+      const state = ctx.getState();
+      ctx.dispatch(new DisplayToastMessage(`Group members updated.`));
+      var members = response as User[];
+      ctx.setState({
+        ...state,
+        currentGroupmembers: members
+      });
     }));
   }
 
