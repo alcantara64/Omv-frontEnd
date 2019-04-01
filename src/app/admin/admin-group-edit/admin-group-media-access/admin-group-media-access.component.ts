@@ -42,6 +42,7 @@ export class AdminGroupMediaAccessComponent implements OnInit {
     this.adminMediaService.getMediaAccess().subscribe(data => {
       this.mediaAccess = data;
       this.mediaAccess.forEach(item => {
+        item.icon = 'folder';
         if (item.directoryParentId === 0) {
           item.directoryParentId = undefined;
         }
@@ -54,7 +55,7 @@ export class AdminGroupMediaAccessComponent implements OnInit {
       console.log(this.mediaAccess);
       this.field = {
         dataSource: this.mediaAccess, id: 'directoryId', parentID: 'directoryParentId',
-        text: 'directoryName', hasChildren: 'hasChild'
+        text: 'directoryName',  iconCss: 'icon', hasChildren: 'hasChild'
       };
     });
 

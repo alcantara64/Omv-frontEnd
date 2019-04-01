@@ -32,7 +32,7 @@ const initialGroup: Group = {
   nameWithBadge: '',
   description: '',
   isSystem: false,
-  memberCount: 0, 
+  memberCount: 0,
   status: 1,
   modifiedBy: '',
   modifiedOn: new Date()

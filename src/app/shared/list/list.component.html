@@ -36,5 +36,5 @@
 <br/>
 <div style='margin-top: 16px;' class="float-right">
   <button *ngIf="buttonOneText" type="button" class="btn btn-primary" style="margin-right:8px" (click)="buttonone()">{{buttonOneText}}</button>
-  <button *ngIf="secondButtonText" type="button" class="btn btn-primary" style="margin-right:8px" (click)="performSecondButtonEvent()">{{ secondButtonText }}</button>
+  <button *ngIf="secondButtonText" [disabled]="selectedRecords.length <= 0" type="button" class="btn btn-primary" style="margin-right:8px" (click)="performSecondButtonEvent()">{{ secondButtonText }}</button>
 </div>

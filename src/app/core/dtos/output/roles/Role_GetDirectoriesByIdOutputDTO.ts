@@ -7,4 +7,5 @@ export class Role_GetDirectoriesByIdOutputDTO extends BaseDTO {
   hasChild: boolean;
   isChecked:boolean;
   expanded: boolean;
+  icon:string;
 }
