@@ -1,7 +1,7 @@
 import { GetGroups, EnableGroup, DisableGroup, SetCurrentGroupId, AssignToPermission } from '../state/admin-groups/admin.groups.action';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GridColumn } from "../../core/models/grid.column";
-import {ListComponent} from "../../shared/list/list.component";
+import { ListComponent } from "../../shared/list/list.component";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
 import { AdminGroupState } from '../state/admin-groups/admin-groups.state';
@@ -32,7 +32,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     { headerText: "Modified By", field: "modifiedBy" },
     { headerText: "Members", field: "memberCount", textAlign: 'center' }
   ];
-  public permissionFields= { text: 'name', value: 'id' };
+  public permissionFields = { text: 'name', value: 'id' };
   ENABLE: string = "Enable";
   DISABLE: string = "Disable";
 
@@ -55,24 +55,24 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   public saveDlgBtnClick: EmitType<object> = () => {
     this.ShowSpinner(true);
     var permissionData = this.groupDialogList.getSelectedItems().data;
-    let permissionidArray:any[] = [];
+    let permissionidArray: any[] = [];
 
     permissionData.forEach(permission => {
       permissionidArray.push(permission.id);
     });
 
-    this.selectedGroups.forEach(user =>{
+    this.selectedGroups.forEach(user => {
       this.store.dispatch(new AssignToPermission(user.id, permissionidArray));
-   });
+    });
 
 
     this.permissionDialog.hide();
     this.store.dispatch(new GetPermissions());
   }
 
-  saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true }}];
+  saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true } }];
 
-  constructor(protected store: Store, private activatedRoute: ActivatedRoute, protected router:Router ){
+  constructor(protected store: Store, private activatedRoute: ActivatedRoute, protected router: Router) {
     super(store);
     this.Permission = permission.VIEW_GROUP;
     this.ShowLefNav(true);
@@ -111,11 +111,11 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     }
   }
 
-  changeGroupStatus(groups: Group[]){
+  changeGroupStatus(groups: Group[]) {
     this.ShowSpinner(true);
     const lastGroup = groups[groups.length - 1];
     groups.forEach(group => {
-      let shouldRefreshList =  lastGroup.id === group.id; // Get fresh list of groups only when updating final group
+      let shouldRefreshList = lastGroup.id === group.id; // Get fresh list of groups only when updating final group
       if (this.statusChange === this.ENABLE) {
         this.store.dispatch(new EnableGroup(group.id, group, shouldRefreshList));
       } else {
@@ -123,7 +123,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
       }
     });
   }
-  assignGroupsToPermissions(groups: Group[]){
+  assignGroupsToPermissions(groups: Group[]) {
     this.permissionDialog.show();
     this.selectedGroups = groups;
   }

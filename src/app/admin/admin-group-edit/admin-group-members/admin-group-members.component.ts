@@ -16,31 +16,34 @@ import { GetUsers } from '../../state/admin-users/admin-users.actions';
 @Component({
   selector: 'app-admin-group-members',
   templateUrl: './admin-group-members.component.html',
-  styleUrls: [ './admin-group-members.component.css', './../../../app.component.css' ]
+  styleUrls: ['./admin-group-members.component.css', './../../../app.component.css']
 })
 export class AdminGroupMembersComponent implements OnInit, OnDestroy {
+  selectedMember: any;
+  constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
   groupId: number;
   componentActive = true;
   users: User[] = [];
   member: string;
-  groupMembers: User[] =[];
+  groupMembers: User[] = [];
 
   columns: GridColumn[] = [
-    {type: "checkbox", headerText: "Select All", width: "100", field: ""},
-    {type: "", headerText: "Name", width: "", field: "displayName"},
-    {type: "", headerText: "Email", width: "", field: "emailAddress"},
+    { type: "checkbox", headerText: "Select All", width: "100", field: "" },
+    { type: "", headerText: "Name", width: "", field: "displayName" },
+    { type: "", headerText: "Email", width: "", field: "emailAddress" },
   ];
 
   usersFields: Object = { text: 'displayName', value: 'userId' };
   userIds: any;
 
   @Select(AdminUserState.getUsers) getUsers$: Observable<User[]>;
-  @Select(AdminGroupState.getGroupMembers) getGroupMembers$ : Observable<User[]>;
+  @Select(AdminGroupState.getGroupMembers) getGroupMembers$: Observable<User[]>;
 
   @ViewChild('groupDialog') public membersDialog: DialogComponent;
+  @ViewChild('confirmDialog')
+  public confirmDialog: DialogComponent;
 
-  constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.store.dispatch(new GetMembers());
@@ -50,12 +53,14 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
       this.groupId = Number(params.get('id'));
       this.store.dispatch(new GetGroupMembers(this.groupId));
     }),
-    takeWhile(() => this.componentActive);
+      takeWhile(() => this.componentActive);
 
     this.getUsers$.subscribe(users => this.users = users);
-    this.getGroupMembers$.subscribe(memberIds => this.groupMembers = memberIds);
+    this.getGroupMembers$.subscribe(memberIds => {
+      this.groupMembers = memberIds;
+});
   }
-
+ 
   ngOnDestroy(): void {
     this.componentActive = false;
   }
@@ -67,22 +72,31 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
     // this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions));
     // this.store.dispatch(new GetGroupPermissions(this.groupId));
   }
-
-  removeGroupMembers(members: User[]) {
-    if (members.length > 0) {
-      const _members = members.map(member => member.userId);
-      this.store.dispatch(new RemoveGroupMembers(this.groupId, _members));
-      this.store.dispatch(new GetGroupMembers(this.groupId));
-    }
+  show(event) {
+    console.log('event', event);
+    this.selectedMember = event;
+    this.confirmDialog.show();
   }
 
-  addMembersClick: EmitType<object> = () => {
-    this.store.dispatch(new AddGroupMembers(this.groupId, this.userIds));
-    this.userIds = null;
-    this.membersDialog.hide();
+  public RemoveDlgBtnClick: EmitType<object> = () => {
+    const _members = this.selectedMember.map(member => member.userId);
+    this.store.dispatch(new RemoveGroupMembers(this.groupId, _members));
+    this.store.dispatch(new GetGroupMembers(this.groupId));
   }
 
-  dialogButtons: Object[] = [
-    { click: this.addMembersClick.bind(this), buttonModel: { content: 'Add Member(s)', isPrimary: true }}
-  ];
+  confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this),  buttonModel: { content: 'Yes', isPrimary: true } }, 
+  { click: this.cancelRemove.bind(this), buttonModel: { content: 'No' } }];
+
+
+addMembersClick: EmitType < object > = () => {
+  this.store.dispatch(new AddGroupMembers(this.groupId, this.userIds));
+  this.userIds = null;
+  this.membersDialog.hide();
+}
+cancelRemove() {
+  this.confirmDialog.hide();
+}
+dialogButtons: Object[] = [
+  { click: this.addMembersClick.bind(this), buttonModel: { content: 'Add Member(s)', isPrimary: true } }];
+
 }
