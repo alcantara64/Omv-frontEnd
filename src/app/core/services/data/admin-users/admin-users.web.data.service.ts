@@ -184,7 +184,8 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
     var request = automapper.map(payload, User_UpdateInputDTO, payload);
     console.log('AdminUsersWebDataService - updateUser: ', request);
 
-    return this.httpClient.put(requestUri, request).pipe(map(
+    return this.httpClient.put(requestUri, request).pipe(
+      map(
         response =>{
           automapper
             .createMap(response, User)
