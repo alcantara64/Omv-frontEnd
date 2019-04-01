@@ -194,12 +194,13 @@ export class AdminUserState {
   disableUser(ctx: StateContext<AdminUserStateModel>, { id, payload, isMultiple, refreshList }: DisableUser) {
     payload.status = 0;
     this.adminUserService.updateUser(id, payload).subscribe(user => {
+      console.log('AdminUserState - disableUser: response ', user);
       if (!isMultiple) {
         ctx.dispatch(new DisplayToastMessage(`${user.displayName} was disabled successfully.`));
       }
       if (refreshList) {
         ctx.dispatch(new GetUsers());
-        ctx.dispatch(new DisplayToastMessage("Successfully disabling user(s)"));
+        ctx.dispatch(new DisplayToastMessage("Successfully disabled user(s)"));
       }
     }, err => {
       ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));

@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpModule } from '@angular/http';
 import { SettingsService } from './core/services/data/appsettings/appsettings.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppHeaderComponent } from './shared/app-header/app-header.component';
 import { AdminModule } from './admin/admin.module';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
@@ -23,6 +23,7 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { StartupComponent } from './startup/startup.component';
 import { CheckBoxModule, CheckBoxAllModule } from '@syncfusion/ej2-angular-buttons';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
+import { HttpInterceptorService } from './core/services/httpinterceptor.service';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
     NgxsLoggerPluginModule.forRoot()
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     SettingsService,
     AdminUsersService
    ],
