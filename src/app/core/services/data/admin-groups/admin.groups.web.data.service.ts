@@ -281,9 +281,14 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
     var request = new Role_InsertMembersInputDTO();
     request.UserIds = payload;
 
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      body: request
+    };
+
     console.log('AdminGroupsWebDataService - removeMembers: ', request);
 
-    return this.httpClient.put(requestUri, request).pipe(
+    return this.httpClient.delete(requestUri, httpOptions).pipe(
       catchError(e => {
         console.log('AdminGroupsWebDataService - addMembers error: ', e);
         return of(null);

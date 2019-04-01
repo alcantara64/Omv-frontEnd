@@ -26,7 +26,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   groups: Group[];
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "50", field: "" },
-    { headerText: "Name", field: "nameWithBadge" },
+    { headerText: "Name", field: "nameWithBadge", width: '180' },
     { headerText: "Description", width: '180', field: "description" },
     { headerText: "Last Modified", field: "modifiedOn", format: '{0:dd/MM/yyyy}' },
     { headerText: "Modified By", field: "modifiedBy" },
@@ -80,7 +80,6 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.ShowSpinner(true);
     this.store.dispatch(new GetPermissions());
     this.activatedRoute.params.subscribe(params => {
@@ -104,7 +103,6 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
       case AdminGroupType.Disabled:
         this.disabledGroups$.subscribe(disabledGroups => (this.groups = disabledGroups));
         this.statusChange = this.ENABLE;
-
         break;
       default:
         break;

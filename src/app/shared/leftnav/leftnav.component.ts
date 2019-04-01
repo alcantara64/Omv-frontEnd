@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './leftnav.component.html',
   styleUrls: ['./leftnav.component.css']
 })
-export class LeftnavComponent implements OnInit {
+export class LeftNavComponent implements OnInit {
 
   dashboardLink = '/admin/dashboard';
   usersLink = '/admin/users';

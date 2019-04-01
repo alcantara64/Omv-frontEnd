@@ -1,4 +1,4 @@
-import { LeftnavComponent } from './shared/leftnav/leftnav.component';
+import { LeftNavComponent } from './shared/leftnav/leftnav.component';
 import { AppState } from './state/app.state';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -21,7 +21,7 @@ import { SharedModule } from './shared/shared.module';
 import {TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { StartupComponent } from './startup/startup.component';
-import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
+import { CheckBoxModule, CheckBoxAllModule } from '@syncfusion/ej2-angular-buttons';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 
 @NgModule({
@@ -29,7 +29,7 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
     AppComponent,
     DashboardComponent,
     AppHeaderComponent,
-    LeftnavComponent,
+    LeftNavComponent,
     AuthCallbackComponent,
     StartupComponent
   ],
@@ -41,7 +41,7 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
     SharedModule, 
     AdminModule,
     TreeViewModule,
-    CheckBoxModule,
+    CheckBoxAllModule,
     ToastModule,
     NgxsModule.forRoot([
       AppState

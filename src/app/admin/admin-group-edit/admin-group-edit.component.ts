@@ -8,7 +8,7 @@ import {
   GetGroup,
   UpdateGroup
 } from '../state/admin-groups/admin.groups.action';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from "rxjs";
@@ -52,6 +52,8 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   createGroupButtonText: string;
   errorMessage: string;
 
+  @ViewChild('checkbox') checkbox;
+
   @Select(AdminGroupState.getCurrentGroup) currentGroup$: Observable<Group>;
   @Select(AdminGroupState.getCurrentGroupId) currentGroupId$: Observable<number>;
 
@@ -74,6 +76,8 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
       isSystem: false
     });
 
+    console.log('testing checkbox', this.checkbox);
+
     // Get the id in the browser url and reach out for the group
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
@@ -92,7 +96,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
       if (group) { // Existing Group
         this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
         console.log('AdminGroupEditComponent - ngOnInit: groupDetails ', group);
-        this.groupForm.setValue({
+        this.groupForm.patchValue({
           id: group.id,
           name: group.name,
           description: group.description,
@@ -145,9 +149,9 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   }
 
   changeStatus() {
-    this.confirm(true);
-    this.confirmation$.subscribe((res: any)=>{
-      if (res === true) {
+    // this.confirm(true);
+    // this.confirmation$.subscribe((res: any)=>{
+    //   if (res === true) {
         if (this.groupActionText === ENABLE_GROUP) {
           this.store.dispatch(new EnableGroup(this.groupId, this.group));
           // this.setNotification(this.group.name + ' was enable', messageType.success);
@@ -157,8 +161,8 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
           // this.setNotification(this.group.name + ' was disabled', messageType.error);
           this.groupActionText = ENABLE_GROUP;
         }
-      }
-    })
+      // }
+    // })
   }
 
   switchTabs(tabLink: any) {

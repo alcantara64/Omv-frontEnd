@@ -21,13 +21,7 @@ export class AppComponent {
   
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
   @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
-  @Select(AppState.setNotification) notificationMessages$: Observable<string>;
-  @Select(AppState.showConfirmationBox) showConfirmationBox$: Observable<string>;
   @Select(AppState.getToastMessage) toastMessage$: Observable<Toast>;
-
-  private currentPageTitle: string;
-  public notificationMessages: string;
-  private notificationColour: string;
 
   buttons = [{ model: { content: "Ignore" }, click: this.btnToastClick.bind(this)}, {model: { content: "reply" }}];
 
@@ -40,40 +34,6 @@ export class AppComponent {
     this.currentPageTitle$.subscribe( (res) => {
       res === 'OMV Client Portal' ? this.title.setTitle(res) : this.title.setTitle(res + ' - OMV Client Portal');
     });
-
-    this.notificationMessages$.subscribe( (res: any) => {
-      this.notificationMessages = res.message;
-      switch (res.messageType) {
-        case 'success': {
-          this.notificationColour = '#7DFF7D';
-          break;
-        }
-        case 'warning': {
-          this.notificationColour = '#FFC97E';
-          break;
-        }
-        case 'error': {
-          this.notificationColour = '#FF1F00';
-          break;
-        }
-
-      }
-    });
-  }
-
-  public clearNotification() {
-    this.store.dispatch(new ClearNotification);
-  }
-
-  public closeConfirmationBox() {
-    this.store.dispatch(new ShowConfirmationBox(false));
-  }
-
-  public Confirmation() {
-    setTimeout(()=>{
-      this.closeConfirmationBox();
-    },1000);
-    this.store.dispatch(new Confirmation);
   }
 
   messages: string[] = [];
