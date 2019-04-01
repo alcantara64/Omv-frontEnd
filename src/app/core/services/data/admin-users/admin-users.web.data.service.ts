@@ -161,10 +161,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
       var _response = automapper.map(response, User, response);
       console.log('AdminUsersWebDataService - createUser response: ', _response);
       return _response;
-    }), catchError(e => {
-        console.log('AdminUsersWebDataService - createUser error: ', e);
-        return of(null);
-      })
+    })
     );
   }
 
@@ -215,12 +212,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
     var request = new User_InsertRoleInputDTO();
     request.RoleIds = payload;
 
-    return this.httpClient.post(requestUri, request).pipe(
-      catchError(e => {
-        console.log('AdminUsersWebDataService - updateGroups error: ', e);
-        return of(null);
-      })
-    );
+    return this.httpClient.post(requestUri, request);
   }
 
   getGroups(userid: number): Observable<Group[]> {
