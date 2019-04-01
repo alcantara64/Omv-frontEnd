@@ -222,9 +222,10 @@ export class AdminUserState {
       if (refreshList) {
         ctx.dispatch(new GetUsers());
         ctx.dispatch(new DisplayToastMessage("Successfully enabling user(s)"));
-      }}, err => {
+      }
+    }, err => {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
-      });
+    });
   }
 
   //#endregion

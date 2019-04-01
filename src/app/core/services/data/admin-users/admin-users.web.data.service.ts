@@ -166,19 +166,27 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
   }
 
   updateUser(id: number, payload: User) {
-    var requestUri = environment.api.baseUrl + `/v1/users/${id}`;
+    let requestUri = environment.api.baseUrl + `/v1/users/${id}`;
     console.log('AdminUsersWebDataService - requestUri: ', requestUri);
 
-    automapper
-      .createMap(payload, User_UpdateInputDTO)
-      .forMember('userId', function (opts) { opts.mapFrom('UserId'); })
-      .forMember('userName', function (opts) { opts.mapFrom('UserName'); })
-      .forMember('emailAddress', function (opts) { opts.mapFrom('EmailAddress'); })
-      .forMember('firstName', function (opts) { opts.mapFrom('FirstName'); })
-      .forMember('lastName', function (opts) { opts.mapFrom('LastName'); })
-      .forMember('status', function (opts) { opts.mapFrom('Status'); })
+    const request = new User_UpdateInputDTO();
+    request.UserId = payload.userId;
+    request.UserName = payload.userName;
+    request.EmailAddress = payload.emailAddress;
+    request.FirstName = payload.firstName;
+    request.LastName = payload.lastName;
+    request.Status = payload.status;
 
-    var request = automapper.map(payload, User_UpdateInputDTO, payload);
+    // automapper
+    //   .createMap(payload, User_UpdateInputDTO)
+    //   .forMember('userId', function (opts) { opts.mapFrom('UserId'); })
+    //   .forMember('userName', function (opts) { opts.mapFrom('UserName'); })
+    //   .forMember('emailAddress', function (opts) { opts.mapFrom('EmailAddress'); })
+    //   .forMember('firstName', function (opts) { opts.mapFrom('FirstName'); })
+    //   .forMember('lastName', function (opts) { opts.mapFrom('LastName'); })
+    //   .forMember('status', function (opts) { opts.mapFrom('Status'); })
+
+    // var request = automapper.map(payload, User_UpdateInputDTO, payload);
     console.log('AdminUsersWebDataService - updateUser: ', request);
 
     return this.httpClient.put(requestUri, request).pipe(
