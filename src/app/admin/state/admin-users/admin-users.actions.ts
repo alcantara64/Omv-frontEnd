@@ -60,7 +60,7 @@ export class ClearUserGroups {
 export class UpdateUserGroups {
   static readonly type = '[Admin Users] UpdateUserGroups';
 
-  constructor(public userid: number, public payload: number[], public isAddRoles?: boolean) { }
+  constructor(public userid: number, public payload: number[], public isAddRoles?: boolean, public refreshList?: boolean) { }
 }
 
 export class SetCurrentUserId {

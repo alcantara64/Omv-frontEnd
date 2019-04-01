@@ -84,8 +84,11 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
       groupidArray.push(group.id);
     });
 
+    const lastUser = this.selectedUsers[this.selectedUsers.length - 1];
+
     this.selectedUsers.forEach(user => {
-      this.store.dispatch(new UpdateUserGroups(user.userId, groupidArray, true));
+      let isLastUser = user.userId === lastUser.userId;
+      this.store.dispatch(new UpdateUserGroups(user.userId, groupidArray, true, isLastUser));
     });
 
     this.groupDialog.hide();

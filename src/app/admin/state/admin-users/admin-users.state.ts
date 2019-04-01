@@ -170,13 +170,14 @@ export class AdminUserState {
   }
 
   @Action(UpdateUserGroups)
-  updateGroups(ctx: StateContext<AdminUserStateModel>, { userid, payload, isAddRoles }: UpdateUserGroups) {
+  updateGroups(ctx: StateContext<AdminUserStateModel>, { userid, payload, isAddRoles, refreshList }: UpdateUserGroups) {
     return this.adminUserService.updateGroups(userid, payload, isAddRoles).pipe(
       tap(() => {
-        if (isAddRoles) {
+        if (refreshList) {
           ctx.dispatch(new DisplayToastMessage("Groups were updated successfully."));
           ctx.dispatch(new GetUsers());
-        } else {
+        } 
+        if (!isAddRoles) {
           var state = ctx.getState();
           var user = state.currentUser;
           ctx.dispatch(new DisplayToastMessage(`${user.displayName}'s groups were updated successfully.`));
