@@ -28,9 +28,10 @@ export class AdminGroupStateModel {
 const initialGroup: Group = {
   id: 0,
   name: '',
+  nameWithBadge: '',
   description: '',
   isSystem: false,
-  memberCount: 0, 
+  memberCount: 0,
   status: 1,
   modifiedBy: '',
   modifiedOn: new Date()
