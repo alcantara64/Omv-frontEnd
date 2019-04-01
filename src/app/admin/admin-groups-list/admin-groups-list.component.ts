@@ -27,8 +27,8 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "50", field: "" },
     { headerText: "Name", field: "nameWithBadge", width: '180' },
-    { headerText: "Description", width: '180', field: "description" },
-    { headerText: "Last Modified", field: "modifiedOn", format: '{0:dd/MM/yyyy}' },
+    { headerText: "Description", width: '170', field: "description" },
+    { headerText: "Last Modified", field: "modifiedOn" },
     { headerText: "Modified By", field: "modifiedBy" },
     { headerText: "Members", field: "memberCount", textAlign: 'center' }
   ];
