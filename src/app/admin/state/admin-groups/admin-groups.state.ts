@@ -247,8 +247,10 @@ export class AdminGroupState {
 
   @Action(RemoveGroupMembers)
   removeGroupMembers(ctx: StateContext<AdminGroupStateModel>, { groupId, payload }: RemoveGroupMembers) {
-    return this.adminGroupService.removeGroupMembers(groupId, payload).pipe(tap(() => {
-      ctx.dispatch(new GetGroupMembers(groupId));
+    return this.adminGroupService.removeGroupMembers(groupId, payload).pipe(
+      tap(() => {
+        ctx.dispatch(new DisplayToastMessage(`${payload.length} member(s) removed.`));
+        ctx.dispatch(new GetGroupMembers(groupId));
     }));
   }
 

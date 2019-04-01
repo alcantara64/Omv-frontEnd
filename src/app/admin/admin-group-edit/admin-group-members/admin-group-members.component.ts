@@ -70,9 +70,8 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
 
   removeGroupMembers(members: User[]) {
     if (members.length > 0) {
-      const _members = members.map(member => member.userId);
-      this.store.dispatch(new RemoveGroupMembers(this.groupId, _members));
-      this.store.dispatch(new GetGroupMembers(this.groupId));
+      const membersIds = members.map(member => member.userId);
+      this.store.dispatch(new RemoveGroupMembers(this.groupId, membersIds));
     }
   }
 
