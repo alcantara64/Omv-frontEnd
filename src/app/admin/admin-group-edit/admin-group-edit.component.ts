@@ -100,7 +100,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
           id: group.id,
           name: group.name,
           description: group.description,
-          isSystem: false
+          isSystem: group.isSystem
         });
         this.group = group;
         console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);

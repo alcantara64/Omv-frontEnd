@@ -41,6 +41,8 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
 
     var requestUri = environment.api.baseUrl + `/v1/users`;
 
+    console.log('AdminUsersWebDataService - getUsers - requestUrl ', requestUri);
+
     const options = {
       params: new HttpParams()
     };

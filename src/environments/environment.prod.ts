@@ -2,6 +2,6 @@ export const environment = {
   production: true,
   useMocks: false,
   api: {
-    baseUrl: ''
+    baseUrl: 'http://omv.test.eminenttechnology.com/OMV.Api/api'
   }
 };
