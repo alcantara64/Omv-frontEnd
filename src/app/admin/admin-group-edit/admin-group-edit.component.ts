@@ -149,9 +149,9 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
   }
 
   changeStatus() {
-    this.confirm(true);
-    this.confirmation$.subscribe((res: any)=>{
-      if (res === true) {
+    // this.confirm(true);
+    // this.confirmation$.subscribe((res: any)=>{
+    //   if (res === true) {
         if (this.groupActionText === ENABLE_GROUP) {
           this.store.dispatch(new EnableGroup(this.groupId, this.group));
           // this.setNotification(this.group.name + ' was enable', messageType.success);
@@ -161,8 +161,8 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
           // this.setNotification(this.group.name + ' was disabled', messageType.error);
           this.groupActionText = ENABLE_GROUP;
         }
-      }
-    })
+      // }
+    // })
   }
 
   switchTabs(tabLink: any) {

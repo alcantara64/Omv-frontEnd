@@ -142,6 +142,7 @@ export class AdminGroupState {
   createGroup(ctx: StateContext<AdminGroupStateModel>, { payload }: CreateGroup) {
     return this.adminGroupService.createGroup(payload).pipe(
       tap(group => {
+        ctx.dispatch(new DisplayToastMessage('Group created successfully.'));
         const state = ctx.getState();
         ctx.setState({
           ...state,
@@ -153,6 +154,7 @@ export class AdminGroupState {
 
   @Action(UpdateGroup)
   updateGroup(ctx: StateContext<AdminGroupStateModel>, { payload, id }: UpdateGroup) {
+    ctx.dispatch(new DisplayToastMessage('Group updated successfully.'));
     return this.adminGroupService.updateGroup(id, payload);
       // ctx.dispatch(new GetGroups());
   }
@@ -160,6 +162,7 @@ export class AdminGroupState {
   @Action(DisableGroup)
   disableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload, refreshList }: DisableGroup) {
     payload.status = 0;
+    ctx.dispatch(new DisplayToastMessage('Group was disabled successfully.'));
     return this.adminGroupService.updateGroup(id, payload).pipe(
       tap(group => {
         if (refreshList){
@@ -172,10 +175,11 @@ export class AdminGroupState {
   @Action(EnableGroup)
   enableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload, refreshList }: EnableGroup) {
     payload.status = 1;
+    ctx.dispatch(new DisplayToastMessage('Group was enabled successfully.'));
     return this.adminGroupService.updateGroup(id, payload).pipe(
       tap(group => {
         if (refreshList){
-          ctx.dispatch(new GetGroups()); 
+          ctx.dispatch(new GetGroups());
         }
       })
     );
@@ -229,6 +233,7 @@ export class AdminGroupState {
   updateGroupPermissions(ctx: StateContext<AdminGroupStateModel>, { groupId, payload }: UpdateGroupPermissions) {
     return this.adminGroupService.updateGroupPermissions(groupId, payload).pipe(tap(() => {
       ctx.dispatch(new GetGroupPermissions(groupId));
+      ctx.dispatch(new DisplayToastMessage('Group permissions updated.'));
     }));
   }
 
@@ -270,6 +275,7 @@ export class AdminGroupState {
 
   @Action(UpdateRoleMediaAccess)
   updateRoleMediaAccess(ctx: StateContext<AdminGroupStateModel>, { groupid, payload }: UpdateRoleMediaAccess) {
+    ctx.dispatch(new DisplayToastMessage('Group media access updated.'));
     return this.adminMediaAccessService.updateMediaAccess(groupid, payload).pipe(tap(() => {
       console.log('updateRoleMediaAccess');
     }));
