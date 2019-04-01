@@ -17,12 +17,14 @@ import { User } from "src/app/core/models/entity/user";
 import { UserStatus } from "src/app/core/enum/user-status.enum";
 import { Group } from "src/app/core/models/entity/group";
 import { DisplayToastMessage } from 'src/app/state/app.actions';
+import { ToastType } from 'src/app/core/enum/toast';
 
 export class AdminUserStateModel {
   users: User[];
   currentUserId: number;
   currentUser: User;
   groups: Group[];
+  error: string;
 }
 
 const initialUser: User = {
@@ -42,7 +44,8 @@ const initialUser: User = {
     users: [],
     currentUserId: null,
     currentUser: null,
-    groups: []
+    groups: [],
+    error: ''
   }
 })
 export class AdminUserState {
@@ -83,6 +86,7 @@ export class AdminUserState {
   static getGroups(state: AdminUserStateModel) {
     return state.groups;
   }
+  
   //#endregion
 
   // #region A C T I O N S
@@ -197,6 +201,8 @@ export class AdminUserState {
         ctx.dispatch(new GetUsers());
         ctx.dispatch(new DisplayToastMessage("Successfully disabling user(s)"));
       }
+    }, err => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     });
   }
 

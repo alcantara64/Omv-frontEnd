@@ -28,6 +28,7 @@ export class AppStateModel {
   confirmation: boolean;
 
   toastMessage?: Toast;
+  error: string;
 }
 
 @State<AppStateModel>({
@@ -43,7 +44,8 @@ export class AppStateModel {
     confirmationBox: false,
     confirmation: false,
 
-    toastMessage: null
+    toastMessage: null,
+    error: ''
   }
 })
 export class AppState {
@@ -91,6 +93,11 @@ export class AppState {
   @Selector()
   static confirmation(state: AppStateModel) {
     return state.confirmation;
+  }
+  
+  @Selector()
+  static getErrorMessage(state: AppStateModel) {
+    return state.error;
   }
 
   constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
@@ -230,5 +237,4 @@ export class AppState {
       toastMessage: toast
     });
   }
-
 }

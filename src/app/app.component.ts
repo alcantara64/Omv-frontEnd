@@ -67,6 +67,10 @@ export class AppComponent {
           var _toast = { title: 'Success!', content: toast.message, cssClass: 'e-toast-success' };
           this.element.show(_toast);
         break;
+        case ToastType.error:
+          var _toast = { title: 'Error!', content: toast.message, cssClass: 'e-toast-danger' };
+          this.element.show(_toast);
+        break;
       }
     });
   }

@@ -185,29 +185,26 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
     console.log('AdminUsersWebDataService - updateUser: ', request);
 
     return this.httpClient.put(requestUri, request).pipe(map(
-      response =>{
-        automapper
-          .createMap(response, User)
-          .forMember('userId', function (opts) { opts.mapFrom('userId'); })
-          .forMember('userName', function (opts) { opts.mapFrom('userName'); })
-          .forMember('emailAddress', function (opts) { opts.mapFrom('emailAddress'); })
-          .forMember('firstName', function (opts) { opts.mapFrom('firstName'); })
-          .forMember('lastName', function (opts) { opts.mapFrom('lastName'); })
-          .forMember('displayName', function (opts) { opts.mapFrom('displayName'); })
-          .forMember('roleNames', function (opts) { opts.mapFrom('roleNames'); })
-          .forMember('status', function (opts) { opts.mapFrom('status'); })
-          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
-          .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
-          .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); })
-          .forMember('modifiedOn', function (opts) { opts.mapFrom('modifiedOn'); })
-          .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); })
+        response =>{
+          automapper
+            .createMap(response, User)
+            .forMember('userId', function (opts) { opts.mapFrom('userId'); })
+            .forMember('userName', function (opts) { opts.mapFrom('userName'); })
+            .forMember('emailAddress', function (opts) { opts.mapFrom('emailAddress'); })
+            .forMember('firstName', function (opts) { opts.mapFrom('firstName'); })
+            .forMember('lastName', function (opts) { opts.mapFrom('lastName'); })
+            .forMember('displayName', function (opts) { opts.mapFrom('displayName'); })
+            .forMember('roleNames', function (opts) { opts.mapFrom('roleNames'); })
+            .forMember('status', function (opts) { opts.mapFrom('status'); })
+            .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
+            .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
+            .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); })
+            .forMember('modifiedOn', function (opts) { opts.mapFrom('modifiedOn'); })
+            .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); })
 
-      var _response = automapper.map(response, User, response);
-      console.log('AdminUsersWebDataService - updateUser response: ', _response);
-      return _response;
-    }), catchError(e => {
-        console.log('AdminUsersWebDataService - updateUser error: ', e);
-        return of(null);
+        var _response = automapper.map(response, User, response);
+        console.log('AdminUsersWebDataService - updateUser response: ', _response);
+        return _response;
       })
     );
   }
