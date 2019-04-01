@@ -10,7 +10,7 @@ import { StartupComponent } from './startup/startup.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'admin/users/active',
     pathMatch: 'full'
   },
   {
