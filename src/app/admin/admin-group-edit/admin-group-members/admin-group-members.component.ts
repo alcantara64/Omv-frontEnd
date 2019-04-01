@@ -82,10 +82,15 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
     const _members = this.selectedMember.map(member => member.userId);
     this.store.dispatch(new RemoveGroupMembers(this.groupId, _members));
     this.store.dispatch(new GetGroupMembers(this.groupId));
+    this.confirmDialog.hide();
   }
+  public closeBtnDlgClick: EmitType<object> = () => {
+    this.confirmDialog.hide();
+}
+
 
   confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this),  buttonModel: { content: 'Yes', isPrimary: true } }, 
-  { click: this.cancelRemove.bind(this), buttonModel: { content: 'No' } }];
+  { click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
 
 
 addMembersClick: EmitType < object > = () => {
