@@ -122,9 +122,9 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
     this.groups$.subscribe(groups => (this.groups = groups));
 
-    if (!this.userHasPermission) {
-      this.router.navigate(['dashboard']);
-    }
+    // if (!this.userHasPermission) {
+    //   this.router.navigate(['dashboard']);
+    // }
   }
 
   displayUsers(param: string) {

@@ -1,3 +1,37 @@
-<p>
-  media works!
-</p>
+<!-- //Breadcrumb -->
+<div class="page__section" style=" padding-top: 1rem;">
+  <ul class="breadcrumbs breadcrumbs_type5">
+    <li class="breadcrumbs__item "><a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" class="breadcrumbs__element link">Media</a></li>
+    <li class="breadcrumbs__item  breadcrumbs__item_active"><a routerLink="/media" routerLinkActive="active-link" class="breadcrumbs__element active link">All Media</a></li>
+  </ul>
+</div>
+<hr class="stroke" />
+
+<!-- Media tabs -->
+<!-- <div> -->
+  <app-tabs [tabs]="mediaTabs" (navigate)="switchTabs($event)"></app-tabs>
+<!-- </div> -->
+
+<!-- Filter --ignore -->
+
+<!-- Toolbar -->
+<div style="display:flex;">
+  <label style="padding-top:1rem; padding-right: 1rem;"> Total: 123 </label>
+  <span style="padding-top:1rem;">
+    <i class="material-icons cursor" [ngClass]="{'selected-background': isIconGridActive}">
+      grid_on <span class="vertical-line-grid"></span>
+    </i>
+    <i class="material-icons cursor" [ngClass]="{'selected-background': isIconListActive}">
+      view_headline <span class="vertical-line-grid "></span>
+    </i>
+    <i class="material-icons cursor" [ngClass]="{'selected-background': isIconTreeActive}">
+      rate_review <span class="vertical-line-grid"></span>
+    </i>
+    <i class="material-icons cursor" [ngClass]="{'selected-background': isIconMapActive}">
+      map
+    </i>
+  </span>
+</div>
+
+<!-- Views -->
+<router-outlet></router-outlet>

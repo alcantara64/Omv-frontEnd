@@ -23,6 +23,9 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { StartupComponent } from './startup/startup.component';
 import { CheckBoxModule, CheckBoxAllModule } from '@syncfusion/ej2-angular-buttons';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
+import { MediaModule } from './media/media.module';
+import { ListViewModule } from '@syncfusion/ej2-angular-lists';
+import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
   declarations: [
@@ -31,23 +34,30 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
     AppHeaderComponent,
     LeftNavComponent,
     AuthCallbackComponent,
-    StartupComponent
+    StartupComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpModule,
     HttpClientModule,   
-    SharedModule, 
     AdminModule,
+    MediaModule,
+    SharedModule, 
     TreeViewModule,
     CheckBoxAllModule,
     ToastModule,
+    ListViewModule,
+    GridAllModule,
     NgxsModule.forRoot([
       AppState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot()
+  ],
+  exports: [
+    ListViewModule,
+    GridAllModule
   ],
   providers: [
     SettingsService,

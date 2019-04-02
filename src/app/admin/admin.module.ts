@@ -58,7 +58,6 @@ import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notificatio
     TabAllModule,
     ButtonAllModule,
     CheckBoxModule,
-    GridAllModule,
     DropDownButtonModule,
     SliderModule,
     TextBoxModule,
@@ -71,8 +70,8 @@ import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notificatio
       AdminUserState,
       AdminGroupState,
       AdminPermissionState
-    ]),
-    ListViewModule
+    ])
+    
   ],
   declarations: [
     AdminUsersListComponent,
@@ -82,10 +81,6 @@ import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notificatio
     AdminGroupEditComponent,
     AdminGroupsTabsComponent,
     AdminDashboardComponent,
-    ModalComponent,
-    ListComponent,
-    EditComponent,
-    TabsComponent,
     AdminGroupsTabsComponent,
     AdminUserGroupsComponent,
     AdminGroupPermissionsComponent,
@@ -98,6 +93,6 @@ import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notificatio
     { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
     { provide: AdminMediaAccessDataService, useClass: environment.useMocks ? AdminMediaAccessMockDataService : AdminMediaAccessWebDataService },
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class AdminModule { } 

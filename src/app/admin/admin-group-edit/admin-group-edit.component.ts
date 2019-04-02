@@ -109,9 +109,9 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     }),
     takeWhile(() => this.componentActive);
 
-    if (!this.userHasPermission) {
-      this.router.navigate(['dashboard']);
-    }
+    // if (!this.userHasPermission) {
+    //   this.router.navigate(['dashboard']);
+    // }
 
     this.setActiveTab(PERMISSIONS_TAB);
   }

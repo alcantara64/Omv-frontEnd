@@ -24,7 +24,7 @@ const adminRoutes: Routes = [
   {
     path: 'admin/dashboard',
     component: AdminDashboardComponent,
-    canActivate: [AuthGuardService]
+    // canActivate: [AuthGuardService]
   },
   {
     path: 'admin/users',
@@ -33,7 +33,7 @@ const adminRoutes: Routes = [
       { path: '', redirectTo: 'active', pathMatch: 'full' },
       { path: ':type', component: AdminUsersListComponent }
     ],
-    canActivate: [AuthGuardService]
+    // canActivate: [AuthGuardService]
   },
   {
     path: 'admin/users/:id/edit',
