@@ -11,12 +11,15 @@ import { EditComponent } from './edit/edit.component';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { TabAllModule } from '@syncfusion/ej2-angular-navigations';
+import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 
 @NgModule({
   imports: [
     CommonModule,
     ListViewModule,
-    GridAllModule
+    GridAllModule,
+    ButtonAllModule, 
+    CheckBoxModule
   ],
   exports: [
     CommonModule,
