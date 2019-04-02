@@ -31,8 +31,6 @@ import { GridAllModule } from '@syncfusion/ej2-angular-grids';
   declarations: [
     AppComponent,
     DashboardComponent,
-    AppHeaderComponent,
-    LeftNavComponent,
     AuthCallbackComponent,
     StartupComponent,
   ],
@@ -40,12 +38,12 @@ import { GridAllModule } from '@syncfusion/ej2-angular-grids';
     BrowserModule,
     AppRoutingModule,
     HttpModule,
-    HttpClientModule,   
+    HttpClientModule,
     AdminModule,
     MediaModule,
     SharedModule, 
     TreeViewModule,
-    CheckBoxAllModule,
+    CheckBoxModule,
     ToastModule,
     ListViewModule,
     GridAllModule,
@@ -54,10 +52,6 @@ import { GridAllModule } from '@syncfusion/ej2-angular-grids';
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot()
-  ],
-  exports: [
-    ListViewModule,
-    GridAllModule
   ],
   providers: [
     SettingsService,
