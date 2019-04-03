@@ -15,6 +15,8 @@ import { Permission } from 'src/app/core/enum/permission';
 import { Directory_GetAllOutputDTO } from 'src/app/core/dtos/output/directories/Directory_GetAllOutputDTO';
 import { DisplayToastMessage } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
+import { formatDate } from '@angular/common';
+import { DateService } from 'src/app/core/services/business/dates/date.service';
 
 
 export class AdminGroupStateModel {
@@ -104,7 +106,8 @@ export class AdminGroupState {
   //#endregion
 
   constructor(private adminGroupService: AdminGroupsService,
-    private adminMediaAccessService: AdminMediaAccessService) { }
+    private adminMediaAccessService: AdminMediaAccessService,
+    private dateService: DateService) { }
 
   //#region A C T I O N S
 
@@ -112,6 +115,11 @@ export class AdminGroupState {
   getGroups(ctx: StateContext<AdminGroupStateModel>) {
     return this.adminGroupService.getGroups().pipe(tap(groups => {
       const state = ctx.getState();
+
+      groups.map(group => {
+        group.modifiedOnString = this.dateService.formatToString(group.modifiedOn);
+      });
+
       ctx.setState({
         ...state,
         groups: groups,
