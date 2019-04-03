@@ -442,3 +442,9 @@ button{
 }
 
 /*#region I N P U T S */
+
+/************    Syncfusion Icons  **************/
+.e-pencil:before{
+  content:'\ea9a';
+}
+/************ End Syncfusion Icons **************/

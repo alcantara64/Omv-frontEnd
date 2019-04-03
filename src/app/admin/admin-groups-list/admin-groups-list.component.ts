@@ -89,7 +89,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     this.getAllPermissions$.subscribe(permissions => (this.permissions = permissions));
 
     // if (!this.userHasPermission) {
-    //   this.router.navigate(['dashboard']);
+    //   this.router.secondNavigateAction(['dashboard']);
     // }
   }
 

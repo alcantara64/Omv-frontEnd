@@ -24,7 +24,7 @@ export class AdminDashboardComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     
     // if (!this.userHasPermission) {
-    //   this.router.navigate(['dashboard']);
+    //   this.router.secondNavigateAction(['dashboard']);
     // }
   }
 

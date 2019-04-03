@@ -1,4 +1,8 @@
 <app-list [listData]="favouriteList"
           [columns]="columns"
-          [shouldEdit]="true">
-</app-list>
+          [showFirstAction]="true"
+          [firstActionText]="'Download'"
+          [showSecondAction]="true"
+          [secondActionText]="editIcon"
+          (firstNavigateAction)="download($event)"
+></app-list>

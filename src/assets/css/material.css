@@ -6074,8 +6074,8 @@ ejs-sidebar {
   .e-grid.e-bigger .e-toolbar-items .e-toolbar-item.e-search-wrapper {
     padding-bottom: 8px;
     padding-top: 2px; }
-    .e-bigger .e-grid .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-search .e-search-icon,
-    .e-grid.e-bigger .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-search .e-search-icon {
+    .e-bigger .e-grid .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-pencil .e-search-icon,
+    .e-grid.e-bigger .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-pencil .e-search-icon {
       min-width: 20px; }
   .e-bigger .e-grid .e-toolbar .e-toolbar-items .e-tbar-btn .e-icons,
   .e-grid.e-bigger .e-toolbar .e-toolbar-items .e-tbar-btn .e-icons {
@@ -6518,13 +6518,13 @@ ejs-sidebar {
   .e-grid .e-toolbar-items .e-toolbar-item.e-search-wrapper {
     padding-bottom: 6px;
     padding-top: 1px; }
-    .e-grid .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-search {
+    .e-grid .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-pencil {
       margin-bottom: 0;
       opacity: .6;
       width: 230px; }
-      .e-grid .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-search.e-input-focus {
+      .e-grid .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-pencil.e-input-focus {
         opacity: 1; }
-      .e-grid .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-search .e-search-icon {
+      .e-grid .e-toolbar-items .e-toolbar-item.e-search-wrapper .e-pencil .e-search-icon {
         min-width: 18px; }
   .e-grid .e-groupdroparea.e-grouped {
     padding: 9px 0 10px; }
@@ -6934,10 +6934,10 @@ ejs-sidebar {
     display: block;
     margin: 0 auto; }
   .e-grid .e-filterbarcell .e-filtertext::-webkit-search-cancel-button,
-  .e-grid .e-search input::-webkit-search-cancel-button {
+  .e-grid .e-pencil input::-webkit-search-cancel-button {
     display: none; }
   .e-grid .e-filterbarcell .e-filtertext::-ms-clear,
-  .e-grid .e-search input::-ms-clear {
+  .e-grid .e-pencil input::-ms-clear {
     display: none; }
   .e-grid .e-filterbarcell,
   .e-grid .e-filterbarcelldisabled {
