@@ -11,3 +11,11 @@
     vertical-align: initial;
     padding-right: .5rem;
 }
+.info-cls{
+    vertical-align: initial;
+    padding-right: .5rem;
+}
+.align-items{
+    vertical-align: middle;
+    display: inline-flex;
+}

@@ -5,7 +5,8 @@
         <div class="e-card-header">
           <div class="e-card-header-caption">
             <div class="e-card-header-title">
-              <span style="float:right;">
+              <img class="info-cls" src="../../../assets/images/info.png"   >
+              <span class="align-items" style="float:right;">
                 <span style="padding-right:1rem;">
                   <label class="media-tile-info-bold pr-2">
                     {{data.type}}
@@ -14,7 +15,9 @@
                   </label>
                 </span>
                 <span >
-                  <img class="favorite-cls" src="../../../assets/images/notfavorite.png"   >
+                  <!-- <img (click)="toggleFavoriteIcon()" *ngIf="!data.isFavorite" class="favorite-cls cursor" src="../../../assets/images/notfavorite.png"   > -->
+                  <img (click)="toggleFavoriteIcon(data)" class="favorite-cls cursor" 
+                    [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'"   >
                   <ejs-checkbox cssClass="e-small float-right"  [checked]="data.isChecked ? true: false"></ejs-checkbox>
                 </span>
               </span>

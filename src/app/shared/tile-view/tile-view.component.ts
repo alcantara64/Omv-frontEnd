@@ -8,7 +8,9 @@ import { Store } from '@ngxs/store';
   styleUrls: ['./tile-view.component.css']
 })
 export class TileViewComponent extends BaseComponent implements OnInit {
+
   @Input() dataSource = [];
+
   
   constructor(protected store: Store) {
     super(store);
@@ -17,4 +19,11 @@ export class TileViewComponent extends BaseComponent implements OnInit {
   ngOnInit() {
   }
 
+  toggleFavoriteIcon(data: any) {
+    data.isFavorite = !data.isFavorite;
+    // this.dataSource.forEach((item,index )=>{
+    //   console.log(item);
+    //   item.isFavorite = !item.isFavorite;
+    // });
+  }
 }

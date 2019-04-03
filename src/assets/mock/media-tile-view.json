@@ -16,7 +16,7 @@
         "size":"90KB",
         "type": "PDF",
         "imgPath": "../../../assets/images/photo-oceaneering.jpg" ,
-        "isFavorite": true,        
+        "isFavorite": false,        
         "isChecked": false           
     },
     {
@@ -36,7 +36,7 @@
         "size":"20MB",
         "type": "PDF",
         "imgPath": "../../../assets/images/oceaneering-divers-welding.jpg" ,
-        "isFavorite": true,        
+        "isFavorite": false,        
         "isChecked": false           
     },
     {
