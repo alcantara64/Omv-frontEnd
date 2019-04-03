@@ -2,25 +2,33 @@
   {
     "id": "1",
     "type": "PDF",
-    "name": "URSA INSPECTION REPORT JANUARY 2018",
-    "date": "Jan 30, 2018 10:15:12"
+    "name": "BRAZOS INSPECTION REPORT ",
+    "isFavorite": true,
+    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "date": "Jan 30, 2018  "
   },
   {
     "id": "2",
     "type": "PDF",
-    "name": "URSA INSPECTION REPORT JANUARY 2018",
-    "date": "Jan 30, 2018 10:15:12"
+    "name": "URSA INSPECTION REPORT  ",
+    "isFavorite": true,
+    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "date": "Jan 30, 2018  "
   },
   {
     "id": "3",
     "type": "PDF",
-    "name": "URSA INSPECTION REPORT JANUARY 2018",
-    "date": "Jan 30, 2018 10:15:12"
+    "name": "URSA INSPECTION REPORT  ",
+    "isFavorite": true,
+    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "date": "Jan 30, 2018  "
   },
   {
     "id": "4",
     "type": "PDF",
-    "name": "URSA INSPECTION REPORT JANUARY 2018",
-    "date": "Jan 30, 2018 10:15:12"
+    "name": "URSA INSPECTION REPORT ",
+    "isFavorite": true,
+    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "date": "Jan 30, 2018 "
   }
 ]
