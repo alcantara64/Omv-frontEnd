@@ -1,7 +1,7 @@
 import { BaseComponent } from './../shared/base/base.component';
 import { Component, OnInit } from '@angular/core';
 import { Tab } from '../core/models/tab';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 
 @Component({
@@ -16,17 +16,23 @@ export class MediaComponent extends BaseComponent implements OnInit {
     { link: '/media/favorites', name: 'Favorites' },
     { link: '/media/archive', name: 'Streaming Archive' }
   ];
+  currentRoute: any;  
 
-  constructor(protected store: Store, private router: Router) {
+  constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
     super(store);
     this.ShowLefNav(false);
    }
 
-  ngOnInit() {
-    
+  ngOnInit() {  
   }
   
   switchTabs(tabLink: string) {
     this.router.navigate([ tabLink ]);
+  }
+
+  navigateToView(view: string) {
+    var url = this.router.url.split('?')[0];
+    console.log('MediaComponent - url split: ', url);
+    this.router.navigate([url], { queryParams: { view: view } } );
   }
 }

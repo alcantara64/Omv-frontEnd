@@ -25,16 +25,17 @@
 <div style="display:inline;">
   <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total: 123 </label>
   <span style="padding-top:1rem;">
-    <i routerLink="/media/all">
-        <img src="../../assets/images/group-2.png"><span class="vertical-line-grid"></span>
+    <i (click)="navigateToView('tile')">
+      <img src="../../assets/images/group-2.png"><span class="vertical-line-grid"></span>
     </i>
-    <i routerLink="/media/archive">
+    <i (click)="navigateToView('list')">
       <img src="../../assets/images/group-3.png"> <span class="vertical-line-grid "></span>
     </i>
-    <i routerLink="/media/favorites">
+    <i (click)="navigateToView('tree')">
       <img src="../../assets/images/noun-tree-view-511540.png"><span class="vertical-line-grid"></span>
     </i>
-    <i routerLink="/media/all"><img src="../../assets/images/noun-map-677579.png">
+    <i (click)="navigateToView('map')">
+      <img src="../../assets/images/noun-map-677579.png">
     </i>
   </span>
 </div>

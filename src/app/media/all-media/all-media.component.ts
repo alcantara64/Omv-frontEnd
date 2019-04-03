@@ -1,23 +1,31 @@
+import { BaseComponent } from './../../shared/base/base.component';
 import { Component, OnInit } from '@angular/core';
-import { MediaService } from 'src/app/core/services/business/media/media.service';
-import { Media } from 'src/app/core/models/entity/media';
+import { Store } from '@ngxs/store';
+import { ActivatedRoute } from '@angular/router';
 
+const TILE_VIEW = 'tile';
+const LIST_VIEW = 'list';
+const TREE_VIEW = 'tree';
+const MAP_VIEW = 'map';
 
 @Component({
   selector: 'app-all-media',
   templateUrl: './all-media.component.html',
   styleUrls: ['./all-media.component.css']
 })
-export class AllMediaComponent implements OnInit {
-  data: Media[];
-  mediaType: string;
-  constructor(private mediaService : MediaService) { }
+export class AllMediaComponent extends BaseComponent implements OnInit {
+
+  viewType: string;
+
+  constructor(protected store: Store, private route: ActivatedRoute) {
+    super(store);
+  }
 
   ngOnInit() {
-    this.mediaService.getMedia().subscribe((data)=>{
-        this.data = data;
-        console.log('data',this.data);
-      }
-    );
+    this.route.queryParams.subscribe(
+      params => {
+        console.log(params['view']);
+        this.viewType = params['view'] ? params['view'] : TILE_VIEW; 
+    });
   }
 }
