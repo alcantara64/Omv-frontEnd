@@ -1,9 +1,9 @@
-<app-list [listData]="groupMembers" [columns]="columns" [shouldEdit]="false"
-	[isToolBarVisible]="false"
-	[buttonOneText] = "groupId ? 'Add Member(s)' : ''"
-	(buttonOneEvent)="addGroupMembers($event)"
-	[secondButtonText]="groupId ? 'Remove Member(s)': ''"
-	(secondButtonEvent)="show($event)">
+<app-list [listData]="groupMembers" [columns]="columns" [showSecondAction]="false"
+          [isToolBarVisible]="false"
+          [buttonOneText] = "groupId ? 'Add Member(s)' : ''"
+          (buttonOneEvent)="addGroupMembers($event)"
+          [secondButtonText]="groupId ? 'Remove Member(s)': ''"
+          (secondButtonEvent)="show($event)">
 </app-list>
 <ejs-dialog #groupDialog
 	[visible]='false'

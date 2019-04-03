@@ -2,7 +2,7 @@
           [initialRecords] ="groupPermissions"
           [selectedRecords]="selectedPermission"
           [checkField]="'id'"
-          [isToolBarVisible]="false" [shouldEdit]="false"
+          [isToolBarVisible]="false" [showSecondAction]="false"
           [buttonOneText] = "groupId ? 'Update Permission' : ''"
           (buttonOneEvent)="updatePermissions($event)">>
 </app-list>

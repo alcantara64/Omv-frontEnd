@@ -420,3 +420,9 @@ html, body {
 }
 
 /*#region I N P U T S */
+
+/************    Syncfusion Icons  **************/
+.e-search:before{
+  content:'\e993';
+}
+/************ End Syncfusion Icons **************/

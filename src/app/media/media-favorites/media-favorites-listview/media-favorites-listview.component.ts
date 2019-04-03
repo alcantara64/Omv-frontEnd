@@ -5,6 +5,7 @@ import {Select, Store} from "@ngxs/store";
 import {Observable} from "rxjs";
 import {MediaState} from "../../state/media/media.state";
 import {Media} from "../../../core/models/entity/media";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-media-favorites-listview',
@@ -16,15 +17,16 @@ export class MediaFavoritesListviewComponent implements OnInit {
   @Select(MediaState.getFavoriteMedia) getFavoriteMedia$: Observable<Media[]>;
 
   public favouriteList;
+  public editIcon = "<span class='e-icons e-search'></span>";
 
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "50", field: "" },
-    { headerText: "Type", field: "type", width: '180' },
-    { headerText: "Name", width: '170', field: "name" },
+    { headerText: "Type", field: "type", width: '100' },
+    { headerText: "Name", field: "name", width: '700' },
     { headerText: "Date", field: "date" }
   ];
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private router: Router) { }
 
   ngOnInit() {
 
@@ -34,6 +36,10 @@ export class MediaFavoritesListviewComponent implements OnInit {
       this.favouriteList = favouriteMedia;
     });
 
+  }
+
+  download() {
+    this.router.navigate([`/dashboard`])
   }
 
 }

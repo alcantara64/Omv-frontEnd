@@ -28,13 +28,22 @@ export class ListComponent extends BaseComponent implements OnInit {
   isToolBarVisible: boolean;
 
   @Input()
-  shouldEdit: boolean;
+  showFirstAction: boolean;
 
   @Input()
-  firstActionButtonText: string;
+  showSecondAction: boolean;
 
   @Input()
-  secondActionButtonText: string;
+  firstActionText: string;
+
+  @Input()
+  secondActionText: string;
+
+  @Input()
+  toolbarActionOne: string;
+
+  @Input()
+  toolbarActionTwo: string;
 
   @Input()
   buttonOneText: string;
@@ -52,7 +61,10 @@ export class ListComponent extends BaseComponent implements OnInit {
   secondAction = new EventEmitter<Object[]>();
 
   @Output()
-  navigate = new EventEmitter<any>();
+  firstNavigateAction = new EventEmitter<any>();
+
+  @Output()
+  secondNavigateAction = new EventEmitter<any>();
 
   @Output()
   buttonOneEvent = new EventEmitter<Object[]>();
@@ -80,19 +92,26 @@ export class ListComponent extends BaseComponent implements OnInit {
     console.log('ListComponent - gridCreated');
   }
 
-  performFirstAction() {
+  performFirstToolbarAction() {
     this.firstAction.emit(this.selectedRecords);
   }
 
-  performSecondAction() {
+  performSecondToolbarAction() {
     this.secondAction.emit(this.selectedRecords);
   }
 
-  performNavigation(args: any) {
+  performFirstAction(args: any) {
     let data = this.grid.getRowInfo(args.target);
 
-    let rowdata = data.rowData as any;
-    this.navigate.emit(rowdata);
+    let rowData = data.rowData as any;
+    this.firstNavigateAction.emit(rowData);
+  }
+
+  performSecondAction(args: any) {
+    let data = this.grid.getRowInfo(args.target);
+
+    let rowData = data.rowData as any;
+    this.secondNavigateAction.emit(rowData);
   }
 
   rowSelected(args: RowSelectEventArgs) {
