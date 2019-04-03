@@ -1,3 +1,3 @@
-<p>
-  media-item-history works!
-</p>
+<app-list [listData]="groups" [columns]="columns" [selectedRecords]="selectedGroups" 
+ (firstAction)="changeGroupStatus($event)" (navigate)="edit($event)">
+    </app-list>

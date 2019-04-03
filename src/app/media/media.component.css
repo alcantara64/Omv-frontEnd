@@ -1,3 +1,12 @@
+i{
+  outline: none;
+  cursor: pointer;
+}
+.vertical-line-grid{
+  border-left:1.3px solid #5B7F95;
+  padding-left: 9px;
+    margin-left: 9px;
+}
 .box-sizing{
   background-color:#fff;
   padding: 0.5rem;
@@ -79,10 +88,7 @@ input[type=text]:focus {
  font-size: 15px;
  padding-right:0.3rem;
 }
-.vertical-line{
-  border-left:1.3px solid #5B7F95;
-  padding-left: 1rem;
-}
+
 .e-card{
     border-radius: 4px !important;
     box-shadow: 0 7px 16px 0 rgba(0, 0, 0, 0.16) !important;
@@ -118,12 +124,7 @@ input[type=text]:focus {
   background: none;
   border: none;
 }
-button{
-  padding-left: 0px;
-  padding-right: 0px;
-  background: none;
-  border: none;
-}
+
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   .center{
@@ -144,11 +145,6 @@ button{
 .selected-background{
   color: #0097A9 !important;
 }
-.vertical-line-grid{
-  border-left:1.3px solid #5B7F95;
-  padding-left: 0.2rem;
-    margin-left: 0.2rem;
-}
 .e-grid .e-detailcell {
   border-color: transparent!important;
   background-color: #F3F8FB;
@@ -161,13 +157,6 @@ button{
 }
 .e-gridheader .e-grid {
   padding-right: 0px !important;
-}
-.upload-rectangle{
-    width: 147px;
-    height: 37px;
-    border-radius: 4px;
-    border: solid 1px #0097a9;
-    background-color: #0097a9;
 }
 input[type=text] {
   border: none;
@@ -200,16 +189,4 @@ input[type=text]:focus {
 .e-chip-list {
   display: inherit;
   padding: 4px;
-}
-.upload-text{
-  text-align:center; 
-  font-family: 'OpenSans', sans-serif; 
-  font-size: 14px;
-  color: #fff;
-  padding-left: 1rem;
-  padding-top:0.5rem;
-}
-.upload{
-  margin-left:2rem;
-  margin-right: 2rem;
 }

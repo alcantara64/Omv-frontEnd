@@ -356,6 +356,28 @@ html, body {
   color: #ffffff;
 }
 /************ End OMV Confirmation **************/
+button{
+  padding-left: 0px;
+  padding-right: 0px;
+  background: none;
+  border: none;
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px !important;
+  font-weight: 600;
+  line-height: normal;
+  outline: none !important;
+}
+.media-label{
+  color:#033b5c;
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px !important;
+  font-weight: 600;
+  line-height: normal;
+}
+.media-button-small{
+  color: #5b7f95;
+}
+/************ End OMV Confirmation **************/
 /************ Media Tile View **************/
 .media-tile-info{
   font-family: 'OpenSans', sans-serif;
