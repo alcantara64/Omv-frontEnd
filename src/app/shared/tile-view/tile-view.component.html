@@ -1,3 +1,45 @@
-<p>
-  tile-view works!
-</p>
+<div class="row card-layout">
+  <div class="col-md-3" style="padding-bottom:2rem;" *ngFor="let data of dataSource">
+    <div tabindex="0" class="e-card card " id="basic">
+      <div tabindex="0" class="e-card" id="basic_card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">
+              <img class="info-cls" src="../../../assets/images/info.png"   >
+              <span class="align-items" style="float:right;">
+                <span style="padding-right:1rem;">
+                  <label class="media-tile-info-bold pr-2">
+                    {{data.type}}
+                  </label>    <label class="media-tile-info ">
+                    {{data.size}}
+                  </label>
+                </span>
+                <span >
+                  <!-- <img (click)="toggleFavoriteIcon()" *ngIf="!data.isFavorite" class="favorite-cls cursor" src="../../../assets/images/notfavorite.png"   > -->
+                  <img (click)="toggleFavoriteIcon(data)" class="favorite-cls cursor" 
+                    [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'"   >
+                  <ejs-checkbox cssClass="e-small float-right"  [checked]="data.isChecked ? true: false"></ejs-checkbox>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="e-card-content cursor">
+          <img  [src]="data.imgPath"  class="center-img cursor"
+            height="150">
+          <span>
+            <label class="media-tile-info pt-4">
+              {{data.name}}
+            </label>
+          </span> <div>
+            <label class="media-tile-info-bold" >
+              {{data.date}}
+            </label>
+          </div>
+        </div>
+        <div class="e-card-actions">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,7 @@ import { Action, State, StateContext, Selector } from '@ngxs/store';
 
 
 export class MediaStateModel {
-  favorite: Media[];
+  favorites: Media[];
 }
 
 const initialGroup: Media = {
@@ -17,9 +17,9 @@ const initialGroup: Media = {
 };
 
 @State<MediaStateModel>({
-  name: 'media_favorite',
+  name: 'media',
   defaults: {
-    favorite: [],
+    favorites: [],
   }
 })
 
@@ -28,7 +28,7 @@ export class MediaState {
 
   @Selector()
   static getFavoriteMedia(state: MediaStateModel) {
-    return state.favorite;
+    return state.favorites;
   }
 
   @Action(GetMedia)
@@ -37,7 +37,7 @@ export class MediaState {
       const state = getState();
       setState({
         ...state,
-        favorite: media
+        favorites: media
       });
     }));
   }

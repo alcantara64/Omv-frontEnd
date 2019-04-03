@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {Media} from "../../../models/entity/media";
+import { Media } from "../../../models/entity/media";
 
 @Injectable({
     providedIn: 'root'
