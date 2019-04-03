@@ -1,0 +1,64 @@
+<div class="page__section" style=" padding-top: 1rem;">
+  <a routerLink="/media/all" class="back-button">BACK</a>
+</div>
+<hr class="stroke" />
+
+<p class="form-title">Upload Media</p>
+<div>
+  <span class="step-title"> Step 1 <i class="step-description-title">Select File</i></span>
+  <br />
+
+  <input type="file" #file style="display: none" (change)="onFilesAdded()" />
+  <button class="file-upload-button" (click)="addFiles()"> {{ uploadButtonText }}</button>
+  <span class="file-upload-label">{{ fileName }}</span>
+</div>
+
+<div>
+  <span class="step-title"> Step 2 <i class="step-description-title">Select Destination</i></span>
+  <br /><br />
+
+  <ejs-treegrid [dataSource]='data' [treeColumnIndex]='0' [selectionSettings]='selectionOptions' [allowSorting]='true' parentIdMapping='parentID' idMapping='TaskID'>
+    <e-columns>
+      <e-column field='TaskName' headerText='Name' textAlign='Left'></e-column>
+      <e-column field='StartDate' headerText='Date' textAlign='Left'></e-column>
+    </e-columns>
+  </ejs-treegrid>
+
+  <button class="file-upload-button"> Change </button>
+  <span class="file-upload-label">
+    <b>Destination Folder Title </b>
+    <b >Folder path</b>
+  </span>
+</div>
+
+<div>
+  <span class="step-title"> Step 3 <i class="step-description-title">Metadata</i></span>
+  <br /><br />
+  <div class="row">    
+    <div class="col-md-6">
+      <div>
+        <label for="nameId" class="form-label">Label</label>
+        <input class="form-control form-control-lg"type="text" placeholder="" />
+        <p class="form-description"> Description </p>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="nameId" class="form-label">Label</label>
+        <input class="form-control form-control-lg"type="text" placeholder="" />
+        <p class="form-description"> Description </p>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="nameId" class="form-label">Label</label>
+        <input class="form-control"type="text" placeholder="" />
+        <p class="form-description"> Description </p>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn omv-green btn-lg"> Upload </button>
+  <button type="button" class="btn btn-lg"> Cancel </button>
+</div>
+
+

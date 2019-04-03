@@ -12,30 +12,40 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { TabAllModule } from '@syncfusion/ej2-angular-navigations';
 import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
+import { AppHeaderComponent } from './app-header/app-header.component';
+import { LeftNavComponent } from './leftnav/leftnav.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ListViewModule,
-    GridAllModule,
-    ButtonAllModule, 
-    CheckBoxModule
-  ],
-  exports: [
-    CommonModule,
+  declarations: [
     PageNotFoundComponent,
-    ListComponent,
+    AppHeaderComponent,
+    LeftNavComponent,
     TabsComponent, 
+    ListComponent,
     ModalComponent,
     EditComponent,
     MapViewComponent,
     TreeViewComponent,
     TileViewComponent
   ],
-  declarations: [
+  imports: [
+    CommonModule,
+    ListViewModule,
+    GridAllModule,
+    ButtonAllModule, 
+    CheckBoxModule,
+    RouterModule,
+    GridAllModule,
+    ListViewModule
+  ],
+  exports: [
+    CommonModule,
+    AppHeaderComponent,
+    LeftNavComponent,
     PageNotFoundComponent,
-    TabsComponent, 
     ListComponent,
+    TabsComponent, 
     ModalComponent,
     EditComponent,
     MapViewComponent,

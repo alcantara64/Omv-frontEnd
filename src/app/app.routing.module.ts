@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { DashboardComponent } from './dashboard/dashboard.component';
-import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
+import { PageNotFoundComponent } from "./shared/page-not-found/page-not-found.component";
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { AuthGuardService } from './core/guards/auth-guard.service';
 import { AuthService } from './core/services/business/auth.service';
@@ -36,7 +36,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, { useHash: true })
   ],
-  exports: [RouterModule],
+  exports: [ RouterModule ],
   providers: [AuthGuardService, AuthService]
 })
 export class AppRoutingModule {}
