@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaService } from 'src/app/core/services/business/media/media.service';
-import { Media } from 'src/app/core/models/media';
+import { Media } from 'src/app/core/models/entity/media';
+
 
 @Component({
   selector: 'app-all-media',
@@ -13,12 +14,10 @@ export class AllMediaComponent implements OnInit {
   constructor(private mediaService : MediaService) { }
 
   ngOnInit() {
-    this.mediaService.getUsers().subscribe((data)=>{
-      this.data = data;
-      console.log('data',this.data);
-  
-    }
+    this.mediaService.getMedia().subscribe((data)=>{
+        this.data = data;
+        console.log('data',this.data);
+      }
     );
   }
-
 }

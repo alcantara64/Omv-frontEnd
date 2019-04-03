@@ -1,13 +1,13 @@
-
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Media } from 'src/app/core/models/media';
-
+import { Media } from "../../../models/entity/media";
 
 @Injectable({
     providedIn: 'root'
 })
 export abstract class MediaDataService {
 
-    abstract getMedias(): Observable<Media[]>;
+    constructor() { }
+
+    abstract getMedia(): Observable<Media[]>;
 }
