@@ -1,3 +1,8 @@
-<app-list [listData]="groups" [columns]="columns" [selectedRecords]="selectedGroups" 
+<!-- <app-list [listData]="groups" [columns]="columns" [selectedRecords]="selectedGroups" 
  (firstAction)="changeGroupStatus($event)" (navigate)="edit($event)">
-    </app-list>
+    </app-list> -->
+
+    <app-list [listData]="historyList"
+          [columns]="columns">
+</app-list>
+

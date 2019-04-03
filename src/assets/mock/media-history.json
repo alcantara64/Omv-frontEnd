@@ -1,42 +1,56 @@
 [
-    {
-        "id": 2,
-        "name": "AS",
-        "description": "Assurance Engineers",
-        "lastModified": "0/1/2019",
-        "modifiedBy": "Jeremiah Johnson",
-        "members": 45,
-        "status": 1,
-        "isAssigned": true
-      },
-      {
-        "id": 2,
-        "name": "AS",
-        "description": "Assurance Engineers",
-        "lastModified": "0/1/2019",
-        "modifiedBy": "Jeremiah Johnson",
-        "members": 45,
-        "status": 1,
-        "isAssigned": true
-      },
-      {
-        "id": 2,
-        "name": "AS",
-        "description": "Assurance Engineers",
-        "lastModified": "0/1/2019",
-        "modifiedBy": "Jeremiah Johnson",
-        "members": 45,
-        "status": 1,
-        "isAssigned": true
-      },
-      {
-        "id": 2,
-        "name": "AS",
-        "description": "Assurance Engineers",
-        "lastModified": "0/1/2019",
-        "modifiedBy": "Jeremiah Johnson",
-        "members": 45,
-        "status": 1,
-        "isAssigned": true
-      }
+  {
+    "id": 1,
+    "name": "AS",
+    "actionTaken": "Testers",
+    "updatedBy": "Smith",
+    "oldValue": "old field",
+    "newValue": "value here",
+    "date":"0/1/2019"
+  },
+  {
+    "id": 2,
+    "name": "John view",
+    "actionTaken": "Assurance",
+    "updatedBy": "Engr John",
+    "oldValue": "old value",
+    "newValue": "value here",
+    "date":"0/1/2019"
+  },
+  {
+    "id": 3,
+    "name": "Marine Engineer",
+    "actionTaken": "Engineers",
+    "updatedBy": "John Smith",
+    "oldValue": "old value",
+    "newValue": "value here",
+    "date":"0/1/2019"
+  },
+  {
+    "id": 4,
+    "name": "Jeremiah Johnson",
+    "actionTaken": "Engr Smith",
+    "updatedBy": "Smith",
+    "oldValue": "old value",
+    "newValue": "value here",
+    "date":"0/1/2019"
+  },
+  {
+    "id": 5,
+    "name": "Marine Engineer",
+    "actionTaken": "Engineers",
+    "updatedBy": "John Smith",
+    "oldValue": "old value",
+    "newValue": "value here",
+    "date":"0/1/2019"
+  },
+  {
+    "id": 2,
+    "name": "John view",
+    "actionTaken": "Assurance",
+    "updatedBy": "Engr John",
+    "oldValue": "old value",
+    "newValue": "value here",
+    "date":"0/1/2019"
+  }
 ]
