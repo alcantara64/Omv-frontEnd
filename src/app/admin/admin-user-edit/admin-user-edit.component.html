@@ -1,0 +1,65 @@
+<!-- <span class="e-icons arrowBack"><a routerLink="/admin/users"> Back </a></span> -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" routerLink="/admin/users"><a href="#" class="breadcrumbs__element"><ins></ins></a></li>
+    <li class="breadcrumb-item" routerLink="/admin/users"><a class="breadcrumbs__element"><ins>BACK</ins></a></li>
+  </ol>
+</nav>
+<div class="row">
+  <div class="col-sm-6">
+    <h4>User Information</h4><br>
+    <form novalidate (ngSubmit)="save()" [formGroup]="userForm">
+      <div class="form-group">
+        <label for="nameId">First Name</label>
+        <input class="form-control form-control-lg" id="firstNameId" type="text" placeholder="" formControlName="firstName"
+          [ngClass]="{'is-invalid': (userForm.get('firstName').touched ||
+                                      userForm.get('firstName').dirty) &&
+                                      !userForm.get('firstName').valid }" />
+        <span class="invalid-feedback">
+          <h5> Please enter a name </h5>
+        </span>
+      </div><br>
+      <div class="form-group">
+        <label for="nameId">Last Name</label>
+        <input class="form-control form-control-lg" id="nameId" type="text" placeholder="" formControlName="lastName"
+          [ngClass]="{'is-invalid': (userForm.get('lastName').touched ||
+                                      userForm.get('lastName').dirty) &&
+                                      !userForm.get('lastName').valid }" />
+        <span class="invalid-feedback">
+          <h5> Please enter a name </h5>
+        </span>
+      </div><br>
+      <div class="form-group">
+        <label for="nameId">User Name</label>
+        <input class="form-control form-control-lg" id="userNameId" type="text" placeholder="" formControlName="userName"
+          [ngClass]="{'is-invalid': (userForm.get('userName').touched ||
+                                      userForm.get('userName').dirty) &&
+                                      !userForm.get('userName').valid }" />
+        <span class="invalid-feedback">
+          <h5> Please enter a name </h5>
+        </span>
+      </div><br>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input class="form-control form-control-lg" id="emailAddressId" type="text" placeholder="" formControlName="emailAddress"
+          [ngClass]="{'is-invalid': (userForm.get('emailAddress').touched ||
+                                      userForm.get('emailAddress').dirty) &&
+                                      !userForm.get('emailAddress').valid }" />
+        <span class="invalid-feedback">
+          <h5> Please enter a valid email address. </h5>
+        </span>
+        </div><br><br>
+        <app-edit [firstButtonText]="createUserButtonText" [isfirstButtonDisabled]="!userForm.valid || !userForm.dirty"
+          [secondButtonText]="userActionText" [isSecondButtonVisible]="userId" (secondButtonEvent)="changeStatus()">
+      </app-edit>
+    </form>
+  </div>
+  <div class="col-sm-6" *ngIf="userId">
+    <div class="control-section e-tab-section">
+      <div class="e-sample-resize-container">
+          <app-tabs [tabs]="tabs"></app-tabs>
+          <app-admin-user-groups></app-admin-user-groups>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+.grid-toolbar-item-button {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0097A9;
+  background: none;
+  border: none;
+  margin-left: 8px;
+}
+
+.grid-toolbar-item-label {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #033B5C;
+}
+
+.float-right {
+  justify-content: space-between;
+}
+
+.e-tab-text{
+  text-transform: initial !important;
+}
+.link{
+  text-decoration: underline !important;
+  font-family: 'OpenSans', sans-serif !important;
+  color: #0097A9 !important;
+}
+
+.omv-orange-badge {
+  font-family: 'EMprint', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  color: #033b5c;
+  border-radius: 10px;
+  background-color: #ffc72c;
+  padding: 3px 5px;
+ }

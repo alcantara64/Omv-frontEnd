@@ -1,0 +1,49 @@
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" routerLink="/admin/groups"><a href="#" class="breadcrumbs__element"><ins></ins></a></li>
+    <li class="breadcrumb-item" routerLink="/admin/groups"><a class="breadcrumbs__element"><ins>BACK</ins></a></li>
+  </ol>
+</nav>
+<div class="row">
+  <div class="col-sm-6">
+    <h4>Group Information</h4><br>
+    <form novalidate (ngSubmit)="save()" [formGroup]="groupForm">
+      <div class="form-group">
+        <label for="nameId">Group Name</label>
+        <input class="form-control form-control-lg" id="nameId" type="text" placeholder="Enter a group name"
+          formControlName="name"
+          [ngClass]="{'is-invalid': (groupForm.get('name').touched ||
+                                     groupForm.get('name').dirty) &&
+                                     !groupForm.get('name').valid }" />
+        <span class="invalid-feedback">
+          <h5> Please enter a name </h5>
+        </span>
+      </div><br>
+      <div class="form-group">
+        <label for="descriptionId">Description</label>
+        <input class="form-control form-control-lg" id="descriptionId" type="text" placeholder="Enter a description for the group"
+          formControlName="description"
+          [ngClass]="{'is-invalid': (groupForm.get('description').touched ||
+                                    groupForm.get('description').dirty) &&
+                                    !groupForm.get('description').valid }" />
+      </div><br>
+      <div class="form-group">
+        <ejs-checkbox #checkbox label="Is System's Group" formControlName="isSystem"></ejs-checkbox>
+      </div><br>
+      <app-edit [firstButtonText]="createGroupButtonText" [isfirstButtonDisabled]="!groupForm.valid || !groupForm.dirty"
+          [secondButtonText]="groupActionText" [isSecondButtonVisible]="groupId" (secondButtonEvent)="changeStatus()">
+      </app-edit>
+    </form>
+  </div>
+  <div class="col-sm-6" *ngIf="groupId">
+    <div class="control-section e-tab-section">
+      <div class="e-sample-resize-container">
+          <app-tabs [tabs]="groupItemTabs" (navigate)="switchTabs($event)"></app-tabs>
+          <app-admin-group-permissions *ngIf="showPermissions"></app-admin-group-permissions>
+          <app-admin-group-members *ngIf="showMembers"></app-admin-group-members>
+          <app-admin-group-media-access *ngIf="showMediaAccess"></app-admin-group-media-access>
+      </div>
+    </div>
+  </div>
+</div>

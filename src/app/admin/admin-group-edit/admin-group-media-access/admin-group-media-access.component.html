@@ -1,0 +1,7 @@
+<ejs-treeview #tree id="icons" [fields]='field' [showCheckBox]='true' [checkedNodes]="checkedNode"
+  (nodeChecked)='nodeChecked($event)' (dataBound)='dataBound($event)'>
+
+</ejs-treeview>
+
+
+<button type="button" class="btn btn-primary" (click)="updateMediaAccess()" style="float: right;"> Update Media Access </button>

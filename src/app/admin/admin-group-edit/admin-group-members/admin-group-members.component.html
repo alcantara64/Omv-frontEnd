@@ -1,0 +1,33 @@
+<app-list [listData]="groupMembers" [columns]="columns" [shouldEdit]="false"
+	[isToolBarVisible]="false"
+	[buttonOneText] = "groupId ? 'Add Member(s)' : ''"
+	(buttonOneEvent)="addGroupMembers($event)"
+	[secondButtonText]="groupId ? 'Remove Member(s)': ''"
+	(secondButtonEvent)="show($event)">
+</app-list>
+<ejs-dialog #groupDialog
+	[visible]='false'
+	[buttons]='dialogButtons'
+	[header]="'Add Member(s) to Group'"
+	[showCloseIcon]='true'
+	[width]='500'
+	[height]="300">
+	<ng-template #content>
+		<ejs-multiselect id='users' [dataSource]='users' [mode]="'Box'" [fields]='usersFields' [placeholder]="'Users'"
+			[(value)]="userIds"></ejs-multiselect>
+	</ng-template>
+
+
+</ejs-dialog>
+
+<ejs-dialog #confirmDialog
+[visible]='false'
+[buttons]='confirmDlgButtons'
+[header]="'Remove Member(s) from Group'"
+[showCloseIcon]='true'
+[width]='500'>
+	<ng-template #content>
+		<span>Are you sure you want to permanently delete these items ?</span>
+	</ng-template>
+</ejs-dialog>
+

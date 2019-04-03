@@ -1,0 +1,42 @@
+[
+    {
+        "id": "1",
+        "name": "Admin_Group_Create",
+        "status": 1
+    },
+    {
+        "id": "2",
+        "name": "Admin_Group_Edit" ,
+        "status": 1
+    },
+    {
+        "id": "3",
+        "name": "Admin_Group_Delete" ,
+        "status": 1
+    },
+    {
+        "id": "4",
+        "name": "Admin_Group_View" ,
+        "status": 1
+    },
+    {
+        "id": "5",
+        "name": "User_Group_Create" ,
+        "status": 1
+    },
+    {
+        "id": "6",
+        "name": "User_Group_Edit" ,
+        "status": 1
+    },
+    {
+        "id": "7",
+        "name": "User_Group_Delete" ,
+        "status": 1
+    },
+    {
+        "id": "8",
+        "name": "User_Group_View" ,
+        "status": 1
+    }
+]

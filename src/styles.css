@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@import './assets/material.css';
-@import './assets/css/button-styles.css';
+@import './assets/css/material.css';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700');
 @import "../node_modules/@syncfusion/ej2-base/styles/material.css";
 @import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
 @import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
@@ -10,7 +11,7 @@
   border: 0px solid rgba(0, 0, 0, 0.12) !important ;
 
 }
-  
+
 .stroke{
   border-bottom: 3px solid #0097a9;
   border-top: 0px solid rgba(0,0,0,.1);
@@ -25,14 +26,16 @@ html, body {
   height:100%;
   width:100%;
   background: #f3f8fb;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   font-size: 12px;
 }
 .container {
-    max-width: 1440px !important;
-    padding-left: 7rem !important;
-    padding-right:7rem !important;
-    height: 100%;
+  position: static;
+  display: block;
+  bottom: 0!important;
+  max-width: 1440px !important;
+  padding-left: 7rem !important;
+  padding-right:7rem !important;
 }
 .cursor{
     cursor: pointer;
@@ -67,50 +70,50 @@ html, body {
     --cssuiBreadcrumbsDividerColor: var(--breadcrumbsDividerColor, inherit);
     --cssuiBreadcrumbsDividerSize: var(--breadcrumbsDividerSize, 16px);
     --cssuiBreadcrumbsIndent:  var(--breadcrumbsIndent, 8px);
-    
+
     padding-left: 0;
     margin-top: 0;
     margin-bottom: 0;
     list-style: none;
-  
+
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   .breadcrumbs__item{
     display: inline-block;
     position: relative;
-   
+
     padding-right: calc(var(--cssuiBreadcrumbsDividerSize) + var(--cssuiBreadcrumbsIndent));
     margin-right: var(--cssuiBreadcrumbsIndent);
-    
+
     color: var(--cssuiBreadcrumbsTextColor);
   }
-  
+
   .breadcrumbs__item:after{
     content: var(--cssuiBreadcrumbsDivider);
     width: var(--cssuiBreadcrumbsDividerSize);
     height: var(--cssuiBreadcrumbsDividerSize);
-  
+
     line-height: 1;
     text-align: center;
-    
+
     font-family: "Arial", sans-serif;
     font-size: var(--cssuiBreadcrumbsDividerSize);
     color: var(--cssuiBreadcrumbsDividerColor);
-  
+
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
   }
-  
+
   .breadcrumbs__item_active{
     margin-right: 0;
     padding-right: 0;
     color: var(--cssuiBreadcrumbsTextColorActive);
   }
-  
+
   .breadcrumbs__item_active:after{
     display: none;
   }
@@ -162,3 +165,280 @@ html, body {
 .e-grid .e-gridheader {
   padding-right: 0px!important;
 }
+.e-tab .e-tab-header.e-tab-tex{
+  font-family: 'OpenSans', sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #5b7f95 !important;
+}
+
+/************ OMV Button **************/
+.omv-green {
+  background: #009B77!important;
+  color: #ffffff!important;
+  text-transform: initial !important;
+  padding: 10px 25px!important;
+  margin: 5px;
+  border: none;
+  border-radius: 4px;
+}
+
+.omv-primary{
+  background: #0097A9!important;
+  color: #ffffff!important;
+  text-transform: initial !important;
+  padding: 10px 25px!important;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+}
+
+.omv-primary[disabled]{
+  background: #74f1f8 !important;
+  color: #ffffff!important;
+}
+
+.omv-primary-plus{
+  text-transform: initial !important;
+  color: #ffffff!important;
+  background: #0097A9!important;
+  display: inline-block;
+  padding: 10px 15px 10px 28px !important;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 5px;
+  border: none;
+  border-radius: 4px;
+}
+
+.omv-primary-plus[disabled] {
+  background: #adf0f8 !important;
+  color: #ffffff!important;
+}
+
+.omv-primary-plus::before{
+  content: url("./assets/images/plus-icon.svg")!important;
+  display: inline-block;
+  position: absolute;
+  margin: -1px 0 0 -25px;
+  border: none;
+  border-radius: 4px;
+}
+/************ End OMV Button **************/
+
+
+/************ OMV Badge **************/
+.omv-orange-badge {
+  font-family: 'EMprint', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  color: #033b5c;
+  border-radius: 10px;
+  background-color: #ffc72c;
+  padding: 5px 10px;
+  margin-left: 10px;
+}
+/************ End OMV Badge **************/
+
+
+/*#region Titles*/
+
+.form-title {
+  width: 186px;
+  height: 38px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #033b5c;
+}
+
+.step-title {
+  width: 61px;
+  height: 27px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.1px;
+  color: #033b5c;
+}
+
+.step-description-title {
+  width: 74px;
+  height: 22px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.1px;
+  color: #5b7f95;
+}
+
+/*#endregion Titles*/
+
+/*#region B r e a d C r u m b s*/
+
+.back-button {
+  width: 92px;
+  height: 36px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2.57;
+  letter-spacing: 0.6px;
+  color: #0097a9;
+}
+
+/*#endregion B r e a d C r u m b s*/
+
+/*#region B U T T O N S */
+
+.file-upload-button {
+  width: 108px;
+  height: 37px;
+  object-fit: contain;
+  border-radius: 5px;
+  border: solid 1px #0097a9;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.4;
+  letter-spacing: normal;
+  text-align: center;
+  color: #0097a9;
+}
+
+.file-upload-button:hover {
+  background-color: #0097a9;
+  color: #ffffff;
+}
+
+.file-upload-label {
+  width: 78px;
+  height: 19px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #5b7f95;
+}
+
+.btn {
+  width: 155px;
+  height: 50px;
+  border-radius: 8px;
+  border: solid 1px #0097a9;
+  background-color: #0097a9;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  text-align: center;
+  color: #ffffff;
+}
+/************ End OMV Confirmation **************/
+button{
+  padding-left: 0px;
+  padding-right: 0px;
+  background: none;
+  border: none;
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px !important;
+  font-weight: 600;
+  line-height: normal;
+  outline: none !important;
+}
+.media-label{
+  color:#033b5c;
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px !important;
+  font-weight: 600;
+  line-height: normal;
+}
+.media-button-small{
+  color: #5b7f95;
+}
+/************ End OMV Confirmation **************/
+/************ Media Tile View **************/
+.media-tile-info{
+  font-family: 'OpenSans', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.08;
+  letter-spacing: normal;
+  text-align: right;
+  color: #033b5c;
+}
+.media-tile-info-bold{
+  font-family: 'OpenSans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.08;
+  letter-spacing: normal;
+  text-align: right;
+  color: #033b5c;
+}
+
+
+
+/*#endregion B U T T O N S*/
+
+/*#region L A B E L S */
+
+.form-label {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.1px;
+  color: #5b7f95;
+}
+
+.form-description {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.88;
+  letter-spacing: 0.1px;
+  color: #5b7f95;
+}
+
+/*#region L A B E L S */
+
+/*#region I N P U T S */
+
+.form-control-input {
+  height: 38px;
+  border-radius: 2px;
+  border: solid 1px rgba(91, 127, 149, 0.25);
+  background-color: #ffffff;
+}
+
+/*#region I N P U T S */

@@ -1,0 +1,11 @@
+
+<app-list [listData]="groups"
+          [columns]="columns"
+          [isToolBarVisible]="false"
+          [initialRecords]="userGroupIds"
+          [checkField]="'id'"
+          [buttonOneText] = "userId ? 'Update Groups' : ''"
+          (buttonOneEvent)="updateGroups($event)">
+</app-list>
+
+

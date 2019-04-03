@@ -1,0 +1,79 @@
+[
+  {
+    "userId": 1,
+    "userName": "Admin",
+    "emailAddress": "jackmichaels@gmail.com",
+    "displayName": "Adam Smith",
+    "roleName": "Developer +2",
+    "status": 0,
+    "statusName":"",
+    "firstName":"",
+    "lastName":""
+  },
+  {
+    "userId": 2,
+    "userName": "AS",
+   "emailAddress": "jackmichaels@gmail.com",
+    "displayName": "Adam Smith",
+    "roleName": "Admin",
+    "status": 1,
+    "statusName":"",
+    "firstName":"",
+    "lastName":""
+  },
+  {
+    "userId": 3,
+    "userName": "IC",
+    "emailAddress": "jackmichaels@gmail.com",
+    "displayName": "Adam Smith",
+    "roleName": "",
+    "status": 0,
+    "statusName":"",
+    "firstName":"",
+    "lastName":""
+  },
+  {
+    "userId": 4,
+    "userName": "RSC",
+    "emailAddress": "jackmichaels@gmail.com",
+    "displayName": "Adam Smith",
+    "roleName": "Admin +1",
+    "status": 1,
+    "statusName":"",
+    "firstName":"",
+    "lastName":""
+  },
+  {
+    "userId": 5,
+    "userName": "Developer",
+    "emailAddress": "jackmichaels@gmail.com",
+    "displayName": "Adam Smith",
+    "roleName": "Developer +4",
+    "status": 1,
+    "statusName":"",
+    "firstName":"",
+    "lastName":""
+  },
+  {
+    "userId": 6,
+    "userName": "AS",
+    "emailAddress": "jackmichaels@gmail.com",
+    "displayName": "Adam Smith",
+    "roleName": "Admin +2",
+    "status": 0,
+    "statusName":"",
+    "firstName":"",
+    "lastName":""
+  },
+  {
+    "userId": 7,
+    "userName": "IC",
+    "emailAddress": "jackmichaels@gmail.com",
+    "displayName": "Adam Smith",
+    "roleName": "",
+    "status": 0,
+    "statusName":"",
+    "firstName":"",
+    "lastName":""
+  }
+]

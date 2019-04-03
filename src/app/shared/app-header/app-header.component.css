@@ -1,44 +1,172 @@
-.header{
-    height:35px;
+/* @import url('https://fonts.googleapis.com/css?family=Open+Sans'); */
+.navbar {
+  display: block!important;
+  padding: 0!important;
+  position: static;
+  height: 58px;
+  width: 100%;
+  min-width: 1190px;
+  box-sizing: border-box!important;
 }
-.nav-link{
+
+.nav-link {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
+}
 
+.oceaneeringLogo {
+  display: inline-block;
+  width: 100px;
+  border-right: thin solid green;
 }
-.header-color{
-    color: #FAC42D;
-    padding-right: 11px;
+
+.oceaneeringLogo > img {
+  width: 80px;
+  height: auto;
+  text-align: left;
 }
-.vertical-stroke{
-    height:8px;
-    border-right: 1px solid;
-    color: #9B9B9B;
+
+.clientLogo {
+  display: inline-block;
+  width: auto;
 }
-.bg-light{
-    padding-bottom: 0 !important;
-    padding-top: 0 !important;
-    background: #033B5C !important;
+
+.clientLogo > img {
+  width: auto;
+  height: 40px;
+  margin: 10px;
 }
-.navbar-brand{
-    padding-left: 11px;
+
+.bg-light {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  background: #033B5C !important;
+  height: 35px;
 }
-.bg-color{
-    background: #F3F8FB;
-}
+
 .navbar-shadow {
-    box-shadow: 0 0px 0px 0 rgb(217,228,234), 0 7px 6px 0 rgb(217,228,234)
+    box-shadow: 0 0px 0px 0 rgb(217, 228, 234), 0 7px 6px 0 rgb(217, 228, 234);
+    width: 100%;
+    padding-bottom: 0px;
 }
-a{
+
+a {
     color: #6B8B9F;
     font-size: 14px;
-    font-weight: 600;    
+    font-weight: 600;
     font-family: 'Open Sans', sans-serif;
+  display: inline-block;
+  width: auto;
 }
-.active-link{
-    color: #033B5C;
+
+.active-link {
+  font-weight: 600 !important;
+  color: #033B5C !important;
+  display: inline-block;
 }
-.e-indicator .e-ignore{
-    background: #0097a9 !important; 
+
+.active-link > .line-stroke {
+  display: block!important;
+}
+
+.e-indicator .e-ignore {
+    background: #0097a9 !important;
+}
+
+.nav {
+    width: 100%;
+}
+
+.navbar1 {
+  margin-top: -30px!important;
+  padding: 0!important;
+}
+
+.navbar2 {
+  margin-top: 0!important;
+  padding: 0!important;
+  min-width: 750px;
+  overflow: hidden;
+}
+
+.header-link-text {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 3rem;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5b7f95;
+  padding: 1rem;
+}
+
+hr {
+    margin-block-start: 1rem;
+    margin-block-end: 0;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    border: 0;
+    border-top: 0px solid rgba(0, 0, 0, .1)
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    margin-right: auto;
+    margin-left: auto;
+    border-top: 5px solid #033B5C;
+}
+
+.line-stroke {
+  vertical-align: bottom;
+  border-style: none;
+  position: relative;
+  display: none;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.userInfo {
+  display: inline-block;
+}
+
+.arrowDown:before {
+  margin: 10px;
+  content: '\e83d';
+  color: white;
+  font-size: larger;
+  cursor: pointer;
+}
+
+.userDropdown {
+  display: none;
+}
+
+.userDropdown > ul {
+  display: block;
+  position: absolute;
+  top: 35px;
+  right: 60px;
+  width: 250px;
+  height: auto;
+  padding: 10px;
+  background: white;
+  box-shadow: 0 0 5px black;
+  z-index: 3000;
+  border-radius: 0 0 5px 5px;
+}
+
+.userDropdown > ul > li {
+  list-style: none;
+  display: block;
+  margin: 5px 0;
+  font-size: larger;
+  font-weight: bold;
+  color: #0097A9;
+  height: 40px;
 }

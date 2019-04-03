@@ -35,7 +35,7 @@ export class AuthService {
       silent_redirect_uri: `${baseUrl}/assets/silent-callback.html`,
       post_logout_redirect_uri: `${baseUrl}`,
       response_type: 'code',
-      scope: 'openid profile api1',
+      scope: 'openid profile',
       metadata: {
         issuer: `${this.authorityUrl}`,
         authorization_endpoint: `${this.authorityUrl}/connect/authorize`,
