@@ -51,6 +51,20 @@ import { AdminPermissionState } from './state/admin-permissions/admin-permission
 import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notifications';
 
 @NgModule({
+  declarations: [
+    AdminUsersListComponent,
+    AdminUserEditComponent,
+    AdminUsersTabsComponent,
+    AdminGroupsListComponent,
+    AdminGroupEditComponent,
+    AdminGroupsTabsComponent,
+    AdminDashboardComponent,
+    AdminGroupsTabsComponent,
+    AdminUserGroupsComponent,
+    AdminGroupPermissionsComponent,
+    AdminGroupMembersComponent,
+    AdminGroupMediaAccessComponent
+  ],
   imports: [
     SharedModule,
     DialogModule,
@@ -70,22 +84,7 @@ import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notificatio
       AdminUserState,
       AdminGroupState,
       AdminPermissionState
-    ])
-    
-  ],
-  declarations: [
-    AdminUsersListComponent,
-    AdminUserEditComponent,
-    AdminUsersTabsComponent,
-    AdminGroupsListComponent,
-    AdminGroupEditComponent,
-    AdminGroupsTabsComponent,
-    AdminDashboardComponent,
-    AdminGroupsTabsComponent,
-    AdminUserGroupsComponent,
-    AdminGroupPermissionsComponent,
-    AdminGroupMembersComponent,
-    AdminGroupMediaAccessComponent
+    ])    
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },

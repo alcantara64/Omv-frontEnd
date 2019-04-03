@@ -8,9 +8,16 @@
 <hr class="stroke" />
 
 <!-- Media tabs -->
-<!-- <div> -->
-  <app-tabs [tabs]="mediaTabs" (navigate)="switchTabs($event)"></app-tabs>
-<!-- </div> -->
+<div class="row">
+  <div class="col-6">
+    <app-tabs [tabs]="mediaTabs" (navigate)="switchTabs($event)"></app-tabs>
+  </div>
+  <div class="col-6">
+    <button ejs-button class="omv-primary-plus float-right" [routerLink]="['/media/upload']">
+      Upload Media
+    </button>
+  </div>
+</div>
 
 <!-- Filter --ignore -->
 

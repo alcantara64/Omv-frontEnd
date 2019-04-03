@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import './assets/css/material.css';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700');
 @import "../node_modules/@syncfusion/ej2-base/styles/material.css";
 @import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
 @import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
@@ -243,92 +245,115 @@ html, body {
 }
 /************ End OMV Badge **************/
 
-/************ OMV Notification **************/
-@keyframes omv-notifications-animate {
-  from {right: -350px}
-  to {right: 60px}
+
+/*#region Titles*/
+
+.form-title {
+  width: 186px;
+  height: 38px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #033b5c;
 }
 
-.omv-notifications {
-  display: block;
-  position: fixed;
-  right: 60px;
-  top: 60px;
-  z-index: 1000;
-  padding: 25px 10px;
-  border-radius: 5px;
-  animation: omv-notifications-animate 1s linear;
+.step-title {
+  width: 61px;
+  height: 27px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.1px;
+  color: #033b5c;
 }
 
-.omv-notification-message {
-  display: inline-block;
-  width: 300px;
-  color: white;
-  text-align: center;
-  font-size: medium;
-  font-weight: bolder;
-  font-family: "Open Sans", sans-serif;
+.step-description-title {
+  width: 74px;
+  height: 22px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.1px;
+  color: #5b7f95;
 }
 
-.omv-notification-close {
-  display: inline-block;
-  float: right;
-  width: 50px;
-}
-/************ End OMV Notification **************/
+/*#endregion Titles*/
 
-/************ OMV Confirmation **************/
-.confirmationArea {
-  display: block;
-  position: fixed;
-  z-index: 200;
-  height: 100vh;
-  width: 100vw;
-  top: 0;
-  bottom: 0;
-  margin: 0!important;
-  background: rgba(255, 255, 255, 0.4);
-}
+/*#region B r e a d C r u m b s*/
 
-.confirmationBox {
-  display: block;
-  position: fixed;
-  z-index: 300;
-  left: 30vw;
-  right: 30vw;
-  top: 100px;
-  width: 40vw;
-  min-height: 150px;
-  background: white;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0 0 5px black;
-}
-
-.confirmationMessage {
-  display: block;
-  text-align: center;
-  font-size: larger;
+.back-button {
+  width: 92px;
+  height: 36px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
   font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2.57;
+  letter-spacing: 0.6px;
+  color: #0097a9;
 }
 
-.confirmationAction {
-  display: block;
-  margin: 20px 0 0 0;
-  padding: 0 10px;
-}
+/*#endregion B r e a d C r u m b s*/
 
-.confirmationAction button {
-  display: inline-block;
-  float: right;
+/*#region B U T T O N S */
+
+.file-upload-button {
+  width: 108px;
+  height: 37px;
+  object-fit: contain;
+  border-radius: 5px;
+  border: solid 1px #0097a9;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.4;
+  letter-spacing: normal;
   text-align: center;
-  background: #0097A9;
+  color: #0097a9;
+}
+
+.file-upload-button:hover {
+  background-color: #0097a9;
   color: #ffffff;
-  text-transform: initial !important;
-  padding: 10px 25px!important;
-  margin: 5px;
-  border: none;
+}
+
+.file-upload-label {
+  width: 78px;
+  height: 19px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #5b7f95;
+}
+
+.btn {
+  width: 155px;
+  height: 50px;
   border-radius: 8px;
+  border: solid 1px #0097a9;
+  background-color: #0097a9;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  text-align: center;
+  color: #ffffff;
 }
 /************ End OMV Confirmation **************/
 button{
@@ -352,3 +377,44 @@ button{
 .media-button-small{
   color: #5b7f95;
 }
+
+
+
+/*#endregion B U T T O N S*/
+
+/*#region L A B E L S */
+
+.form-label {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.1px;
+  color: #5b7f95;
+}
+
+.form-description {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.88;
+  letter-spacing: 0.1px;
+  color: #5b7f95;
+}
+
+/*#region L A B E L S */
+
+/*#region I N P U T S */
+
+.form-control-input {
+  height: 38px;
+  border-radius: 2px;
+  border: solid 1px rgba(91, 127, 149, 0.25);
+  background-color: #ffffff;
+}
+
+/*#region I N P U T S */
