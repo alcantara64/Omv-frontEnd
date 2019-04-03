@@ -10,7 +10,6 @@ import { ModalComponent } from './modal/modal.component';
 import { EditComponent } from './edit/edit.component';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
-import { TabAllModule } from '@syncfusion/ej2-angular-navigations';
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
