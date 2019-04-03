@@ -9,22 +9,33 @@ import { ListComponent } from "../shared/list/list.component";
 import { NgxsModule } from '@ngxs/store';
 import { MediaFavoritesComponent } from './media-favorites/media-favorites.component';
 import { SharedModule } from '../shared/shared.module';
+import { MediaFavoritesListviewComponent } from './media-favorites/media-favorites-listview/media-favorites-listview.component';
+import { MediaState } from './state/media/media.state';
+import {AdminUsersDataService} from "../core/services/data/admin-users/admin-users.data.service";
+import {environment} from "../../environments/environment";
+import {AdminUsersMockDataService} from "../core/services/data/admin-users/admin-users.mock.data.service";
+import {AdminUsersWebDataService} from "../core/services/data/admin-users/admin-users.web.data.service";
+import {MediaDataService} from "../core/services/data/media/media.data.service";
+import {MediaMockDataService} from "../core/services/data/media/media.mock.data.service";
 
 @NgModule({
-	declarations: [	
+	declarations: [
 		MediaComponent,
 		AllMediaComponent,
 		MediaStreamingArchiveComponent,
-		MediaFavoritesComponent
+		MediaFavoritesComponent,
+		MediaFavoritesListviewComponent
 	],
-  imports: [	
+  imports: [
     SharedModule,
 		MediaRoutingModule,
 		NgxsModule.forFeature([
-			
+			MediaState
 		])
 	],
-	providers: [],
+	providers: [
+    { provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaMockDataService },
+  ],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class MediaModule {}
