@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaService } from 'src/app/core/services/business/media/media.service';
-import { Media } from 'src/app/core/models/entity/media';
+import { MediaTileView } from 'src/app/core/models/media';
+import { Select, Store } from '@ngxs/store';
+import { MediaState } from '../state/media/media.state';
+import { Observable } from 'rxjs';
+import { GetAllMedia } from '../state/media/media.action';
 
 
 @Component({
@@ -9,15 +13,12 @@ import { Media } from 'src/app/core/models/entity/media';
   styleUrls: ['./all-media.component.css']
 })
 export class AllMediaComponent implements OnInit {
-  data: Media[];
-  mediaType: string;
-  constructor(private mediaService : MediaService) { }
+  data: MediaTileView[];
+  @Select(MediaState.getAllMedia) allMediaData$: Observable<MediaTileView[]>
+  constructor(private mediaService: MediaService, private store: Store) { }
 
   ngOnInit() {
-    this.mediaService.getMedia().subscribe((data)=>{
-        this.data = data;
-        console.log('data',this.data);
-      }
-    );
+    this.store.dispatch(new GetAllMedia());
+    this.allMediaData$.subscribe(allmedia => this.data = allmedia);
   }
 }

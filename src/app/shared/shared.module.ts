@@ -15,6 +15,7 @@ import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
+import { PagerModule } from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RouterModule } from '@angular/router';
     CheckBoxModule,
     RouterModule,
     GridAllModule,
-    ListViewModule
+    ListViewModule,
+    PagerModule
   ],
   exports: [
     CommonModule,
