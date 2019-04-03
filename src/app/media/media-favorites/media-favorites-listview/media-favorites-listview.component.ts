@@ -17,7 +17,7 @@ export class MediaFavoritesListviewComponent implements OnInit {
   @Select(MediaState.getFavoriteMedia) getFavoriteMedia$: Observable<Media[]>;
 
   public favouriteList;
-  public editIcon = "<span class='e-icons e-search'></span>";
+  public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
 
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "50", field: "" },

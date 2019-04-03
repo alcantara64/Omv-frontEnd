@@ -422,7 +422,7 @@ html, body {
 /*#region I N P U T S */
 
 /************    Syncfusion Icons  **************/
-.e-search:before{
-  content:'\e993';
+.e-pencil:before{
+  content:'\ea9a';
 }
 /************ End Syncfusion Icons **************/

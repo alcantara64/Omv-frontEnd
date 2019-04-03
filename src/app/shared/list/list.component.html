@@ -29,13 +29,13 @@
 
     <e-column *ngIf="showFirstAction" field='' headerText='' width='100'>
       <ng-template #template>
-        <a class="link" (click)="performFirstAction($event)">{{ firstActionText }}</a>
+        <a class="link" (click)="performFirstAction($event)" [innerHTML]="firstActionText" style="text-decoration: none!important"></a>
       </ng-template>
     </e-column>
 
     <e-column *ngIf="showSecondAction" field='' headerText='' width='70'>
       <ng-template #template>
-        <a class="link" (click)="performSecondAction($event)">{{ secondActionText }}</a>
+        <a class="link" (click)="performSecondAction($event)" [innerHTML]="secondActionText" style="text-decoration: none!important"></a>
       </ng-template>
     </e-column>
   </e-columns>
