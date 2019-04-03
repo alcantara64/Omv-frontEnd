@@ -9,6 +9,7 @@ import { MediaComponent } from './media.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { MediaStreamingArchiveComponent } from './media-streaming-archive/media-streaming-archive.component';
+import {MediaFavoritesListviewComponent} from "./media-favorites/media-favorites-listview/media-favorites-listview.component";
 
 const mediaRoutes: Routes = [
   {
@@ -17,7 +18,7 @@ const mediaRoutes: Routes = [
     children: [
       { path: '', redirectTo: 'all', pathMatch: 'full' },
       { path: 'all', component: AllMediaComponent },
-      { path: 'favorites', component: MediaFavoritesComponent },
+      { path: 'favorites', component: MediaFavoritesListviewComponent },
       { path: 'archive', component: MediaStreamingArchiveComponent }
     ],
   },
