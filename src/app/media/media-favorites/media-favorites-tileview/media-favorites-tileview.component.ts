@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MediaState } from '../../state/media/media.state';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { MediaItem } from 'src/app/core/models/entity/media';
+import { GetMedia } from '../../state/media/media.action';
 
 @Component({
   selector: 'app-media-favorites-tileview',
@@ -7,9 +12,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MediaFavoritesTileviewComponent implements OnInit {
 
-  constructor() { }
+  @Select(MediaState.getFavorites) favoriteMedia: Observable<MediaItem[]>;
+
+  public favoritesData;
+  constructor(private store: Store) { }
 
   ngOnInit() {
+    this.store.dispatch(new GetMedia());
+    this.favoriteMedia.subscribe(favorites => this.favoritesData = favorites);
   }
 
 }

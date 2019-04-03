@@ -1,20 +1,16 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {Media} from "../../../models/entity/media";
-import {MediaDataService} from "./media.data.service";
+import { MediaDataService} from "./media.data.service";
 import { map } from 'rxjs/operators';
 import { History } from 'src/app/core/models/entity/history';
+import { MediaItem } from 'src/app/core/models/entity/media';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaWebDataService implements MediaDataService {
   
-  getHistory(id: number): Observable<History[]> {
-    throw new Error("Method not implemented.");
-  }
-
   private paging_batch_size: number = 25;
   mockUrl = `./assets/mock/`;
 
@@ -26,9 +22,15 @@ export class MediaWebDataService implements MediaDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getMedia(): Observable<Media[]> {
+  getMedia(): Observable<MediaItem[]> {
     return null;
   } 
 
- 
+  getMediaItem(id: number): Observable<MediaItem> {
+    return null;
+  }
+
+  getHistory(id: number): Observable<History[]> {
+    return null;
+  }
 }

@@ -24,22 +24,23 @@
             </div>
           </div>
         </div>
-        <div class="e-card-content cursor">
+        <div class="e-card-content cursor pb-0">
           <img  [src]="data.imgPath"  class="center-img cursor"
             height="150">
           <span>
             <label class="media-tile-info pt-4">
               {{data.name}}
             </label>
-          </span> <div>
-            <label class="media-tile-info-bold" >
-              {{data.date}}
-            </label>
-          </div>
+          </span>
         </div>
-        <div class="e-card-actions">
-        </div>
+        <div class="e-card-actions pt-0">
+        </div> 
+          <label class="media-tile-info-bold text-md-left pl-3 tile-card-date" >
+            {{data.date}}
+          </label>
       </div>
     </div>
   </div>
+
+
 </div>

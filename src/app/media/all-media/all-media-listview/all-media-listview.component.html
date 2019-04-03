@@ -1,3 +1,8 @@
-<p>
-  all-media-listview works!
-</p>
+<app-list [listData]="mediaList"
+          [columns]="columns"
+          [showFirstAction]="true"
+          [firstActionText]="'Download'"
+          [showSecondAction]="true"
+          [secondActionText]="editIcon"
+          (firstNavigateAction)="download($event)">
+</app-list>

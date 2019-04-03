@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Media } from "../../../models/entity/media";
+import { MediaTileView } from 'src/app/core/models/media';
+import { MediaItem } from 'src/app/core/models/entity/media';
 import { History } from 'src/app/core/models/entity/history';
 
 @Injectable({
@@ -10,6 +11,7 @@ export abstract class MediaDataService {
 
     constructor() { }
 
-    abstract getMedia(): Observable<Media[]>; 
+    abstract getMedia(): Observable<MediaItem[]>; 
+    abstract getMediaItem(id: number): Observable<MediaItem>;
     abstract getHistory(id: number): Observable<History[]>;
 }

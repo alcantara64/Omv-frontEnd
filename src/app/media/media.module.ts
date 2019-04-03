@@ -24,8 +24,9 @@ import { AllMediaListviewComponent } from './all-media/all-media-listview/all-me
 import { AllMediaTreeviewComponent } from './all-media/all-media-treeview/all-media-treeview.component';
 import { AllMediaMapviewComponent } from './all-media/all-media-mapview/all-media-mapview.component';
 import { MediaFavoritesMapviewComponent } from './media-favorites/media-favorites-mapview/media-favorites-mapview.component';
-import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorites-tileview/media-favorites-tileview.component';
 import { MediaFavoritesTreeviewComponent } from './media-favorites/media-favorites-treeview/media-favorites-treeview.component';
+import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorites-tileview/media-favorites-tileview.component';
+import { PagerModule } from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
 	declarations: [
@@ -45,9 +46,11 @@ import { MediaFavoritesTreeviewComponent } from './media-favorites/media-favorit
 		AllMediaTileviewComponent,
 		AllMediaListviewComponent,
 		AllMediaTreeviewComponent,
-		AllMediaMapviewComponent
+		AllMediaMapviewComponent,
+		MediaFavoritesTileviewComponent
 	],
 	imports: [
+		PagerModule,
 		SharedModule,
 		MediaRoutingModule,
 		TreeViewAllModule,

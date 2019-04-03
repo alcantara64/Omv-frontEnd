@@ -4,7 +4,7 @@ import {GridColumn} from "../../../core/models/grid.column";
 import {Select, Store} from "@ngxs/store";
 import {Observable} from "rxjs";
 import {MediaState} from "../../state/media/media.state";
-import {Media} from "../../../core/models/entity/media";
+import {MediaItem} from "../../../core/models/entity/media";
 import {Router} from "@angular/router";
 
 @Component({
@@ -14,7 +14,7 @@ import {Router} from "@angular/router";
 })
 
 export class MediaFavoritesListviewComponent implements OnInit {
-  @Select(MediaState.getFavoriteMedia) getFavoriteMedia$: Observable<Media[]>;
+  @Select(MediaState.getFavorites) getFavoriteMedia$: Observable<MediaItem[]>;
 
   public favouriteList;
   public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
@@ -41,5 +41,4 @@ export class MediaFavoritesListviewComponent implements OnInit {
   download() {
     this.router.navigate([`/dashboard`])
   }
-
 }
