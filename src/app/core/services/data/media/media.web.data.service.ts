@@ -3,14 +3,20 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {Media} from "../../../models/entity/media";
 import {MediaDataService} from "./media.data.service";
+import { map } from 'rxjs/operators';
+import { History } from 'src/app/core/models/entity/history';
 
 @Injectable({
-    providedIn: 'root'
-  })
-
+  providedIn: 'root'
+})
 export class MediaWebDataService implements MediaDataService {
+  
+  getHistory(id: number): Observable<History[]> {
+    throw new Error("Method not implemented.");
+  }
 
   private paging_batch_size: number = 25;
+  mockUrl = `./assets/mock/`;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -21,9 +27,8 @@ export class MediaWebDataService implements MediaDataService {
   constructor(private httpClient: HttpClient) { }
 
   getMedia(): Observable<Media[]> {
-    let mockUrl = `./assets/mock/media-favorite-listview.json`;
-    let data = this.httpClient.get<Media[]>(mockUrl);
+    return null;
+  } 
 
-    return data;
-  }
+ 
 }

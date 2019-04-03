@@ -1,4 +1,4 @@
-import { GetMedia } from '../../state/media/media.action';
+import { GetFavorites } from '../../state/media/media.action';
 import { Component, OnInit } from '@angular/core';
 import {GridColumn} from "../../../core/models/grid.column";
 import {Select, Store} from "@ngxs/store";
@@ -28,7 +28,7 @@ export class MediaFavoritesListviewComponent implements OnInit {
 
   ngOnInit() {
 
-    this.store.dispatch(new GetMedia());
+    this.store.dispatch(new GetFavorites());
 
     this.getFavoriteMedia$.subscribe(favouriteMedia => {
       this.favouriteList = favouriteMedia;
