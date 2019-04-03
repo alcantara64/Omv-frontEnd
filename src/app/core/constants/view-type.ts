@@ -1,6 +1,6 @@
 export enum ViewType {
-  tree = 'tree',
-  list = 'list',
-  tile = 'tile',
-  map = 'map'
+  TILE = 'tile',
+  LIST = 'list',
+  TREE = 'tree',
+  MAP = 'map'
 }

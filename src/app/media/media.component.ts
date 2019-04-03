@@ -23,7 +23,8 @@ export class MediaComponent extends BaseComponent implements OnInit {
     this.ShowLefNav(false);
    }
 
-  ngOnInit() {  
+  ngOnInit() {
+
   }
   
   switchTabs(tabLink: string) {
@@ -32,7 +33,6 @@ export class MediaComponent extends BaseComponent implements OnInit {
 
   navigateToView(view: string) {
     var url = this.router.url.split('?')[0];
-    console.log('MediaComponent - url split: ', url);
     this.router.navigate([url], { queryParams: { view: view } } );
   }
 }

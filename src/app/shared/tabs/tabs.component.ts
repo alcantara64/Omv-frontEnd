@@ -28,7 +28,8 @@ export class TabsComponent implements OnInit {
   }
 
   setActiveTab(link: string) {
-    let tab = this.tabs.find(x => x.link === link);
+    let url = link.split('?')[0]; //get the current route without the query params
+    let tab = this.tabs.find(x => x.link === url);
     if (tab) {
       this.tabs.map(x => x.isActive = false);
       tab.isActive = true;

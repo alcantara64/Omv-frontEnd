@@ -1,3 +1,4 @@
-<p>
-  media-favorites works!
-</p>
+<app-media-favorites-tileview *ngIf="viewType === 'tile'"></app-media-favorites-tileview>
+<app-media-favorites-listview *ngIf="viewType === 'list'"></app-media-favorites-listview>
+<app-media-favorites-treeview *ngIf="viewType === 'tree'"></app-media-favorites-treeview>
+<app-media-favorites-mapview *ngIf="viewType === 'map'"></app-media-favorites-mapview>

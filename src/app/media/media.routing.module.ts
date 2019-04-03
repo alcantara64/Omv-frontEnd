@@ -18,7 +18,7 @@ const mediaRoutes: Routes = [
     children: [
       { path: '', redirectTo: 'all', pathMatch: 'full' },
       { path: 'all', component: AllMediaComponent },
-      { path: 'favorites', component: MediaFavoritesListviewComponent },
+      { path: 'favorites', component: MediaFavoritesComponent },
       { path: 'archive', component: MediaStreamingArchiveComponent }
     ],
   },

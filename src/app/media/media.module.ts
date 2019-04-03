@@ -23,6 +23,9 @@ import { AllMediaTileviewComponent } from './all-media/all-media-tileview/all-me
 import { AllMediaListviewComponent } from './all-media/all-media-listview/all-media-listview.component';
 import { AllMediaTreeviewComponent } from './all-media/all-media-treeview/all-media-treeview.component';
 import { AllMediaMapviewComponent } from './all-media/all-media-mapview/all-media-mapview.component';
+import { MediaFavoritesMapviewComponent } from './media-favorites/media-favorites-mapview/media-favorites-mapview.component';
+import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorites-tileview/media-favorites-tileview.component';
+import { MediaFavoritesTreeviewComponent } from './media-favorites/media-favorites-treeview/media-favorites-treeview.component';
 
 @NgModule({
 	declarations: [
@@ -31,6 +34,9 @@ import { AllMediaMapviewComponent } from './all-media/all-media-mapview/all-medi
 		MediaStreamingArchiveComponent,
 		MediaFavoritesComponent,
 		MediaFavoritesListviewComponent,
+		MediaFavoritesMapviewComponent,
+		MediaFavoritesTileviewComponent,
+		MediaFavoritesTreeviewComponent,
 		MediaUploadComponent,
 		MediaItemHistoryComponent,
 		MediaItemDetailsComponent,
