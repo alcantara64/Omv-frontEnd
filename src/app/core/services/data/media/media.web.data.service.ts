@@ -22,7 +22,7 @@ export class MediaWebDataService implements MediaDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getMedia(): Observable<MediaItem[]> {
+  getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]> {
     return null;
   } 
 

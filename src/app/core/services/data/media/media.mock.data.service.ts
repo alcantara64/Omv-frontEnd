@@ -7,15 +7,28 @@ import { History } from 'src/app/core/models/entity/history';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root'
+})
 export class MediaMockDataService implements MediaDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getMedia(): Observable<MediaItem[]> {
+  getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]> {
     var url = `./assets/mock/media.json`;
-    let data = this.httpClient.get<MediaItem[]>(url);
+    let data = this.httpClient.get<MediaItem[]>(url).pipe(
+      map(item => {
+        if (pageNumber === 1) {
+          let retVal = item.splice(0,4);          
+          console.log(retVal);
+          return retVal;
+        } else if (pageNumber === 2) {
+          let retVal = item.splice(4, item.length);          
+          console.log(retVal);
+          return retVal;
+        } else{
+          return item;
+        }
+      }));
     return data;
   }
 
@@ -34,7 +47,7 @@ export class MediaMockDataService implements MediaDataService {
     let data = this.httpClient.get<History[]>(url);
     return data;
   }
-  
+
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {
     return of(1);
   }

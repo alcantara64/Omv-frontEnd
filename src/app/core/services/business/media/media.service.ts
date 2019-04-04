@@ -12,8 +12,8 @@ export class MediaService {
 
   constructor(private MediaDataService: MediaDataService) { }
 
-  getMedia(): Observable<MediaItem[]> {
-    return this.MediaDataService.getMedia();
+  getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]> {
+    return this.MediaDataService.getMedia(pageNumber, pageSize);
   }
   
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {

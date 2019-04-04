@@ -63,10 +63,11 @@ export class MediaState {
   }
 
   @Action(GetMedia)
-  getMedia({ getState, setState }: StateContext<MediaStateModel>) {
-    return this.mediaService.getMedia().pipe(
+  getMedia({ getState, setState }: StateContext<MediaStateModel>, {pageNumber, pageSize}: GetMedia){
+    return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(media => {
         const state = getState();
+        console.log('media', media);
         setState({
           ...state,
           media: media,
