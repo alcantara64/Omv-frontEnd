@@ -1,4 +1,4 @@
-<app-list [listData]="favouriteList"
+<app-list [listData]="favoriteMedia$ | async"
           [columns]="columns"
           [showFirstAction]="true"
           [firstActionText]="'Download'"

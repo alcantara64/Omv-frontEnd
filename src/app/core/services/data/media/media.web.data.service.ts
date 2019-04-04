@@ -29,6 +29,10 @@ export class MediaWebDataService implements MediaDataService {
   getMediaItem(id: number): Observable<MediaItem> {
     return null;
   }
+  
+  toggleFavorite(id: number, payload: MediaItem): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
 
   getHistory(id: number): Observable<History[]> {
     return null;

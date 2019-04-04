@@ -12,6 +12,7 @@ export abstract class MediaDataService {
     constructor() { }
 
     abstract getMedia(): Observable<MediaItem[]>; 
+    abstract toggleFavorite(id: number, payload: MediaItem): Observable<any>; 
     abstract getMediaItem(id: number): Observable<MediaItem>;
     abstract getHistory(id: number): Observable<History[]>;
 }

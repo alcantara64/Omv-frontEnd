@@ -1,4 +1,4 @@
-import { GetHistory, GetMediaItem } from './media.action';
+import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite } from './media.action';
 import { tap } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
@@ -6,9 +6,11 @@ import { GetMedia as GetMedia } from './media.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 
 export class MediaStateModel {
-  historyItems: any[];
-  allMedia: MediaItem[];
+  media: MediaItem[];
+  favorites: MediaItem[];
   currentMediaItem: MediaItem;
+  historyItems: any[];
+  totalMedia: number;
 }
 
 const initialMediaItem: MediaItem = {
@@ -24,9 +26,11 @@ const initialMediaItem: MediaItem = {
 @State<MediaStateModel>({
   name: 'media',
   defaults: {
+    media: [],
+    favorites: [],
+    currentMediaItem: initialMediaItem,
     historyItems: [],
-    allMedia: [],
-    currentMediaItem: initialMediaItem
+    totalMedia: 0
   }
 })
 
@@ -35,7 +39,7 @@ export class MediaState {
 
   @Selector()
   static getFavorites(state: MediaStateModel) {
-    return state.allMedia.filter(x => x.isFavorite);
+    return state.favorites;
   }
 
   @Selector()
@@ -44,8 +48,8 @@ export class MediaState {
   }
 
   @Selector()
-  static getAll(state: MediaStateModel) {
-    return state.allMedia;
+  static getMedia(state: MediaStateModel) {
+    return state.media;
   }
 
   @Selector()
@@ -53,15 +57,9 @@ export class MediaState {
     return state.currentMediaItem;
   }
 
-  @Action(GetHistory)
-  getHistoryMedia({ getState, setState }: StateContext<MediaStateModel>, { id }: GetHistory) {
-    return this.mediaService.getHistory(id).pipe(tap(media => {
-      const state = getState();
-      setState({
-        ...state,
-        historyItems: media
-      });
-    }));
+  @Selector()
+  static getTotalMedia(state: MediaStateModel) {
+    return state.totalMedia;
   }
 
   @Action(GetMedia)
@@ -71,7 +69,8 @@ export class MediaState {
         const state = getState();
         setState({
           ...state,
-          allMedia: media
+          media: media,
+          totalMedia: media ? media.length : 0
         });
       })
     );
@@ -88,5 +87,45 @@ export class MediaState {
         });
       })
     );
+  }
+
+  @Action(GetFavorites)
+  getFavorites({ getState, setState }: StateContext<MediaStateModel>) {
+    return this.mediaService.getMedia().pipe(
+      tap(media => {
+        const state = getState();
+        let favorites = media.filter(x => x.isFavorite);
+        setState({
+          ...state,
+          favorites: favorites,
+          totalMedia: favorites ? favorites.length : 0
+        });
+      })
+    );
+  }
+
+  @Action(ToggleFavorite)
+  toggleFavorite({ getState, setState }: StateContext<MediaStateModel>, { id, payload }: ToggleFavorite) {
+    return this.mediaService.toggleFavorite(id, payload).pipe(
+      tap(result => {
+        // const state = getState();
+        // let fs = state.
+        // setState({
+        //   ...state,
+        //   favorites: favorites
+        // });
+      })
+    );
+  }
+
+  @Action(GetHistory)
+  getHistory({ getState, setState }: StateContext<MediaStateModel>, { id }: GetHistory) {
+    return this.mediaService.getHistory(id).pipe(tap(media => {
+      const state = getState();
+      setState({
+        ...state,
+        historyItems: media
+      });
+    }));
   }
 }

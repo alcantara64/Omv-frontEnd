@@ -1,4 +1,4 @@
-<app-list [listData]="mediaList"
+<app-list [listData]="media$ | async"
           [columns]="columns"
           [showFirstAction]="true"
           [firstActionText]="'Download'"

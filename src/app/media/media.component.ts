@@ -2,7 +2,9 @@ import { BaseComponent } from './../shared/base/base.component';
 import { Component, OnInit } from '@angular/core';
 import { Tab } from '../core/models/tab';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { Store, Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { MediaState } from './state/media/media.state';
 
 @Component({
   selector: 'app-media',
@@ -12,11 +14,13 @@ import { Store } from '@ngxs/store';
 export class MediaComponent extends BaseComponent implements OnInit {
 
   mediaTabs: Tab[] = [
-    { link: '/media/all', name: 'All Media', isActive: true  },
-    { link: '/media/favorites', name: 'Favorites' },
-    { link: '/media/archive', name: 'Streaming Archive' }
+    { link: '/media/all', query: 'tile', name: 'All Media', isActive: true  },
+    { link: '/media/favorites', query: 'tile', name: 'Favorites' },
+    { link: '/media/archive', query: 'tile', name: 'Streaming Archive' }
   ];
-  currentRoute: any;  
+  currentRoute: any;
+
+  @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
 
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
     super(store);
@@ -24,11 +28,10 @@ export class MediaComponent extends BaseComponent implements OnInit {
    }
 
   ngOnInit() {
-
   }
   
   switchTabs(tabLink: string) {
-    this.router.navigate([ tabLink ]);
+    this.router.navigate([ tabLink ], { queryParams: { view : 'tile' } });
   }
 
   navigateToView(view: string) {
