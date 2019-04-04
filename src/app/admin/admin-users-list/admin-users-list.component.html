@@ -35,7 +35,9 @@
               [toolbarActionOne]="statusChange" [toolbarActionTwo]="'Assign User to Group'"
               (firstAction)="changeUsersStatus($event)" (secondAction)="assignUsersToGroups($event)"
               (secondNavigateAction)="edit($event)"
-              [showSecondAction]="true" [checkField]="'userId'">
+              [showSecondAction]="true"
+              [secondActionText]="editIcon"
+              [checkField]="'userId'">
     </app-list>
   </div>
 

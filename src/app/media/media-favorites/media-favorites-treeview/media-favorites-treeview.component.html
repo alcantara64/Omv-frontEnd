@@ -1,3 +1,12 @@
-<p>
-  media-favorites-treeview works!
-</p>
+<ejs-treegrid *ngIf='!isFileSelected || !isDestinationSelected' [dataSource]='mediaFavoriteDate' [treeColumnIndex]='0' (rowSelected)="rowSelected($event)"
+              [selectionSettings]='selectionOptions' [allowSorting]='true' parentIdMapping='parentID' idMapping='id'>
+  <e-columns>
+    <e-column field='' headerText='' width='100'>
+      <ng-template #template>
+        <span class='e-icons e-folder' style='color: #0097A9 !important'></span>
+      </ng-template>
+    </e-column>
+    <e-column field='name' headerText='Name' textAlign='Left'></e-column>
+    <e-column field='date' headerText='Date' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-treegrid>
