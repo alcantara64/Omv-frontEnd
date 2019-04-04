@@ -1,0 +1,20 @@
+[
+  {
+    "fieldName": "Platform",
+    "type": "text",
+    "optionsId": null,
+    "optionsName": null,
+    "value": "",
+    "isRequired": true,
+    "order": 0
+  },
+  {
+    "fieldName": "Country",
+    "type": "select",
+    "optionsId": "2",
+    "optionsName": "CountryList",
+    "value": "",
+    "isRequired": false,
+    "order": 1
+  }  
+]

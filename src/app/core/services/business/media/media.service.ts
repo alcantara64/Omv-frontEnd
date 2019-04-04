@@ -27,4 +27,12 @@ export class MediaService {
   getHistory(id: number): Observable<History[]> {
     return this.MediaDataService.getHistory(id);
   }
+
+  getMetadata(id: number): Observable<any[]> {
+    return this.MediaDataService.getMetadata(id);
+  }
+
+  getMetadataOptions(id: any): Observable<any[]> {
+    return this.MediaDataService.getMetadataOptions(id);
+  }
 }

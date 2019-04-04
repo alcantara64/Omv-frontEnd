@@ -16,11 +16,17 @@ import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { ReactiveFormsModule }          from '@angular/forms';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metadata/dynamic-form-metadata.component';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     AppHeaderComponent,
+    BreadcrumbComponent,
+    DynamicFormComponent,
+    DynamicFormMetadataComponent,
     LeftNavComponent,
     TabsComponent, 
     ListComponent,
@@ -28,8 +34,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     EditComponent,
     MapViewComponent,
     TreeViewComponent,
-    TileViewComponent,
-    BreadcrumbComponent
+    TileViewComponent     
   ],
   imports: [
     CommonModule,
@@ -39,12 +44,15 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     CheckBoxModule,
     RouterModule,
     GridAllModule,
-    ListViewModule
+    ListViewModule,
+    ReactiveFormsModule,
   ],
   exports: [
     CommonModule,
     AppHeaderComponent,
     BreadcrumbComponent,
+    DynamicFormComponent,
+    DynamicFormMetadataComponent,
     LeftNavComponent,
     PageNotFoundComponent,
     ListComponent,

@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
   })
-export class MediaMockDataService implements MediaDataService {
+export class MediaMockDataService implements MediaDataService { 
 
   constructor(private httpClient: HttpClient) { }
 
@@ -37,5 +37,21 @@ export class MediaMockDataService implements MediaDataService {
   
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {
     return of(1);
+  }
+
+  getMetadata(id: number): Observable<any[]> {
+    var url = `./assets/mock/metadata.json`;
+    let data = this.httpClient.get<any[]>(url);
+    return data;
+  }
+
+  getMetadataOptions(id: any): Observable<any[]> {
+    var url = `./assets/mock/metadata-list.json`;
+    let data = this.httpClient.get<any[]>(url).pipe(
+      map(options => {
+        return options.filter(x => x.optionsId === id);
+      })
+    );
+    return data;
   }
 }

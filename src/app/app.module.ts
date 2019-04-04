@@ -54,7 +54,8 @@ import { GridAllModule } from '@syncfusion/ej2-angular-grids';
   ],
   providers: [
     SettingsService,
-    AdminUsersService
+    AdminUsersService,
+    
    ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA , NO_ERRORS_SCHEMA]
