@@ -4,12 +4,12 @@
       <button class="button-cls sidebar-heading dashboard-texts " (click)="setActiveTab(dashboardLink)">
         <a class=" valign"> Admin Dashboard </a>
       </button>
-      <button class="collapsible" (click)="mediaMenuClicked()">
+      <button class="collapsible" (click)="mediaMenuClicked()"  [ngClass]="isMediaMenuOpen ? 'active' : 'sample'">
         Media
       </button>
       <div class="content" *ngIf="isMediaMenuOpen">
         <ul>
-          <li class="cursor media-child-text">
+          <li class="cursor media-child-text" (click)="setActiveTab(mediaUploadsLink)" [ngClass]="{ 'selected-background': isMediaUploadsActive }">
             Uploads
           </li>
           <li class="media-child-text cursor">

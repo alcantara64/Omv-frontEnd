@@ -9,6 +9,23 @@ import { Router } from '@angular/router';
 })
 export class LeftNavComponent implements OnInit {
 
+  isDashboardActive = false;
+
+  isMediaMenuOpen: boolean;
+  isMediaUploadsActive: boolean;
+  isMediaFolderStructureActive: boolean;
+  isMediaBulkUploaderActive: boolean;
+  isMediaMetadataDetailsActive: boolean;
+  mediaUploadsLink = '/admin/media/uploads';
+  newMediaUploadsLink = '/admin/media/uploads/new';
+  inProgressMediaUploadsLink = '/admin/media/uploads/in-progress';
+  historyMediaUploadsLink = '/admin/media/uploads/history';
+
+  isWorkPlanningMenuOpen: boolean;
+
+  isUsersMenuOpen: boolean;
+  isUsersActive: boolean;
+  isGroupsActive: boolean;
   dashboardLink = '/admin/dashboard';
   usersLink = '/admin/users';
   activeUsersLink = '/admin/users/active';
@@ -17,13 +34,6 @@ export class LeftNavComponent implements OnInit {
   groupsLink = '/admin/groups';
   activeGroupsLink = '/admin/groups/active';
   disabledGroupsLink = '/admin/groups/disabled';
-
-  isMediaMenuOpen: boolean = false;
-  isWorkPlanningMenuOpen: boolean = false;
-  isUsersMenuOpen: boolean = false;
-  isDashboardActive = false;
-  isUsersActive: boolean = false;
-  isGroupsActive: boolean = false;
 
   constructor(private router: Router) { }
 
@@ -52,27 +62,30 @@ export class LeftNavComponent implements OnInit {
     switch(url) {
       case this.dashboardLink:
         this.isDashboardActive = true;
-        return;
+        break;
+      case this.mediaUploadsLink:
+        this.isMediaMenuOpen = true;
+        this.isMediaUploadsActive = true;     
       case this.usersLink:
       case this.activeUsersLink:
       case this.unassignedUsersLink:
       case this.disabledUsersLink:
         this.isUsersMenuOpen = true;
         this.isUsersActive = true;
-        return;
+        break;
       case this.groupsLink:
       case this.activeGroupsLink:
       case this.disabledGroupsLink:
         this.isUsersMenuOpen = true;
         this.isGroupsActive = true;
-        return;
+        break;      
       
       default:
-        return;
+        break;
     }
   }
 
   clearActiveSelections() {
-    this.isUsersActive = this.isGroupsActive = false;
+    this.isUsersActive = this.isGroupsActive = this.isDashboardActive = this.isMediaUploadsActive = false;
   }
 }

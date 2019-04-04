@@ -20,7 +20,9 @@
     <app-list [listData]="groups" [columns]="columns" [selectedRecords]="selectedGroups" [isToolBarVisible]="true"
               [toolbarActionOne]="statusChange" (firstAction)="changeGroupStatus($event)"
               (secondNavigateAction)="edit($event)"
-              [showSecondAction]="true">
+              [showSecondAction]="true"
+              [secondActionText]="editIcon"
+    >
     </app-list>
   </div>
 </div>

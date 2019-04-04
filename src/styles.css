@@ -447,4 +447,9 @@ button{
 .e-pencil:before{
   content:'\ea9a';
 }
+
+.e-folder:before{
+  content:'\e609';
+}
+
 /************ End Syncfusion Icons **************/
