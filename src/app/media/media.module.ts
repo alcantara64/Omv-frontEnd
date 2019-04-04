@@ -49,8 +49,7 @@ import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
 		AllMediaListviewComponent,
 		AllMediaTreeviewComponent,
 		AllMediaMapviewComponent,
-		MediaFavoritesTileviewComponent,
-    // PdfViewerComponent,
+		MediaFavoritesTileviewComponent
 	],
 	imports: [
 		PagerModule,
