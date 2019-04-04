@@ -22,6 +22,8 @@ import { GetPermissions } from '../state/admin-permissions/admin-permissions.act
 })
 export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
+  public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
+
   selectedGroups: Group[];
   groups: Group[];
   columns: GridColumn[] = [
