@@ -22,12 +22,12 @@ export class MediaFavoritesTreeviewComponent implements OnInit {
   constructor(private store: Store, private mediaService: MediaService) { }
 
   ngOnInit() {
-    this.mediaService.getMediaTreeData().subscribe(
-      data =>{
-        this.data = data;
-        console.log(this.data);
-      }
-    );
+    // this.mediaService.getMediaTreeData().subscribe(
+    //   data =>{
+    //     this.data = data;
+    //     console.log(this.data);
+    //   }
+    // );
   }
 
 }

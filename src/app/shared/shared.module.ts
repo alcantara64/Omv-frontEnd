@@ -16,11 +16,11 @@ import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import * as pdfViewerComponent  from './pdf-viewer/pdf-viewer.component';
-import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
+import { PdfViewerModule} from "@syncfusion/ej2-angular-pdfviewer";
 import { ReactiveFormsModule }          from '@angular/forms';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metadata/dynamic-form-metadata.component';
+import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,6 @@ import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metada
     TreeViewComponent,
     TileViewComponent,
     BreadcrumbComponent,
-    pdfViewerComponent.PdfViewerComponent,
     PdfViewerComponent
   ],
   imports: [
@@ -51,6 +50,7 @@ import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metada
     GridAllModule,
     ListViewModule,
     ReactiveFormsModule,
+    PdfViewerModule
   ],
   exports: [
     CommonModule,
@@ -66,7 +66,8 @@ import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metada
     EditComponent,
     MapViewComponent,
     TreeViewComponent,
-    TileViewComponent
+    TileViewComponent,
+    PdfViewerComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

@@ -37,7 +37,7 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
     this.componentActive = false;
   }
 
-  download() {
+  download(arg: any) {
     this.router.navigate([`/dashboard`])
   }
 
