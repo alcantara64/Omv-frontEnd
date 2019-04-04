@@ -17,6 +17,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
     { link: '/media/archive', name: 'Streaming Archive' }
   ];
   currentRoute: any;  
+  showtabs
 
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
     super(store);
@@ -34,5 +35,8 @@ export class MediaComponent extends BaseComponent implements OnInit {
   navigateToView(view: string) {
     var url = this.router.url.split('?')[0];
     this.router.navigate([url], { queryParams: { view: view } } );
+  }
+  onIconClick(tab){
+    this.showtabs = tab;
   }
 }
