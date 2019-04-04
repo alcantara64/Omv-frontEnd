@@ -59,6 +59,9 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
     { type: '', headerText: 'Group', width: '150', field: 'roleNames' }
   ];
 
+  public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
+
+
   @Select(AdminUserState.getActiveUsers) activeUsers$: Observable<User[]>;
   @Select(AdminUserState.getUnassignedUsers) unassignedUsers$: Observable<User[]>;
   @Select(AdminUserState.getDisabledUsers) disabledUsers$: Observable<User[]>;
