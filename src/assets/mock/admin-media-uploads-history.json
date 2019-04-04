@@ -5,7 +5,8 @@
         "destination": "South America",
         "date": "0/1/2019",
         "size": "1GB",
-        "files": "100"
+        "file": "100",
+        "status": "<img src=../../../assets/images/rejected.png>"
     },
     {
         "id": 2,
@@ -13,7 +14,8 @@
         "destination": "South America/T&T",
         "date": "0/1/2019",
         "size": "2GB",
-        "files": "60"
+        "file": "60",
+        "status": "<img src=../../../assets/images/attention.png>"
     },
     {
         "id": 3,
@@ -21,7 +23,8 @@
         "destination": "Trinidad",
         "date": "0/1/2019",
         "size": "3GB",
-        "files": "66"
+        "file": "66",
+        "status": "<img src=../../../assets/images/rejected.png>"
     },
     {
         "id": 4,
@@ -29,7 +32,8 @@
         "destination": "South America",
         "date": "0/1/2019",
         "size": "1GB",
-        "files": "86"
+        "file": "86",
+        "status": "<img src=../../../assets/images/attention.png>"
     },
     {
         "id": 5,
@@ -37,6 +41,7 @@
         "destination": "Trinidad",
         "date": "0/1/2019",
         "size": "2GB",
-        "files": "94"
+        "file": "94",
+        "status": "<img src=../../../assets/images/rejected.png>"
     }
 ]
