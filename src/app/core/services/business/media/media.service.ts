@@ -4,6 +4,7 @@ import {MediaDataService} from "../../data/media/media.data.service";
 import { History } from 'src/app/core/models/entity/history';
 
 import { MediaItem } from 'src/app/core/models/entity/media';
+import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ export class MediaService {
 
   constructor(private MediaDataService: MediaDataService) { }
 
-  getMedia(): Observable<MediaItem[]> {
-    return this.MediaDataService.getMedia();
+  getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]> {
+    return this.MediaDataService.getMedia(pageNumber, pageSize);
   }
   
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {
@@ -28,6 +29,10 @@ export class MediaService {
     return this.MediaDataService.getHistory(id);
   }
 
+  getMediaTreeData(): Observable<MediaTreeGrid[]> {
+    return this.MediaDataService.getMediaTreeData();
+  }
+  
   getMetadata(id: number): Observable<any[]> {
     return this.MediaDataService.getMetadata(id);
   }

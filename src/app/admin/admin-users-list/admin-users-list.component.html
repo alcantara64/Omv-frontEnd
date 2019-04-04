@@ -32,7 +32,7 @@
 
   <div class="">
     <app-list [listData]="users" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true"
-              [toolbarActionOne]="statusChange" [toolbarActionTwo]="'Assign User to Group'"
+              [toolbarActionOne]="statusChange" [toolbarActionTwo]="'Assign to Groups'"
               (firstAction)="changeUsersStatus($event)" (secondAction)="assignUsersToGroups($event)"
               (secondNavigateAction)="edit($event)"
               [showSecondAction]="true"

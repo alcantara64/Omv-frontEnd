@@ -1,3 +1,34 @@
-<p>
-  tree-view works!
-</p>
+<ejs-treegrid [dataSource]='data' [treeColumnIndex]='0' (rowSelected)="rowSelected($event)"
+              [selectionSettings]='selectionOptions' [allowSorting]='true' parentIdMapping='parentID' idMapping='id'>
+  <!-- <e-columns>
+    <e-column field='' headerText='' width='100'>
+      <ng-template #template>
+        <span class='e-icons e-folder' style='color: #0097A9 !important'></span>
+      </ng-template>
+    </e-column>
+    <e-column field='name' headerText='Name' textAlign='Left'></e-column>
+    <e-column field='date' headerText='Date' textAlign='Left'></e-column>
+  </e-columns> -->
+
+  <e-columns>
+    <ng-template #template ngFor let-column [ngForOf]="columns">
+      <e-column [field]="column.field" [type]="column.type" [headerText]="column.headerText" [width]="column.width"
+        [textAlign]="column.textAlign">
+      </e-column>
+
+    </ng-template>
+
+    <!-- <e-column *ngIf="showFirstAction" field='' headerText='' width='100'>
+      <ng-template #template>
+        <a class="link" (click)="performFirstAction($event)" [innerHTML]="firstActionText" style="text-decoration: none!important"></a>
+      </ng-template>
+    </e-column>
+
+    <e-column *ngIf="showSecondAction" field='' headerText='' width='70'>
+      <ng-template #template>
+        <a class="link" (click)="performSecondAction($event)" [innerHTML]="secondActionText" style="text-decoration: none!important"></a>
+      </ng-template>
+    </e-column> -->
+  </e-columns>
+</ejs-treegrid>
+  

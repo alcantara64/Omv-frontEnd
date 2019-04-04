@@ -11,7 +11,7 @@ import {PdfViewerComponent} from "./shared/pdf-viewer/pdf-viewer.component";
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'media/all',
+    redirectTo: 'admin/users/active',
     pathMatch: 'full'
   },
   {
