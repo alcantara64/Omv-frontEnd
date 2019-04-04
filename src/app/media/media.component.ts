@@ -40,6 +40,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
     var url = this.router.url.split('?')[0];
     this.router.navigate([url], { queryParams: { view: view } } );
   }
+  
   onIconClick(tab){
     this.showtabs = tab;
   }

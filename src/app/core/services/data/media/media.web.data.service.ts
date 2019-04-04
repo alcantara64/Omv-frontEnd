@@ -37,4 +37,12 @@ export class MediaWebDataService implements MediaDataService {
   getHistory(id: number): Observable<History[]> {
     return null;
   }
+  
+  getMetadata(id: number): Observable<any[]> {
+    throw new Error("Method not implemented.");
+  }
+
+  getMetadataOptions(id: any): Observable<any[]> {
+    throw new Error("Method not implemented.");
+  }
 }

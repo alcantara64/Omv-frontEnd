@@ -15,4 +15,6 @@ export abstract class MediaDataService {
     abstract toggleFavorite(id: number, payload: MediaItem): Observable<any>; 
     abstract getMediaItem(id: number): Observable<MediaItem>;
     abstract getHistory(id: number): Observable<History[]>;
+    abstract getMetadata(id: number): Observable<any[]>;
+    abstract getMetadataOptions(id: string): Observable<any[]>;
 }
