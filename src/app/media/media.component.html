@@ -24,7 +24,7 @@
 <!-- Filter --ignore -->
 
 <!-- Toolbar -->
-<div style="display:inline;">
+<div style="display:block; margin-bottom: 1.5em">
   <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total: {{ totalMedia$ | async }} </label>
   <span style="padding-top:1rem;">
     <i (click)="navigateToView('tile')">
@@ -40,15 +40,12 @@
       <img src="../../assets/images/noun-map-677579.png">
     </i>
   </span>
-</div>
-<label style="display:inline; float: right">
-  <label class="media-label" style="display:inline; margin: 16px 10px">Selected Files:</label>
+  <div style="float: right">
+    <label class="media-label" style="display:inline; margin: 16px 10px">Selected Files:</label>
     <button class="media-button-small" style="display:inline; margin: 16px 10px">Sync Videos</button>
     <button class="media-button-small" style="display:inline; margin: 16px 10px">Download All</button>
     <button class="media-button-small" style="display:inline; margin: 16px 10px">Add to Playlist</button>
-</label>
+  </div>
+</div>
 
-
-<!-- Views -->
-<br /><br /><br />
 <router-outlet></router-outlet>

@@ -49,6 +49,8 @@ import { AdminMediaAccessWebDataService } from '../core/services/data/admin-medi
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 import { AdminPermissionState } from './state/admin-permissions/admin-permissions.state';
 import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notifications';
+import { AdminMediaUploadsListComponent } from './admin-media-uploads-list/admin-media-uploads-list.component';
+import { AdminMediaUploadsTabsComponent } from './admin-media-uploads-list/admin-media-uploads-tabs/admin-media-uploads-tabs.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notificatio
     AdminUserGroupsComponent,
     AdminGroupPermissionsComponent,
     AdminGroupMembersComponent,
-    AdminGroupMediaAccessComponent
+    AdminGroupMediaAccessComponent,
+    AdminMediaUploadsListComponent,
+    AdminMediaUploadsTabsComponent
   ],
   imports: [
     SharedModule,
