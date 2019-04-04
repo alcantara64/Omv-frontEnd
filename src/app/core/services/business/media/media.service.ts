@@ -4,6 +4,7 @@ import {MediaDataService} from "../../data/media/media.data.service";
 import { History } from 'src/app/core/models/entity/history';
 
 import { MediaItem } from 'src/app/core/models/entity/media';
+import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,9 @@ export class MediaService {
   
   getHistory(id: number): Observable<History[]> {
     return this.MediaDataService.getHistory(id);
+  }
+
+  getMediaTreeData(): Observable<MediaTreeGrid[]> {
+    return this.MediaDataService.getMediaTreeData();
   }
 }

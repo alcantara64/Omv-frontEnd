@@ -1,4 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Media } from 'src/app/core/models/media';
+import { Store, Selector, Select } from '@ngxs/store';
+import { GetMedia } from '../../state/media/media.action';
+import { MediaState } from '../../state/media/media.state';
+import { Observable } from 'rxjs';
+import { GridColumn } from 'src/app/core/models/grid.column';
+import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
+import { HttpClient } from '@angular/common/http';
+import { MediaService } from 'src/app/core/services/business/media/media.service';
 
 @Component({
   selector: 'app-media-favorites-treeview',
@@ -6,71 +15,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./media-favorites-treeview.component.css']
 })
 export class MediaFavoritesTreeviewComponent implements OnInit {
-
-  public mediaFavoriteDate: Object[];
-
-  constructor() { }
+  public data: MediaTreeGrid[];
+  @Select(MediaState.getMedia) mediaData$ : Observable<MediaTreeGrid[]>;
+ @Select(MediaState.getTotalMedia) total$: Observable<number>;
+  
+  constructor(private store: Store, private mediaService: MediaService) { }
 
   ngOnInit() {
-    this.mediaFavoriteDate =
-      [
-        {
-          id: 1,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12"
-        },
-        {
-          id: 2,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12",
-          parentID: 1
-        },
-        {
-          id: 3,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12",
-          parentID: 2
-        },
-        {
-          id: 4,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12",
-          parentID: 3
-        },
-        {
-          id: 5,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12",
-          parentID: 3
-        },
-        {
-          id: 6,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12",
-          parentID: 3
-        },
-        {
-          id: 7,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12",
-          parentID: 3
-        },
-        {
-          id: 8,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12"
-        },
-        {
-          id: 9,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12"
-        },
-        {
-          id: 10,
-          name: "Parent Folder Title",
-          date: "Jan 30, 2018 10:15:12"
-        }
-      ];
+    this.mediaService.getMediaTreeData().subscribe(
+      data =>{
+        this.data = data;
+        console.log(this.data);
+      }
+    );
   }
 
 }

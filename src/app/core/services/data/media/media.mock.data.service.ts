@@ -5,11 +5,13 @@ import { Observable, of } from 'rxjs';
 import { MediaDataService } from './media.data.service';
 import { History } from 'src/app/core/models/entity/history';
 import { map } from 'rxjs/operators';
+import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaMockDataService implements MediaDataService {
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -50,5 +52,11 @@ export class MediaMockDataService implements MediaDataService {
 
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {
     return of(1);
+  }
+
+  getMediaTreeData(): Observable<MediaTreeGrid[]> {
+    var url = `./assets/mock/media-treeview.json`;
+    let data = this.httpClient.get<MediaTreeGrid[]>(url);
+    return data;
   }
 }

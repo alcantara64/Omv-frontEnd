@@ -5,11 +5,13 @@ import { MediaDataService} from "./media.data.service";
 import { map } from 'rxjs/operators';
 import { History } from 'src/app/core/models/entity/history';
 import { MediaItem } from 'src/app/core/models/entity/media';
+import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaWebDataService implements MediaDataService {
+
   
   private paging_batch_size: number = 25;
   mockUrl = `./assets/mock/`;
@@ -36,5 +38,8 @@ export class MediaWebDataService implements MediaDataService {
 
   getHistory(id: number): Observable<History[]> {
     return null;
+  }
+  getMediaTreeData(): Observable<MediaTreeGrid[]> {
+    throw new Error("Method not implemented.");
   }
 }

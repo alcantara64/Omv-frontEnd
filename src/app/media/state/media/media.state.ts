@@ -61,6 +61,7 @@ export class MediaState {
   static getTotalMedia(state: MediaStateModel) {
     return state.totalMedia;
   }
+  
 
   @Action(GetMedia)
   getMedia({ getState, setState }: StateContext<MediaStateModel>, {pageNumber, pageSize}: GetMedia){
