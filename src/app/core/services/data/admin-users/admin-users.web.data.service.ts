@@ -161,27 +161,32 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
       var _response = automapper.map(response, User, response);
       console.log('AdminUsersWebDataService - createUser response: ', _response);
       return _response;
-    }), catchError(e => {
-        console.log('AdminUsersWebDataService - createUser error: ', e);
-        return of(null);
-      })
+    })
     );
   }
 
   updateUser(id: number, payload: User) {
-    var requestUri = environment.api.baseUrl + `/v1/users/${id}`;
+    let requestUri = environment.api.baseUrl + `/v1/users/${id}`;
     console.log('AdminUsersWebDataService - requestUri: ', requestUri);
 
-    automapper
-      .createMap(payload, User_UpdateInputDTO)
-      .forMember('userId', function (opts) { opts.mapFrom('UserId'); })
-      .forMember('userName', function (opts) { opts.mapFrom('UserName'); })
-      .forMember('emailAddress', function (opts) { opts.mapFrom('EmailAddress'); })
-      .forMember('firstName', function (opts) { opts.mapFrom('FirstName'); })
-      .forMember('lastName', function (opts) { opts.mapFrom('LastName'); })
-      .forMember('status', function (opts) { opts.mapFrom('Status'); })
+    const request = new User_UpdateInputDTO();
+    request.UserId = payload.userId;
+    request.UserName = payload.userName;
+    request.EmailAddress = payload.emailAddress;
+    request.FirstName = payload.firstName;
+    request.LastName = payload.lastName;
+    request.Status = payload.status;
 
-    var request = automapper.map(payload, User_UpdateInputDTO, payload);
+    // automapper
+    //   .createMap(payload, User_UpdateInputDTO)
+    //   .forMember('userId', function (opts) { opts.mapFrom('UserId'); })
+    //   .forMember('userName', function (opts) { opts.mapFrom('UserName'); })
+    //   .forMember('emailAddress', function (opts) { opts.mapFrom('EmailAddress'); })
+    //   .forMember('firstName', function (opts) { opts.mapFrom('FirstName'); })
+    //   .forMember('lastName', function (opts) { opts.mapFrom('LastName'); })
+    //   .forMember('status', function (opts) { opts.mapFrom('Status'); })
+
+    // var request = automapper.map(payload, User_UpdateInputDTO, payload);
     console.log('AdminUsersWebDataService - updateUser: ', request);
 
     return this.httpClient.put(requestUri, request).pipe(
@@ -216,12 +221,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
     var request = new User_InsertRoleInputDTO();
     request.RoleIds = payload;
 
-    return this.httpClient.post(requestUri, request).pipe(
-      catchError(e => {
-        console.log('AdminUsersWebDataService - updateGroups error: ', e);
-        return of(null);
-      })
-    );
+    return this.httpClient.post(requestUri, request);
   }
 
   getGroups(userid: number): Observable<Group[]> {

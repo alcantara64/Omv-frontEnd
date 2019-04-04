@@ -160,6 +160,8 @@ export class AdminUserState {
           ...state,
           currentUserId: user.userId
         });
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
   }
@@ -169,6 +171,8 @@ export class AdminUserState {
     return this.adminUserService.updateUser(id, payload).pipe(
       tap(user => {
         ctx.dispatch(new DisplayToastMessage("User updated successfully"));
+      },(err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
   }
@@ -176,7 +180,7 @@ export class AdminUserState {
   @Action(UpdateUserGroups)
   updateGroups(ctx: StateContext<AdminUserStateModel>, { userid, payload, isAddRoles, refreshList }: UpdateUserGroups) {
     return this.adminUserService.updateGroups(userid, payload, isAddRoles).pipe(
-      tap(() => {
+      tap((response) => {
         if (refreshList) {
           ctx.dispatch(new DisplayToastMessage("Groups were updated successfully."));
           ctx.dispatch(new GetUsers());
@@ -185,8 +189,9 @@ export class AdminUserState {
           var state = ctx.getState();
           var user = state.currentUser;
           ctx.dispatch(new DisplayToastMessage(`${user.displayName}'s groups were updated successfully.`));
-        }
-      })
+        }}, (err) => {
+          ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        })
     );
   }
 
@@ -194,12 +199,13 @@ export class AdminUserState {
   disableUser(ctx: StateContext<AdminUserStateModel>, { id, payload, isMultiple, refreshList }: DisableUser) {
     payload.status = 0;
     this.adminUserService.updateUser(id, payload).subscribe(user => {
+      console.log('AdminUserState - disableUser: response ', user);
       if (!isMultiple) {
         ctx.dispatch(new DisplayToastMessage(`${user.displayName} was disabled successfully.`));
       }
       if (refreshList) {
         ctx.dispatch(new GetUsers());
-        ctx.dispatch(new DisplayToastMessage("Successfully disabling user(s)"));
+        ctx.dispatch(new DisplayToastMessage("Successfully disabled user(s)"));
       }
     }, err => {
       ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
@@ -217,6 +223,8 @@ export class AdminUserState {
         ctx.dispatch(new GetUsers());
         ctx.dispatch(new DisplayToastMessage("Successfully enabling user(s)"));
       }
+    }, err => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     });
   }
 

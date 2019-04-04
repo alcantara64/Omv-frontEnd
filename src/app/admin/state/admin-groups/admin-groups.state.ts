@@ -14,6 +14,9 @@ import { MediaAccess } from 'src/app/core/models/media-access';
 import { Permission } from 'src/app/core/enum/permission';
 import { Directory_GetAllOutputDTO } from 'src/app/core/dtos/output/directories/Directory_GetAllOutputDTO';
 import { DisplayToastMessage } from 'src/app/state/app.actions';
+import { ToastType } from 'src/app/core/enum/toast';
+import { formatDate } from '@angular/common';
+import { DateService } from 'src/app/core/services/business/dates/date.service';
 
 
 export class AdminGroupStateModel {
@@ -103,29 +106,39 @@ export class AdminGroupState {
   //#endregion
 
   constructor(private adminGroupService: AdminGroupsService,
-    private adminMediaAccessService: AdminMediaAccessService) { }
+    private adminMediaAccessService: AdminMediaAccessService,
+    private dateService: DateService) { }
 
   //#region A C T I O N S
 
   @Action(GetGroups)
-  getGroups({ getState, setState }: StateContext<AdminGroupStateModel>) {
+  getGroups(ctx: StateContext<AdminGroupStateModel>) {
     return this.adminGroupService.getGroups().pipe(tap(groups => {
-      const state = getState();
-      setState({
+      const state = ctx.getState();
+
+      groups.map(group => {
+        group.modifiedOnString = this.dateService.formatToString(group.modifiedOn);
+      });
+
+      ctx.setState({
         ...state,
         groups: groups,
       });
+    }, (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     }));
   }
 
   @Action(GetGroup)
-  getGroup({ getState, setState }: StateContext<AdminGroupStateModel>, { id }: GetGroup) {
+  getGroup(ctx: StateContext<AdminGroupStateModel>, { id }: GetGroup) {
     return this.adminGroupService.getGroup(id).pipe(tap(group => {
-      const state = getState();
-      setState({
+      const state = ctx.getState();
+      ctx.setState({
         ...state,
         currentGroup: group ? group : null
       });
+    }, (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     }));
   }
 
@@ -148,6 +161,8 @@ export class AdminGroupState {
           ...state,
           currentGroupId: group.id
         });
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
   }
@@ -155,8 +170,12 @@ export class AdminGroupState {
   @Action(UpdateGroup)
   updateGroup(ctx: StateContext<AdminGroupStateModel>, { payload, id }: UpdateGroup) {
     ctx.dispatch(new DisplayToastMessage('Group updated successfully.'));
-    return this.adminGroupService.updateGroup(id, payload);
-      // ctx.dispatch(new GetGroups());
+    return this.adminGroupService.updateGroup(id, payload).pipe(
+      () => { }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      })
+    // ctx.dispatch(new GetGroups());
+
   }
 
   @Action(DisableGroup)
@@ -165,9 +184,11 @@ export class AdminGroupState {
     ctx.dispatch(new DisplayToastMessage('Group was disabled successfully.'));
     return this.adminGroupService.updateGroup(id, payload).pipe(
       tap(group => {
-        if (refreshList){
+        if (refreshList) {
           ctx.dispatch(new GetGroups());
         }
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
   }
@@ -178,9 +199,11 @@ export class AdminGroupState {
     ctx.dispatch(new DisplayToastMessage('Group was enabled successfully.'));
     return this.adminGroupService.updateGroup(id, payload).pipe(
       tap(group => {
-        if (refreshList){
+        if (refreshList) {
           ctx.dispatch(new GetGroups());
         }
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
   }
@@ -195,37 +218,43 @@ export class AdminGroupState {
   }
 
   @Action(GetGroupMembers)
-  getGroupMembers({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetGroupMembers) {
+  getGroupMembers(ctx: StateContext<AdminGroupStateModel>, { groupId }: GetGroupMembers) {
     return this.adminGroupService.getGroupMembers(groupId).pipe(tap(users => {
-      const state = getState();
-      return setState({
+      const state = ctx.getState();
+      return ctx.setState({
         ...state,
         currentGroupmembers: users
       });
+    }, (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     }));
   }
 
   @Action(GetGroupPermissions)
-  getGroupPermissions({ getState, setState }: StateContext<AdminGroupStateModel>, { groupId }: GetGroupPermissions) {
+  getGroupPermissions(ctx: StateContext<AdminGroupStateModel>, { groupId }: GetGroupPermissions) {
     return this.adminGroupService.getGroupPermissions(groupId).pipe(tap(permissions => {
-      const state = getState();
+      const state = ctx.getState();
 
-      return setState({
+      return ctx.setState({
         ...state,
         currentGroupPermission: permissions
       });
 
+    }, (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     }));
   }
 
   @Action(GetMediaAccess)
-  getMediaAccess({ getState, setState }: StateContext<AdminGroupStateModel>) {
+  getMediaAccess(ctx: StateContext<AdminGroupStateModel>) {
     return this.adminMediaAccessService.getMediaAccess().pipe(tap(mediaAccess => {
-      const state = getState();
-      setState({
+      const state = ctx.getState();
+      ctx.setState({
         ...state,
         currentGroupmediaAccess: mediaAccess
       });
+    }, (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     }));
   }
 
@@ -234,6 +263,8 @@ export class AdminGroupState {
     return this.adminGroupService.updateGroupPermissions(groupId, payload).pipe(tap(() => {
       ctx.dispatch(new GetGroupPermissions(groupId));
       ctx.dispatch(new DisplayToastMessage('Group permissions updated.'));
+    }, (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     }));
   }
 
@@ -247,6 +278,8 @@ export class AdminGroupState {
         ...state,
         currentGroupmembers: members
       });
+    }, (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     }));
   }
 
@@ -256,20 +289,24 @@ export class AdminGroupState {
       tap(() => {
         ctx.dispatch(new DisplayToastMessage(`${payload.length} member(s) removed.`));
         ctx.dispatch(new GetGroupMembers(groupId));
-    }));
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      }));
   }
 
   @Action(GetRoleMediaAccess)
-  getRoleMediaAccessIds({ setState, getState }: StateContext<AdminGroupStateModel>, { groupId }: GetRoleMediaAccess) {
+  getRoleMediaAccessIds(ctx: StateContext<AdminGroupStateModel>, { groupId }: GetRoleMediaAccess) {
     return this.adminMediaAccessService.getMediaAccessIds(groupId).subscribe((mediaAccess) => {
-      const state = getState();
-      let roleMediaAccessIds: any[] =[];
+      const state = ctx.getState();
+      let roleMediaAccessIds: any[] = [];
       roleMediaAccessIds = mediaAccess.map(groupMediaAccess => groupMediaAccess.directoryId);
       console.log('groupMediaAccess', roleMediaAccessIds);
-      setState({
+      ctx.setState({
         ...state,
         currentGroupMediaAccessIds: roleMediaAccessIds
       });
+    }, (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     });
   }
 
@@ -278,6 +315,8 @@ export class AdminGroupState {
     ctx.dispatch(new DisplayToastMessage('Group media access updated.'));
     return this.adminMediaAccessService.updateMediaAccess(groupid, payload).pipe(tap(() => {
       console.log('updateRoleMediaAccess');
+    }, (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     }));
   }
   //#endregion

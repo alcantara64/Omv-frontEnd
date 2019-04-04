@@ -128,9 +128,6 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
         let _response = automapper.map(Role_GetAllOutputDTO, Group, response);
         console.log('AdminGroupsWebDataService - createUser: ', _response);
         return _response;
-      }), catchError(e => {
-        console.log('AdminGroupsWebDataService - createUser error: ', e);
-        return of(null);
       })
     );
   }
@@ -171,9 +168,6 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
         console.log('AdminGroupsWebDataService - updateUser: ', _response);
         return _response;
 
-      }), catchError(e => {
-        console.log('AdminGroupsWebDataService - updateUser error: ', e);
-        return of(null);
       })
     );
   }
@@ -216,12 +210,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
 
     console.log('AdminGroupsWebDataService - updatePermissions: ', request);
 
-    return this.httpClient.post(requestUri, request).pipe(
-      catchError(e => {
-        console.log('AdminGroupsWebDataService - updatePermissions error: ', e);
-        return of(null);
-      })
-    );
+    return this.httpClient.post(requestUri, request);
   }
 
   getMembers(groupId: number): Observable<User[]> {
@@ -267,12 +256,7 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
 
     console.log('AdminGroupsWebDataService - addMembers: ', request);
 
-    return this.httpClient.post(requestUri, request).pipe(
-      catchError(e => {
-        console.log('AdminGroupsWebDataService - addMembers error: ', e);
-        return of(null);
-      })
-    );
+    return this.httpClient.post(requestUri, request);
   }
 
   removeMembers(groupId: number, payload: number[]) {
@@ -288,11 +272,6 @@ export class AdminGroupsWebDataService implements AdminGroupsDataService {
 
     console.log('AdminGroupsWebDataService - removeMembers: ', request);
 
-    return this.httpClient.delete(requestUri, httpOptions).pipe(
-      catchError(e => {
-        console.log('AdminGroupsWebDataService - addMembers error: ', e);
-        return of(null);
-      })
-    );
+    return this.httpClient.delete(requestUri, httpOptions);
   }
 }
