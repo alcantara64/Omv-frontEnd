@@ -1,0 +1,20 @@
+.breadcrumb{
+  padding-bottom: 0;
+  margin-bottom: 0;
+  background-color: #F3F8FB;
+}
+.breadcrumb > li + li:before {
+  color: black;
+  content: "<";
+  padding: 0 5px;
+}
+ins{
+  font-family: 'SourceSansPro', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 2.57;
+  letter-spacing: 0.6px;
+  color: #0097a9;
+  cursor: pointer;
+  text-decoration: none;
+}

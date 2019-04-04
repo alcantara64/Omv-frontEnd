@@ -1,3 +1,51 @@
-<p>
-  media-item-details works!
-</p>
+<div class="form-title">File Title</div>
+
+<div class="actionBar">
+  <span class="actions"><i style="color: #33acbb" class="e-icons e-add"></i> Add Field</span>
+  <span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span>
+  <span class="actions"><i style="color: #da5200" class="e-icons e-clear"></i> Disregard Changes</span>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="section">
+      <label class="form-label">
+        <span style="display: block; margin: 10px 0">Label</span>
+        <input style="width: 90%" class="form-control-input" type="text" placeholder="Text here">
+        <span class="e-icons e-delete" style="display: inline-block; color: #0097a9; font-size: 1em; padding: 5px"></span>
+      </label>
+      <span class="form-description">Maybe some explanation for the field</span>
+    </div>
+
+    <div class="section">
+      <label class="form-label" style="margin: 10px 0; display: block">
+        <span style="display: block; margin: 10px 0">Label</span>
+        <input style="width: 90%" class="form-control-input" type="text" placeholder="Text here">
+        <span class="e-icons e-delete" style="display: inline-block; color: #0097a9; font-size: 1em; padding: 5px"></span>
+      </label>
+      <span class="form-description">Maybe some explanation for the field</span>
+    </div>
+
+    <div class="section">
+      <span style="display: block; margin: 10px 0" class="form-label">Label</span>
+      <div style="font-size: 16px; color: #033b5c">Text here</div>
+      <span class="form-description">Maybe some explanation for the field</span>
+    </div>
+
+    <div class="section">
+      <span style="display: block; margin: 10px 0" class="form-label">Label</span>
+      <div style="font-size: 16px; color: #033b5c">Text here</div>
+      <span class="form-description">Maybe some explanation for the field</span>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <img *ngIf="isPDF !== true" src="../../../../assets/images/omvImage.png" alt="OMV Image" style="width: 100%; height: auto; margin: auto">
+    <img *ngIf="isPDF === true" src="../../../../assets/images/omvPDFMedia.png" alt="OMV Image" style="width: 100%; height: auto; margin: auto" (click)="activatePDFViewer()">
+  </div>
+</div>
+
+
+<!--<ejs-datepicker id='datepicker' placeholder='Select a date' [value]='value' [min]='minDate' [max]='maxDate'>-->
+  <!--Hello world-->
+<!--</ejs-datepicker>-->

@@ -6,6 +6,16 @@
 @import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
 @import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
 @import '../node_modules/@syncfusion/ej2-angular-grids/styles/material.css';
+
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-pdfviewer/styles/material.css';
+
 .e-upload{
   border-style: none !important ;
   border: 0px solid rgba(0, 0, 0, 0.12) !important ;
@@ -412,10 +422,9 @@ button{
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
   letter-spacing: 0.1px;
+  margin: 10px 0;
+  display: block;
   color: #5b7f95;
 }
 
@@ -452,4 +461,42 @@ button{
   content:'\e609';
 }
 
+.e-add:before{
+  content:'\e823';
+}
+
+.e-reload:before{
+  content:'\e99d';
+}
+
+.e-clear:before{
+  content:'\e932';
+}
+
+.e-delete:before{
+  content:'\e965';
+}
+
 /************ End Syncfusion Icons **************/
+
+/************ Breadcrumb  **************/
+.breadcrumb{
+  padding-bottom: 21px;
+  background-color: #F3F8FB;
+}
+.breadcrumb > li + li:before {
+  color: black;
+  content: "<";
+  padding: 0 5px;
+}
+ins{
+  font-family: 'SourceSansPro', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 2.57;
+  letter-spacing: 0.6px;
+  color: #0097a9;
+  cursor: pointer;
+  text-decoration: none;
+}
+/************ End Breadcrumb **************/

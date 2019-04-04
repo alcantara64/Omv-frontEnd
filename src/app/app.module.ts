@@ -26,6 +26,7 @@ import { MediaModule } from './media/media.module';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
+import {DatePickerModule} from "@syncfusion/ej2-angular-calendars";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { HttpInterceptorService } from './core/services/httpinterceptor.service'
     ToastModule,
     ListViewModule,
     GridAllModule,
+    DatePickerModule,
     NgxsModule.forRoot([
       AppState
     ]),
