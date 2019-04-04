@@ -25,6 +25,8 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import { MediaModule } from './media/media.module';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
+import {DatePickerModule} from "@syncfusion/ej2-angular-calendars";
+import {MediaFavoritesTileviewComponent} from "./media/media-favorites/media-favorites-tileview/media-favorites-tileview.component";
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { GridAllModule } from '@syncfusion/ej2-angular-grids';
     ToastModule,
     ListViewModule,
     GridAllModule,
+    DatePickerModule,
     NgxsModule.forRoot([
       AppState
     ]),

@@ -16,6 +16,8 @@ import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import * as pdfViewerComponent  from './pdf-viewer/pdf-viewer.component';
+import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     MapViewComponent,
     TreeViewComponent,
     TileViewComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    pdfViewerComponent.PdfViewerComponent,
+    PdfViewerComponent
   ],
   imports: [
     CommonModule,
