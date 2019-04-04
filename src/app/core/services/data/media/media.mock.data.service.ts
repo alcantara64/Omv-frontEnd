@@ -8,9 +8,9 @@ import { map } from 'rxjs/operators';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 
 @Injectable({
-  providedIn: 'root'
-})
-export class MediaMockDataService implements MediaDataService {
+    providedIn: 'root'
+  })
+export class MediaMockDataService implements MediaDataService { 
 
 
   constructor(private httpClient: HttpClient) { }
@@ -57,6 +57,21 @@ export class MediaMockDataService implements MediaDataService {
   getMediaTreeData(): Observable<MediaTreeGrid[]> {
     var url = `./assets/mock/media-treeview.json`;
     let data = this.httpClient.get<MediaTreeGrid[]>(url);
+    return data;
+  }
+  getMetadata(id: number): Observable<any[]> {
+    var url = `./assets/mock/metadata.json`;
+    let data = this.httpClient.get<any[]>(url);
+    return data;
+  }
+
+  getMetadataOptions(id: any): Observable<any[]> {
+    var url = `./assets/mock/metadata-list.json`;
+    let data = this.httpClient.get<any[]>(url).pipe(
+      map(options => {
+        return options.filter(x => x.optionsId === id);
+      })
+    );
     return data;
   }
 }

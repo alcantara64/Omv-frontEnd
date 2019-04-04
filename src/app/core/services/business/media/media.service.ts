@@ -32,4 +32,12 @@ export class MediaService {
   getMediaTreeData(): Observable<MediaTreeGrid[]> {
     return this.MediaDataService.getMediaTreeData();
   }
+  
+  getMetadata(id: number): Observable<any[]> {
+    return this.MediaDataService.getMetadata(id);
+  }
+
+  getMetadataOptions(id: any): Observable<any[]> {
+    return this.MediaDataService.getMetadataOptions(id);
+  }
 }

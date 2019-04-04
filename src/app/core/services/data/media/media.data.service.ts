@@ -16,4 +16,6 @@ export abstract class MediaDataService {
     abstract getMediaItem(id: number): Observable<MediaItem>;
     abstract getHistory(id: number): Observable<History[]>;
     abstract getMediaTreeData(): Observable<MediaTreeGrid[]>;
+    abstract getMetadata(id: number): Observable<any[]>;
+    abstract getMetadataOptions(id: string): Observable<any[]>;
 }

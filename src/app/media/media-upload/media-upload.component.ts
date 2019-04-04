@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { projectData } from './data';
 import { SelectionSettingsModel } from '@syncfusion/ej2-treegrid';
 import { RowDataBoundEventArgs } from '@syncfusion/ej2-grids';
+import { MetadataService } from 'src/app/shared/dynamic-form/metadata.service';
+import { Observable } from 'rxjs';
 
 const BROWSE = 'Browse';
 const CHANGE = 'Change';
@@ -9,7 +11,8 @@ const CHANGE = 'Change';
 @Component({
   selector: 'app-media-upload',
   templateUrl: './media-upload.component.html',
-  styleUrls: ['./media-upload.component.css']
+  styleUrls: ['./media-upload.component.css'],
+  providers:  [MetadataService]
 })
 export class MediaUploadComponent implements OnInit {
 
@@ -23,8 +26,14 @@ export class MediaUploadComponent implements OnInit {
 
   @ViewChild('file') file;
   selectionOptions: SelectionSettingsModel;
+
+  metadatas$: Observable<any[]>;
+  metadatas1$: Observable<any[]>;
+  metadata: any[] = [];
   
-  constructor() { }
+  constructor(private service: MetadataService) {
+    this.metadata = service.getMetadata();
+   }
 
   ngOnInit() {
     this.data = projectData;

@@ -42,4 +42,12 @@ export class MediaWebDataService implements MediaDataService {
   getMediaTreeData(): Observable<MediaTreeGrid[]> {
     throw new Error("Method not implemented.");
   }
+  
+  getMetadata(id: number): Observable<any[]> {
+    throw new Error("Method not implemented.");
+  }
+
+  getMetadataOptions(id: any): Observable<any[]> {
+    throw new Error("Method not implemented.");
+  }
 }

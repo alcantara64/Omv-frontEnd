@@ -1,0 +1,17 @@
+<div [formGroup]="form">
+    <label [attr.for]="metadata.key">{{metadata.label}}</label>
+  
+    <div [ngSwitch]="metadata.controlType">
+  
+      <input *ngSwitchCase="'textbox'" [formControlName]="metadata.key"
+              [id]="metadata.key" [type]="metadata.type">
+  
+      <select [id]="metadata.key" *ngSwitchCase="'dropdown'" [formControlName]="metadata.key">
+        <option *ngFor="let opt of metadata.options" [value]="opt.key">{{opt.value}}</option>
+      </select>
+  
+    </div> 
+  
+    <div class="errorMessage" *ngIf="!isValid">{{metadata.label}} is required</div>
+  </div>
+  
