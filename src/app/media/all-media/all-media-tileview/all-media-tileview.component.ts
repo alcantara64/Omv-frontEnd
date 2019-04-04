@@ -13,18 +13,16 @@ import { GetMedia, ToggleFavorite } from '../../state/media/media.action';
   styleUrls: ['./all-media-tileview.component.css']
 })
 export class AllMediaTileviewComponent implements OnInit {
-  
+
   media: MediaItem[];
   mediaType: string;
-
+  pageCount;
   @Select(MediaState.getMedia) media$: Observable<MediaItem[]>;
 
-  constructor(private store: Store,
-    private router: Router,
-    private mediaService : MediaService) { }
+  constructor(private store: Store, private router: Router, private mediaService: MediaService) { }
 
   ngOnInit() {
-    this.store.dispatch(new GetMedia());
+    this.store.dispatch(new GetMedia(1, 5));
   }
 
   navigate(data: any) {

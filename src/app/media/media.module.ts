@@ -27,6 +27,7 @@ import { MediaFavoritesMapviewComponent } from './media-favorites/media-favorite
 import { MediaFavoritesTreeviewComponent } from './media-favorites/media-favorites-treeview/media-favorites-treeview.component';
 import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorites-tileview/media-favorites-tileview.component';
 import { PagerModule } from '@syncfusion/ej2-angular-grids';
+import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 
 @NgModule({
 	declarations: [
@@ -55,6 +56,7 @@ import { PagerModule } from '@syncfusion/ej2-angular-grids';
 		MediaRoutingModule,
 		TreeViewAllModule,
 		TreeGridModule,
+		CheckBoxModule,
 		NgxsModule.forFeature([
 			MediaState
 		])
