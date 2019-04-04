@@ -1,4 +1,4 @@
-export class MediaTileView {
+export class Media {
     id: number;
     name: string;
     date: string;
@@ -8,3 +8,4 @@ export class MediaTileView {
     isFavorite: boolean;
     isChecked: boolean;
 }
+

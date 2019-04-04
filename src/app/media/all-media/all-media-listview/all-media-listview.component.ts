@@ -30,7 +30,7 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private router: Router) { }
 
   ngOnInit() {
-    this.store.dispatch(new GetMedia());
+    this.store.dispatch(new GetMedia(1));
   }
 
   ngOnDestroy(): void {

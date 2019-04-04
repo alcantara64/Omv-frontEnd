@@ -10,10 +10,10 @@ import { Store } from '@ngxs/store';
 export class TileViewComponent extends BaseComponent implements OnInit {
 
   @Input() dataSource = [];
-
   @Output() itemClick = new EventEmitter<any>();
   @Output() toggleFavorite = new EventEmitter<any>();
-  
+  @Input() pageCount;
+
   constructor(protected store: Store) {
     super(store);
   }

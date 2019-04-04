@@ -2,6 +2,8 @@ import { MediaItem } from 'src/app/core/models/entity/media';
 
 export class GetMedia {
   static readonly type = '[Media] GetMedia';
+
+  constructor(public pageNumber?: number , public pageSize?: number ) { }
 }
 
 export class GetMediaItem {
