@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
 import { Observable } from 'rxjs';
-import { Media } from 'src/app/core/models/entity/media';
+import { MediaItem } from 'src/app/core/models/entity/media';
 import { MediaState } from '../../state/media/media.state';
 import { Select, Store } from '@ngxs/store';
 import { GetHistory } from '../../state/media/media.action';
@@ -12,7 +12,8 @@ import { GetHistory } from '../../state/media/media.action';
   styleUrls: ['./media-item-history.component.css']
 })
 export class MediaItemHistoryComponent implements OnInit {
-  @Select(MediaState.getHistoryMedia) getHistoryMedia$: Observable<Media[]>;
+
+  @Select(MediaState.getHistory) getHistoryMedia$: Observable<MediaItem[]>;
 
   public historyList;
 
@@ -24,6 +25,7 @@ export class MediaItemHistoryComponent implements OnInit {
     { type: '', headerText: 'New Value', width: '', field: 'newValue' },
     { type: '', headerText: 'Date', width: '150', field: 'date' }
   ];
+  
   constructor(private store: Store) { }
 
   ngOnInit() {

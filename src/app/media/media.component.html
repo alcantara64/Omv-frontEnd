@@ -7,6 +7,8 @@
 </div>
 <hr class="stroke" />
 
+<!-- <app-breadcrumb></app-breadcrumb> -->
+
 <!-- Media tabs -->
 <div class="row">
   <div class="col-6">
@@ -22,8 +24,8 @@
 <!-- Filter --ignore -->
 
 <!-- Toolbar -->
-<div style="display:inline;">
-  <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total: 123 </label>
+<div style="display:block; margin-bottom: 1.5em">
+  <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total: {{ totalMedia$ | async }} </label>
   <span style="padding-top:1rem;">
     <i (click)="navigateToView('tile')"(click)="onIconClick('tile')" 
     [ngClass]="{'selected-background': showtabs==='tile'}" >
@@ -45,15 +47,12 @@
       <img src="../../assets/images/noun-map-677579.svg">
     </i>
   </span>
-</div>
-<div style="display:inline; float: right">
-  <label class="media-label" style="display:inline; margin: 16px 10px">Selected Files:</label>
+  <div style="float: right">
+    <label class="media-label" style="display:inline; margin: 16px 10px">Selected Files:</label>
     <button class="media-button-small" style="display:inline; margin: 16px 10px">Sync Videos</button>
     <button class="media-button-small" style="display:inline; margin: 16px 10px">Download All</button>
     <button class="media-button-small" style="display:inline; margin: 16px 10px">Add to Playlist</button>
+  </div>
 </div>
 
-
-<!-- Views -->
-<br /><br />
 <router-outlet></router-outlet>

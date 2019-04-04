@@ -15,6 +15,7 @@ import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { RouterModule } from '@angular/router';
     EditComponent,
     MapViewComponent,
     TreeViewComponent,
-    TileViewComponent
+    TileViewComponent,
+    BreadcrumbComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +44,7 @@ import { RouterModule } from '@angular/router';
   exports: [
     CommonModule,
     AppHeaderComponent,
+    BreadcrumbComponent,
     LeftNavComponent,
     PageNotFoundComponent,
     ListComponent,

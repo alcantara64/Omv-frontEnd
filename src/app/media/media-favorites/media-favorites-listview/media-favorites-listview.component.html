@@ -1,8 +1,8 @@
-<app-list [listData]="favouriteList"
+<app-list [listData]="favoriteMedia$ | async"
           [columns]="columns"
           [showFirstAction]="true"
           [firstActionText]="'Download'"
           [showSecondAction]="true"
           [secondActionText]="editIcon"
-          (firstNavigateAction)="download($event)"
-></app-list>
+          (firstNavigateAction)="download($event)">
+</app-list>
