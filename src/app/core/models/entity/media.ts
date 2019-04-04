@@ -1,6 +1,10 @@
-export class Media {
+export class MediaItem {
   id: number;
-  Type: string;
-  Name: string;
-  Date: string;
+  name: string;
+  type: string;
+  date: Date;
+  dateString?: string;
+  isFavorite: boolean;
+  imageUrl: string;
+  size: string;
 }

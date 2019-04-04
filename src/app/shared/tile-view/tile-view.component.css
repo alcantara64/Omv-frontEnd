@@ -19,3 +19,7 @@
     vertical-align: middle;
     display: inline-flex;
 }
+.tile-card-date{
+    margin-bottom: 0px;
+    padding-bottom: 15px;
+}

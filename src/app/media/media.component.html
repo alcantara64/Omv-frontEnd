@@ -7,6 +7,8 @@
 </div>
 <hr class="stroke" />
 
+<!-- <app-breadcrumb></app-breadcrumb> -->
+
 <!-- Media tabs -->
 <div class="row">
   <div class="col-6">
@@ -23,7 +25,7 @@
 
 <!-- Toolbar -->
 <div style="display:inline;">
-  <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total: 123 </label>
+  <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total: {{ totalMedia$ | async }} </label>
   <span style="padding-top:1rem;">
     <i (click)="navigateToView('tile')">
       <img src="../../assets/images/group-2.png"><span class="vertical-line-grid"></span>
@@ -48,5 +50,5 @@
 
 
 <!-- Views -->
-<br /><br />
+<br /><br /><br />
 <router-outlet></router-outlet>

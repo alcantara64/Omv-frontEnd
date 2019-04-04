@@ -20,8 +20,8 @@ export class MediaFavoritesComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(
       params => {
-        console.log(params['view']);
         this.viewType = params['view'] ? params['view'] : ViewType.TILE; 
-    });
+      }
+    );
   }
 }
