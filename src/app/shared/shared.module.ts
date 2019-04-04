@@ -18,11 +18,17 @@ import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import * as pdfViewerComponent  from './pdf-viewer/pdf-viewer.component';
 import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
+import { ReactiveFormsModule }          from '@angular/forms';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metadata/dynamic-form-metadata.component';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     AppHeaderComponent,
+    BreadcrumbComponent,
+    DynamicFormComponent,
+    DynamicFormMetadataComponent,
     LeftNavComponent,
     TabsComponent, 
     ListComponent,
@@ -43,12 +49,15 @@ import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
     CheckBoxModule,
     RouterModule,
     GridAllModule,
-    ListViewModule
+    ListViewModule,
+    ReactiveFormsModule,
   ],
   exports: [
     CommonModule,
     AppHeaderComponent,
     BreadcrumbComponent,
+    DynamicFormComponent,
+    DynamicFormMetadataComponent,
     LeftNavComponent,
     PageNotFoundComponent,
     ListComponent,

@@ -57,7 +57,8 @@ import {MediaFavoritesTileviewComponent} from "./media/media-favorites/media-fav
   ],
   providers: [
     SettingsService,
-    AdminUsersService
+    AdminUsersService,
+    
    ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA , NO_ERRORS_SCHEMA]

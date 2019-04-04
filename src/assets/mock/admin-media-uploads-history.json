@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Jeremiah Johnson",
+        "destination": "South America",
+        "date": "0/1/2019",
+        "size": "1GB",
+        "files": "100"
+    },
+    {
+        "id": 2,
+        "name": "Johnson",
+        "destination": "South America/T&T",
+        "date": "0/1/2019",
+        "size": "2GB",
+        "files": "60"
+    },
+    {
+        "id": 3,
+        "name": "Smith John",
+        "destination": "Trinidad",
+        "date": "0/1/2019",
+        "size": "3GB",
+        "files": "66"
+    },
+    {
+        "id": 4,
+        "name": "James John",
+        "destination": "South America",
+        "date": "0/1/2019",
+        "size": "1GB",
+        "files": "86"
+    },
+    {
+        "id": 5,
+        "name": "Daniel Herny",
+        "destination": "Trinidad",
+        "date": "0/1/2019",
+        "size": "2GB",
+        "files": "94"
+    }
+]

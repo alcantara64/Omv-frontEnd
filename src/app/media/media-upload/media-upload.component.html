@@ -37,29 +37,7 @@
 <div *ngIf='isFileSelected && isDestinationSelected'>
   <span class="step-title"> Step 3 <i class="step-description-title">Metadata</i></span>
   <br /><br />
-  <div class="row">    
-    <div class="col-md-6">
-      <div>
-        <label for="nameId" class="form-label">Label</label>
-        <input class="form-control form-control-lg"type="text" placeholder="" />
-        <p class="form-description"> Description </p>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="form-group">
-        <label for="nameId" class="form-label">Label</label>
-        <input class="form-control form-control-lg"type="text" placeholder="" />
-        <p class="form-description"> Description </p>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="form-group">
-        <label for="nameId" class="form-label">Label</label>
-        <input class="form-control"type="text" placeholder="" />
-        <p class="form-description"> Description </p>
-      </div>
-    </div>
-  </div>
+  <app-dynamic-form [metadata]="metadata"></app-dynamic-form>
   <button type="submit" class="btn omv-green btn-lg"> Upload </button>
   <button type="button" class="btn btn-lg"> Cancel </button>
 </div>
