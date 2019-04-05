@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Media } from 'src/app/core/models/media';
-import { Store, Selector, Select } from '@ngxs/store';
-import { GetMedia } from '../../state/media/media.action';
+import { Store, Select } from '@ngxs/store';
+import { GetMediaTreeData } from '../../state/media/media.action';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
-import { GridColumn } from 'src/app/core/models/grid.column';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
-import { HttpClient } from '@angular/common/http';
-import { MediaService } from 'src/app/core/services/business/media/media.service';
+import { SelectionSettings, SelectionSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { CheckboxSelectionType } from '@syncfusion/ej2-grids';
 
 @Component({
   selector: 'app-media-favorites-treeview',
@@ -16,18 +14,34 @@ import { MediaService } from 'src/app/core/services/business/media/media.service
 })
 export class MediaFavoritesTreeviewComponent implements OnInit {
   public data: MediaTreeGrid[];
-  @Select(MediaState.getMedia) mediaData$ : Observable<MediaTreeGrid[]>;
- @Select(MediaState.getTotalMedia) total$: Observable<number>;
-  
-  constructor(private store: Store, private mediaService: MediaService) { }
+  @Select(MediaState.getMediaTreeData) mediaData$: Observable<MediaTreeGrid[]>;
+  selectionOptions: Object;
+  options: any;
+  constructor(private store: Store) {
 
-  ngOnInit() {
-    this.mediaService.getMediaTreeData().subscribe(
-      data =>{
-        this.data = data;
-        console.log(this.data);
-      }
-    );
   }
 
+  ngOnInit() {
+    this.store.dispatch(new GetMediaTreeData());
+    this.mediaData$.subscribe(data => {
+      this.data = data;
+      this.data.forEach(item => {
+        console.log('checked', item.isChecked);
+      });
+      if (data) {
+        this.selectionOptions = {
+          mode: 'Row', cellSelectionMode: 'Flow', type: 'Single', checkboxOnly: true,
+          persistSelection: false, checkboxMode: 'Default', enableSimpleMultiRowSelection: true,
+         enableToggle: false};
+      }
+    });
+  }
+
+  performToggleFavorite(data: any) {
+    data.isFavorite = !data.isFavorite;
+  }
+
+  rowSelected(action) {
+    console.log(action.data);
+  }
 }

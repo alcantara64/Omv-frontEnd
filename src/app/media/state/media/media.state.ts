@@ -1,9 +1,10 @@
-import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite } from './media.action';
+import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite, GetMediaTreeData } from './media.action';
 import { tap } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
 import { GetMedia as GetMedia } from './media.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
+import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 
 export class MediaStateModel {
   media: MediaItem[];
@@ -11,6 +12,7 @@ export class MediaStateModel {
   currentMediaItem: MediaItem;
   historyItems: any[];
   totalMedia: number;
+  mediaTreeData: MediaTreeGrid[];
 }
 
 const initialMediaItem: MediaItem = {
@@ -30,7 +32,8 @@ const initialMediaItem: MediaItem = {
     favorites: [],
     currentMediaItem: initialMediaItem,
     historyItems: [],
-    totalMedia: 0
+    totalMedia: 0,
+    mediaTreeData:[]
   }
 })
 
@@ -60,6 +63,11 @@ export class MediaState {
   @Selector()
   static getTotalMedia(state: MediaStateModel) {
     return state.totalMedia;
+  }
+  
+  @Selector()
+  static getMediaTreeData(state: MediaStateModel) {
+    return state.mediaTreeData;
   }
   
 
@@ -130,4 +138,19 @@ export class MediaState {
       });
     }));
   }
+
+  @Action(GetMediaTreeData)
+  getMediaTreeData({ getState, setState }: StateContext<MediaStateModel>,){
+    return this.mediaService.getMediaTreeData().pipe(
+      tap(media => {
+        const state = getState();
+        console.log('media', media);
+        setState({
+          ...state,
+          mediaTreeData: media,
+        });
+      })
+    );
+  }
+
 }

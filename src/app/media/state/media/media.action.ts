@@ -27,3 +27,8 @@ export class GetHistory {
   
   constructor(public id: number) { }
 }
+export class GetMediaTreeData {
+  static readonly type = '[Media] GetMediaTreeData';
+
+  constructor( ) { }
+}
