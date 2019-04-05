@@ -1,9 +1,10 @@
-import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite, GetMetadata } from './media.action';
+import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite, GetMediaTreeData, GetMetadata } from './media.action';
 import { tap } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
 import { GetMedia as GetMedia } from './media.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
+import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';
 import { MetadataService } from 'src/app/shared/dynamic-components/metadata.service';
 
@@ -14,6 +15,7 @@ export class MediaStateModel {
   historyItems: any[];
   metadata: any[];
   totalMedia: number;
+  mediaTreeData: MediaTreeGrid[];
 }
 
 const initialMediaItem: MediaItem = {
@@ -33,8 +35,9 @@ const initialMediaItem: MediaItem = {
     favorites: [],
     currentMediaItem: initialMediaItem,
     historyItems: [],
-    metadata: [],
-    totalMedia: 0
+    totalMedia: 0,
+    mediaTreeData:[],
+    metadata: []
   }
 })
 
@@ -72,6 +75,12 @@ export class MediaState {
 
   constructor(private mediaService: MediaService, private adminMediaService: AdminMediaAccessService, private metaDataService: MetadataService) { }
   
+  @Selector()
+  static getMediaTreeData(state: MediaStateModel) {
+    return state.mediaTreeData;
+  }
+  
+
   @Action(GetMedia)
   getMedia({ getState, setState }: StateContext<MediaStateModel>, {pageNumber, pageSize}: GetMedia){
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
@@ -139,6 +148,21 @@ export class MediaState {
       });
     }));
   }
+
+  @Action(GetMediaTreeData)
+  getMediaTreeData({ getState, setState }: StateContext<MediaStateModel>,){
+    return this.mediaService.getMediaTreeData().pipe(
+      tap(media => {
+        const state = getState();
+        console.log('media', media);
+        setState({
+          ...state,
+          mediaTreeData: media,
+        });
+      })
+    );
+  }
+
 
   // @Action(GetDirectories)
   // getDirectories({ getState, setState }: StateContext<MediaStateModel>) {

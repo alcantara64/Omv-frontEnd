@@ -8727,7 +8727,7 @@ ejs-sidebar {
 }
 
 .e-grid .e-rowcell, .e-grid .e-detailrowcollapse, .e-grid .e-detailrowexpand, .e-grid .e-gridcontent .e-rowdragdrop, .e-grid .e-emptyrow {
-  color: #000;
+  color: #114665 !important;
   opacity: 0.87;
 }
 
