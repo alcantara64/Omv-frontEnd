@@ -58,8 +58,6 @@ export class AdminGroupMediaAccessComponent implements OnInit {
         text: 'directoryName',  iconCss: 'icon', hasChildren: 'hasChild'
       };
     });
-
-
   }
 
   dataBound(evt: DataBoundEventArgs) {

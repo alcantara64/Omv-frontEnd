@@ -1,16 +1,19 @@
-import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite, GetMediaTreeData } from './media.action';
+import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite, GetMediaTreeData, GetMetadata } from './media.action';
 import { tap } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
 import { GetMedia as GetMedia } from './media.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
+import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';
+import { MetadataService } from 'src/app/shared/dynamic-components/metadata.service';
 
 export class MediaStateModel {
   media: MediaItem[];
   favorites: MediaItem[];
   currentMediaItem: MediaItem;
   historyItems: any[];
+  metadata: any[];
   totalMedia: number;
   mediaTreeData: MediaTreeGrid[];
 }
@@ -33,12 +36,12 @@ const initialMediaItem: MediaItem = {
     currentMediaItem: initialMediaItem,
     historyItems: [],
     totalMedia: 0,
-    mediaTreeData:[]
+    mediaTreeData:[],
+    metadata: []
   }
 })
 
 export class MediaState {
-  constructor(private mediaService: MediaService) { }
 
   @Selector()
   static getFavorites(state: MediaStateModel) {
@@ -64,6 +67,13 @@ export class MediaState {
   static getTotalMedia(state: MediaStateModel) {
     return state.totalMedia;
   }
+
+  @Selector()
+  static getMetaData(state: MediaStateModel) {
+    return state.metadata;
+  }
+
+  constructor(private mediaService: MediaService, private adminMediaService: AdminMediaAccessService, private metaDataService: MetadataService) { }
   
   @Selector()
   static getMediaTreeData(state: MediaStateModel) {
@@ -153,4 +163,28 @@ export class MediaState {
     );
   }
 
+
+  // @Action(GetDirectories)
+  // getDirectories({ getState, setState }: StateContext<MediaStateModel>) {
+  //   return this.adminMediaService.getMediaAccess().pipe(tap(media => {
+  //     const state = getState();
+  //     setState({
+  //       ...state,
+  //       historyItems: media
+  //     });
+  //   }));
+  // }
+
+  @Action(GetMetadata)
+  async getMetadata({ getState, setState }: StateContext<MediaStateModel>) {
+    return await this.metaDataService.getMetadata().then(
+      data => {
+        const state = getState();
+        setState({
+          ...state,
+          metadata: data
+        });
+      }
+    );
+  }
 }

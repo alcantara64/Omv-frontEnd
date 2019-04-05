@@ -32,3 +32,15 @@ export class GetMediaTreeData {
 
   constructor( ) { }
 }
+
+export class GetDirectories {
+  static readonly type = '[Media] GetDirectories';
+  
+  constructor() { }
+}
+
+export class GetMetadata {
+  static readonly type = '[Media] GetMetadata';
+  
+  constructor() { }
+}
