@@ -1,6 +1,17 @@
 [
   {
-    "fieldName": "Platform",
+    "name": "sample",
+    "label": "Sample",
+    "type": "text",
+    "optionsId": null,
+    "optionsName": null,
+    "value": "",
+    "isRequired": true,
+    "order": 2
+  },
+  {
+    "name": "platform",
+    "label": "Platform",
     "type": "text",
     "optionsId": null,
     "optionsName": null,
@@ -9,7 +20,8 @@
     "order": 0
   },
   {
-    "fieldName": "Country",
+    "name": "country",
+    "label": "Country",
     "type": "select",
     "optionsId": "2",
     "optionsName": "CountryList",

@@ -17,18 +17,18 @@ import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { PdfViewerModule} from "@syncfusion/ej2-angular-pdfviewer";
-import { ReactiveFormsModule }          from '@angular/forms';
-import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
-import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metadata/dynamic-form-metadata.component';
+import { ReactiveFormsModule, FormsModule }          from '@angular/forms';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
+import { InputComponent } from './dynamic-components/components/input.component';
+import { SelectComponent } from './dynamic-components/components/select.component';
+import { DynamicFormComponent } from './dynamic-components/components/dynamic-form.component';
+import { DynamicFieldDirective } from './dynamic-components/components/dynamic-field.directive';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     AppHeaderComponent,
     BreadcrumbComponent,
-    DynamicFormComponent,
-    DynamicFormMetadataComponent,
     LeftNavComponent,
     TabsComponent, 
     ListComponent,
@@ -38,7 +38,11 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     TreeViewComponent,
     TileViewComponent,
     BreadcrumbComponent,
-    PdfViewerComponent
+    PdfViewerComponent,
+    InputComponent,
+    SelectComponent,
+    DynamicFormComponent,    
+    DynamicFieldDirective,
   ],
   imports: [
     CommonModule,
@@ -56,18 +60,24 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     CommonModule,
     AppHeaderComponent,
     BreadcrumbComponent,
-    DynamicFormComponent,
-    DynamicFormMetadataComponent,
     LeftNavComponent,
     PageNotFoundComponent,
     ListComponent,
     TabsComponent, 
     ModalComponent,
-    EditComponent,
+    EditComponent, 
     MapViewComponent,
     TreeViewComponent,
     TileViewComponent,
-    PdfViewerComponent
+    InputComponent,
+    DynamicFormComponent,
+    SelectComponent,
+    PdfViewerComponent,
+    DynamicFieldDirective
+  ],
+  entryComponents: [
+    InputComponent,
+    SelectComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
