@@ -28,6 +28,7 @@ import { MediaFavoritesTreeviewComponent } from './media-favorites/media-favorit
 import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorites-tileview/media-favorites-tileview.component';
 import { PagerModule } from '@syncfusion/ej2-angular-grids';
 import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
+import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
 
 @NgModule({
 	declarations: [

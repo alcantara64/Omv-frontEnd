@@ -5,7 +5,7 @@ import { GetGroups } from '../state/admin-groups/admin.groups.action';
 import { Group } from '../../core/models/entity/group';
 import { ShowLeftNav } from './../../state/app.actions';
 import { ListComponent } from './../../shared/list/list.component';
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
 import { ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { User } from 'src/app/core/models/entity/user';
 import { Observable } from 'rxjs';
@@ -32,6 +32,7 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ListViewComponent } from '@syncfusion/ej2-angular-lists';
 import { User_SearchInputDTO } from 'src/app/core/dtos/input/users/User_SearchInputDTO';
 import { ToastComponent } from '@syncfusion/ej2-angular-notifications';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-users-list',
@@ -39,7 +40,8 @@ import { ToastComponent } from '@syncfusion/ej2-angular-notifications';
   styleUrls: ['./admin-users-list.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AdminUsersListComponent extends ListComponent implements OnInit {
+export class AdminUsersListComponent extends ListComponent implements OnInit, OnDestroy {
+  
 
   selectedUsers: User[];
   groups: Group[] = [];
@@ -100,6 +102,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
   }
 
   public saveDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true } }];
+  componentActive = true;
 
   constructor(
     protected store: Store,
@@ -121,13 +124,18 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
       this.displayUsers(params.type);
       this.nameSelect.value = "";
       this.groupSelect.index = null;
-    });
+    }),
+    takeWhile(() => this.componentActive);
 
     this.groups$.subscribe(groups => (this.groups = groups));
 
     // if (!this.userHasPermission) {
     //   this.router.secondNavigateAction(['dashboard']);
     // }
+  }
+
+  ngOnDestroy(): void {    
+    this.componentActive = false;
   }
 
   displayUsers(param: string) {
@@ -160,7 +168,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit {
 
     users.forEach(user => {
       let isLastUser =  lastUser.userId === user.userId; // Get fresh list of users only when updating final user
-      if ((this.statusChange === this.ENABLE)) {
+      if (this.statusChange === this.ENABLE) {
         this.store.dispatch(new EnableUser(user.userId, user, true, isLastUser));
       } else {
         this.store.dispatch(new DisableUser(user.userId, user, true, isLastUser));

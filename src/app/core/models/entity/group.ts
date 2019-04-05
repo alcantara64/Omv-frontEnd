@@ -6,6 +6,7 @@ export class Group {
   description: string;
   memberCount: number;
   modifiedOn: Date;
+  modifiedOnString?: string;
   modifiedBy: string;
   status: number;
 }

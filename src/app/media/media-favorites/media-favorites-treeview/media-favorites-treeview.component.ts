@@ -44,4 +44,8 @@ export class MediaFavoritesTreeviewComponent implements OnInit {
   rowSelected(action) {
     console.log(action.data);
   }
+
+  checkboxSelected(action) {
+    console.log(action.data);
+  }
 }

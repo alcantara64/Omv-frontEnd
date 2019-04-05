@@ -6,11 +6,12 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { AuthGuardService } from './core/guards/auth-guard.service';
 import { AuthService } from './core/services/business/auth.service';
 import { StartupComponent } from './startup/startup.component';
+import {PdfViewerComponent} from "./shared/pdf-viewer/pdf-viewer.component";
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'media/all',
+    redirectTo: 'admin/users/active',
     pathMatch: 'full'
   },
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path: 'auth-callback',
     component: AuthCallbackComponent
+  },
+  {
+    path: 'pdf-viewer',
+    data: {service: '', document: ''},
+    component: PdfViewerComponent
   },
   {
     path: 'page-not-found',

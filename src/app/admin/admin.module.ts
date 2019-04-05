@@ -51,6 +51,11 @@ import { AdminPermissionState } from './state/admin-permissions/admin-permission
 import { ToastModule, ToastAllModule } from '@syncfusion/ej2-angular-notifications';
 import { AdminMediaUploadsListComponent } from './admin-media-uploads-list/admin-media-uploads-list.component';
 import { AdminMediaUploadsTabsComponent } from './admin-media-uploads-list/admin-media-uploads-tabs/admin-media-uploads-tabs.component';
+import { AdminMediaState } from './state/admin-media/admin-media.state';
+import { AdminMediaDataService } from '../core/services/data/admin-media/admin-media.data.service';
+import { AdminMediaWebDataService } from '../core/services/data/admin-media/admin-media.web.data.service';
+import { AdminMediaMockDataService } from '../core/services/data/admin-media/admin-media.mock.data.service';
+// import { AdminMediaMockDataService } from '../core/services/data/admin-media/admin-media.mock.data.service';
 
 @NgModule({
   declarations: [
@@ -79,7 +84,7 @@ import { AdminMediaUploadsTabsComponent } from './admin-media-uploads-list/admin
     DropDownButtonModule,
     SliderModule,
     TextBoxModule,
-    DropDownListAllModule,   
+    DropDownListAllModule,
     MultiSelectAllModule,
     ReactiveFormsModule,
     TreeViewModule,
@@ -87,14 +92,16 @@ import { AdminMediaUploadsTabsComponent } from './admin-media-uploads-list/admin
     NgxsModule.forFeature([
       AdminUserState,
       AdminGroupState,
-      AdminPermissionState
-    ])    
+      AdminPermissionState,
+      AdminMediaState
+    ])
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
     { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
     { provide: AdminMediaAccessDataService, useClass: environment.useMocks ? AdminMediaAccessMockDataService : AdminMediaAccessWebDataService },
+    { provide: AdminMediaDataService, useClass: environment.useMocks ? AdminMediaMockDataService : AdminMediaMockDataService }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

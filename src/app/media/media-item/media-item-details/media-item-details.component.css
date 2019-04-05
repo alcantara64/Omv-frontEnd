@@ -1,0 +1,32 @@
+@import url('https://cdn.syncfusion.com/ej2/material.css');
+.actionBar {
+  display: block;
+  margin: 10px 0;
+}
+
+.actions {
+  display: inline-block;
+  margin-right: 25px;
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+  color: #0097a9;
+}
+
+.actions > i {
+  display: inline-block;
+  margin-right: 2px;
+}
+
+.section {
+  display: block;
+  margin: 20px 0;
+}
+
+.pdfViewer{
+  display: block;
+  position: absolute;
+  margin: 0;
+  width: 100%;
+}

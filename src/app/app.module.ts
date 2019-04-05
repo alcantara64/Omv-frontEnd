@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpModule } from '@angular/http';
 import { SettingsService } from './core/services/data/appsettings/appsettings.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
 
@@ -25,6 +25,8 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import { MediaModule } from './media/media.module';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
+import { HttpInterceptorService } from './core/services/httpinterceptor.service';
+import {DatePickerModule} from "@syncfusion/ej2-angular-calendars";
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { GridAllModule } from '@syncfusion/ej2-angular-grids';
     ToastModule,
     ListViewModule,
     GridAllModule,
+    DatePickerModule,
     NgxsModule.forRoot([
       AppState
     ]),
@@ -53,6 +56,7 @@ import { GridAllModule } from '@syncfusion/ej2-angular-grids';
     NgxsLoggerPluginModule.forRoot()
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     SettingsService,
     AdminUsersService,
     

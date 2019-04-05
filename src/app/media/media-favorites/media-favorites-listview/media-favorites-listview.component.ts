@@ -32,7 +32,7 @@ export class MediaFavoritesListviewComponent implements OnInit {
     this.store.dispatch(new GetFavorites());
   }
 
-  download() {
+  download(args: any) {
     // this.router.navigate([`/dashboard`])
   }
 }
