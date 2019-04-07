@@ -18,11 +18,11 @@ import { FieldConfig } from "../field.interface";
   exportAs: "dynamicForm",
   selector: "dynamic-form",
   template: `
-    <form class="col-md-6" [formGroup]="form" (submit)="onSubmit($event)">
-      <ng-container *ngFor="let field of fields" class="col-md-6" dynamicField [field]="field" [group]="form">
+    <form [formGroup]="form" (submit)="onSubmit($event)">
+      <ng-container *ngFor="let field of fields" dynamicField [field]="field" [group]="form" (action)="perform(field)">
       </ng-container>
     </form>
-  `,
+  `, 
   styles: []
 })
 export class DynamicFormComponent implements OnInit {
@@ -80,5 +80,9 @@ export class DynamicFormComponent implements OnInit {
       const control = formGroup.get(field);
       control.markAsTouched({ onlySelf: true });
     });
+  }
+
+  perform(value?: any) {
+    console.log('DynamicFormComponent - perform: ', value);
   }
 }

@@ -1,42 +1,15 @@
 <div class="form-title">File Title</div>
 
 <div class="actionBar">
-  <span class="actions"><i style="color: #33acbb" class="e-icons e-add"></i> Add Field</span>
-  <span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span>
-  <span class="actions"><i style="color: #da5200" class="e-icons e-clear"></i> Disregard Changes</span>
+  <button (click)="showFieldsDialog()"><span class="actions"><i style="color: #33acbb" class="e-icons e-add"></i> Add Field</span></button>
+  <button (click)="submit()"><span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span></button>
+  <button><span class="actions"><i style="color: #da5200" class="e-icons e-clear"></i> Disregard Changes</span></button>
 </div>
 
 <div class="row">
   <div class="col-md-6">
-    <div class="section">
-      <label class="form-label">
-        <span style="display: block; margin: 10px 0">Label</span>
-        <input style="width: 90%" class="form-control-input" type="text" placeholder="Text here">
-        <span class="e-icons e-delete" style="display: inline-block; color: #0097a9; font-size: 1em; padding: 5px"></span>
-      </label>
-      <span class="form-description">Maybe some explanation for the field</span>
-    </div>
-
-    <div class="section">
-      <label class="form-label" style="margin: 10px 0; display: block">
-        <span style="display: block; margin: 10px 0">Label</span>
-        <input style="width: 90%" class="form-control-input" type="text" placeholder="Text here">
-        <span class="e-icons e-delete" style="display: inline-block; color: #0097a9; font-size: 1em; padding: 5px"></span>
-      </label>
-      <span class="form-description">Maybe some explanation for the field</span>
-    </div>
-
-    <div class="section">
-      <span style="display: block; margin: 10px 0" class="form-label">Label</span>
-      <div style="font-size: 16px; color: #033b5c">Text here</div>
-      <span class="form-description">Maybe some explanation for the field</span>
-    </div>
-
-    <div class="section">
-      <span style="display: block; margin: 10px 0" class="form-label">Label</span>
-      <div style="font-size: 16px; color: #033b5c">Text here</div>
-      <span class="form-description">Maybe some explanation for the field</span>
-    </div>
+    <dynamic-form style="display: inline" [fields]="fields" (action)="submit()" (submit)="submit($event)" 
+      *ngIf="fields?.length > 0"></dynamic-form>
   </div>
 
   <div class="col-md-6">
@@ -45,7 +18,18 @@
   </div>
 </div>
 
-
-<!--<ejs-datepicker id='datepicker' placeholder='Select a date' [value]='value' [min]='minDate' [max]='maxDate'>-->
-  <!--Hello world-->
-<!--</ejs-datepicker>-->
+<ejs-dialog #fieldsDialog [visible]='true' [width]='500'>
+  <ng-template #content>
+    <button class="dialog-close" (click)="closeDialog()">
+      <img src="../../../../assets/images/dialog-close.svg" />
+    </button>
+    <br />
+    
+    <label class="dialog-title">Add Field</label>
+    <hr />
+    <br />
+    <ejs-dropdownlist class="" [dataSource]='allItemFields' [fields]='itemFields' [(value)]="fieldItem" placeholder="Please Select"></ejs-dropdownlist>
+    <br />
+    <button class="btn btn-lg omv-primary" (click)="addField()"> Done </button>
+  </ng-template>
+</ejs-dialog>

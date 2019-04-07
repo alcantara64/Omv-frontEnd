@@ -1,23 +1,14 @@
-import {
-  ComponentFactoryResolver,
-  ComponentRef,
-  Directive,
-  Input,
-  OnInit,
-  ViewContainerRef
-} from "@angular/core";
+import { ComponentFactoryResolver, ComponentRef, Directive, Input, OnInit, ViewContainerRef, EventEmitter, Output } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { InputComponent } from './input.component';
-import { SelectComponent } from './select.component';
 import { FieldConfig } from '../field.interface';
+import { SelectComponent } from '../components/select.component';
+import { InputComponent } from '../components/input.component';
+import { DateComponent } from '../components/date.component';
 
 const componentMapper = {
   input: InputComponent,
-  // button: ButtonComponent,
   select: SelectComponent,
-  // date: DateComponent,
-  // radiobutton: RadiobuttonComponent,
-  // checkbox: CheckboxComponent
+  date: DateComponent
 };
 @Directive({
   selector: "[dynamicField]"
@@ -25,6 +16,7 @@ const componentMapper = {
 export class DynamicFieldDirective implements OnInit {
   @Input() field: FieldConfig;
   @Input() group: FormGroup;
+  @Output() action = new EventEmitter<any>();
   componentRef: any;
   constructor(
     private resolver: ComponentFactoryResolver,
@@ -37,5 +29,10 @@ export class DynamicFieldDirective implements OnInit {
     this.componentRef = this.container.createComponent(factory);
     this.componentRef.instance.field = this.field;
     this.componentRef.instance.group = this.group;
+  }
+
+  performAction(value?: any) {
+    console.log('DynamicFieldDirective - performAction: ', value);
+    this.action.emit(value);
   }
 }

@@ -10,7 +10,6 @@ import { ModalComponent } from './modal/modal.component';
 import { EditComponent } from './edit/edit.component';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
-import { TabAllModule } from '@syncfusion/ej2-angular-navigations';
 import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
@@ -22,7 +21,11 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { InputComponent } from './dynamic-components/components/input.component';
 import { SelectComponent } from './dynamic-components/components/select.component';
 import { DynamicFormComponent } from './dynamic-components/components/dynamic-form.component';
-import { DynamicFieldDirective } from './dynamic-components/components/dynamic-field.directive';
+import { DynamicFieldDirective } from './dynamic-components/directives/dynamic-field.directive';
+import { DateComponent } from './dynamic-components/components/date.component';
+import { DatePickerAllModule } from '@syncfusion/ej2-angular-calendars';
+import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,7 @@ import { DynamicFieldDirective } from './dynamic-components/components/dynamic-f
     PdfViewerComponent,
     InputComponent,
     SelectComponent,
+    DateComponent,
     DynamicFormComponent,    
     DynamicFieldDirective,
   ],
@@ -50,9 +54,12 @@ import { DynamicFieldDirective } from './dynamic-components/components/dynamic-f
     GridAllModule,
     ButtonAllModule, 
     CheckBoxModule,
+    DialogAllModule,
     RouterModule,
     GridAllModule,
     ListViewModule,
+    DatePickerAllModule,
+    DropDownListAllModule,
     ReactiveFormsModule,
     PdfViewerModule
   ],
@@ -72,12 +79,14 @@ import { DynamicFieldDirective } from './dynamic-components/components/dynamic-f
     InputComponent,
     DynamicFormComponent,
     SelectComponent,
+    DateComponent,
     PdfViewerComponent,
     DynamicFieldDirective
   ],
   entryComponents: [
     InputComponent,
-    SelectComponent
+    SelectComponent,
+    DateComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

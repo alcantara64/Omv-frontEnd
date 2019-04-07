@@ -30,3 +30,8 @@
   margin: 0;
   width: 100%;
 }
+
+.omv-primary {
+  margin: 0 auto;
+  display: block;
+}

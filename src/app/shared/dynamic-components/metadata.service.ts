@@ -3,57 +3,102 @@ import { MediaDataService } from 'src/app/core/services/data/media/media.data.se
 import { map, mergeMap } from 'rxjs/operators';
 import { FieldConfig } from './field.interface';
 import { Observable, of } from 'rxjs';
+import { Validators } from '@angular/forms';
 
 @Injectable()
 export class MetadataService {
 
   constructor(private mediaDataService: MediaDataService) { }
 
-  async getMetadata(): Promise<FieldConfig[]> {
-    let metaArray = [];
-    let data = this.mediaDataService.getMetadata(1).pipe(
-      map(response => {
-        response.forEach(async item => {
-          await this.buildMetaData(item).pipe(map(res => {
-            console.log('testing res: ', res);
-            metaArray.push(res);            
-          }));
-        });
-      return metaArray;
-    })).toPromise();
-    
-    console.log('testing select: ', data);
-
+  async getFinalData() {
+    let data = await this.getMetadata();
+    data.forEach(async item => {
+      if (item.type === 'select') {
+        item.options = await this.getOptions(item.optionsId).toPromise();        
+      }
+    });
     return data;
   }
 
-  buildMetaData(item: any): Observable<any> {
-    if (item.type === 'text') {
-      return of({
-        type: "input",
-        label: item.label,
-        inputType: "text",
-        name: item.name
+  async getMetadata() {
+    let metaArray = [];
+    let items = await this.mediaDataService.getMetadata(1).toPromise();
+    if (items) {
+      items.forEach(async item => {
+        let _item: any;
+        switch(item.type) {
+          case 'text':
+            _item = this.buildTextBox(item);
+            break;
+          case 'select':
+            _item = this.buildDropdown(item);
+            break;
+          case 'date':
+            _item = this.buildDate(item);
+            break;
+        }        
+        metaArray.push(_item);
       });
-    } else if (item.type === 'select') {
-      let da = this.mediaDataService.getMetadataOptions(item.optionsId).pipe(map(response => {
-        let options: any = [];
-        response.forEach(res => {
-          let s = { "value": res.key, "text": res.value };
-          options.push(s);
+    }    
+    console.log('testing select: ', metaArray);
+
+    return await metaArray;
+  }
+
+  private getOptions(id: any) {
+    return this.mediaDataService.getMetadataOptions(id).pipe(
+      map(items => {
+        let options = [];
+        items.forEach(res => {
+          let option = { "value": res.key, "text": res.value };
+          options.push(option);
         });
-        let select = {
-          type: "select",
-          label: item.label,
-          name: item.name,
-          value: null,
-          options: options
-        };
-        console.log('testing select: ', select);
-  
-        return select;
-      }));
-      return da;
-    }          
+        return options;
+      })
+    );
+  }
+
+  private buildTextBox(item: any): any {
+    return {
+      type: "input",
+      label: item.label,
+      inputType: "text",
+      name: item.name,
+      validations: this.getValidations(item)
+    };
+  }
+
+  private buildDropdown(item: any) {
+    return {
+      type: "select",
+      label: item.label,
+      name: item.name,
+      value: item.value ? item.value : '',
+      optionsId: item.optionsId,
+      options: [],
+      validations: this.getValidations(item)
+    };
+  }
+
+  private buildDate(item: any) {
+    return {
+      type: "date",
+      label: item.label,
+      name: item.name,
+      validations: this.getValidations(item)
+    };
+  }
+
+  private getValidations(item: any): any[] {
+    let validations = [];
+    if (item.isRequired) {
+      let requiredValidation = {
+        name: "required",
+        validator: Validators.required,
+        message: `${item.label} is required`
+      };
+      validations.push(requiredValidation);
+    }
+    return validations;
   }
 }

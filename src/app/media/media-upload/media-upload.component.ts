@@ -51,25 +51,12 @@ export class MediaUploadComponent implements OnInit {
 
     this.store.dispatch(new GetMetadata());
 
-    // this.metadataService.getMetadata().subscribe(res => {
-    //   console.log('MediaUploadComponent ngOnInit res: ', res);
-    //   this.regConfig = res;
-    // });
-
-
     this.metadata$.subscribe(resp => {
       this.form = DynamicFormComponent;
       this.regConfig = resp;
       console.log('MediaUploadComponent ngOnInit resp: ', resp);   
     });
-
-    setTimeout(() => {
-      
-      console.log('MediaUploadComponent ngOnInit form: ', this.form);
-      console.log('MediaUploadComponent ngOnInit regConfig: ', this.regConfig);
-      }, 1900)
-  }
-  
+  }  
 
   addFiles() {
     this.file.nativeElement.click();
