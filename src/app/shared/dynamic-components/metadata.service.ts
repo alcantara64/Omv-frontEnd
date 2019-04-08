@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MediaDataService } from 'src/app/core/services/data/media/media.data.service';
 import { map, mergeMap } from 'rxjs/operators';
-import { FieldConfig } from './field.interface';
 import { Observable, of } from 'rxjs';
 import { Validators } from '@angular/forms';
 
@@ -62,9 +61,9 @@ export class MetadataService {
     return {
       type: "input",
       label: item.label,
-      inputType: "text",
       name: item.name,
-      validations: this.getValidations(item)
+      placeholder: item.label,
+      validation: this.getValidations(item)
     };
   }
 
@@ -76,7 +75,8 @@ export class MetadataService {
       value: item.value ? item.value : '',
       optionsId: item.optionsId,
       options: [],
-      validations: this.getValidations(item)
+      placeholder: 'Select an option',
+      validation: this.getValidations(item)
     };
   }
 
@@ -85,18 +85,14 @@ export class MetadataService {
       type: "date",
       label: item.label,
       name: item.name,
-      validations: this.getValidations(item)
+      validation: this.getValidations(item)
     };
   }
 
   private getValidations(item: any): any[] {
     let validations = [];
     if (item.isRequired) {
-      let requiredValidation = {
-        name: "required",
-        validator: Validators.required,
-        message: `${item.label} is required`
-      };
+      let requiredValidation = Validators.required;      
       validations.push(requiredValidation);
     }
     return validations;

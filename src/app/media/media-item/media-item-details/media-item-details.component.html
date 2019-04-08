@@ -8,8 +8,10 @@
 
 <div class="row">
   <div class="col-md-6">
-    <dynamic-form style="display: inline" [fields]="fields" (action)="submit()" (submit)="submit($event)" 
+    <dynamic-form #form="dynamicForm" style="display: inline" [config]="fields" (submit)="submit($event)" 
       *ngIf="fields?.length > 0"></dynamic-form>
+      <!-- {{ form.valid }} -->
+      <!-- {{ form.value | json }} -->
   </div>
 
   <div class="col-md-6">
@@ -18,7 +20,7 @@
   </div>
 </div>
 
-<ejs-dialog #fieldsDialog [visible]='true' [width]='500'>
+<ejs-dialog #fieldsDialog [visible]='false' [width]='500'>
   <ng-template #content>
     <button class="dialog-close" (click)="closeDialog()">
       <img src="../../../../assets/images/dialog-close.svg" />

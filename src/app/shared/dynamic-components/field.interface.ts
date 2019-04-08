@@ -1,15 +1,7 @@
-export interface Validator {
-  name: string;
-  validator: any;
-  message: string;
-} 
-export interface FieldConfig {
-  label?: string;
-  name?: string;
-  inputType?: string;
-  options?: any[];
-  collections?: any;
-  type: string;
-  value?: any;
-  validations?: Validator[]; 
+import { FormGroup } from '@angular/forms';
+import { FieldConfig } from './field-config.interface';
+
+export interface Field {
+  config: FieldConfig,
+  group: FormGroup
 }

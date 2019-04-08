@@ -219,7 +219,7 @@ export class MediaState {
       let initialFields = resp.splice(0, 4);
       setState({
         ...state,
-        itemFields: []
+        itemFields: initialFields
       });      
     });
   }

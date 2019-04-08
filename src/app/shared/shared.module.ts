@@ -18,11 +18,11 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { PdfViewerModule} from "@syncfusion/ej2-angular-pdfviewer";
 import { ReactiveFormsModule, FormsModule }          from '@angular/forms';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
-import { InputComponent } from './dynamic-components/components/input.component';
-import { SelectComponent } from './dynamic-components/components/select.component';
+import { FormInputComponent } from './dynamic-components/components/form-input.component';
+import { FormSelectComponent } from './dynamic-components/components/form-select.component';
 import { DynamicFormComponent } from './dynamic-components/components/dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-components/directives/dynamic-field.directive';
-import { DateComponent } from './dynamic-components/components/date.component';
+import { FormDateComponent } from './dynamic-components/components/date.component';
 import { DatePickerAllModule } from '@syncfusion/ej2-angular-calendars';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
@@ -42,9 +42,9 @@ import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
     TileViewComponent,
     BreadcrumbComponent,
     PdfViewerComponent,
-    InputComponent,
-    SelectComponent,
-    DateComponent,
+    FormInputComponent,
+    FormSelectComponent,
+    FormDateComponent,
     DynamicFormComponent,    
     DynamicFieldDirective,
   ],
@@ -76,17 +76,17 @@ import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
     MapViewComponent,
     TreeViewComponent,
     TileViewComponent,
-    InputComponent,
+    FormInputComponent,
     DynamicFormComponent,
-    SelectComponent,
-    DateComponent,
+    FormSelectComponent,
+    FormDateComponent,
     PdfViewerComponent,
     DynamicFieldDirective
   ],
   entryComponents: [
-    InputComponent,
-    SelectComponent,
-    DateComponent
+    FormInputComponent,
+    FormSelectComponent,
+    FormDateComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
