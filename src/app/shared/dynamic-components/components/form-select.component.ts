@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, EventEmitter } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { Field } from '../field.interface';
 import { FieldConfig } from '../field-config.interface';
@@ -9,10 +9,17 @@ import { FieldConfig } from '../field-config.interface';
     <div [formGroup]="group">
       <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
-        <ejs-dropdownlist class="form-control form-control-lg" [dataSource]='config.options' [fields]='fields'
+        <ejs-dropdownlist class="form-control form-control-lg" [dataSource]='config.options' [fields]='fields' [(value)]="config.value"
           [formControlName]="config.name" placeholder="'Please select'"></ejs-dropdownlist>
-        <span class="e-icons e-delete" style="margin: 10px; color: #0097a9; font-size: 1.5em;"></span>
+        <button type="button" class="form-delete" (click)="performRemove(config)" *ngIf="showDelete">
+          <span class="e-icons e-delete"></span>
+        </button>
       </div>
+      <ng-container *ngFor="let validation of config.validations;">
+        <label class="form-description" *ngIf="group.get(config.name).hasError(validation.name) && (group.get(config.name).touched)">
+          {{validation.message}}
+        </label>
+      </ng-container>
     </div>
     <br />
 `,
@@ -21,5 +28,11 @@ import { FieldConfig } from '../field-config.interface';
 export class FormSelectComponent implements Field {
   config: FieldConfig;
   group: FormGroup;  
+  showDelete: boolean;
+  remove = new EventEmitter<any>();
   fields: Object = { text: 'text', value: 'value' };
+
+  performRemove(config: any) {
+    this.remove.emit(config);
+  }
 }

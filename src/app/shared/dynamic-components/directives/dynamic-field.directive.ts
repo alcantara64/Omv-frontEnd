@@ -5,11 +5,13 @@ import { FormInputComponent } from '../components/form-input.component';
 import { FormDateComponent } from '../components/date.component';
 import { Field } from '../field.interface';
 import { FieldConfig } from '../field-config.interface';
+import { FormLabelComponent } from '../components/form-label.component';
 
 const components: {[type: string]: Type<Field>} = {
   input: FormInputComponent,
   select: FormSelectComponent,
-  date: FormDateComponent
+  date: FormDateComponent,
+  label: FormLabelComponent
 };
 
 @Directive({
@@ -18,17 +20,19 @@ const components: {[type: string]: Type<Field>} = {
 export class DynamicFieldDirective implements Field, OnChanges, OnInit {
   @Input() config: FieldConfig;
   @Input() group: FormGroup;
+  @Input() showDelete: boolean;
+  @Output() remove = new EventEmitter<any>();
+
   component: ComponentRef<Field>;
 
-  constructor(
-    private resolver: ComponentFactoryResolver,
-    private container: ViewContainerRef
-  ) {}
+  constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef) {}
 
   ngOnChanges() {
     if (this.component) {
       this.component.instance.config = this.config;
       this.component.instance.group = this.group;
+      this.component.instance.showDelete = this.showDelete;
+      this.component.instance.remove = this.remove;
     }
   }
 
@@ -44,5 +48,7 @@ export class DynamicFieldDirective implements Field, OnChanges, OnInit {
     this.component = this.container.createComponent(component);
     this.component.instance.config = this.config;
     this.component.instance.group = this.group;
+    this.component.instance.showDelete = this.showDelete;
+    this.component.instance.remove = this.remove;
   }
 }

@@ -1,17 +1,15 @@
 <div class="form-title">File Title</div>
 
 <div class="actionBar">
-  <button (click)="showFieldsDialog()"><span class="actions"><i style="color: #33acbb" class="e-icons e-add"></i> Add Field</span></button>
+  <button (click)="showFieldsDialog()"><span class="actions"><img src="../../../../assets/images/icon-add.svg" /> &nbsp;Add Field</span></button>
   <button (click)="submit()"><span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span></button>
   <button><span class="actions"><i style="color: #da5200" class="e-icons e-clear"></i> Disregard Changes</span></button>
 </div>
 
 <div class="row">
   <div class="col-md-6">
-    <dynamic-form #form="dynamicForm" style="display: inline" [config]="fields" (submit)="submit($event)" 
+    <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="fields" (submit)="submit($event)" (remove)="performRemove($event)" [showDelete]='true'
       *ngIf="fields?.length > 0"></dynamic-form>
-      <!-- {{ form.valid }} -->
-      <!-- {{ form.value | json }} -->
   </div>
 
   <div class="col-md-6">
@@ -30,8 +28,18 @@
     <label class="dialog-title">Add Field</label>
     <hr />
     <br />
-    <ejs-dropdownlist class="" [dataSource]='allItemFields' [fields]='itemFields' [(value)]="fieldItem" placeholder="Please Select"></ejs-dropdownlist>
+    <ejs-listview #listview id='List' [dataSource]='allItemFields'cssClass='e-list-template' sortOrder='Ascending'>
+      <ng-template #template let-allItemFields="">
+        <div class="e-list-wrapper e-list-multi-line dialog-list" (click)="selectField(allItemFields)" style="cursor: pointer;">          
+          <span [ngClass]="{'dialog-list-item-checked': allItemFields.isChecked, 'dialog-list-item': !allItemFields.isChecked}"> {{ allItemFields.label }} </span>
+          <img *ngIf="allItemFields.isChecked || allItemFields.isSelected" 
+                [src]="allItemFields.isSelected ? '../../../../assets/images/checkmark-yellow.svg' : '../../../../assets/images/checkmark.svg'" 
+                class="float-right" 
+            />
+        </div>
+      </ng-template>
+    </ejs-listview>
     <br />
-    <button class="btn btn-lg omv-primary" (click)="addField()"> Done </button>
+    <button class="btn btn-lg omv-primary" (click)="addFields()"> Done </button>
   </ng-template>
 </ejs-dialog>

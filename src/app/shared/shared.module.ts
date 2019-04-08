@@ -26,6 +26,7 @@ import { FormDateComponent } from './dynamic-components/components/date.componen
 import { DatePickerAllModule } from '@syncfusion/ej2-angular-calendars';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
+import { FormLabelComponent } from './dynamic-components/components/form-label.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
     BreadcrumbComponent,
     PdfViewerComponent,
     FormInputComponent,
+    FormLabelComponent,
     FormSelectComponent,
     FormDateComponent,
     DynamicFormComponent,    
@@ -76,8 +78,9 @@ import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
     MapViewComponent,
     TreeViewComponent,
     TileViewComponent,
-    FormInputComponent,
     DynamicFormComponent,
+    FormInputComponent,
+    FormLabelComponent,
     FormSelectComponent,
     FormDateComponent,
     PdfViewerComponent,
@@ -85,6 +88,7 @@ import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
   ],
   entryComponents: [
     FormInputComponent,
+    FormLabelComponent,
     FormSelectComponent,
     FormDateComponent
   ],

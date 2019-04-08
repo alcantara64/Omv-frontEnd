@@ -3,6 +3,7 @@ import { MediaDataService } from 'src/app/core/services/data/media/media.data.se
 import { map, mergeMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Validators } from '@angular/forms';
+import { Validator, FieldConfig } from './field-config.interface';
 
 @Injectable()
 export class MetadataService {
@@ -24,24 +25,27 @@ export class MetadataService {
     let items = await this.mediaDataService.getMetadata(1).toPromise();
     if (items) {
       items.forEach(async item => {
-        let _item: any;
+        let field: any;
         switch(item.type) {
           case 'text':
-            _item = this.buildTextBox(item);
+            field = this.buildTextBox(item);
             break;
           case 'select':
-            _item = this.buildDropdown(item);
+            field = this.buildDropdown(item);
             break;
           case 'date':
-            _item = this.buildDate(item);
+            field = this.buildDate(item);
+            break;
+          case 'label':
+            field = this.buildLabel(item);
             break;
         }        
-        metaArray.push(_item);
+        metaArray.push(field);
       });
     }    
     console.log('testing select: ', metaArray);
 
-    return await metaArray;
+    return await metaArray.sort(x => x.order);
   }
 
   private getOptions(id: any) {
@@ -61,9 +65,22 @@ export class MetadataService {
     return {
       type: "input",
       label: item.label,
+      inputType: "text",
       name: item.name,
+      order: item.order,
       placeholder: item.label,
-      validation: this.getValidations(item)
+      value: item.value,
+      validations: this.getValidations(item)
+    };
+  }
+
+  private buildLabel(item: any): any {
+    return {
+      type: "label",
+      label: item.label,
+      name: item.name,
+      order: item.order,
+      value: item.value
     };
   }
 
@@ -72,11 +89,12 @@ export class MetadataService {
       type: "select",
       label: item.label,
       name: item.name,
+      order: item.order,
       value: item.value ? item.value : '',
       optionsId: item.optionsId,
       options: [],
       placeholder: 'Select an option',
-      validation: this.getValidations(item)
+      validations: this.getValidations(item)
     };
   }
 
@@ -85,14 +103,21 @@ export class MetadataService {
       type: "date",
       label: item.label,
       name: item.name,
-      validation: this.getValidations(item)
+      order: item.order,
+      value: item.value,
+      validations: this.getValidations(item)
     };
   }
 
   private getValidations(item: any): any[] {
     let validations = [];
     if (item.isRequired) {
-      let requiredValidation = Validators.required;      
+      let requiredValidation: Validator = {
+        name: 'required',
+        validator: Validators.required,
+        message: `${item.label} is required`
+      };
+
       validations.push(requiredValidation);
     }
     return validations;

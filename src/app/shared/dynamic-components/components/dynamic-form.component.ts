@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FieldConfig } from '../field-config.interface';
 
 @Component({
@@ -7,18 +7,19 @@ import { FieldConfig } from '../field-config.interface';
   selector: "dynamic-form",
   template: `
     <form [formGroup]="form" (submit)="handleSubmit($event)">
-      <ng-container *ngFor="let field of config;" dynamicField [config]="field" [group]="form">
+      <ng-container *ngFor="let field of config;" dynamicField (remove)="performRemove($event)" [config]="field" [group]="form" [showDelete]="showDelete">
       </ng-container>
     </form>
   `, 
   styles: []
 })
 export class DynamicFormComponent implements OnChanges, OnInit {
-  @Input()
-  config: FieldConfig[] = [];
+  @Input() config: FieldConfig[] = [];
+  @Input() showDelete: boolean;
 
-  @Output()
-  submit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() submit: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output() remove = new EventEmitter<any>();
 
   form: FormGroup;
 
@@ -31,6 +32,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     this.form = this.createGroup();
+    console.log('DynamicFormComponent - ngOnInit ', this.form);
   }
 
   ngOnChanges() {
@@ -48,26 +50,40 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           const config = this.config.find((control) => control.name === name);
           this.form.addControl(name, this.createControl(config));
         });
-
+        console.log('DynamicFormComponent - ngOnChanges if', this.form);
     }
+    console.log('DynamicFormComponent - ngOnChanges else', this.form);
   }
 
   createGroup() {
     const group = this.fb.group({});
     this.controls.forEach(control => group.addControl(control.name, this.createControl(control)));
+    console.log('DynamicFormComponent - createGroup ', group);
     return group;
   }
 
   createControl(config: FieldConfig) {
-    const { disabled, validation, value } = config;
-    return this.fb.control({ disabled, value }, validation);
+    const { disabled, validations, value } = config;
+    return this.fb.control(value, this.bindValidations(validations || []));
+  }
+
+  addControl(config: FieldConfig) {
+    const control = this.createControl(config);
+    this.form.addControl(config.name, control);
+  }
+
+  removeControl(name: string) {
+    this.form.removeControl(name);
   }
 
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    console.log(this.form);
-    this.submit.emit(this.value);
+    if (this.form.valid) {
+      this.submit.emit(this.value);
+    } else {
+      this.validateAllFormFields(this.form);
+    }
   }
 
   setDisabled(name: string, disable: boolean) {
@@ -87,5 +103,27 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   setValue(name: string, value: any) {
     this.form.controls[name].setValue(value, {emitEvent: true});
+  }
+
+  bindValidations(validations: any) {
+    if (validations.length > 0) {
+      const validList = [];
+      validations.forEach(valid => {
+        validList.push(valid.validator);
+      });
+      return Validators.compose(validList);
+    }
+    return null;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      control.markAsTouched({ onlySelf: true });
+    });
+  }
+
+  performRemove(config: any) {
+    this.remove.emit(config);
   }
 }
