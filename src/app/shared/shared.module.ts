@@ -21,6 +21,9 @@ import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
 import { ReactiveFormsModule }          from '@angular/forms';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metadata/dynamic-form-metadata.component';
+import { PdfViewerAltComponent } from './pdf-viewer-alt/pdf-viewer-alt.component';
+import {NgxExtendedPdfViewerModule} from "ngx-extended-pdf-viewer";
+import { MediaViewerComponent } from './media-viewer/media-viewer.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metada
     TileViewComponent,
     BreadcrumbComponent,
     pdfViewerComponent.PdfViewerComponent,
-    PdfViewerComponent
+    PdfViewerComponent,
+    PdfViewerAltComponent,
+    MediaViewerComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +56,7 @@ import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metada
     GridAllModule,
     ListViewModule,
     ReactiveFormsModule,
+    NgxExtendedPdfViewerModule
   ],
   exports: [
     CommonModule,

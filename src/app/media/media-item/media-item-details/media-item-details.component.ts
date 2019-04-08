@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-media-item-details',
@@ -11,17 +11,19 @@ export class MediaItemDetailsComponent implements OnInit {
 
   public service: string = 'https://ej2services.syncfusion.com/production/web-services/api/pdfviewer';
   public document: string = 'PDF_Succinctly.pdf';
+  public mediaID: number;
 
   public minDate: Date = new Date ("05/07/2017");
   public maxDate: Date = new Date ("05/27/2017");
   public value: Date = new Date ("05/16/2017");
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.mediaID = Number(this.activeRoute.snapshot.paramMap.get('id'));
   }
 
   activatePDFViewer() {
-    this.router.navigate(['pdf-viewer', {service: this.service, document: this.document }]);
+    this.router.navigate(['media-viewer/'+this.mediaID]);
   }
 }

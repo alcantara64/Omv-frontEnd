@@ -1,0 +1,22 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#" class="breadcrumbs__element"><ins></ins></a></li>
+    <li class="breadcrumb-item"><a class="breadcrumbs__element"><ins>BACK</ins></a></li>
+  </ol>
+</nav>
+
+<hr class="stroke" />
+
+<div class="form-title">File Title</div>
+
+
+<div class="control-section">
+  <div class="content-wrapper">
+    <embed *ngIf="mediaType === 'pdf'" [src]="mediaSource" style="width: 100%; height: 100vh">
+    <div *ngIf="mediaType === 'jpg' || mediaType === 'png' || mediaType === 'gif'" style="width: 100%; height: 100vh">
+      <img [src]="mediaSource" [alt]="mediaOBJ.name" >
+    </div>
+    <div *ngIf="mediaType === 'doc' || mediaType === 'docx' " [src]="mediaSource" style="width: 100%; height: 100vh"></div>
+  </div>
+</div>
+
