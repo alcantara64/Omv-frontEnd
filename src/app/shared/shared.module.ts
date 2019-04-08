@@ -37,7 +37,6 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     MapViewComponent,
     TreeViewComponent,
     TileViewComponent,
-    BreadcrumbComponent,
     PdfViewerComponent
   ],
   imports: [

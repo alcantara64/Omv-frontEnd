@@ -33,7 +33,7 @@ import {DatePickerModule} from "@syncfusion/ej2-angular-calendars";
     AppComponent,
     DashboardComponent,
     AuthCallbackComponent,
-    StartupComponent,
+    StartupComponent
   ],
   imports: [
     BrowserModule,
