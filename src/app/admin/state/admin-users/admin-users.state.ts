@@ -18,6 +18,7 @@ import { UserStatus } from "src/app/core/enum/user-status.enum";
 import { Group } from "src/app/core/models/entity/group";
 import { DisplayToastMessage } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
+import { DateService } from 'src/app/core/services/business/dates/date.service';
 
 export class AdminUserStateModel {
   users: User[];
@@ -49,7 +50,7 @@ const initialUser: User = {
   }
 })
 export class AdminUserState {
-  constructor(private adminUserService: AdminUsersService) {}
+  constructor(private adminUserService: AdminUsersService, private dateService: DateService) {}
 
   // #region S E L E C T O R S
   @Selector()
@@ -96,6 +97,10 @@ export class AdminUserState {
     return this.adminUserService.getUsers(name, groupId).pipe(
       tap(users => {
         const state = getState();
+        users.map(user => {
+          user.modifiedOnString = this.dateService.formatToString(user.modifiedOn);
+        });
+
         setState({
           ...state,
           users: users

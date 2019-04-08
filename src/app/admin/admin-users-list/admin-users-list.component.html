@@ -36,8 +36,9 @@
               (firstAction)="changeUsersStatus($event)" (secondAction)="assignUsersToGroups($event)"
               (secondNavigateAction)="edit($event)"
               [showSecondAction]="true"
-              [secondActionText]="editIcon"
-              [checkField]="'userId'">
+              [secondActionText]="editIcon" 
+              [checkField]="'userId'"
+              [totalCountText]="'Total Users'">
     </app-list>
   </div>
 

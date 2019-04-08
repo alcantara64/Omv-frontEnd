@@ -15,6 +15,9 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   selectedRecords = [];
 
+  @Input() 
+  totalCountText: string;
+
   @Input()
   initialRecords = [];
 

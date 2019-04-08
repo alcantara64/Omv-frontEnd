@@ -57,7 +57,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
     { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
     { type: '', headerText: 'Name', width: '', field: 'displayName' },
     { type: '', headerText: 'Email', width: '', field: 'emailAddress' },
-    { type: '', headerText: 'Last Modified', width: '', field: 'modifiedBy' },
+    { type: '', headerText: 'Last Modified', width: '', field: 'modifiedOnString' },
     { type: '', headerText: 'Group', width: '150', field: 'roleNames' }
   ];
 
