@@ -90,7 +90,7 @@ html, body {
     flex-wrap: wrap;
   }
 
-  .breadcrumbs__item{
+  .breadcrumbs__item{ 
     display: inline-block;
     position: relative;
 
@@ -202,9 +202,14 @@ html, body {
   color: #ffffff!important;
   text-transform: initial !important;
   padding: 10px 25px!important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: -0.3px;
+  text-align: center;
   margin: 5px;
   border: none;
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 .omv-primary[disabled]{
@@ -439,6 +444,7 @@ button{
   color: #5b7f95;
 }
 
+
 /*#region L A B E L S */
 
 /*#region I N P U T S */
@@ -500,3 +506,26 @@ ins{
   text-decoration: none;
 }
 /************ End Breadcrumb **************/
+
+/*#region Dialog */
+
+.e-dlg-content {
+  background: #EAF1F2 !important;
+}
+
+.dialog-title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  text-align: center;
+  color: #033b5c;
+  font-weight: 600;
+  margin:0 auto;
+  display:block;
+}
+
+.dialog-close {
+  float: right;
+
+}
+
+/*#endregion */

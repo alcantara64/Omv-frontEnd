@@ -10,7 +10,12 @@ i{
 .selected-background{
   filter: brightness(0.5) sepia(1) hue-rotate(140deg) saturate(6);
 }
+.tile-svg {
+  /* filter: invert(48%) sepia(1) saturate(140deg) hue-rotate(86deg) brightness(0.5) contrast(119%); */
+  filter: lightgrey;
 
+  /* filter: brightness(0.5) sepia(1) hue-rotate(140deg) saturate(6); */
+}
 .box-sizing{
   background-color:#fff;
   padding: 0.5rem;

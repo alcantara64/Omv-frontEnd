@@ -17,11 +17,11 @@ const mediaRoutes: Routes = [
     path: 'media',
     component: MediaComponent,
     children: [
-      { path: '', redirectTo: 'all', pathMatch: 'full',data: { breadcrumb: 'Details'} },
-      { path: 'all', component: AllMediaComponent, data: { breadcrumb: 'All Media'}},
-      { path: 'favorites', component: MediaFavoritesComponent, data: { breadcrumb: 'Favourites'}},
-      { path: 'archive', component: MediaStreamingArchiveComponent, data: { breadcrumb: 'Streaming Archive'}},
-      { path: 'favorites/all', component: MediaFavoritesTileviewComponent, data: { breadcrumb: 'Favourites All'}},
+      { path: '', redirectTo: 'all', pathMatch: 'full',data: { breadcrumb: 'Details'}, },
+      { path: 'all', component: AllMediaComponent, data: { breadcrumb: 'All Media'},},
+      { path: 'favorites', component: MediaFavoritesComponent, data: { breadcrumb: 'Favourites'},},
+      { path: 'archive', component: MediaStreamingArchiveComponent, data: { breadcrumb: 'Streaming Archive'},},
+      { path: 'favorites/all', component: MediaFavoritesTileviewComponent, data: { breadcrumb: 'Favourites All'},},
     ],
     data: { breadcrumb: 'Media'} 
   },

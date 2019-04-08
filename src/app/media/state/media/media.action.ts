@@ -27,3 +27,44 @@ export class GetHistory {
   
   constructor(public id: number) { }
 }
+export class GetMediaTreeData {
+  static readonly type = '[Media] GetMediaTreeData';
+
+  constructor( ) { }
+}
+
+export class GetDirectories {
+  static readonly type = '[Media] GetDirectories';
+  
+  constructor() { }
+}
+
+export class GetMetadata {
+  static readonly type = '[Media] GetMetadata';
+  
+  constructor() { }
+}
+
+export class GetAllMediaItemFields {
+  static readonly type = '[Media] GetAllMediaItemFields';
+  
+  constructor(public id: number) { }
+}
+
+export class GetMediaItemFields {
+  static readonly type = '[Media] GetMediaItemFields';
+  
+  constructor(public id: number) { }
+}
+
+export class AddMediaItemField {
+  static readonly type = '[Media] AddMediaItemField';
+  
+  constructor(public payload: any) { }
+}
+
+export class RemoveMediaItemField {
+  static readonly type = '[Media] RemoveMediaItemField';
+  
+  constructor(public id: number) { }
+}

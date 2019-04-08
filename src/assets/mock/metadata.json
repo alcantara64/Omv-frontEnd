@@ -1,6 +1,17 @@
 [
   {
-    "fieldName": "Platform",
+    "name": "fileName",
+    "label": "Name",
+    "type": "text",
+    "optionsId": null,
+    "optionsName": null,
+    "value": "",
+    "isRequired": true,
+    "order": 2
+  },
+  {
+    "name": "platform",
+    "label": "Platform",
     "type": "text",
     "optionsId": null,
     "optionsName": null,
@@ -9,12 +20,43 @@
     "order": 0
   },
   {
-    "fieldName": "Country",
+    "name": "country",
+    "label": "Country",
     "type": "select",
     "optionsId": "2",
     "optionsName": "CountryList",
     "value": "",
     "isRequired": false,
     "order": 1
-  }  
+  },
+  {
+    "name": "author",
+    "label": "Author",
+    "type": "text",
+    "optionsId": null,
+    "optionsName": null,
+    "value": "",
+    "isRequired": true,
+    "order": 2
+  },
+  {
+    "name": "dob",
+    "label": "DOB",
+    "type": "date",
+    "optionsId": null,
+    "optionsName": null,
+    "value": "",
+    "isRequired": true,
+    "order": 2
+  },
+  {
+    "name": "gender",
+    "label": "Gender",
+    "type": "select",
+    "optionsId": "GN",
+    "optionsName": "GenderList",
+    "value": "",
+    "isRequired": true,
+    "order": 1
+  }
 ]

@@ -29,6 +29,8 @@ import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorit
 import { PagerModule } from '@syncfusion/ej2-angular-grids';
 import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @NgModule({
 	declarations: [
@@ -58,6 +60,8 @@ import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
 		TreeViewAllModule,
 		TreeGridModule,
 		CheckBoxModule,
+		DialogModule,
+		DropDownListModule,
 		NgxsModule.forFeature([
 			MediaState
 		])

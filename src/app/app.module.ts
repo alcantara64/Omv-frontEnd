@@ -27,13 +27,14 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
 import {DatePickerModule} from "@syncfusion/ej2-angular-calendars";
+import { MetadataService } from './shared/dynamic-components/metadata.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     AuthCallbackComponent,
-    StartupComponent
+    StartupComponent,    
   ],
   imports: [
     BrowserModule,
@@ -59,7 +60,7 @@ import {DatePickerModule} from "@syncfusion/ej2-angular-calendars";
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     SettingsService,
     AdminUsersService,
-    
+    MetadataService
    ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA , NO_ERRORS_SCHEMA]

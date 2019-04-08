@@ -2,8 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { projectData } from './data';
 import { SelectionSettingsModel } from '@syncfusion/ej2-treegrid';
 import { RowDataBoundEventArgs } from '@syncfusion/ej2-grids';
-import { MetadataService } from 'src/app/shared/dynamic-form/metadata.service';
 import { Observable } from 'rxjs';
+import { Validators } from '@angular/forms';
+import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
+import { FieldConfig } from 'src/app/shared/dynamic-components/field.interface';
+import { MetadataService } from 'src/app/shared/dynamic-components/metadata.service';
+import { Store, Select } from '@ngxs/store';
+import { GetMetadata } from '../state/media/media.action';
+import { MediaState } from '../state/media/media.state';
 
 const BROWSE = 'Browse';
 const CHANGE = 'Change';
@@ -12,7 +18,7 @@ const CHANGE = 'Change';
   selector: 'app-media-upload',
   templateUrl: './media-upload.component.html',
   styleUrls: ['./media-upload.component.css'],
-  providers:  [MetadataService]
+  providers: [ MetadataService ]
 })
 export class MediaUploadComponent implements OnInit {
 
@@ -30,15 +36,27 @@ export class MediaUploadComponent implements OnInit {
   metadatas$: Observable<any[]>;
   metadatas1$: Observable<any[]>;
   metadata: any[] = [];
+
   
-  constructor(private service: MetadataService) {
-    this.metadata = service.getMetadata();
-   }
+  @ViewChild(DynamicFormComponent) form: any;
+  regConfig: FieldConfig[] = [];
+
+  @Select(MediaState.getMetaData) metadata$: Observable<any[]>;
+  
+  constructor(private store: Store, private metadataService: MetadataService) { }
 
   ngOnInit() {
     this.data = projectData;
     this.selectionOptions = { mode: 'Row', type: 'Single' };
-  }
+
+    this.store.dispatch(new GetMetadata());
+
+    this.metadata$.subscribe(resp => {
+      this.form = DynamicFormComponent;
+      this.regConfig = resp;
+      console.log('MediaUploadComponent ngOnInit resp: ', resp);   
+    });
+  }  
 
   addFiles() {
     this.file.nativeElement.click();
@@ -63,5 +81,10 @@ export class MediaUploadComponent implements OnInit {
     if (data) {
       this.isDestinationSelected = true;
     }
-  } 
+  }
+
+  submit(value: any) {
+    console.log('submit: ', value);
+    console.log('submit form: ', this.form.value);
+  }
 }

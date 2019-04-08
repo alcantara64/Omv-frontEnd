@@ -10,25 +10,28 @@ import { ModalComponent } from './modal/modal.component';
 import { EditComponent } from './edit/edit.component';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
-import { TabAllModule } from '@syncfusion/ej2-angular-navigations';
 import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { PdfViewerModule} from "@syncfusion/ej2-angular-pdfviewer";
-import { ReactiveFormsModule }          from '@angular/forms';
-import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
-import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metadata/dynamic-form-metadata.component';
+import { ReactiveFormsModule, FormsModule }          from '@angular/forms';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
+import { InputComponent } from './dynamic-components/components/input.component';
+import { SelectComponent } from './dynamic-components/components/select.component';
+import { DynamicFormComponent } from './dynamic-components/components/dynamic-form.component';
+import { DynamicFieldDirective } from './dynamic-components/directives/dynamic-field.directive';
+import { DateComponent } from './dynamic-components/components/date.component';
+import { DatePickerAllModule } from '@syncfusion/ej2-angular-calendars';
+import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     AppHeaderComponent,
     BreadcrumbComponent,
-    DynamicFormComponent,
-    DynamicFormMetadataComponent,
     LeftNavComponent,
     TabsComponent, 
     ListComponent,
@@ -37,7 +40,13 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     MapViewComponent,
     TreeViewComponent,
     TileViewComponent,
-    PdfViewerComponent
+    BreadcrumbComponent,
+    PdfViewerComponent,
+    InputComponent,
+    SelectComponent,
+    DateComponent,
+    DynamicFormComponent,    
+    DynamicFieldDirective,
   ],
   imports: [
     CommonModule,
@@ -45,9 +54,12 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     GridAllModule,
     ButtonAllModule, 
     CheckBoxModule,
+    DialogAllModule,
     RouterModule,
     GridAllModule,
     ListViewModule,
+    DatePickerAllModule,
+    DropDownListAllModule,
     ReactiveFormsModule,
     PdfViewerModule
   ],
@@ -55,18 +67,26 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     CommonModule,
     AppHeaderComponent,
     BreadcrumbComponent,
-    DynamicFormComponent,
-    DynamicFormMetadataComponent,
     LeftNavComponent,
     PageNotFoundComponent,
     ListComponent,
     TabsComponent, 
     ModalComponent,
-    EditComponent,
+    EditComponent, 
     MapViewComponent,
     TreeViewComponent,
     TileViewComponent,
-    PdfViewerComponent
+    InputComponent,
+    DynamicFormComponent,
+    SelectComponent,
+    DateComponent,
+    PdfViewerComponent,
+    DynamicFieldDirective
+  ],
+  entryComponents: [
+    InputComponent,
+    SelectComponent,
+    DateComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

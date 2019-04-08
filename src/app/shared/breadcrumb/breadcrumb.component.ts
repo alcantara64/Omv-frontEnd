@@ -10,15 +10,14 @@ import { Observable } from 'rxjs';
   styleUrls: ['./breadcrumb.component.css'],
 })
 export class BreadcrumbComponent implements OnInit {
-  breadcrumbs$: Observable<any>;
+  breadcrumbs$: Observable<BreadCrumb[]>;
  
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
-    console.log('breadcrumbs',this.activatedRoute.snapshot.paramMap.get('path'));
-
+    // console.log('breadcrumbs',this.activatedRoute.snapshot.paramMap.get('BreadCrumb'));
   }
 
   ngOnInit() {
-    this.breadcrumbs$ = this.router.events.pipe(
+      this.breadcrumbs$ = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       distinctUntilChanged(),
       map(event => this.buildBreadCrumb(this.activatedRoute.root))
