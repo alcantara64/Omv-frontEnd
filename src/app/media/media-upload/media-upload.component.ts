@@ -49,7 +49,7 @@ export class MediaUploadComponent implements OnInit {
     this.data = projectData;
     this.selectionOptions = { mode: 'Row', type: 'Single' };
 
-    this.store.dispatch(new GetMetadata());
+    this.store.dispatch(new GetMetadata(4));
 
     this.metadata$.subscribe(resp => {
       this.form = DynamicFormComponent;

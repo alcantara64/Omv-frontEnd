@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MediaDataService } from 'src/app/core/services/data/media/media.data.service';
-import { map, mergeMap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Validators } from '@angular/forms';
 import { Validator, FieldConfig } from './field-config.interface';
 
@@ -9,6 +8,16 @@ import { Validator, FieldConfig } from './field-config.interface';
 export class MetadataService {
 
   constructor(private mediaDataService: MediaDataService) { }
+
+  async getDirectoryMetadata(directoryId?: number): Promise<any[]> {
+    let data = await this.mediaDataService.getMetadata(directoryId).toPromise();
+    data.forEach(async item => {
+      if (item.type === 'select') {
+        item.options = await this.getOptions(item.optionsId).toPromise();
+      }
+    });
+    return data;
+  }
 
   async getFinalData() {
     let data = await this.getMetadata();
@@ -69,7 +78,6 @@ export class MetadataService {
       name: item.name,
       order: item.order,
       placeholder: item.label,
-      value: item.value,
       validations: this.getValidations(item)
     };
   }
@@ -79,8 +87,7 @@ export class MetadataService {
       type: "label",
       label: item.label,
       name: item.name,
-      order: item.order,
-      value: item.value
+      order: item.order
     };
   }
 
@@ -90,7 +97,6 @@ export class MetadataService {
       label: item.label,
       name: item.name,
       order: item.order,
-      value: item.value ? item.value : '',
       optionsId: item.optionsId,
       options: [],
       placeholder: 'Select an option',
@@ -104,7 +110,6 @@ export class MetadataService {
       label: item.label,
       name: item.name,
       order: item.order,
-      value: item.value,
       validations: this.getValidations(item)
     };
   }

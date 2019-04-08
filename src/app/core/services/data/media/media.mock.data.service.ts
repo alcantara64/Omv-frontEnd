@@ -34,11 +34,11 @@ export class MediaMockDataService implements MediaDataService {
     return data;
   }
 
-  getMediaItem(id: number): Observable<MediaItem> {
+  getMediaItem(id: number): Observable<any> {
     var url = `./assets/mock/media.json`;
-    let data = this.httpClient.get<MediaItem[]>(url).pipe(
+    let data = this.httpClient.get<any[]>(url).pipe(
       map(items => {
-        return items.find(x => x.id === id);
+        return items.find(x => x.id === id.toString());
       })
     );
     return data;

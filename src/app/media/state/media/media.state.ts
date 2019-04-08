@@ -1,4 +1,5 @@
-import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite, GetMediaTreeData, GetMetadata, GetItemMetadata, AddMediaItemField, RemoveMediaItemField } from './media.action';
+import { GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData, GetMetadata,
+  GetItemMetadata, AddMediaItemField, RemoveMediaItemField } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
@@ -111,8 +112,8 @@ export class MediaState {
     );
   }
 
-  @Action(GetMediaItem)
-  getMediaItem({ getState, setState }: StateContext<MediaStateModel>, { id }: GetMediaItem) {
+  @Action(GetMediaItemDetails)
+  getMediaItem({ getState, setState }: StateContext<MediaStateModel>, { id }: GetMediaItemDetails) {
     return this.mediaService.getMediaItem(id).pipe(
       tap(item => {
         const state = getState();
@@ -191,12 +192,12 @@ export class MediaState {
   // }
 
   @Action(GetMetadata)
-  async getMetadata({ getState, setState }: StateContext<MediaStateModel>) {
-    this.metaDataService.getFinalData().then(resp => {
+  async getMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetMetadata) {
+    this.metaDataService.getDirectoryMetadata(id).then(metadata => {
       const state = getState();
       setState({
         ...state,
-        metadata: resp
+        metadata: metadata
       });      
     });
   }

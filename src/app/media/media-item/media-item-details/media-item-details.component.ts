@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 import { Select, Store } from '@ngxs/store';
+import { GetMediaItemDetails, GetItemMetadata, AddMediaItemField, RemoveMediaItemField, GetMetadata } from '../../state/media/media.action';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
-import { GetMetadata, GetItemMetadata, AddMediaItemField, RemoveMediaItemField } from '../../state/media/media.action';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { takeWhile } from 'rxjs/operators';
 import { EmitType } from '@syncfusion/ej2-base';
 import { FieldConfig } from 'src/app/shared/dynamic-components/field-config.interface';
-import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { MediaItemDetailsService } from './media-item-details.service';
 
 @Component({
   selector: 'app-media-item-details',
@@ -27,8 +28,9 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
   fields: FieldConfig[] = [];
-  @Select(MediaState.getCurrentItemMetadata) metadata$: Observable<any[]>;
+  @Select(MediaState.getMetaData) metadata$: Observable<any[]>;
   @Select(MediaState.getItemFields) itemFields$: Observable<any[]>;
+  @Select(MediaState.getCurrentMediaItem) itemDetails$: Observable<any[]>;
 
   @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
   @ViewChild('listview') element:any;
@@ -36,20 +38,27 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   itemFields: Object = { text: 'label', value: 'name' };
   fieldItem: any;
   allItemFields: any[];
+  itemDetails: any;
+  metadata: any;
   selectedFields: FieldConfig[] = [];
 
-  constructor(private store: Store, private router: Router, private fb: FormBuilder) { }
+  constructor(private store: Store, private router: Router, private fb: FormBuilder, private mediaItemDetailsService: MediaItemDetailsService) { }
 
   ngOnInit() {
-    this.store.dispatch(new GetItemMetadata(0));
-
-    this.itemFields$.subscribe(data => {
-      this.fields = data;
-    }), takeWhile(() => this.componentActive);
+    this.store.dispatch(new GetMediaItemDetails(4));
+    this.store.dispatch(new GetMetadata(0));
 
     this.metadata$.subscribe(data => {
       this.allItemFields = data;
+      this.metadata = data;
+      this.fields = this.mediaItemDetailsService.buildFields(data, this.itemDetails);
       console.log('MediaItemDetailsComponent ngOnInit allItemFields: ', this.allItemFields);
+    }), takeWhile(() => this.componentActive);
+
+    this.itemDetails$.subscribe(data => {
+      this.itemDetails = data;      
+      this.fields = this.mediaItemDetailsService.buildFields(this.metadata, this.itemDetails);
+      console.log('MediaItemDetailsComponent ngOnInit itemDetails: ', data);
     }), takeWhile(() => this.componentActive);
   }
 

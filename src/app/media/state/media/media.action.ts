@@ -6,8 +6,8 @@ export class GetMedia {
   constructor(public pageNumber?: number , public pageSize?: number ) { }
 }
 
-export class GetMediaItem {
-  static readonly type = '[Media] GetMediaItem';
+export class GetMediaItemDetails {
+  static readonly type = '[Media] GetMediaItemDetails';
   
   constructor(public id: number) { }
 }
@@ -42,7 +42,7 @@ export class GetDirectories {
 export class GetMetadata {
   static readonly type = '[Media] GetMetadata';
   
-  constructor() { }
+  constructor(public id: number) { }
 }
 
 export class GetItemMetadata {
