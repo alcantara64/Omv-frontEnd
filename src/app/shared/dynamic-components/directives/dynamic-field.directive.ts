@@ -1,38 +1,54 @@
-import { ComponentFactoryResolver, ComponentRef, Directive, Input, OnInit, ViewContainerRef, EventEmitter, Output } from "@angular/core";
+import { ComponentFactoryResolver, ComponentRef, Directive, Input, OnInit, ViewContainerRef, EventEmitter, Output, Type, OnChanges } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { FieldConfig } from '../field.interface';
-import { SelectComponent } from '../components/select.component';
-import { InputComponent } from '../components/input.component';
-import { DateComponent } from '../components/date.component';
+import { FormSelectComponent } from '../components/form-select.component';
+import { FormInputComponent } from '../components/form-input.component';
+import { FormDateComponent } from '../components/date.component';
+import { Field } from '../field.interface';
+import { FieldConfig } from '../field-config.interface';
+import { FormLabelComponent } from '../components/form-label.component';
 
-const componentMapper = {
-  input: InputComponent,
-  select: SelectComponent,
-  date: DateComponent
+const components: {[type: string]: Type<Field>} = {
+  input: FormInputComponent,
+  select: FormSelectComponent,
+  date: FormDateComponent,
+  label: FormLabelComponent
 };
+
 @Directive({
   selector: "[dynamicField]"
 })
-export class DynamicFieldDirective implements OnInit {
-  @Input() field: FieldConfig;
+export class DynamicFieldDirective implements Field, OnChanges, OnInit {
+  @Input() config: FieldConfig;
   @Input() group: FormGroup;
-  @Output() action = new EventEmitter<any>();
-  componentRef: any;
-  constructor(
-    private resolver: ComponentFactoryResolver,
-    private container: ViewContainerRef
-  ) {}
-  ngOnInit() {    
-    const factory = this.resolver.resolveComponentFactory(
-      componentMapper[this.field.type]
-    );
-    this.componentRef = this.container.createComponent(factory);
-    this.componentRef.instance.field = this.field;
-    this.componentRef.instance.group = this.group;
+  @Input() showDelete: boolean;
+  @Output() remove = new EventEmitter<any>();
+
+  component: ComponentRef<Field>;
+
+  constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef) {}
+
+  ngOnChanges() {
+    if (this.component) {
+      this.component.instance.config = this.config;
+      this.component.instance.group = this.group;
+      this.component.instance.showDelete = this.showDelete;
+      this.component.instance.remove = this.remove;
+    }
   }
 
-  performAction(value?: any) {
-    console.log('DynamicFieldDirective - performAction: ', value);
-    this.action.emit(value);
+  ngOnInit() {    
+    if (!components[this.config.type]) {
+      const supportedTypes = Object.keys(components).join(', ');
+      throw new Error(
+        `Trying to use an unsupported type (${this.config.type}).
+        Supported types: ${supportedTypes}`
+      );
+    }
+    const component = this.resolver.resolveComponentFactory<Field>(components[this.config.type]);
+    this.component = this.container.createComponent(component);
+    this.component.instance.config = this.config;
+    this.component.instance.group = this.group;
+    this.component.instance.showDelete = this.showDelete;
+    this.component.instance.remove = this.remove;
   }
 }

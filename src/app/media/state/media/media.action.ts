@@ -45,14 +45,8 @@ export class GetMetadata {
   constructor() { }
 }
 
-export class GetAllMediaItemFields {
-  static readonly type = '[Media] GetAllMediaItemFields';
-  
-  constructor(public id: number) { }
-}
-
-export class GetMediaItemFields {
-  static readonly type = '[Media] GetMediaItemFields';
+export class GetItemMetadata {
+  static readonly type = '[Media] GetItemMetadata';
   
   constructor(public id: number) { }
 }
@@ -66,5 +60,5 @@ export class AddMediaItemField {
 export class RemoveMediaItemField {
   static readonly type = '[Media] RemoveMediaItemField';
   
-  constructor(public id: number) { }
+  constructor(public name: string) { }
 }

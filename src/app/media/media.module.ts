@@ -31,6 +31,7 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 
 @NgModule({
 	declarations: [
@@ -62,6 +63,7 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 		CheckBoxModule,
 		DialogModule,
 		DropDownListModule,
+		ListViewModule,
 		NgxsModule.forFeature([
 			MediaState
 		])
