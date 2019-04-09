@@ -22,6 +22,8 @@ export class BreadcrumbComponent implements OnInit {
       distinctUntilChanged(),
       map(event => this.buildBreadCrumb(this.activatedRoute.root))
     );
+
+    this.buildBreadCrumb(this.activatedRoute, 'Test', );
   }
     buildBreadCrumb(route: ActivatedRoute, url: string = '',
                   breadcrumbs: Array<BreadCrumb> = []): Array<BreadCrumb> {
