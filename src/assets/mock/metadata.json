@@ -45,7 +45,7 @@
     "type": "date",
     "optionsId": null,
     "optionsName": null,
-    "value": "",
+    "value": "01/10/1990",
     "isRequired": true,
     "order": 12
   },

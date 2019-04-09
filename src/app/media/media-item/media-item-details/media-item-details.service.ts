@@ -54,6 +54,7 @@ export class MediaItemDetailsService {
           break;
         case 'date':
           field = this.buildDate(data);
+          this.fields.push(field);
           break;
         case 'label':
           field = this.buildLabel(data);

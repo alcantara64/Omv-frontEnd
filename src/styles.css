@@ -571,3 +571,35 @@ ins{
 
 
 /*#endregion */
+/* Media-item-details */
+
+.e-input-group:not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left),
+.e-input-group.e-control-wrapper:not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left){
+  border: #000 !important;
+}
+.form-control {
+  background-color: #000;
+  height: 3rem !important;
+}
+.e-input-group, .e-input-group.e-control-wrapper {
+  font-family: 'Source Sans Pro', sans-serif !important;
+  font-size: 16px !important;
+ height: 15px !important;
+  letter-spacing: 0.1px !important;
+}
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::after,
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::after{
+background: none !important;
+}
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::before, 
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::before{
+  background: none  !important;
+}
+ .e-datepicker{
+  background-color: #fff;
+  border: 1px solid #CED4DA;
+  border-radius: 3px;
+  width: 100%;
+  padding: 8px 13px;
+ }
+ /* Media-item-details */
