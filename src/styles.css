@@ -444,10 +444,17 @@ button{
   color: #5b7f95;
 }
 
+.form-control-label {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.1px;
+  color: #033b5c;
+}
+
 
 /*#region L A B E L S */
 
-/*#region I N P U T S */
+/*#region FORMS */
 
 .form-control-input {
   height: 38px;
@@ -456,7 +463,16 @@ button{
   background-color: #ffffff;
 }
 
-/*#region I N P U T S */
+.form-delete {
+  margin: 7px 10px;
+  color: #0097a9;
+}
+
+.form-delete > span {
+  font-size: 1.2em;
+}
+
+/*#region FORMS */
 
 /************    Syncfusion Icons  **************/
 .e-pencil:before{
@@ -496,7 +512,7 @@ button{
   padding: 0 5px;
 }
 ins{
-  font-family: 'SourceSansPro', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-size: 14px;
   font-weight: bold;
   line-height: 2.57;
@@ -525,7 +541,33 @@ ins{
 
 .dialog-close {
   float: right;
-
 }
+
+.dialog-list {
+  padding: 12px 16px !important;
+  margin: 0px 16px;
+  border-bottom: 1px solid rgba(91, 127, 149, 0.25);
+}
+
+.dialog-list-item {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  color: #033b5c;
+}
+
+.dialog-list-item-checked {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  color: #033b5c;
+  font-weight: bold;
+}
+
+/*#endregion */
+
+/*#region List */
+
+
 
 /*#endregion */

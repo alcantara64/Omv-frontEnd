@@ -27,6 +27,9 @@
     "id": "4",
     "type": "PDF",
     "name": "URSA INSPECTION REPORT ",
+    "fileName": "URSA INSPECTION REPORT",
+    "company": "Shell Limited",
+    "country": "MX",
     "isFavorite": true,
     "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
     "date": "Jan 30, 2018 "

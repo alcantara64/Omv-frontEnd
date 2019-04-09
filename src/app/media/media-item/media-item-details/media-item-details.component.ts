@@ -1,21 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {Router} from "@angular/router";
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Router } from "@angular/router";
 import { Select, Store } from '@ngxs/store';
+import { GetMediaItemDetails, GetItemMetadata, AddMediaItemField, RemoveMediaItemField, GetMetadata } from '../../state/media/media.action';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
-import { GetMetadata, GetMediaItemFields, GetAllMediaItemFields, AddMediaItemField } from '../../state/media/media.action';
-import { FieldConfig } from 'src/app/shared/dynamic-components/field.interface';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { takeWhile } from 'rxjs/operators';
 import { EmitType } from '@syncfusion/ej2-base';
+import { FieldConfig } from 'src/app/shared/dynamic-components/field-config.interface';
+import { FormBuilder } from '@angular/forms';
+import { MediaItemDetailsService } from './media-item-details.service';
 
 @Component({
   selector: 'app-media-item-details',
   templateUrl: './media-item-details.component.html',
   styleUrls: ['./media-item-details.component.css']
 })
-export class MediaItemDetailsComponent implements OnInit {
+export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewInit {
   public isPDF = true;
 
   public service: string = 'https://ej2services.syncfusion.com/production/web-services/api/pdfviewer';
@@ -23,36 +25,66 @@ export class MediaItemDetailsComponent implements OnInit {
 
   componentActive = true;
 
-  @ViewChild(DynamicFormComponent) form: any;
+  @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
+
   fields: FieldConfig[] = [];
   @Select(MediaState.getMetaData) metadata$: Observable<any[]>;
-  @Select(MediaState.getAllItemFields) allItemFields$: Observable<any[]>;
   @Select(MediaState.getItemFields) itemFields$: Observable<any[]>;
+  @Select(MediaState.getCurrentMediaItem) itemDetails$: Observable<any[]>;
 
   @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
+  @ViewChild('listview') element:any;
   
   itemFields: Object = { text: 'label', value: 'name' };
   fieldItem: any;
   allItemFields: any[];
+  itemDetails: any;
+  metadata: any;
+  selectedFields: FieldConfig[] = [];
 
-  constructor(private store: Store, private router: Router) { }
+  constructor(private store: Store, private router: Router, private fb: FormBuilder, private mediaItemDetailsService: MediaItemDetailsService) {
+    this.allItemFields = this.mediaItemDetailsService.metadataFields;
+    this.fields = this.mediaItemDetailsService.fields;
+   }
 
   ngOnInit() {
-    this.store.dispatch(new GetMediaItemFields(0));
-    this.store.dispatch(new GetAllMediaItemFields(0));
+    this.store.dispatch(new GetItemMetadata(1));
+    this.store.dispatch(new GetMediaItemDetails(4));
+    this.store.dispatch(new GetMetadata(0));
 
-    this.itemFields$.subscribe(data => {
-      this.form = DynamicFormComponent;
-      this.fields = data;
+    this.metadata$.subscribe(data => {
+      this.metadata = data;
+      this.allItemFields = this.mediaItemDetailsService.getAllFields(data);
+      this.fields = this.mediaItemDetailsService.buildFields(this.metadata, this.itemDetails);
+      console.log('MediaItemDetailsComponent ngOnInit metadata- fields: ', this.fields);
+      console.log('MediaItemDetailsComponent ngOnInit metadata- allItemFields: ', this.allItemFields);
     }), takeWhile(() => this.componentActive);
 
-    this.allItemFields$.subscribe(data => {
-      this.allItemFields = data;
+    this.itemDetails$.subscribe(data => {
+      this.itemDetails = data;
+      console.log('MediaItemDetailsComponent ngOnInit fields: ', this.fields);
     }), takeWhile(() => this.componentActive);
+
+  }
+
+  ngOnDestroy(): void {
+    this.componentActive = false;
+  }
+
+  ngAfterViewInit() {
+    if (!this.dynamicForm) return;
+    let previousValid = this.dynamicForm.valid;
+    this.dynamicForm.changes.subscribe(() => {
+      if (this.dynamicForm.valid !== previousValid) {
+        previousValid = this.dynamicForm.valid;
+        this.dynamicForm.setDisabled('submit', !previousValid);
+      }
+    });
   }
   
   submit(value?: any) {
-    console.log('submit form: ', this.form.value);
+    console.log('submit form: ', this.dynamicForm.value);
+    console.log('submit is Form valid: ', this.dynamicForm.valid);
   }
 
   activatePDFViewer() {
@@ -71,19 +103,41 @@ export class MediaItemDetailsComponent implements OnInit {
   }
 
   closeDialog() {
+    this.clearSelectedFields();
     this.fieldsDialog.hide();
   }
 
-  addField() {
-    console.log('MediaItemDetailsComponent - addField - fieldItem: ', this.fieldItem);
+  clearSelectedFields() {
+    this.allItemFields.map(field => field.isSelected = false);
+    this.selectedFields = [];
+  }
 
-    this.fields = null;
-
-    let itemField = this.allItemFields.find(x => x.name === this.fieldItem);
-    console.log('MediaItemDetailsComponent - addField -  itemField: ', itemField);
-
-    this.store.dispatch(new AddMediaItemField(itemField));
-
+  addFields() {
+    this.selectedFields.forEach(field => {
+      this.dynamicForm.addControl(field);
+      this.mediaItemDetailsService.addField(field);
+      this.fields = this.mediaItemDetailsService.fields;
+    });
     this.closeDialog();
+  }
+
+  selectField(item) {
+    if (item.isChecked) return;
+    this.allItemFields.map(x => {
+      if (x.name === item.name) {
+        x.isSelected = !x.isSelected;
+        if (x.isSelected) {
+          this.selectedFields.push(x);
+        } else {
+          this.selectedFields = this.selectedFields.filter(x => x.name !== item.name);
+        }
+      }
+    });
+  }
+
+  performRemove(item: any) {
+    this.dynamicForm.removeControl(item.name);
+    this.mediaItemDetailsService.removeField(item.name);
+    this.fields = this.mediaItemDetailsService.fields;
   }
 }

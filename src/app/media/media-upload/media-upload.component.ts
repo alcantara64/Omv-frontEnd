@@ -5,11 +5,11 @@ import { RowDataBoundEventArgs } from '@syncfusion/ej2-grids';
 import { Observable } from 'rxjs';
 import { Validators } from '@angular/forms';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
-import { FieldConfig } from 'src/app/shared/dynamic-components/field.interface';
 import { MetadataService } from 'src/app/shared/dynamic-components/metadata.service';
 import { Store, Select } from '@ngxs/store';
 import { GetMetadata } from '../state/media/media.action';
 import { MediaState } from '../state/media/media.state';
+import { FieldConfig } from 'src/app/shared/dynamic-components/field-config.interface';
 
 const BROWSE = 'Browse';
 const CHANGE = 'Change';
@@ -49,7 +49,7 @@ export class MediaUploadComponent implements OnInit {
     this.data = projectData;
     this.selectionOptions = { mode: 'Row', type: 'Single' };
 
-    this.store.dispatch(new GetMetadata());
+    this.store.dispatch(new GetMetadata(4));
 
     this.metadata$.subscribe(resp => {
       this.form = DynamicFormComponent;

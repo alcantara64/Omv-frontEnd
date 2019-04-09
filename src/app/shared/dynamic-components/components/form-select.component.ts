@@ -4,31 +4,33 @@ import { Field } from '../field.interface';
 import { FieldConfig } from '../field-config.interface';
 
 @Component({
-  selector: "form-date",
+  selector: "form-select",
   template: `
-    <div class="" [formGroup]="group">
+    <div [formGroup]="group">
       <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
-        <ejs-datepicker class="" strictMode='true' placeholder="{{config.label}}" [formControlName]="config.name"></ejs-datepicker>  
+        <ejs-dropdownlist class="form-control form-control-lg" [dataSource]='config.options' [fields]='fields' [(value)]="config.value"
+          [formControlName]="config.name" placeholder="'Please select'"></ejs-dropdownlist>
         <button type="button" class="form-delete" (click)="performRemove(config)" *ngIf="showDelete">
           <span class="e-icons e-delete"></span>
         </button>
       </div>
       <ng-container *ngFor="let validation of config.validations;">
-        <label class="form-description" *ngIf="group.get(config.name).hasError(validation.name) && (group.get(config.name).touched || group.get(config.name).dirty)">
+        <label class="form-description" *ngIf="group.get(config.name).hasError(validation.name) && (group.get(config.name).touched)">
           {{validation.message}}
         </label>
       </ng-container>
     </div>
-    <br/>
+    <br />
 `,
   styles: []
 })
-export class FormDateComponent implements Field {
+export class FormSelectComponent implements Field {
   config: FieldConfig;
-  group: FormGroup;
+  group: FormGroup;  
   showDelete: boolean;
   remove = new EventEmitter<any>();
+  fields: Object = { text: 'text', value: 'value' };
 
   performRemove(config: any) {
     this.remove.emit(config);

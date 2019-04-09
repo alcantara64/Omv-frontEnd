@@ -5,9 +5,9 @@
     "type": "text",
     "optionsId": null,
     "optionsName": null,
-    "value": "",
+    "value": "Representation Document",
     "isRequired": true,
-    "order": 2
+    "order": 14  
   },
   {
     "name": "platform",
@@ -16,8 +16,8 @@
     "optionsId": null,
     "optionsName": null,
     "value": "",
-    "isRequired": true,
-    "order": 0
+    "isRequired": false,
+    "order": 3
   },
   {
     "name": "country",
@@ -25,8 +25,8 @@
     "type": "select",
     "optionsId": "2",
     "optionsName": "CountryList",
-    "value": "",
-    "isRequired": false,
+    "value": "MX",
+    "isRequired": true,
     "order": 1
   },
   {
@@ -47,7 +47,7 @@
     "optionsName": null,
     "value": "",
     "isRequired": true,
-    "order": 2
+    "order": 12
   },
   {
     "name": "gender",
@@ -57,6 +57,13 @@
     "optionsName": "GenderList",
     "value": "",
     "isRequired": true,
-    "order": 1
+    "order": 11
+  },
+  {
+    "name": "company",
+    "label": "Company",
+    "type": "label",
+    "value": "ABC Company",
+    "order": 7
   }
 ]

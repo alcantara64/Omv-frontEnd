@@ -28,7 +28,7 @@ export class MediaWebDataService implements MediaDataService {
     return null;
   } 
 
-  getMediaItem(id: number): Observable<MediaItem> {
+  getMediaItem(id: number): Observable<any> {
     return null;
   }
   

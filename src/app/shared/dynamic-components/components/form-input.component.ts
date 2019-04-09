@@ -1,15 +1,16 @@
-import { Component, OnInit, EventEmitter } from "@angular/core";
+import { Component, Output, EventEmitter } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { Field } from '../field.interface';
 import { FieldConfig } from '../field-config.interface';
 
 @Component({
-  selector: "form-date",
+  selector: "form-input",
   template: `
-    <div class="" [formGroup]="group">
+    <div [formGroup]="group">
       <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
-        <ejs-datepicker class="" strictMode='true' placeholder="{{config.label}}" [formControlName]="config.name"></ejs-datepicker>  
+        <input class="form-control form-control-lg" [formControlName]="config.name" [type]="config.inputType"
+          [placeholder]="config.placeholder">    
         <button type="button" class="form-delete" (click)="performRemove(config)" *ngIf="showDelete">
           <span class="e-icons e-delete"></span>
         </button>
@@ -21,10 +22,10 @@ import { FieldConfig } from '../field-config.interface';
       </ng-container>
     </div>
     <br/>
-`,
+      `,
   styles: []
 })
-export class FormDateComponent implements Field {
+export class FormInputComponent implements Field {
   config: FieldConfig;
   group: FormGroup;
   showDelete: boolean;
