@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { Router } from "@angular/router";
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked, AfterContentInit } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
 import { Select, Store } from '@ngxs/store';
 import { GetMediaItemDetails, GetItemMetadata, AddMediaItemField, RemoveMediaItemField, GetMetadata } from '../../state/media/media.action';
 import { MediaState } from '../../state/media/media.state';
@@ -24,47 +24,43 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   public document: string = 'PDF_Succinctly.pdf';
 
   componentActive = true;
-
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
-  fields: FieldConfig[] = [];
-  @Select(MediaState.getMetaData) metadata$: Observable<any[]>;
+  @Select(MediaState.getCurrentItemId) mediaItemId$: Observable<number>;
   @Select(MediaState.getItemFields) itemFields$: Observable<any[]>;
-  @Select(MediaState.getCurrentMediaItem) itemDetails$: Observable<any[]>;
+  @Select(MediaState.getCurrentItemMetadata) currentItemMetadata$: Observable<any[]>;
 
   @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
-  @ViewChild('listview') element:any;
-  
+  @ViewChild('listview') element:any;  
+
+  fields: FieldConfig[] = [];
+  mediaItemId: number;
   itemFields: Object = { text: 'label', value: 'name' };
   fieldItem: any;
   allItemFields: any[];
   itemDetails: any;
-  metadata: any;
   selectedFields: FieldConfig[] = [];
 
-  constructor(private store: Store, private router: Router, private fb: FormBuilder, private mediaItemDetailsService: MediaItemDetailsService) {
-    this.allItemFields = this.mediaItemDetailsService.metadataFields;
-    this.fields = this.mediaItemDetailsService.fields;
+  isFormValid = false;
+
+  constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
    }
 
   ngOnInit() {
-    this.store.dispatch(new GetItemMetadata(1));
-    this.store.dispatch(new GetMediaItemDetails(4));
-    this.store.dispatch(new GetMetadata(0));
+    this.mediaItemId$.subscribe(id => {
+      if (id) {
+        this.store.dispatch(new GetMetadata(id));
+      }
+    }),
+    takeWhile(() => this.componentActive);    
 
-    this.metadata$.subscribe(data => {
-      this.metadata = data;
-      this.allItemFields = this.mediaItemDetailsService.getAllFields(data);
-      this.fields = this.mediaItemDetailsService.buildFields(this.metadata, this.itemDetails);
-      console.log('MediaItemDetailsComponent ngOnInit metadata- fields: ', this.fields);
-      console.log('MediaItemDetailsComponent ngOnInit metadata- allItemFields: ', this.allItemFields);
+    this.currentItemMetadata$.subscribe(data => {
+      this.allItemFields = data;
     }), takeWhile(() => this.componentActive);
 
-    this.itemDetails$.subscribe(data => {
-      this.itemDetails = data;
-      console.log('MediaItemDetailsComponent ngOnInit fields: ', this.fields);
+    this.itemFields$.subscribe(data => {
+      this.fields = data;
     }), takeWhile(() => this.componentActive);
-
   }
 
   ngOnDestroy(): void {
@@ -79,6 +75,13 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
         previousValid = this.dynamicForm.valid;
         this.dynamicForm.setDisabled('submit', !previousValid);
       }
+    });
+  }
+
+  onFormFinished(finished: any) {    
+    console.log('MediaItemDetailsComponent - onFormFinished outside: ', finished);
+    this.dynamicForm.changes.subscribe(value => {
+      console.log('MediaItemDetailsComponent - onFormFinished inside: ', value);
     });
   }
   
@@ -115,8 +118,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   addFields() {
     this.selectedFields.forEach(field => {
       this.dynamicForm.addControl(field);
-      this.mediaItemDetailsService.addField(field);
-      this.fields = this.mediaItemDetailsService.fields;
+      this.store.dispatch(new AddMediaItemField(field));
     });
     this.closeDialog();
   }
@@ -137,7 +139,6 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
 
   performRemove(item: any) {
     this.dynamicForm.removeControl(item.name);
-    this.mediaItemDetailsService.removeField(item.name);
-    this.fields = this.mediaItemDetailsService.fields;
+    this.store.dispatch(new RemoveMediaItemField(item.name));
   }
 }

@@ -28,6 +28,10 @@ import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
 import {DatePickerModule} from "@syncfusion/ej2-angular-calendars";
 import { MetadataService } from './shared/dynamic-components/metadata.service';
+import { MetadataDataService } from './core/services/data/metadata/metadata.data.service';
+import { MetadataMockDataService } from './core/services/data/metadata/metadata.mock.service';
+import { MetadataWebDataService } from './core/services/data/metadata/metadata.web.data.service';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -58,6 +62,7 @@ import { MetadataService } from './shared/dynamic-components/metadata.service';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: MetadataDataService, useClass: environment.useMocks ? MetadataMockDataService : MetadataWebDataService },
     SettingsService,
     AdminUsersService,
     MetadataService

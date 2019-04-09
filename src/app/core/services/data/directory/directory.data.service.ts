@@ -8,5 +8,6 @@ export abstract class DirectoryDataService {
 
   constructor() { }
 
-  abstract getDirectories(): Observable<any[]>;  
+  abstract getDirectories(): Observable<any[]>;
+  abstract getMetadata(id: number): Observable<any[]>;
 }

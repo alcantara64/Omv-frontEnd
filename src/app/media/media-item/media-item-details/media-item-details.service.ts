@@ -1,108 +1,86 @@
 import { Injectable } from "@angular/core";
 import { FieldConfig, Validator } from 'src/app/shared/dynamic-components/field-config.interface';
 import { Validators } from '@angular/forms';
+import { MediaDataService } from 'src/app/core/services/data/media/media.data.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaItemDetailsService {
 
-  fields: FieldConfig[] = [];
-  metadataFields: any[] = [];
-  itemDetails: any;
+  constructor(private mediaDataService: MediaDataService) {}
 
-  constructor() {}
-
-  getAllFields(metadata: any[]) {
-    let allFields = [];
-    metadata.forEach(data => {
-      let field: any;
-      switch(data.type) {
-        case 'text':
-          field = this.buildTextBox(data);
-          break;
-        case 'select':
-          field = this.buildDropdown(data);
-          break;
-        case 'date':
-          field = this.buildDate(data);
-          break;
-        case 'label':
-          field = this.buildLabel(data);
-          break;
+  async getMetadaFields(id: number) { 
+    let mediaItem = await this.mediaDataService.getMediaItem(id).toPromise();
+    let itemFields = Object.keys(mediaItem);
+    let data = await this.getMetadata(mediaItem);
+    data.forEach(async item => {
+      // Set the value of each metadata field based on the media item details
+      if (itemFields.includes(item.name)) {
+        item.value = mediaItem[item.name];
       }
-      allFields.push(field);
+      // Get options if field is a dropdown select
+      if (item.type === 'select') {
+        item.options = await this.getOptions(item.optionsId).toPromise();      
+      }
     });
-
-    this.metadataFields = allFields;
-    return this.metadataFields;
+    return data;
   }
 
-  buildFields(metadata: any[], item: any) {
-    if (metadata.length < 1 || !item) return;
-    let allFields = [];
-    let itemFields = Object.keys(item);
-    console.log('MediaItemDetailsService - buildFields - itemFields: ', itemFields);
-    metadata.forEach(data => {
-      let field: FieldConfig;
-      switch(data.type) {
-        case 'text':
-          field = this.buildTextBox(data);
-          break;
-        case 'select':
-          field = this.buildDropdown(data);
-          break;
-        case 'date':
-          field = this.buildDate(data);
-          break;
-        case 'label':
-          field = this.buildLabel(data);
-          break;
-      }
-      if (itemFields.includes(data.name)) {
-        this.fields.push(field);
-      }
-      allFields.push(field);
-    });
-    if (itemFields.length !== this.fields.length) {
-      const otherFields = itemFields.filter(_item => this.fields.map(x => x.name).indexOf(_item) <= -1);
-      console.log('MediaItemDetailsService - buildFields - otherFields: ', otherFields);
+  async getMetadata(mediaItem: any) {
+    let metaArray = [];
+    let items = await this.mediaDataService.getMetadata(1).toPromise();
+    if (items) {
+      items.forEach(async item => {
+        let field: any;
+        switch(item.type) {
+          case 'text':
+            field = this.buildTextBox(item);
+            break;
+          case 'select':
+            field = this.buildDropdown(item);
+            break;
+          case 'date':
+            field = this.buildDate(item);
+            break;
+          case 'label':
+            field = this.buildLabel(item);
+            break;
+        }
+        metaArray.push(field);
+      });
+    
+      // Get fields that exist in media item but are not in its corresponding metadata
+      let itemFields = Object.keys(mediaItem);
+      const otherFields = itemFields.filter(_item => items.map(x => x.name).indexOf(_item) === -1);
       otherFields.forEach(name => {
         let labelControl = new FieldConfig();
         labelControl.type = 'label';
-        labelControl.name = name,
+        labelControl.name = name;
         labelControl.label = name.charAt(0).toUpperCase() + name.slice(1);
-        labelControl.value = item[name];
-        this.fields.push(labelControl);
+        labelControl.value = mediaItem[name];
+        metaArray.push(labelControl);
       });      
-    }    
-    console.log('MediaItemDetailsService - buildFields - fields: ', this.fields);
+    }
 
-    this.metadataFields = allFields;
-    return this.fields;
+    return await metaArray.sort(x => x.order);
   }
 
-  addField(config: FieldConfig) {
-    this.fields.push(config);
-    this.metadataFields.map(x => {
-      if (x.name === config.name) {
-        x.isChecked = true;
-        x.isSelected = false;
-      }
-    });
+  private getOptions(id: any) {
+    return this.mediaDataService.getMetadataOptions(id).pipe(
+      map(items => {
+        let options = [];
+        items.forEach(res => {
+          let option = { "value": res.key, "text": res.value };
+          options.push(option);
+        });
+        return options;
+      })
+    );
   }
 
-  removeField(name: string) {
-    this.fields = this.fields.filter(x => x.name !== name);
-    this.metadataFields.map(x => {
-      if (x.name === name) {
-        x.isChecked = false;
-        x.isSelected = false;
-      }
-    });
-  }
-
-  private buildTextBox(item: any): any {
+  private buildTextBox(item: any): FieldConfig {
     return {
       type: "input",
       label: item.label,
@@ -114,7 +92,7 @@ export class MediaItemDetailsService {
     };
   }
 
-  private buildLabel(item: any): any {
+  private buildLabel(item: any): FieldConfig {
     return {
       type: "label",
       label: item.label,
@@ -123,7 +101,7 @@ export class MediaItemDetailsService {
     };
   }
 
-  private buildDropdown(item: any) {
+  private buildDropdown(item: any): any {
     return {
       type: "select",
       label: item.label,
@@ -154,7 +132,6 @@ export class MediaItemDetailsService {
         validator: Validators.required,
         message: `${item.label} is required`
       };
-
       validations.push(requiredValidation);
     }
     return validations;

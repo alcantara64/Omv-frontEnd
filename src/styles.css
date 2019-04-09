@@ -358,6 +358,10 @@ html, body {
   color: #5b7f95;
 }
 
+.button-not-allowed {
+  cursor: not-allowed;
+}
+
 .btn {
   width: 155px;
   height: 50px;
@@ -370,6 +374,10 @@ html, body {
   text-align: center;
   color: #ffffff;
 }
+
+
+
+
 /************ End OMV Confirmation **************/
 button{
   padding-left: 0px;

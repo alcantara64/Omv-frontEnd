@@ -58,12 +58,5 @@
     "value": "",
     "isRequired": true,
     "order": 11
-  },
-  {
-    "name": "company",
-    "label": "Company",
-    "type": "label",
-    "value": "ABC Company",
-    "order": 7
   }
 ]
