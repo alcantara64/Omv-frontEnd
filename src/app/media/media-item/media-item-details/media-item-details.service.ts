@@ -8,7 +8,7 @@ import { Validators } from '@angular/forms';
 export class MediaItemDetailsService {
 
   fields: FieldConfig[] = [];
-  metadata: any[] = [];
+  metadataFields: any[] = [];
   itemDetails: any;
 
   constructor() {}
@@ -46,14 +46,31 @@ export class MediaItemDetailsService {
         let labelControl = new FieldConfig();
         labelControl.type = 'label';
         labelControl.name = name,
-        labelControl.label = item[name];
+        labelControl.label = name.charAt(0).toUpperCase() + name.slice(1);
         labelControl.value = item[name];
         this.fields.push(labelControl);
       });      
     }    
     console.log('MediaItemDetailsService - buildFields - fields: ', this.fields);
 
+    this.metadataFields = allFields;
     return this.fields;
+  }
+
+  addField(config: FieldConfig) {
+    let itemFields = this.fields;    
+    itemFields.push(payload);
+    let itemMetadata = state.currentItemMetadata;
+    itemMetadata.map(x => {
+      if (x.name === payload.name) {
+        x.isChecked = true;
+        x.isSelected = false;
+      }
+    });
+  }
+
+  removeField() {
+
   }
 
   private buildTextBox(item: any): any {

@@ -49,9 +49,9 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     this.store.dispatch(new GetMetadata(0));
 
     this.metadata$.subscribe(data => {
-      this.allItemFields = data;
       this.metadata = data;
       this.fields = this.mediaItemDetailsService.buildFields(data, this.itemDetails);
+      this.allItemFields = this.mediaItemDetailsService.metadataFields;
       console.log('MediaItemDetailsComponent ngOnInit allItemFields: ', this.allItemFields);
     }), takeWhile(() => this.componentActive);
 
