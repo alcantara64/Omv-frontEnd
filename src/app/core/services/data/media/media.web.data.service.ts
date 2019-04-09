@@ -52,7 +52,6 @@ export class MediaWebDataService implements MediaDataService {
           .forMember('thumbnail', function(opts) { opts.mapFrom('thumbnailContainerUrl'); })
           .forMember('isDeleted', function(opts) { opts.mapFrom('IsDeleted'); })
           .forMember('status', function(opts) { opts.mapFrom('Status'); })
-
           .forMember('createdOn', function(opts) { opts.mapFrom('createdOn'); })
           .forMember('createdBy', function(opts) { opts.mapFrom('createdBy'); })
           .forMember('modifiedOn', function(opts) { opts.mapFrom('modifiedOn'); })
@@ -64,12 +63,17 @@ export class MediaWebDataService implements MediaDataService {
         }
         var _response = automapper.map(response, MediaItem, response);
         _response.forEach(resp => {
-          if (!resp.thumbnail) {
-            resp.thumbnail = 'https://media.idownloadblog.com/wp-content/uploads/2016/04/52ff0e80b07d28b590bbc4b30befde52-484x320.png';
-          }
           let splitName = splitByLastDot(resp.name);
           resp.name = splitName[0].toUpperCase();
           resp.type = splitName[1].toUpperCase();
+          
+          if (!resp.thumbnail) {
+            if (resp.type === 'PDF') {
+              resp.thumbnail = 'https://media.idownloadblog.com/wp-content/uploads/2016/04/52ff0e80b07d28b590bbc4b30befde52-484x320.png';
+            } else if (resp.type === 'DOCX') {
+              resp.thumbnail = 'http://icons.iconarchive.com/icons/pelfusion/flat-file-type/256/doc-icon.png';
+            }
+          }
         });
         console.log('MediaWebDataService - getMedia: ', _response);
         return _response;

@@ -16,6 +16,7 @@ export class MediaItem {
   createdOn?: Date;
   createdBy?: string;
   modifiedOn?: Date;
+  modifiedOnString?: string;
   modifiedBy?: string;
 
   type: string;

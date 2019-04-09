@@ -11,6 +11,7 @@ import { AdminMediaAccessService } from 'src/app/core/services/business/admin-me
 import { MetadataService } from 'src/app/shared/dynamic-components/metadata.service';
 import { MediaDataService } from 'src/app/core/services/data/media/media.data.service';
 import { MediaItemDetailsService } from '../../media-item/media-item-details/media-item-details.service';
+import { DateService } from 'src/app/core/services/business/dates/date.service';
 
 export class MediaStateModel {
   media: MediaItem[];
@@ -119,13 +120,17 @@ export class MediaState {
 
   constructor(private mediaService: MediaService,
     private metaDataService: MetadataService, private mediaDataService: MediaDataService,
-    private mediaItemDetailsService: MediaItemDetailsService, private mediaUploadService: MediaUploadService) { }
+    private mediaItemDetailsService: MediaItemDetailsService, private mediaUploadService: MediaUploadService,
+    private dateService: DateService) { }
   
   @Action(GetMedia)
   getMedia({ getState, setState }: StateContext<MediaStateModel>, {pageNumber, pageSize}: GetMedia){
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(media => {
         const state = getState();
+        media.map(item => {
+          item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
+        });
         console.log('MediaState getMedia: ', media);
         setState({
           ...state,

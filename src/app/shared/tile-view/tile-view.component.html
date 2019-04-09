@@ -5,14 +5,17 @@
         <div class="e-card-header">
           <div class="e-card-header-caption">
             <div class="e-card-header-title">
-              <img class="info-cls" src="../../../assets/images/info.png">
+                <ejs-tooltip #tooltip id='tooltip' [content]='data.name' position='TopCenter'>
+                  <img class="info-cls" src="../../../assets/images/info.png">
+                </ejs-tooltip>
+              
               <span class="align-items" style="float:right;">
                 <span style="padding-right:1rem;">
                   <label class="media-tile-info-bold pr-2">
                     {{ data.type }}
                   </label>    
                   <label class="media-tile-info">
-                    {{ data.size }}
+                    {{ data.size | filesize:0 }}
                   </label>
                 </span>
                 <span>

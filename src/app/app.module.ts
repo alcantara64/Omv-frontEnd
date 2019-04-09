@@ -11,8 +11,6 @@ import { SettingsService } from './core/services/data/appsettings/appsettings.se
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
-
-/* NgXS Modules */
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
@@ -38,7 +36,7 @@ import { environment } from 'src/environments/environment';
     AppComponent,
     DashboardComponent,
     AuthCallbackComponent,
-    StartupComponent,    
+    StartupComponent, 
   ],
   imports: [
     BrowserModule,

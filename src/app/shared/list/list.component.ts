@@ -15,65 +15,30 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   selectedRecords = [];
 
-  @Input() 
-  totalCountText: string;
+  @Input() totalCountText: string;
+  @Input() initialRecords = [];
+  @Input() listData = [];
+  @Input() columns: GridColumn[];
+  @Input() isToolBarVisible: boolean; 
+  @Input() showFirstAction: boolean; 
+  @Input() showSecondAction: boolean;
+  @Input() firstActionText: string;
+  @Input() secondActionText: string;
+  @Input() toolbarActionOne: string;
+  @Input() toolbarActionTwo: string;
+  @Input() buttonOneText: string;
+  @Input() secondButtonText: string;
+  @Input() checkField: string;
+  @Input() showFavoriteIcon: boolean;
+  @Input() favoriteIconPosition: number = 1;
 
-  @Input()
-  initialRecords = [];
-
-  @Input()
-  listData = [];
-
-  @Input()
-  columns: GridColumn[];
-
-  @Input()
-  isToolBarVisible: boolean;
-
-  @Input()
-  showFirstAction: boolean;
-
-  @Input()
-  showSecondAction: boolean;
-
-  @Input()
-  firstActionText: string;
-
-  @Input()
-  secondActionText: string;
-
-  @Input()
-  toolbarActionOne: string;
-
-  @Input()
-  toolbarActionTwo: string;
-
-  @Input()
-  buttonOneText: string;
-
-  @Input()
-  secondButtonText: string;
-
-  @Input()
-  checkField: string;
-
-  @Output()
-  firstAction = new EventEmitter<Object[]>();
-
-  @Output()
-  secondAction = new EventEmitter<Object[]>();
-
-  @Output()
-  firstNavigateAction = new EventEmitter<any>();
-
-  @Output()
-  secondNavigateAction = new EventEmitter<any>();
-
-  @Output()
-  buttonOneEvent = new EventEmitter<Object[]>();
-
-  @Output()
-  secondButtonEvent = new EventEmitter<any[]>();
+  @Output() firstAction = new EventEmitter<Object[]>();
+  @Output() secondAction = new EventEmitter<Object[]>();
+  @Output() firstNavigateAction = new EventEmitter<any>();
+  @Output()secondNavigateAction = new EventEmitter<any>();
+  @Output() buttonOneEvent = new EventEmitter<Object[]>();
+  @Output() secondButtonEvent = new EventEmitter<any[]>();
+  @Output() toggleFavorite = new EventEmitter<any[]>();
 
   public selIndex: any[] = [];
 
@@ -160,5 +125,10 @@ export class ListComponent extends BaseComponent implements OnInit {
   ngOnChanges(){
     console.log("ListComponent - ngOnChanges");
     this.ShowSpinner(false);
+  }
+
+  performToggleFavorite(data: any) {
+    data.isFavorite = !data.isFavorite;
+    this.toggleFavorite.emit(data);
   }
 }

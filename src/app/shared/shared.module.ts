@@ -25,8 +25,9 @@ import { DynamicFieldDirective } from './dynamic-components/directives/dynamic-f
 import { FormDateComponent } from './dynamic-components/components/date.component';
 import { DatePickerAllModule } from '@syncfusion/ej2-angular-calendars';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
-import { DialogAllModule } from '@syncfusion/ej2-angular-popups';
+import { DialogAllModule, TooltipModule } from '@syncfusion/ej2-angular-popups';
 import { FormLabelComponent } from './dynamic-components/components/form-label.component';
+import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { FormLabelComponent } from './dynamic-components/components/form-label.c
     TileViewComponent,
     BreadcrumbComponent,
     PdfViewerComponent,
+    FileSizePipe,
     FormInputComponent,
     FormLabelComponent,
     FormSelectComponent,
@@ -63,7 +65,8 @@ import { FormLabelComponent } from './dynamic-components/components/form-label.c
     DatePickerAllModule,
     DropDownListAllModule,
     ReactiveFormsModule,
-    PdfViewerModule
+    PdfViewerModule,
+    TooltipModule
   ],
   exports: [
     CommonModule,
@@ -79,6 +82,7 @@ import { FormLabelComponent } from './dynamic-components/components/form-label.c
     TreeViewComponent,
     TileViewComponent,
     DynamicFormComponent,
+    FileSizePipe,
     FormInputComponent,
     FormLabelComponent,
     FormSelectComponent,
