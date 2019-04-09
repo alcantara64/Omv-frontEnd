@@ -1,3 +1,4 @@
+import { GetDirectoryMetadata } from './../state/media/media.action';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { projectData } from './data';
 import { SelectionSettingsModel } from '@syncfusion/ej2-treegrid';
@@ -17,8 +18,7 @@ const CHANGE = 'Change';
 @Component({
   selector: 'app-media-upload',
   templateUrl: './media-upload.component.html',
-  styleUrls: ['./media-upload.component.css'],
-  providers: [ MetadataService ]
+  styleUrls: ['./media-upload.component.css']
 })
 export class MediaUploadComponent implements OnInit {
 
@@ -33,28 +33,23 @@ export class MediaUploadComponent implements OnInit {
   @ViewChild('file') file;
   selectionOptions: SelectionSettingsModel;
 
-  metadatas$: Observable<any[]>;
-  metadatas1$: Observable<any[]>;
-  metadata: any[] = [];
-
   
-  @ViewChild(DynamicFormComponent) form: any;
-  regConfig: FieldConfig[] = [];
+  @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
+  metadata: FieldConfig[] = [];
 
-  @Select(MediaState.getMetaData) metadata$: Observable<any[]>;
+  @Select(MediaState.getDirectoryMetadata) directoryMetadata$: Observable<any[]>;
   
-  constructor(private store: Store, private metadataService: MetadataService) { }
+  constructor(private store: Store) { }
 
   ngOnInit() {
     this.data = projectData;
     this.selectionOptions = { mode: 'Row', type: 'Single' };
 
-    this.store.dispatch(new GetMetadata(4));
+    this.store.dispatch(new GetDirectoryMetadata(4));
 
-    this.metadata$.subscribe(resp => {
-      this.form = DynamicFormComponent;
-      this.regConfig = resp;
-      console.log('MediaUploadComponent ngOnInit resp: ', resp);   
+    this.directoryMetadata$.subscribe(data => {
+      this.metadata = data;
+      console.log('MediaUploadComponent ngOnInit fields: ', this.metadata);   
     });
   }  
 
@@ -85,6 +80,6 @@ export class MediaUploadComponent implements OnInit {
 
   submit(value: any) {
     console.log('submit: ', value);
-    console.log('submit form: ', this.form.value);
+    console.log('submit form: ', this.dynamicForm.value);
   }
 }

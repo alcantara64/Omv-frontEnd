@@ -32,6 +32,10 @@ import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
+import { DirectoryDataService } from '../core/services/data/directory/directory.data.service';
+import { DirectoryMockDataService } from '../core/services/data/directory/directory.mock.data.service';
+import { DirectoryWebDataService } from '../core/services/data/directory/directory.web.data.service';
+import { MediaWebDataService } from '../core/services/data/media/media.web.data.service';
 
 @NgModule({
 	declarations: [
@@ -69,7 +73,8 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 		])
 	],
 	providers: [
-    { provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaMockDataService },
+		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
+    { provide: DirectoryDataService, useClass: environment.useMocks ? DirectoryMockDataService : DirectoryWebDataService },
   ],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

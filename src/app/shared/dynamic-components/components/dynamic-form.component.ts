@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FieldConfig } from '../field-config.interface';
 
@@ -6,20 +6,20 @@ import { FieldConfig } from '../field-config.interface';
   exportAs: "dynamicForm",
   selector: "dynamic-form",
   template: `
-    <form [formGroup]="form" (submit)="handleSubmit($event)">
+    <form [formGroup]="form" (submit)="handleSubmit($event)">     
       <ng-container *ngFor="let field of config;" dynamicField (remove)="performRemove($event)" [config]="field" [group]="form" [showDelete]="showDelete">
-      </ng-container>
+      </ng-container>      
     </form>
   `, 
   styles: []
 })
-export class DynamicFormComponent implements OnChanges, OnInit {
+export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() config: FieldConfig[] = [];
   @Input() showDelete: boolean;
 
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
-
   @Output() remove = new EventEmitter<any>();
+  @Output() formFinished = new EventEmitter<any>();
 
   form: FormGroup;
 
@@ -32,7 +32,12 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     this.form = this.createGroup();
-    console.log('DynamicFormComponent - ngOnInit ', this.form);
+    console.log('DynamicFormComponent - ngOnInit', this.form);
+  }
+  
+  ngAfterViewInit(): void {    
+    console.log('DynamicFormComponent - ngAfterViewInit', this.form);
+    this.formFinished.emit(true);
   }
 
   ngOnChanges() {
@@ -51,8 +56,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           this.form.addControl(name, this.createControl(config));
         });
         console.log('DynamicFormComponent - ngOnChanges if', this.form);
-    }
-    console.log('DynamicFormComponent - ngOnChanges else', this.form);
+    }    
+  }
+
+  onFormFinished(event: any) {
+    console.log('DynamicFormComponent - onFormFinished: ', event);
   }
 
   createGroup() {

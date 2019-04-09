@@ -17,4 +17,10 @@ export class DirectoryMockDataService implements DirectoryDataService {
     var data = this.httpClient.get<any[]>(mockUrl);
     return data;
   }
+  
+  getMetadata(id: number): Observable<any[]> {
+    var url = `./assets/mock/metadata.json`;
+    let data = this.httpClient.get<any[]>(url);
+    return data;
+  }
 }

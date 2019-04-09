@@ -1,5 +1,6 @@
+import { MediaUploadService } from './../../media-upload/media-upload.service';
 import { GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData, GetMetadata,
-  GetItemMetadata, AddMediaItemField, RemoveMediaItemField } from './media.action';
+  GetItemMetadata, AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
@@ -9,9 +10,11 @@ import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';
 import { MetadataService } from 'src/app/shared/dynamic-components/metadata.service';
 import { MediaDataService } from 'src/app/core/services/data/media/media.data.service';
+import { MediaItemDetailsService } from '../../media-item/media-item-details/media-item-details.service';
 
 export class MediaStateModel {
   media: MediaItem[];
+  currentMediaItemId: number;
   favorites: MediaItem[];
   currentMediaItem: MediaItem;
   historyItems: any[];
@@ -20,22 +23,31 @@ export class MediaStateModel {
   mediaTreeData: MediaTreeGrid[];
   currentItemMetadata: any[];
   itemFields: any[];
+  directoryMetadata: any[];
 }
 
 const initialMediaItem: MediaItem = {
-  id: 0,
+  id: '',
   name: '',
   type: '',
-  size: '0 KB',
-  date: new Date(),
-  isFavorite: false,
-  imageUrl: ''
+  size: 0,
+  storageType: '',
+  entityType: '',
+  entityId: '',
+  documentTypeCode: '',
+  url: '',
+  thumbnail: '',
+  createdOn: new Date(),
+  createdBy: '',
+  modifiedOn: new Date(),
+  modifiedBy: ''
 };
 
 @State<MediaStateModel>({
   name: 'media',
   defaults: {
     media: [],
+    currentMediaItemId: null,
     favorites: [],
     currentMediaItem: initialMediaItem,
     historyItems: [],
@@ -43,7 +55,8 @@ const initialMediaItem: MediaItem = {
     mediaTreeData:[],
     metadata: [],
     currentItemMetadata: [],
-    itemFields: []
+    itemFields: [],
+    directoryMetadata: []
   }
 })
 
@@ -52,6 +65,11 @@ export class MediaState {
   @Selector()
   static getFavorites(state: MediaStateModel) {
     return state.favorites;
+  }
+
+  @Selector()
+  static getCurrentItemId(state: MediaStateModel) {
+    return state.currentMediaItemId;
   }
 
   @Selector()
@@ -94,15 +112,21 @@ export class MediaState {
     return state.itemFields.sort(x => x.order);
   }
 
-  constructor(private mediaService: MediaService, private adminMediaService: AdminMediaAccessService, 
-    private metaDataService: MetadataService, private mediaDataService: MediaDataService) { }
+  @Selector()
+  static getDirectoryMetadata(state: MediaStateModel) {
+    return state.directoryMetadata;
+  }
+
+  constructor(private mediaService: MediaService,
+    private metaDataService: MetadataService, private mediaDataService: MediaDataService,
+    private mediaItemDetailsService: MediaItemDetailsService, private mediaUploadService: MediaUploadService) { }
   
   @Action(GetMedia)
   getMedia({ getState, setState }: StateContext<MediaStateModel>, {pageNumber, pageSize}: GetMedia){
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(media => {
         const state = getState();
-        console.log('media', media);
+        console.log('MediaState getMedia: ', media);
         setState({
           ...state,
           media: media,
@@ -130,12 +154,6 @@ export class MediaState {
     return this.mediaService.getMedia().pipe(
       tap(media => {
         const state = getState();
-        let favorites = media.filter(x => x.isFavorite);
-        setState({
-          ...state,
-          favorites: favorites,
-          totalMedia: favorites ? favorites.length : 0
-        });
       })
     );
   }
@@ -191,15 +209,43 @@ export class MediaState {
   //   }));
   // }
 
-  @Action(GetMetadata)
-  async getMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetMetadata) {
-    await this.metaDataService.getDirectoryMetadata(id).then(metadata => {
-      console.log('MediaState metadata: ', metadata);
+  @Action(SetCurrentMediaItemId)
+  setCurrentMediaItemId({ getState, setState }: StateContext<MediaStateModel>, { id }: SetCurrentMediaItemId) {
+    const state = getState();
+    setState({
+      ...state,
+      currentMediaItemId: id
+    })
+  }
+
+  @Action(GetDirectoryMetadata)
+  async getDirectoryMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetDirectoryMetadata) {
+    await this.mediaUploadService.getDirectoryMetadata(id).then(metadata => {
+      console.log('MediaState getDirectoryMetadata: ', metadata);
       const state = getState();
       setState({
         ...state,
-        metadata: metadata
-      });      
+        directoryMetadata: metadata
+      });
+    });
+  }
+
+  @Action(GetMetadata)
+  async getMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetMetadata) {
+    await this.mediaItemDetailsService.getMetadaFields(id).then(metadata => {
+      console.log('MediaState metadata: ', metadata);
+      const state = getState();
+      const itemConfig = metadata.filter(x => x.value);
+      metadata.map(x => {
+        if (x.value) {
+          x.isChecked = true;
+        }
+      })
+      setState({
+        ...state,
+        currentItemMetadata: metadata,
+        itemFields: itemConfig
+      });
     });
   }
 
@@ -214,7 +260,7 @@ export class MediaState {
         if (x.value) {
           x.isChecked = true;
         }
-      })
+      });
       setState({
         ...state,
         currentItemMetadata: resp,

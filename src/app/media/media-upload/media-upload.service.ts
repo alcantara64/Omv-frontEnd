@@ -1,39 +1,24 @@
-import { Injectable } from '@angular/core';
-import { MediaDataService } from 'src/app/core/services/data/media/media.data.service';
-import { map } from 'rxjs/operators';
-import { Validators } from '@angular/forms';
-import { Validator, FieldConfig } from './field-config.interface';
+import { Injectable } from "@angular/core";
+import { MediaDataService } from "src/app/core/services/data/media/media.data.service";
+import { Validators } from "@angular/forms";
+import { FieldConfig, Validator } from "src/app/shared/dynamic-components/field-config.interface";
+import { map } from "rxjs/operators";
+import { DirectoryDataService } from 'src/app/core/services/data/directory/directory.data.service';
+import { MetadataDataService } from 'src/app/core/services/data/metadata/metadata.data.service';
 
-@Injectable()
-export class MetadataService {
+@Injectable({
+  providedIn: "root"
+})
+export class MediaUploadService {
 
-  constructor(private mediaDataService: MediaDataService) { }
+  constructor(private directoryDataService: DirectoryDataService, private metadataDataService: MetadataDataService) {}
 
-  async getDirectoryMetadata(directoryId?: number) {
-    let data = await this.mediaDataService.getMetadata(directoryId).toPromise();
-    await data.forEach(async item => {
-      item.options = await this.getOptions(item.optionsId).toPromise();
-      console.log('testing item.options: ', item.options);
-    });
-    return await data;
-  }
-
-  async getFinalData() {
-    let data = await this.getMetadata();
-    data.forEach(async item => {
-      if (item.type === 'select') {
-        item.options = await this.getOptions(item.optionsId).toPromise();      
-      }
-    });
-    return data;
-  }
-
-  async getMetadata() {
+  async getDirectoryMetadata(directoryId: number) {
     let metaArray = [];
-    let items = await this.mediaDataService.getMetadata(1).toPromise();
+    let items = await this.directoryDataService.getMetadata(directoryId).toPromise();
     if (items) {
       items.forEach(async item => {
-        let field: any;
+        let field: any; 
         switch(item.type) {
           case 'text':
             field = this.buildTextBox(item);
@@ -47,21 +32,26 @@ export class MetadataService {
           case 'label':
             field = this.buildLabel(item);
             break;
-        }        
+        }
         metaArray.push(field);
-      });
-    }    
-    console.log('testing select: ', metaArray);
+      });  
+    }
+
+    metaArray.forEach(async item => {
+      if (item.type === 'select') {
+        item.options = await this.getOptions(item.optionsId).toPromise();      
+      }
+    });
 
     return await metaArray.sort(x => x.order);
   }
 
-  private getOptions(id: any) {
-    return this.mediaDataService.getMetadataOptions(id).pipe(
+  private getOptions(id: number) {
+    return this.metadataDataService.getListOptions(id).pipe(
       map(items => {
         let options = [];
         items.forEach(res => {
-          let option = { "value": res.key, "text": res.value };
+          let option = { value: res.key, text: res.value };
           options.push(option);
         });
         return options;
@@ -69,7 +59,7 @@ export class MetadataService {
     );
   }
 
-  private buildTextBox(item: any): any {
+  private buildTextBox(item: any): FieldConfig {
     return {
       type: "input",
       label: item.label,
@@ -81,7 +71,7 @@ export class MetadataService {
     };
   }
 
-  private buildLabel(item: any): any {
+  private buildLabel(item: any): FieldConfig {
     return {
       type: "label",
       label: item.label,
@@ -90,14 +80,15 @@ export class MetadataService {
     };
   }
 
-  private buildDropdown(item: any) {
+  private buildDropdown(item: any): any {
     return {
       type: "select",
       label: item.label,
       name: item.name,
       order: item.order,
       optionsId: item.optionsId,
-      placeholder: 'Select an option',
+      options: item.options,
+      placeholder: "Select an option",
       validations: this.getValidations(item)
     };
   }
@@ -116,11 +107,10 @@ export class MetadataService {
     let validations = [];
     if (item.isRequired) {
       let requiredValidation: Validator = {
-        name: 'required',
+        name: "required",
         validator: Validators.required,
         message: `${item.label} is required`
       };
-
       validations.push(requiredValidation);
     }
     return validations;

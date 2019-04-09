@@ -5,7 +5,7 @@
         <div class="e-card-header">
           <div class="e-card-header-caption">
             <div class="e-card-header-title">
-              <img class="info-cls" src="../../../assets/images/info.png"   >
+              <img class="info-cls" src="../../../assets/images/info.png">
               <span class="align-items" style="float:right;">
                 <span style="padding-right:1rem;">
                   <label class="media-tile-info-bold pr-2">
@@ -25,17 +25,17 @@
           </div>
         </div>
         <div class="e-card-content cursor pb-0" (click)="performItemClick(data)">
-          <img  [src]="data.imgPath"  class="center-img cursor" height="150">
+          <img  [src]="data.thumbnail"  class="center-img cursor" height="150">
           <span>
             <label class="media-tile-info pt-4">
-              {{data.name}}
+              {{data.name | uppercase}}
             </label>
           </span>
         </div>
         <div class="e-card-actions pt-0">
         </div> 
           <label class="media-tile-info-bold text-md-left pl-3 tile-card-date" >
-            {{data.date}}
+            {{ data.modifiedOn | date }}
           </label>
       </div>
     </div>
