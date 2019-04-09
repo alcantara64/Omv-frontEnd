@@ -4,8 +4,8 @@
         "name": "OREGANO SUBSEA",
         "date": "Jan 12, 2018",
         "size":"3MB",
-        "type": "PDF",
-        "imgPath": "../../../assets/images/oceaneering-nautilus-bell.jpg" ,
+        "type": "JPG",
+        "imgPath": "assets/images/oceaneering-nautilus-bell.jpg" ,
         "isFavorite": true,        
         "isChecked": true           
     },

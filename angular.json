@@ -25,9 +25,17 @@
             "styles": [
               "src/styles.css",
               "src/assets/css/material.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ng2-image-viewer/imageviewer.scss",
+              "node_modules/viewerjs/dist/viewer.css"
+              
             ],
-            "scripts": [ "node_modules/automapper-ts/dist/automapper.min.js" ],
+            "scripts": [
+              "node_modules/automapper-ts/dist/automapper.min.js",
+              "node_modules/ng2-image-viewer/imageviewer.js",
+              "node_modules/viewerjs/dist/viewer.js"
+
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {

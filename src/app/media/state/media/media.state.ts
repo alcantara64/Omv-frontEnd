@@ -1,4 +1,4 @@
-import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite } from './media.action';
+import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite,  SetMediaId } from './media.action';
 import { tap } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
@@ -11,6 +11,7 @@ export class MediaStateModel {
   currentMediaItem: MediaItem;
   historyItems: any[];
   totalMedia: number;
+  currentMediaItemId: number;
 }
 
 const initialMediaItem: MediaItem = {
@@ -30,7 +31,8 @@ const initialMediaItem: MediaItem = {
     favorites: [],
     currentMediaItem: initialMediaItem,
     historyItems: [],
-    totalMedia: 0
+    totalMedia: 0,
+    currentMediaItemId: null
   }
 })
 
@@ -61,10 +63,14 @@ export class MediaState {
   static getTotalMedia(state: MediaStateModel) {
     return state.totalMedia;
   }
-  
+
+  @Selector()
+  static setMediaItemId(state: MediaStateModel) {
+    return state.currentMediaItemId;
+  }
 
   @Action(GetMedia)
-  getMedia({ getState, setState }: StateContext<MediaStateModel>, {pageNumber, pageSize}: GetMedia){
+  getMedia({ getState, setState }: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(media => {
         const state = getState();
@@ -129,5 +135,15 @@ export class MediaState {
         historyItems: media
       });
     }));
+  }
+
+  @Action(SetMediaId)
+  setMediaItemId(ctx: StateContext<MediaStateModel>, { id }: SetMediaId) {
+    const state = ctx.getState();
+    console.log('GetMediaId - ', id);
+    return ctx.setState({
+      ...state,
+      currentMediaItemId: id,
+    });
   }
 }

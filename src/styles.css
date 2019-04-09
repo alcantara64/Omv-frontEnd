@@ -500,3 +500,8 @@ ins{
   text-decoration: none;
 }
 /************ End Breadcrumb **************/
+
+/************ Image Styles **************/
+img{
+  cursor: pointer;
+}

@@ -18,13 +18,16 @@ import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import * as pdfViewerComponent  from './pdf-viewer/pdf-viewer.component';
 import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
-import { ReactiveFormsModule }          from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicFormMetadataComponent } from './dynamic-form/dynamic-form-metadata/dynamic-form-metadata.component';
 import { PdfViewerAltComponent } from './pdf-viewer-alt/pdf-viewer-alt.component';
 import {NgxExtendedPdfViewerModule} from "ngx-extended-pdf-viewer";
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';
+// import { ImageViewerModule } from 'ngx-image-viewer';
+//import { DocumentViewModule } from 'ngx-document-view';
 
+import { ImageViewerModule } from 'ng2-image-viewer';
 @NgModule({
   declarations: [
     PageNotFoundComponent,
@@ -56,7 +59,8 @@ import { MediaViewerComponent } from './media-viewer/media-viewer.component';
     GridAllModule,
     ListViewModule,
     ReactiveFormsModule,
-    NgxExtendedPdfViewerModule
+    NgxExtendedPdfViewerModule,
+    ImageViewerModule
   ],
   exports: [
     CommonModule,

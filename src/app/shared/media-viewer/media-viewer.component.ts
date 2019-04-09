@@ -1,85 +1,109 @@
-import { Component, OnInit } from '@angular/core';
-import {Store} from "@ngxs/store";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Store, Select } from "@ngxs/store";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ShowLeftNav, SetPageTitle } from 'src/app/state/app.actions';
+import { MediaState } from 'src/app/media/state/media/media.state';
+import { Observable } from 'rxjs';
+import { GetMediaItem, GetMedia } from 'src/app/media/state/media/media.action';
+import { DomSanitizer } from '@angular/platform-browser';
+import { BaseComponent } from '../base/base.component';
+import Viewer from 'viewerjs';
 
 @Component({
   selector: 'app-media-viewer',
   templateUrl: './media-viewer.component.html',
-  styleUrls: ['./media-viewer.component.css']
+  styleUrls: ['./media-viewer.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class MediaViewerComponent implements OnInit {
-
-  public src = [
-    {
-      "id": "1",
-      "type": "PDF",
-      "name": "BRAZOS INSPECTION REPORT ",
-      "isFavorite": true,
-      "mediaPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
-      "date": "Jan 30, 2018  "
-    },
-    {
-      "id": "2",
-      "type": "PDF",
-      "name": "URSA INSPECTION REPORT  ",
-      "isFavorite": false,
-      "mediaPath":"../../../assets/syncfusion-angular.pdf",
-      "date": "Jan 30, 2018  "
-    },
-    {
-      "id": "3",
-      "type": "PDF",
-      "name": "URSA INSPECTION REPORT  ",
-      "isFavorite": true,
-      "mediaPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
-      "date": "Jan 30, 2018  "
-    },
-    {
-      "id": "4",
-      "type": "PDF",
-      "name": "URSA INSPECTION REPORT ",
-      "isFavorite": true,
-      "mediaPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
-      "date": "Jan 30, 2018 "
-    },
-    {
-      "id": "5",
-      "type": "PDF",
-      "name": "URSA INSPECTION REPORT 2",
-      "isFavorite": false,
-      "mediaPath":"../../../assets/syncfusion-angular.pdf",
-      "date": "Jan 30, 2018 "
-    },
-    {
-      "id": "8",
-      "type": "PDF",
-      "name": "URSA INSPECTION REPORT 3",
-      "isFavorite": false,
-      "mediaPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
-      "date": "Jan 30, 2018 "
-    },
-    {
-      "id": "9",
-      "type": "PDF",
-      "name": "BRAZOS INSPECTION REPORT",
-      "isFavorite": true,
-      "mediaPath":"../../../assets/syncfusion-angular.pdf",
-      "date": "Jan 30, 2018 "
-    }
-  ];
+export class MediaViewerComponent extends BaseComponent implements OnInit {
   public mediaOBJ: any;
   public media: string;
   public mediaType: string;
   public mediaSource: string;
+  public service: string;
+  public document: string;
+  @Select(MediaState.setMediaItemId) mediaId$: Observable<any>;
+  @Select(MediaState.getMedia) media$: Observable<any>;
+  //  @Input() mediaDataSrc: any;
+  mediaDataSrc: any;
+  mediaID: number;
+  url: string;
+  trustedUrl: any;
+  constructor(protected store: Store, private router: Router, private activeRoute: ActivatedRoute,
+    private sanitizer: DomSanitizer) {
+    super(store);
 
-  constructor(private store: Store, private router: Router, private activeRoute: ActivatedRoute) { }
-
-  ngOnInit() {
-    const mediaID = this.activeRoute.snapshot.paramMap.get('id');
-    this.mediaOBJ = this.src.find(x => (x.id == mediaID));
-    this.mediaSource = this.mediaOBJ.mediaPath;
-    this.mediaOBJ = this.mediaSource.split('.');
-    this.mediaType = this.mediaOBJ[this.mediaOBJ.length - 1];
   }
 
+  ngOnInit() {
+    this.mediaID = Number(this.activeRoute.snapshot.paramMap.get('id'));
+
+    this.store.dispatch(new GetMedia());
+    this.media$.subscribe(mediaDataSrc => {
+      this.mediaDataSrc = mediaDataSrc;
+      if (mediaDataSrc.length > 1) {
+        this.toggleMediaViewer();
+      }
+    });
+
+  }
+
+  toggleMediaViewer() {
+    this.mediaOBJ = this.mediaDataSrc.find((ids: { id: number; }) => ids.id === this.mediaID);
+    this.mediaSource = this.mediaOBJ.mediaPath;
+    const x = this.mediaSource;
+    this.mediaType = this.mediaOBJ.type;
+    setTimeout(() => {
+      this.toggleMediaType(this.mediaType);
+    }, 20);
+  }
+
+  toggleMediaType(val) {
+    switch (val) {
+      case 'DOC': {
+        this.url = 'http://docs.google.com/gview?url=https://ocean33r1ngm3d1avault.blob.core.windows.net/media/Platform/rigs/ursa/2018/Documents/file-sample_100kB.docx&embedded=true';
+        this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+        break;
+      }
+      case 'XLS': {
+        this.url = 'http://docs.google.com/gview?url=https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls&embedded=true';
+        this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+        break;
+      }
+      case 'PDF': {
+        this.url = 'http://docs.google.com/gview?url=https://ocean33r1ngm3d1avault.blob.core.windows.net/media/Platform/rigs/aurora/2017/document/OMV-Core.pdf&embedded=true';
+        this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+        break;
+      }
+      case 'JPG': {
+        const imageElement = window.document.querySelector('img.image');
+        console.log('element', imageElement);
+        const viewer = new Viewer(imageElement, {
+          url: 'data-original',
+          toolbar: {
+            oneToOne: true,
+            prev: function () {
+              viewer.prev(true);
+            },
+            play: true,
+            next: function () {
+              viewer.next(true);
+            },
+            // download() {
+            //   const a = document.createElement('a');
+            //   a.href = viewer.image.src;
+            //   a.download = viewer.image.alt;
+            //   document.body.appendChild(a);
+            //   a.click();
+            //   document.body.removeChild(a);
+            // },
+          },
+        });
+        break;
+      }
+      default:
+        break;
+
+    }
+  }
 }
