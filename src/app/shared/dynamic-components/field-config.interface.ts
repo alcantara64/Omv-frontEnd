@@ -4,7 +4,7 @@ export class FieldConfig {
   disabled?: boolean;
   label?: string;
   name: string;
-  options?: string[];
+  options?: any[];
   order?: number;
   placeholder?: string;
   type: string;

@@ -193,7 +193,8 @@ export class MediaState {
 
   @Action(GetMetadata)
   async getMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetMetadata) {
-    this.metaDataService.getDirectoryMetadata(id).then(metadata => {
+    await this.metaDataService.getDirectoryMetadata(id).then(metadata => {
+      console.log('MediaState metadata: ', metadata);
       const state = getState();
       setState({
         ...state,
@@ -205,6 +206,8 @@ export class MediaState {
   @Action(GetItemMetadata)
   async getItemMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetItemMetadata) {
     this.metaDataService.getFinalData().then(resp => {
+      
+      console.log('MediaState getItemMetadata: ', resp); 
       const state = getState();
       const itemConfig = resp.filter(x => x.value);
       resp.map(x => {

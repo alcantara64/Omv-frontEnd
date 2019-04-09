@@ -13,11 +13,8 @@ export class MediaItemDetailsService {
 
   constructor() {}
 
-  buildFields(metadata: any[], item: any) {
-    if (metadata.length < 1 || !item) return;
+  getAllFields(metadata: any[]) {
     let allFields = [];
-    let itemFields = Object.keys(item);
-    console.log('MediaItemDetailsService - buildFields - itemFields: ', itemFields);
     metadata.forEach(data => {
       let field: any;
       switch(data.type) {
@@ -34,8 +31,36 @@ export class MediaItemDetailsService {
           field = this.buildLabel(data);
           break;
       }
+      allFields.push(field);
+    });
+
+    this.metadataFields = allFields;
+    return this.metadataFields;
+  }
+
+  buildFields(metadata: any[], item: any) {
+    if (metadata.length < 1 || !item) return;
+    let allFields = [];
+    let itemFields = Object.keys(item);
+    console.log('MediaItemDetailsService - buildFields - itemFields: ', itemFields);
+    metadata.forEach(data => {
+      let field: FieldConfig;
+      switch(data.type) {
+        case 'text':
+          field = this.buildTextBox(data);
+          break;
+        case 'select':
+          field = this.buildDropdown(data);
+          break;
+        case 'date':
+          field = this.buildDate(data);
+          break;
+        case 'label':
+          field = this.buildLabel(data);
+          break;
+      }
       if (itemFields.includes(data.name)) {
-        this.fields.push(data);
+        this.fields.push(field);
       }
       allFields.push(field);
     });
@@ -58,19 +83,23 @@ export class MediaItemDetailsService {
   }
 
   addField(config: FieldConfig) {
-    let itemFields = this.fields;    
-    itemFields.push(payload);
-    let itemMetadata = state.currentItemMetadata;
-    itemMetadata.map(x => {
-      if (x.name === payload.name) {
+    this.fields.push(config);
+    this.metadataFields.map(x => {
+      if (x.name === config.name) {
         x.isChecked = true;
         x.isSelected = false;
       }
     });
   }
 
-  removeField() {
-
+  removeField(name: string) {
+    this.fields = this.fields.filter(x => x.name !== name);
+    this.metadataFields.map(x => {
+      if (x.name === name) {
+        x.isChecked = false;
+        x.isSelected = false;
+      }
+    });
   }
 
   private buildTextBox(item: any): any {
@@ -101,7 +130,7 @@ export class MediaItemDetailsService {
       name: item.name,
       order: item.order,
       optionsId: item.optionsId,
-      options: [],
+      options: item.options,
       placeholder: 'Select an option',
       validations: this.getValidations(item)
     };

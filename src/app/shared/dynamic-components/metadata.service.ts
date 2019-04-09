@@ -9,21 +9,20 @@ export class MetadataService {
 
   constructor(private mediaDataService: MediaDataService) { }
 
-  async getDirectoryMetadata(directoryId?: number): Promise<any[]> {
+  async getDirectoryMetadata(directoryId?: number) {
     let data = await this.mediaDataService.getMetadata(directoryId).toPromise();
-    data.forEach(async item => {
-      if (item.type === 'select') {
-        item.options = await this.getOptions(item.optionsId).toPromise();
-      }
+    await data.forEach(async item => {
+      item.options = await this.getOptions(item.optionsId).toPromise();
+      console.log('testing item.options: ', item.options);
     });
-    return data;
+    return await data;
   }
 
   async getFinalData() {
     let data = await this.getMetadata();
     data.forEach(async item => {
       if (item.type === 'select') {
-        item.options = await this.getOptions(item.optionsId).toPromise();        
+        item.options = await this.getOptions(item.optionsId).toPromise();      
       }
     });
     return data;

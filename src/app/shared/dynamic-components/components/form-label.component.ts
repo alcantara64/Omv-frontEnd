@@ -10,9 +10,6 @@ import { FieldConfig } from '../field-config.interface';
       <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
         <label class="form-control-label"> {{ config.value }} </label>
-        <button type="button" class="form-delete" (click)="performRemove(config)" *ngIf="showDelete">
-          <span class="e-icons e-delete"></span>
-        </button>
       </div>
     </div>
     <br/>
