@@ -15,7 +15,7 @@ import { DateService } from 'src/app/core/services/business/dates/date.service';
 
 export class MediaStateModel {
   media: MediaItem[];
-  currentMediaItemId: number;
+  currentMediaItemId: string;
   favorites: MediaItem[];
   currentMediaItem: MediaItem;
   historyItems: any[];
@@ -234,7 +234,7 @@ export class MediaState {
     setState({
       ...state,
       currentMediaItemId: id
-    })
+    });
   }
 
   @Action(GetDirectoryMetadata)

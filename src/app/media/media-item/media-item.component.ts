@@ -18,7 +18,7 @@ export class MediaItemComponent extends BaseComponent implements OnInit {
     { link: '/media/8/related-items', name: 'Related Items' },
     { link: '/media/8/history', name: 'History' }
   ];
-  componentActive: boolean;
+  componentActive: boolean = true;
 
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
     super(store);
@@ -28,12 +28,12 @@ export class MediaItemComponent extends BaseComponent implements OnInit {
   ngOnInit() {
 
     this.route.paramMap.subscribe(params => {
-      let mediaItemId = Number(params.get('id'));
+      let mediaItemId = params.get('id');
       if (mediaItemId) {
         this.store.dispatch(new SetCurrentMediaItemId(mediaItemId));
-      } 
+      }
     }),
-    takeWhile(() => this.componentActive);
+      takeWhile(() => this.componentActive);
   }
 
   switchTabs(tabLink: string) {

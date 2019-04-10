@@ -35,6 +35,7 @@
           <img *ngIf="allItemFields.isChecked || allItemFields.isSelected" 
                 [src]="allItemFields.isSelected ? '../../../../assets/images/checkmark-yellow.svg' : '../../../../assets/images/checkmark.svg'" 
                 class="float-right" 
+                (click)="activateViewer()"
             />
         </div>
       </ng-template>

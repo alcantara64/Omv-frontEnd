@@ -18,7 +18,7 @@ export class GetMediaItemDetails {
 export class SetCurrentMediaItemId {
   static readonly type = '[Media] SetCurrentMediaItemId';
   
-  constructor(public id: number) { }
+  constructor(public id: string) { }
 }
 
 export class GetFavorites {
@@ -39,7 +39,7 @@ export class GetHistory {
 export class SetMediaId {
   static readonly type = '[Media] GetMediaId';
 
-  constructor(public id: number) { }
+  constructor(public id: string) { }
 }
 
 export class GetMediaTreeData {

@@ -31,12 +31,12 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   componentActive = true;
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
-  @Select(MediaState.getCurrentItemId) mediaItemId$: Observable<number>;
+  @Select(MediaState.setMediaItemId) mediaItemId$: Observable<number>;
   @Select(MediaState.getItemFields) itemFields$: Observable<any[]>;
   @Select(MediaState.getCurrentItemMetadata) currentItemMetadata$: Observable<any[]>;
 
   @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
-  @ViewChild('listview') element:any;  
+  @ViewChild('listview') element: any;
 
   fields: FieldConfig[] = [];
   mediaItemId: number;
@@ -49,15 +49,16 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   isFormValid = false;
 
   constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
-   }
+  }
 
   ngOnInit() {
     this.mediaItemId$.subscribe(id => {
       if (id) {
+        this.id = id;
         this.store.dispatch(new GetMetadata(id));
       }
     }),
-    takeWhile(() => this.componentActive);    
+      takeWhile(() => this.componentActive);
 
     this.currentItemMetadata$.subscribe(data => {
       this.allItemFields = data;
@@ -83,19 +84,19 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     });
   }
 
-  onFormFinished(finished: any) {    
+  onFormFinished(finished: any) {
     console.log('MediaItemDetailsComponent - onFormFinished outside: ', finished);
     this.dynamicForm.changes.subscribe(value => {
       console.log('MediaItemDetailsComponent - onFormFinished inside: ', value);
     });
   }
-  
+
   submit(value?: any) {
     console.log('submit form: ', this.dynamicForm.value);
     console.log('submit is Form valid: ', this.dynamicForm.valid);
   }
 
-  activatePDFViewer() {
+  activateViewer() {
     this.router.navigate([`media-viewer/${this.id}`]);
   }
 
@@ -103,8 +104,10 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     this.fieldsDialog.hide();
   }
 
-  doneDialogButtons: Object[] = [{ click: this.doneDialogClick.bind(this),
-                    buttonModel: { content: 'Done', isPrimary: true } }];
+  doneDialogButtons: Object[] = [{
+    click: this.doneDialogClick.bind(this),
+    buttonModel: { content: 'Done', isPrimary: true }
+  }];
 
   showFieldsDialog() {
     this.fieldsDialog.show();

@@ -8,6 +8,7 @@ import { GetMediaItem, GetMedia } from 'src/app/media/state/media/media.action';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BaseComponent } from '../base/base.component';
 import Viewer from 'viewerjs';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-media-viewer',
@@ -22,29 +23,36 @@ export class MediaViewerComponent extends BaseComponent implements OnInit {
   public mediaSource: string;
   public service: string;
   public document: string;
-  @Select(MediaState.setMediaItemId) mediaId$: Observable<any>;
+  @Select(MediaState.getCurrentItemId) mediaItemId$: Observable<number>;
   @Select(MediaState.getMedia) media$: Observable<any>;
   //  @Input() mediaDataSrc: any;
   mediaDataSrc: any;
   mediaID: number;
   url: string;
   trustedUrl: any;
+  componentActive = true;
   constructor(protected store: Store, private router: Router, private activeRoute: ActivatedRoute,
     private sanitizer: DomSanitizer) {
     super(store);
 
   }
 
-  ngOnInit() {
-    this.mediaID = Number(this.activeRoute.snapshot.paramMap.get('id'));
+  ngOnInit() {    
+    this.mediaItemId$.subscribe(id => {
+    console.log(id);
+    if(id){
+      this.store.dispatch(new GetMedia());
+      this.media$.subscribe(mediaDataSrc => {
+        this.mediaDataSrc = mediaDataSrc;
+        if (mediaDataSrc.length > 1) {
+          this.toggleMediaViewer();
+        }
+      });
+    }
+  }),
+  takeWhile(() => this.componentActive); 
 
-    this.store.dispatch(new GetMedia());
-    this.media$.subscribe(mediaDataSrc => {
-      this.mediaDataSrc = mediaDataSrc;
-      if (mediaDataSrc.length > 1) {
-        this.toggleMediaViewer();
-      }
-    });
+
 
   }
 
@@ -60,7 +68,7 @@ export class MediaViewerComponent extends BaseComponent implements OnInit {
 
   toggleMediaType(val) {
     switch (val) {
-      case 'DOC': {
+      case 'DOCX': {
         this.url = 'http://docs.google.com/gview?url=https://ocean33r1ngm3d1avault.blob.core.windows.net/media/Platform/rigs/ursa/2018/Documents/file-sample_100kB.docx&embedded=true';
         this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
         break;
