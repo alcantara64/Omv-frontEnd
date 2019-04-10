@@ -11,8 +11,6 @@ import { SettingsService } from './core/services/data/appsettings/appsettings.se
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
-
-/* NgXS Modules */
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
@@ -27,13 +25,18 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
 import {DatePickerModule} from "@syncfusion/ej2-angular-calendars";
+import { MetadataService } from './shared/dynamic-components/metadata.service';
+import { MetadataDataService } from './core/services/data/metadata/metadata.data.service';
+import { MetadataMockDataService } from './core/services/data/metadata/metadata.mock.service';
+import { MetadataWebDataService } from './core/services/data/metadata/metadata.web.data.service';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     AuthCallbackComponent,
-    StartupComponent,
+    StartupComponent, 
   ],
   imports: [
     BrowserModule,
@@ -57,9 +60,10 @@ import {DatePickerModule} from "@syncfusion/ej2-angular-calendars";
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: MetadataDataService, useClass: environment.useMocks ? MetadataMockDataService : MetadataWebDataService },
     SettingsService,
     AdminUsersService,
-    
+    MetadataService
    ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA , NO_ERRORS_SCHEMA]

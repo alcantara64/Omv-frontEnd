@@ -18,6 +18,7 @@ export class SetPageTitle {
   constructor(public payload: string) { }
 }
 
+
 export class SetLoggedInUser {
   static readonly type = '[App] SetLoggedInUser';
 

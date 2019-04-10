@@ -27,6 +27,9 @@
     "id": 4,
     "type": "DOC",
     "name": "URSA INSPECTION REPORT ",
+    "fileName": "URSA INSPECTION REPORT",
+    "company": "Shell Limited",
+    "country": "MX",
     "isFavorite": true,
     "mediaPath":"../../../assets/images/photo-oceaneering.jpg",
     "date": "Jan 30, 2018 "

@@ -10,7 +10,9 @@ i{
 .selected-background{
   filter: brightness(0.5) sepia(1) hue-rotate(140deg) saturate(6);
 }
-
+.tile-svg {
+  filter: brightness(1.5) sepia(1) hue-rotate(-160deg) saturate(6);
+}
 .box-sizing{
   background-color:#fff;
   padding: 0.5rem;
@@ -43,9 +45,7 @@ i{
   border: 1px solid #5B7F95;
 
 }
-/* .selected-backgrou{
-  filter: brightness(0.5) sepia(1) hue-rotate(-70deg) saturate(5);
-} */
+
 input[type=text] {
   border: none;
   background-color: none;

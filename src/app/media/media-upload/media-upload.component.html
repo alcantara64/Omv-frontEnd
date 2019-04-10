@@ -37,9 +37,12 @@
 <div *ngIf='isFileSelected && isDestinationSelected'>
   <span class="step-title"> Step 3 <i class="step-description-title">Metadata</i></span>
   <br /><br />
-  <app-dynamic-form [metadata]="metadata"></app-dynamic-form>
-  <button type="submit" class="btn omv-green btn-lg"> Upload </button>
+
+  <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="metadata" (submit)="submit($event)" *ngIf="metadata?.length > 0"></dynamic-form>
+  <br />
+  <button type="submit" (click)="submit('')" class="btn omv-green btn-lg"> Upload </button>
   <button type="button" class="btn btn-lg"> Cancel </button>
+  
 </div>
 
 

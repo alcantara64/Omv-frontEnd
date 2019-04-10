@@ -1,7 +1,7 @@
 <div *ngIf="isToolBarVisible" style="padding-top:2rem;padding-bottom: .3rem;">
   <span>
     <label class="grid-toolbar-item-label">
-      Total Users: {{ listData?.length }}
+      {{ totalCountText }}: {{ listData?.length }}
     </label>
   </span>
   <span class="float-right">
@@ -20,11 +20,18 @@
   (rowSelected)="rowSelected($event)" (rowDeselected)="rowDeselected($event)" [allowSorting]='true'
   (created)='gridCreated()' id="Grid">
   <e-columns>
-    <ng-template #template ngFor let-column [ngForOf]="columns">
+    <ng-template #template ngFor let-column [ngForOf]="columns" let-i="index">
       <e-column [field]="column.field" [type]="column.type" [headerText]="column.headerText" [width]="column.width"
         [textAlign]="column.textAlign">
       </e-column>
 
+      <!-- FAVORITE ICON COLUMN -->
+      <e-column *ngIf="showFavoriteIcon && i === favoriteIconPosition" headerText='' width='40' textAlign='Left'>
+        <ng-template #template let-data>
+          <img class="favorite-cls cursor" (click)="performToggleFavorite(data)"
+            [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">  
+        </ng-template>
+      </e-column>
     </ng-template>
 
     <e-column *ngIf="showFirstAction" field='' headerText='' width='100'>

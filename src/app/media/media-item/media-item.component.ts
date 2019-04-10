@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Tab } from 'src/app/core/models/tab';
-import { Store, Select } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base/base.component';
-import { MediaState } from '../state/media/media.state';
-import { Observable } from 'rxjs';
-import { SetMediaId } from '../state/media/media.action';
+import { SetCurrentMediaItemId } from '../state/media/media.action';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-media-item',
@@ -19,21 +18,22 @@ export class MediaItemComponent extends BaseComponent implements OnInit {
     { link: '/media/8/related-items', name: 'Related Items' },
     { link: '/media/8/history', name: 'History' }
   ];
-  mediaID: number;
-  @Select(MediaState.setMediaItemId) mediaId$: Observable<number>;
-  id: number;
-  constructor(protected store: Store, private router: Router, private activeRoute: ActivatedRoute) {
+  componentActive: boolean;
+
+  constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
     super(store);
     this.ShowLefNav(false);
   }
 
   ngOnInit() {
-    this.activeRoute.paramMap.subscribe(params => {
-      this.mediaID = Number(params.get('id'));
-      this.store.dispatch(new SetMediaId(this.mediaID));
-      this.mediaId$.subscribe(id => this.id = id);
-   
-    });
+
+    this.route.paramMap.subscribe(params => {
+      let mediaItemId = Number(params.get('id'));
+      if (mediaItemId) {
+        this.store.dispatch(new SetCurrentMediaItemId(mediaItemId));
+      } 
+    }),
+    takeWhile(() => this.componentActive);
   }
 
   switchTabs(tabLink: string) {

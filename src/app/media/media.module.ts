@@ -28,6 +28,14 @@ import { MediaFavoritesTreeviewComponent } from './media-favorites/media-favorit
 import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorites-tileview/media-favorites-tileview.component';
 import { PagerModule } from '@syncfusion/ej2-angular-grids';
 import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
+import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { ListViewModule } from '@syncfusion/ej2-angular-lists';
+import { DirectoryDataService } from '../core/services/data/directory/directory.data.service';
+import { DirectoryMockDataService } from '../core/services/data/directory/directory.mock.data.service';
+import { DirectoryWebDataService } from '../core/services/data/directory/directory.web.data.service';
+import { MediaWebDataService } from '../core/services/data/media/media.web.data.service';
 
 @NgModule({
 	declarations: [
@@ -48,8 +56,7 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 		AllMediaListviewComponent,
 		AllMediaTreeviewComponent,
 		AllMediaMapviewComponent,
-		MediaFavoritesTileviewComponent,
-    // PdfViewerComponent,
+		MediaFavoritesTileviewComponent
 	],
 	imports: [
 		PagerModule,
@@ -58,12 +65,16 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 		TreeViewAllModule,
 		TreeGridModule,
 		CheckBoxModule,
+		DialogModule,
+		DropDownListModule,
+		ListViewModule,
 		NgxsModule.forFeature([
 			MediaState
 		])
 	],
 	providers: [
-    { provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaMockDataService },
+		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
+    { provide: DirectoryDataService, useClass: environment.useMocks ? DirectoryMockDataService : DirectoryWebDataService },
   ],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

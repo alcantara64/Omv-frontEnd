@@ -18,7 +18,7 @@ const MAP_VIEW = 'map';
   templateUrl: './all-media.component.html',
   styleUrls: ['./all-media.component.css']
 })
-export class AllMediaComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class AllMediaComponent extends BaseComponent implements OnInit {
 
   viewType: string;
   @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
@@ -34,18 +34,6 @@ export class AllMediaComponent extends BaseComponent implements OnInit, AfterVie
         this.viewType = params['view'] ? params['view'] : ViewType.TILE;
       }
     );
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      var nextIcon:  NodeListOf<HTMLElement> = document.querySelectorAll('div.e-mlast.e-icons.e-icon-last.e-lastpage.e-pager-default');
-      var lastNextIcon = document.querySelectorAll('div.e-last.e-icons.e-icon-last.e-lastpagedisabled.e-disable');
-      console.log(nextIcon);
-      console.log(lastNextIcon);
-        nextIcon[0].style.display = 'none';
-  
-      console.log(nextIcon);
-    }, 500);
   }
 
   performClick(event): EmitType<object> {

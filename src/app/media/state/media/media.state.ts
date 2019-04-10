@@ -1,47 +1,76 @@
-import { GetHistory, GetMediaItem, GetFavorites, ToggleFavorite,  SetMediaId } from './media.action';
-import { tap } from "rxjs/operators";
+import { MediaUploadService } from './../../media-upload/media-upload.service';
+import { GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData, GetMetadata,
+  GetItemMetadata, AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, SetMediaId } from './media.action';
+import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
 import { GetMedia as GetMedia } from './media.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
+import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
+import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';
+import { MetadataService } from 'src/app/shared/dynamic-components/metadata.service';
+import { MediaDataService } from 'src/app/core/services/data/media/media.data.service';
+import { MediaItemDetailsService } from '../../media-item/media-item-details/media-item-details.service';
+import { DateService } from 'src/app/core/services/business/dates/date.service';
 
 export class MediaStateModel {
   media: MediaItem[];
+  currentMediaItemId: number;
   favorites: MediaItem[];
   currentMediaItem: MediaItem;
   historyItems: any[];
+  metadata: any[];
   totalMedia: number;
-  currentMediaItemId: number;
+  mediaTreeData: MediaTreeGrid[];
+  currentItemMetadata: any[];
+  itemFields: any[];
+  directoryMetadata: any[];
 }
 
 const initialMediaItem: MediaItem = {
-  id: 0,
+  id: '',
   name: '',
   type: '',
-  size: '0 KB',
-  date: new Date(),
-  isFavorite: false,
-  imageUrl: ''
+  size: 0,
+  storageType: '',
+  entityType: '',
+  entityId: '',
+  documentTypeCode: '',
+  url: '',
+  thumbnail: '',
+  createdOn: new Date(),
+  createdBy: '',
+  modifiedOn: new Date(),
+  modifiedBy: ''
 };
 
 @State<MediaStateModel>({
   name: 'media',
   defaults: {
     media: [],
+    currentMediaItemId: null,
     favorites: [],
     currentMediaItem: initialMediaItem,
     historyItems: [],
     totalMedia: 0,
-    currentMediaItemId: null
+    mediaTreeData:[],
+    metadata: [],
+    currentItemMetadata: [],
+    itemFields: [],
+    directoryMetadata: []
   }
 })
 
 export class MediaState {
-  constructor(private mediaService: MediaService) { }
 
   @Selector()
   static getFavorites(state: MediaStateModel) {
     return state.favorites;
+  }
+
+  @Selector()
+  static getCurrentItemId(state: MediaStateModel) {
+    return state.currentMediaItemId;
   }
 
   @Selector()
@@ -69,12 +98,45 @@ export class MediaState {
     return state.currentMediaItemId;
   }
 
+  @Selector()
+  static getMetaData(state: MediaStateModel) {
+    return state.metadata;
+  }
+
+  @Selector()
+  static getMediaTreeData(state: MediaStateModel) {
+    return state.mediaTreeData;
+  }
+
+  @Selector()
+  static getCurrentItemMetadata(state: MediaStateModel) {
+    return state.currentItemMetadata.sort(x => x.order);
+  }
+
+  @Selector()
+  static getItemFields(state: MediaStateModel) {
+    return state.itemFields.sort(x => x.order);
+  }
+
+  @Selector()
+  static getDirectoryMetadata(state: MediaStateModel) {
+    return state.directoryMetadata;
+  }
+
+  constructor(private mediaService: MediaService,
+    private metaDataService: MetadataService, private mediaDataService: MediaDataService,
+    private mediaItemDetailsService: MediaItemDetailsService, private mediaUploadService: MediaUploadService,
+    private dateService: DateService) { }
+  
   @Action(GetMedia)
   getMedia({ getState, setState }: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(media => {
         const state = getState();
-        console.log('media', media);
+        media.map(item => {
+          item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
+        });
+        console.log('MediaState getMedia: ', media);
         setState({
           ...state,
           media: media,
@@ -84,8 +146,8 @@ export class MediaState {
     );
   }
 
-  @Action(GetMediaItem)
-  getMediaItem({ getState, setState }: StateContext<MediaStateModel>, { id }: GetMediaItem) {
+  @Action(GetMediaItemDetails)
+  getMediaItem({ getState, setState }: StateContext<MediaStateModel>, { id }: GetMediaItemDetails) {
     return this.mediaService.getMediaItem(id).pipe(
       tap(item => {
         const state = getState();
@@ -102,12 +164,6 @@ export class MediaState {
     return this.mediaService.getMedia().pipe(
       tap(media => {
         const state = getState();
-        let favorites = media.filter(x => x.isFavorite);
-        setState({
-          ...state,
-          favorites: favorites,
-          totalMedia: favorites ? favorites.length : 0
-        });
       })
     );
   }
@@ -145,5 +201,127 @@ export class MediaState {
       ...state,
       currentMediaItemId: id,
     });
+  }
+  @Action(GetMediaTreeData)
+  getMediaTreeData({ getState, setState }: StateContext<MediaStateModel>,){
+    return this.mediaService.getMediaTreeData().pipe(
+      tap(media => {
+        const state = getState();
+        console.log('media', media);
+        setState({
+          ...state,
+          mediaTreeData: media,
+        });
+      })
+    );
+  }
+
+
+  // @Action(GetDirectories)
+  // getDirectories({ getState, setState }: StateContext<MediaStateModel>) {
+  //   return this.adminMediaService.getMediaAccess().pipe(tap(media => {
+  //     const state = getState();
+  //     setState({
+  //       ...state,
+  //       historyItems: media
+  //     });
+  //   }));
+  // }
+
+  @Action(SetCurrentMediaItemId)
+  setCurrentMediaItemId({ getState, setState }: StateContext<MediaStateModel>, { id }: SetCurrentMediaItemId) {
+    const state = getState();
+    setState({
+      ...state,
+      currentMediaItemId: id
+    })
+  }
+
+  @Action(GetDirectoryMetadata)
+  async getDirectoryMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetDirectoryMetadata) {
+    await this.mediaUploadService.getDirectoryMetadata(id).then(metadata => {
+      console.log('MediaState getDirectoryMetadata: ', metadata);
+      const state = getState();
+      setState({
+        ...state,
+        directoryMetadata: metadata
+      });
+    });
+  }
+
+  @Action(GetMetadata)
+  async getMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetMetadata) {
+    await this.mediaItemDetailsService.getMetadaFields(id).then(metadata => {
+      console.log('MediaState metadata: ', metadata);
+      const state = getState();
+      const itemConfig = metadata.filter(x => x.value);
+      metadata.map(x => {
+        if (x.value) {
+          x.isChecked = true;
+        }
+      })
+      setState({
+        ...state,
+        currentItemMetadata: metadata,
+        itemFields: itemConfig
+      });
+    });
+  }
+
+  @Action(GetItemMetadata)
+  async getItemMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetItemMetadata) {
+    this.metaDataService.getFinalData().then(resp => {
+      
+      console.log('MediaState getItemMetadata: ', resp); 
+      const state = getState();
+      const itemConfig = resp.filter(x => x.value);
+      resp.map(x => {
+        if (x.value) {
+          x.isChecked = true;
+        }
+      });
+      setState({
+        ...state,
+        currentItemMetadata: resp,
+        itemFields: itemConfig
+      });      
+    });
+  }
+
+  @Action(AddMediaItemField)
+  addItemField({ getState, setState }: StateContext<MediaStateModel>, { payload }: AddMediaItemField) {
+    const state = getState();    
+    let itemFields = state.itemFields;    
+    itemFields.push(payload);
+    let itemMetadata = state.currentItemMetadata;
+    itemMetadata.map(x => {
+      if (x.name === payload.name) {
+        x.isChecked = true;
+        x.isSelected = false;
+      }
+    });
+    setState({
+      ...state,
+      currentItemMetadata: itemMetadata,
+      itemFields: itemFields
+    });
+  }
+
+  @Action(RemoveMediaItemField)
+  removeItemField({ getState, setState }: StateContext<MediaStateModel>, { name }: RemoveMediaItemField) {
+    const state = getState();
+    let itemFields = state.itemFields;
+    itemFields = itemFields.filter(x => x.name !== name);
+    let itemMetadata = state.currentItemMetadata;
+    itemMetadata.map(x => {
+      if (x.name === name) {
+        x.isChecked = false;
+        x.isSelected = false;
+      }
+    });
+    setState({
+      ...state,
+      itemFields: itemFields
+    })
   }
 }

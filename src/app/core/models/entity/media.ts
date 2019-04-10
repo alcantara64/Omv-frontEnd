@@ -1,10 +1,23 @@
 export class MediaItem {
-  id: number;
+  id: string;
+  storageType: string;
+  entityType: string;
+  entityId: string;
+  documentTypeCode?: string;  
   name: string;
+  url: string;
+  metadata?: string;
+  contentType?: string;
+  containerId?: string;
+  size?: number;
+  thumbnail: string;
+  isDeleted?: boolean;
+  status?: number;
+  createdOn?: Date;
+  createdBy?: string;
+  modifiedOn?: Date;
+  modifiedOnString?: string;
+  modifiedBy?: string;
+
   type: string;
-  date: Date;
-  dateString?: string;
-  isFavorite: boolean;
-  imageUrl: string;
-  size: string;
 }

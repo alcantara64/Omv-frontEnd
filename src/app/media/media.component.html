@@ -1,13 +1,5 @@
 <!-- //Breadcrumb -->
-<div class="page__section" style=" padding-top: 1rem;">
-  <ul class="breadcrumbs breadcrumbs_type5">
-    <li class="breadcrumbs__item "><a routerLink="/media/all" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" class="breadcrumbs__element link">Media</a></li>
-    <li class="breadcrumbs__item  breadcrumbs__item_active"><a routerLink="/media" routerLinkActive="active-link" class="breadcrumbs__element active link">All Media</a></li>
-  </ul>
-</div>
-<hr class="stroke" />
-
-<!-- <app-breadcrumb></app-breadcrumb> -->
+<app-breadcrumb></app-breadcrumb>
 
 <!-- Media tabs -->
 <div class="row">
@@ -29,7 +21,7 @@
   <span style="padding-top:1rem;">
     <i (click)="navigateToView('tile')"(click)="onIconClick('tile')" 
     [ngClass]="{'selected-background': showtabs==='tile'}" >
-      <img src="../../assets/images/group-2 (1).svg">
+      <img class="tile-svg" src="../../assets/images/group-2 (1).svg">
       <span class="vertical-line-grid"></span>
     </i>
     <i (click)="navigateToView('list')" (click)="onIconClick('list')"

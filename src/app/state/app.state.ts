@@ -5,8 +5,7 @@ import {
   messageType,
   SetNotification,
   ClearConfirmation, 
-  SetPageTitle, ShowLeftNav, SetLoggedInUser, LogOut, GetUserPermissions, GetLoggedInUser, DisplayToastMessage
-} from './app.actions';
+  SetPageTitle, ShowLeftNav, SetLoggedInUser, LogOut, GetUserPermissions, GetLoggedInUser, DisplayToastMessage} from './app.actions';
 import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
 import { AuthService } from '../core/services/business/auth.service';
@@ -59,7 +58,7 @@ export class AppState {
   static getPageTitle(state: AppStateModel) {
     return state.setPageTitle;
   }
-
+ 
   @Selector()
   static getCurrentUser(state: AppStateModel) {
     return state.currentUser;
