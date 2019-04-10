@@ -65,7 +65,7 @@ export class AdminUserState {
 
   @Selector()
   static getUnassignedUsers(state: AdminUserStateModel) {
-    return state.users.filter(x => !x.roleNames);
+    return state.users.filter(x => !x.roleNames &&  x.status === UserStatus.Active);
   }
 
   @Selector()
