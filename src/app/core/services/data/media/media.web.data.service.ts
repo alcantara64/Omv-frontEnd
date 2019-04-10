@@ -29,10 +29,7 @@ export class MediaWebDataService implements MediaDataService {
   constructor(private httpClient: HttpClient) { }
 
   getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]> {
-
     var requestUri = environment.api.baseUrl + `/v1/documents`;
-
-    console.log('AdminUsersWebDataService - getMedia - requestUrl ', requestUri);
 
     return this.httpClient.get<Document_SearchOutputDTO[]>(requestUri).pipe(map(
       response => {
