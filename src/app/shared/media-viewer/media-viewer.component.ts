@@ -23,11 +23,11 @@ export class MediaViewerComponent extends BaseComponent implements OnInit {
   public mediaSource: string;
   public service: string;
   public document: string;
-  @Select(MediaState.getCurrentItemId) mediaItemId$: Observable<number>;
+  @Select(MediaState.getCurrentItemId) mediaItemId$: Observable<string>;
   @Select(MediaState.getMedia) media$: Observable<any>;
   //  @Input() mediaDataSrc: any;
   mediaDataSrc: any;
-  mediaID: number;
+  mediaID: string;
   url: string;
   trustedUrl: any;
   componentActive = true;
@@ -37,33 +37,32 @@ export class MediaViewerComponent extends BaseComponent implements OnInit {
 
   }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.mediaItemId$.subscribe(id => {
-    console.log(id);
-    if(id){
-      this.store.dispatch(new GetMedia());
-      this.media$.subscribe(mediaDataSrc => {
-        this.mediaDataSrc = mediaDataSrc;
-        if (mediaDataSrc.length > 1) {
-          this.toggleMediaViewer();
-        }
-      });
-    }
-  }),
-  takeWhile(() => this.componentActive); 
+      console.log(id);
+      if (id) {
+        this.mediaID = id;
+        this.store.dispatch(new GetMedia());
+        this.media$.subscribe(mediaDataSrc => {
+          this.mediaDataSrc = mediaDataSrc;
+          if (mediaDataSrc.length > 1) {
+            this.toggleMediaViewer();
+          }
+        });
+      }
+    }),
+      takeWhile(() => this.componentActive);
 
 
 
   }
 
   toggleMediaViewer() {
-    this.mediaOBJ = this.mediaDataSrc.find((ids: { id: number; }) => ids.id === this.mediaID);
-    this.mediaSource = this.mediaOBJ.mediaPath;
-    const x = this.mediaSource;
+    this.mediaOBJ = this.mediaDataSrc.find((ids: { id: string; }) => ids.id === this.mediaID);
+    // this.mediaSource = this.mediaOBJ.url;
+    // const x = this.mediaSource;
     this.mediaType = this.mediaOBJ.type;
-    setTimeout(() => {
-      this.toggleMediaType(this.mediaType);
-    }, 20);
+    this.toggleMediaType(this.mediaType);
   }
 
   toggleMediaType(val) {
