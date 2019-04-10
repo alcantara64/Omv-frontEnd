@@ -15,8 +15,14 @@ import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import * as pdfViewerComponent  from './pdf-viewer/pdf-viewer.component';
+import { PdfViewerAltComponent } from './pdf-viewer-alt/pdf-viewer-alt.component';
+import {NgxExtendedPdfViewerModule} from "ngx-extended-pdf-viewer";
+import { MediaViewerComponent } from './media-viewer/media-viewer.component';
+// import { ImageViewerModule } from 'ngx-image-viewer';
+//import { DocumentViewModule } from 'ngx-document-view';
 import { PdfViewerModule} from "@syncfusion/ej2-angular-pdfviewer";
-import { ReactiveFormsModule, FormsModule }          from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { FormInputComponent } from './dynamic-components/components/form-input.component';
 import { FormSelectComponent } from './dynamic-components/components/form-select.component';
@@ -29,6 +35,7 @@ import { DialogAllModule, TooltipModule } from '@syncfusion/ej2-angular-popups';
 import { FormLabelComponent } from './dynamic-components/components/form-label.component';
 import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
 
+import { ImageViewerModule } from 'ng2-image-viewer';
 @NgModule({
   declarations: [
     PageNotFoundComponent,
@@ -43,6 +50,10 @@ import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
     TreeViewComponent,
     TileViewComponent,
     BreadcrumbComponent,
+    pdfViewerComponent.PdfViewerComponent,
+    PdfViewerComponent,
+    PdfViewerAltComponent,
+    MediaViewerComponent,
     PdfViewerComponent,
     FileSizePipe,
     FormInputComponent,
@@ -65,6 +76,8 @@ import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
     DatePickerAllModule,
     DropDownListAllModule,
     ReactiveFormsModule,
+    NgxExtendedPdfViewerModule,
+    ImageViewerModule,
     PdfViewerModule,
     TooltipModule
   ],

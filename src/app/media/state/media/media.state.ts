@@ -1,6 +1,6 @@
 import { MediaUploadService } from './../../media-upload/media-upload.service';
 import { GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData, GetMetadata,
-  GetItemMetadata, AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId } from './media.action';
+  GetItemMetadata, AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, SetMediaId } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
@@ -15,7 +15,7 @@ import { DateService } from 'src/app/core/services/business/dates/date.service';
 
 export class MediaStateModel {
   media: MediaItem[];
-  currentMediaItemId: number;
+  currentMediaItemId: string;
   favorites: MediaItem[];
   currentMediaItem: MediaItem;
   historyItems: any[];
@@ -94,6 +94,11 @@ export class MediaState {
   }
 
   @Selector()
+  static setMediaItemId(state: MediaStateModel) {
+    return state.currentMediaItemId;
+  }
+
+  @Selector()
   static getMetaData(state: MediaStateModel) {
     return state.metadata;
   }
@@ -124,7 +129,7 @@ export class MediaState {
     private dateService: DateService) { }
   
   @Action(GetMedia)
-  getMedia({ getState, setState }: StateContext<MediaStateModel>, {pageNumber, pageSize}: GetMedia){
+  getMedia({ getState, setState }: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(media => {
         const state = getState();
@@ -188,6 +193,15 @@ export class MediaState {
     }));
   }
 
+  @Action(SetMediaId)
+  setMediaItemId(ctx: StateContext<MediaStateModel>, { id }: SetMediaId) {
+    const state = ctx.getState();
+    console.log('GetMediaId - ', id);
+    return ctx.setState({
+      ...state,
+      currentMediaItemId: id,
+    });
+  }
   @Action(GetMediaTreeData)
   getMediaTreeData({ getState, setState }: StateContext<MediaStateModel>,){
     return this.mediaService.getMediaTreeData().pipe(
@@ -220,7 +234,7 @@ export class MediaState {
     setState({
       ...state,
       currentMediaItemId: id
-    })
+    });
   }
 
   @Action(GetDirectoryMetadata)

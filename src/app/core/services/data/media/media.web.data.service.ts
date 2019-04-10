@@ -94,7 +94,9 @@ export class MediaWebDataService implements MediaDataService {
     return null;
   }
   getMediaTreeData(): Observable<MediaTreeGrid[]> {
-    throw new Error("Method not implemented.");
+    var url = `./assets/mock/media-treeview.json`;
+    let data = this.httpClient.get<MediaTreeGrid[]>(url);
+    return data;
   }
   
   getMetadata(id: number): Observable<any[]> {

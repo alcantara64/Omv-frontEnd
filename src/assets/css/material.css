@@ -1934,7 +1934,7 @@
 }
 
 .e-pager .e-pagercontainer {
-  border-radius: 4px;
+  border-radius: 4px !important;
   border-style: solid;
   border-width: 0;
   display: inline-block;
@@ -1958,7 +1958,7 @@
 }
 
 .e-pager .e-mfirst, .e-pager .e-mprev, .e-pager .e-mnext, .e-pager .e-mlast {
-  display: none;
+  display: none !important;
 }
 
 .e-pager .e-mprev {
@@ -2157,20 +2157,20 @@
 /*! Pager theme */
 
 .e-pager {
-  background-color: #F3F8FB;
-  border-color: #F3F8FB;
-  color: #000;
-  opacity: 0.87;
+  background-color: #F3F8FB !important;
+  border-color: #F3F8FB !important;
+  color: #000 !important;
+  opacity: 0.87 !important;
 }
 
 .e-pager div.e-icons {
-  color: #000;
+  color: #000 !important;
 }
 
 .e-pager .e-pager-default:hover {
-  background: #fff;
-  color: #000;
-  opacity: 0.87;
+  background: #fff !important;
+  color: #000 !important;
+  opacity: 0.87 !important;
 }
 
 .e-pager .e-parentmsgbar {

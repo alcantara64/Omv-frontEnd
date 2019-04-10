@@ -22,16 +22,21 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
 
   public service: string = 'https://ej2services.syncfusion.com/production/web-services/api/pdfviewer';
   public document: string = 'PDF_Succinctly.pdf';
+  public minDate: Date = new Date("05/07/2017");
+  public maxDate: Date = new Date("05/27/2017");
+  public value: Date = new Date("05/16/2017");
+  id: any;
+  @Select(MediaState.setMediaItemId) mediaId$: Observable<number>;
 
   componentActive = true;
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
-  @Select(MediaState.getCurrentItemId) mediaItemId$: Observable<number>;
+  @Select(MediaState.setMediaItemId) mediaItemId$: Observable<number>;
   @Select(MediaState.getItemFields) itemFields$: Observable<any[]>;
   @Select(MediaState.getCurrentItemMetadata) currentItemMetadata$: Observable<any[]>;
 
   @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
-  @ViewChild('listview') element:any;  
+  @ViewChild('listview') element: any;
 
   fields: FieldConfig[] = [];
   mediaItemId: number;
@@ -44,15 +49,16 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   isFormValid = false;
 
   constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
-   }
+  }
 
   ngOnInit() {
     this.mediaItemId$.subscribe(id => {
       if (id) {
+        this.id = id;
         this.store.dispatch(new GetMetadata(id));
       }
     }),
-    takeWhile(() => this.componentActive);    
+      takeWhile(() => this.componentActive);
 
     this.currentItemMetadata$.subscribe(data => {
       this.allItemFields = data;
@@ -78,28 +84,30 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     });
   }
 
-  onFormFinished(finished: any) {    
+  onFormFinished(finished: any) {
     console.log('MediaItemDetailsComponent - onFormFinished outside: ', finished);
     this.dynamicForm.changes.subscribe(value => {
       console.log('MediaItemDetailsComponent - onFormFinished inside: ', value);
     });
   }
-  
+
   submit(value?: any) {
     console.log('submit form: ', this.dynamicForm.value);
     console.log('submit is Form valid: ', this.dynamicForm.valid);
   }
 
-  activatePDFViewer() {
-    this.router.navigate(['pdf-viewer', {service: this.service, document: this.document }]);
+  activateViewer() {
+    this.router.navigate([`media-viewer/${this.id}`]);
   }
 
   doneDialogClick: EmitType<object> = () => {
     this.fieldsDialog.hide();
   }
 
-  doneDialogButtons: Object[] = [{ click: this.doneDialogClick.bind(this),
-                    buttonModel: { content: 'Done', isPrimary: true } }];
+  doneDialogButtons: Object[] = [{
+    click: this.doneDialogClick.bind(this),
+    buttonModel: { content: 'Done', isPrimary: true }
+  }];
 
   showFieldsDialog() {
     this.fieldsDialog.show();
