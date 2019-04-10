@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, DoCheck} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck } from '@angular/core';
 import { Tab } from 'src/app/core/models/tab';
 import { Router } from '@angular/router';
 
@@ -16,6 +16,7 @@ export class TabsComponent implements OnInit {
   @Output()
   navigate = new EventEmitter<string>();
 
+
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -23,7 +24,7 @@ export class TabsComponent implements OnInit {
   }
 
   performNavigation(link: string) {
-    this.setActiveTab(link);    
+    this.setActiveTab(link);
     this.navigate.emit(link);
   }
 

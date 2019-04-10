@@ -3,7 +3,7 @@ import { MediaItem } from 'src/app/core/models/entity/media';
 export class GetMedia {
   static readonly type = '[Media] GetMedia';
 
-  constructor(public pageNumber?: number , public pageSize?: number ) { }
+  constructor(public pageNumber?: number, public pageSize?: number) { }
 }
 
 export class GetMediaItem {
@@ -36,8 +36,13 @@ export class ToggleFavorite {
 
 export class GetHistory {
   static readonly type = '[Media] GetHistory';
-  
+
   constructor(public id: number) { }
+}
+export class SetMediaId {
+  static readonly type = '[Media] GetMediaId';
+
+  constructor(public id: string) { }
 }
 
 export class GetMediaTreeData {

@@ -373,6 +373,7 @@ html, body {
 
 
 /************ End OMV Confirmation **************/
+/************Media Label**********/
 button{
   padding-left: 0px;
   padding-right: 0px;
@@ -394,6 +395,7 @@ button{
 .media-button-small{
   color: #5b7f95;
 }
+/************End Media Label**********/
 /************ End OMV Confirmation **************/
 /************ Media Tile View **************/
 .media-tile-info{
@@ -418,9 +420,15 @@ button{
   text-align: right;
   color: #033b5c;
 }
-
-
-
+.e-card .e-card-actions{
+  padding: 12px 6px 19px 6px;
+}
+.center-img{
+  width:18.5em;
+  border: 1px solid #CFDBE1;
+  height: 155px;
+}
+/************ End Of Media Tile View **************/
 /*#endregion B U T T O N S*/
 
 /*#region L A B E L S */
@@ -525,6 +533,11 @@ ins{
 }
 /************ End Breadcrumb **************/
 
+/************ Image Styles **************/
+img{
+  cursor: pointer;
+}
+/************ End Image Styles **************/
 /*#region Dialog */
 
 .e-dlg-content {
@@ -605,3 +618,84 @@ background: none !important;
   padding: 8px 13px;
  }
  /* Media-item-details */
+/* pagination */
+/* .e-pager .e-pagercontainer {
+  background-color: #F3F8FB;
+  border-color: #F3F8FB;
+}
+.e-pager .e-pagercontainer {
+  border-radius: 4px !important;
+  border-style: solid;
+  border-width: 0;
+  display: inline-block;
+  margin: 0 30% 0 50%;
+  overflow: hidden;
+}
+.e-pager div, .e-pager a {
+  display: inline;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+} 
+.e-pager div, .e-pager a {
+  display: inline;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+} */
+/*  */
+.e-pager {
+  background-color: #F3F8FB !important;
+  border-color: #F3F8FB !important;
+  color: #000 !important;
+  opacity: 0.87 !important;
+}
+.e-pager {
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  font-size: 13px;
+  padding: 0;
+  white-space: normal;
+  width: 100%;
+}
+.e-pager .e-currentitem, .e-pager .e-currentitem:hover {
+  background: #0097a9 !important;
+  color: #fff;
+  opacity: 1;
+}
+.e-pager .e-pagercontainer {
+    background-color: #F3F8FB !important;
+    border-color: #F3F8FB !important;
+}
+.e-pager .e-pagercontainer {
+    border-radius: 4px !important;
+    border-style: solid !important;
+    border-width: 0 !important;
+    display: inline-block !important;
+    margin: 0 30% 0 50% !important;
+    overflow: hidden !important;
+}
+.e-pager .e-pagercontainer .e-nextpage{
+  display: none !important;
+}
+.e-pager .e-pagercontainer .e-firstpage, .e-pager .e-pagercontainer .e-prevpage, .e-pager .e-pagercontainer .e-firstpagedisabled, .e-pager .e-pagercontainer .e-prevpagedisabled, .e-pager .e-pagercontainer .e-nextpage, .e-pager .e-pagercontainer .e-lastpage, .e-pager .e-pagercontainer .e-nextpagedisabled, .e-pager .e-pagercontainer .e-lastpagedisabled {
+  border-right-style: solid;
+  border-right-width: 0;
+  display: none !important;
+  margin-right: 12px;
+  margin-top: 5px;
+  min-width: 26px;
+  padding: 11px 9px 8px;
+}
+.e-pager .e-mfirst, .e-pager .e-mprev, .e-pager .e-mnext, .e-pager .e-mlast {
+  display: none !important;
+}
+/* end of pagination styles */
+/* checkbox styles */
+.e-checkbox-wrapper .e-frame.e-check {
+  background-color: #0097a9 !important;
+}
+/* end of checkbox styles */

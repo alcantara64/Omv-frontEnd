@@ -102,6 +102,11 @@ export class MediaState {
   }
 
   @Selector()
+  static setMediaItemId(state: MediaStateModel) {
+    return state.currentMediaItemId;
+  }
+
+  @Selector()
   static getMetaData(state: MediaStateModel) {
     return state.metadata;
   }
@@ -139,7 +144,7 @@ export class MediaState {
   //#region A C T I O N S
 
   @Action(GetMedia)
-  getMedia({ getState, setState }: StateContext<MediaStateModel>, {pageNumber, pageSize}: GetMedia){
+  getMedia({ getState, setState }: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(media => {
         const state = getState();
@@ -236,7 +241,7 @@ export class MediaState {
       });
     }));
   }
-
+  
   @Action(GetMediaTreeData)
   getMediaTreeData({ getState, setState }: StateContext<MediaStateModel>,){
     return this.mediaService.getMediaTreeData().pipe(
