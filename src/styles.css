@@ -379,6 +379,7 @@ html, body {
 
 
 /************ End OMV Confirmation **************/
+/************Media Label**********/
 button{
   padding-left: 0px;
   padding-right: 0px;
@@ -400,6 +401,7 @@ button{
 .media-button-small{
   color: #5b7f95;
 }
+/************End Media Label**********/
 /************ End OMV Confirmation **************/
 /************ Media Tile View **************/
 .media-tile-info{
@@ -424,9 +426,15 @@ button{
   text-align: right;
   color: #033b5c;
 }
-
-
-
+.e-card .e-card-actions{
+  padding: 12px 6px 19px 6px;
+}
+.center-img{
+  width:18.5em;
+  border: 1px solid #CFDBE1;
+  height: 155px;
+}
+/************ End Of Media Tile View **************/
 /*#endregion B U T T O N S*/
 
 /*#region L A B E L S */
