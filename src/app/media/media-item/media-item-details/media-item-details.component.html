@@ -1,5 +1,6 @@
-<div class="form-title">File Title</div>
-
+<br />
+<div class="step-title"> {{ mediaItem?.name }} </div>
+<br />
 <div class="actionBar">
   <button (click)="showFieldsDialog()"><span class="actions"><img src="../../../../assets/images/icon-add.svg" /> &nbsp;Add Field</span></button>
   <button (click)="submit()" [disabled]="!dynamicForm?.valid" [ngClass]="{'button-not-allowed': !dynamicForm?.valid}"><span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span></button>
@@ -11,10 +12,9 @@
     <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="fields" (submit)="submit($event)" (remove)="performRemove($event)" [showDelete]='true'
       *ngIf="fields?.length > 0" (formFinished)="onFormFinished($event)"></dynamic-form>
   </div>
-
   <div class="col-md-6">
-    <img *ngIf="isPDF !== true" src="../../../../assets/images/omvImage.png" alt="OMV Image" style="width: 100%; height: auto; margin: auto">
-    <img *ngIf="isPDF === true" src="../../../../assets/images/omvPDFMedia.png" alt="OMV Image" style="width: 100%; height: auto; margin: auto" (click)="activatePDFViewer()">
+    <img [src]="mediaItem ? mediaItem?.thumbnail : ''" alt="OMV Image" style="width: 100%; height: auto; margin: auto">
+    <!-- <img *ngIf="isPDF === true" src="../../../../assets/images/omvPDFMedia.png" alt="OMV Image" style="width: 100%; height: auto; margin: auto" (click)="activatePDFViewer()"> -->
   </div>
 </div>
 

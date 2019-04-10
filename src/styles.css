@@ -264,8 +264,6 @@ html, body {
 /*#region Titles*/
 
 .form-title {
-  width: 186px;
-  height: 38px;
   font-family: 'Open Sans', sans-serif;
   font-size: 28px;
   font-weight: 600;
@@ -277,8 +275,6 @@ html, body {
 }
 
 .step-title {
-  width: 61px;
-  height: 27px;
   font-family: 'Open Sans', sans-serif;
   font-size: 20px;
   font-weight: 600;
@@ -290,8 +286,6 @@ html, body {
 }
 
 .step-description-title {
-  width: 74px;
-  height: 22px;
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   font-weight: 600;

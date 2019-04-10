@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { Field } from '../field.interface';
-import { FieldConfig } from '../field-config.interface';
+import { FieldConfiguration } from '../field-setting';
 
 @Component({
   selector: "form-date",
@@ -25,7 +25,7 @@ import { FieldConfig } from '../field-config.interface';
   styles: []
 })
 export class FormDateComponent implements Field {
-  config: FieldConfig;
+  config: FieldConfiguration;
   group: FormGroup;
   showDelete: boolean;
   remove = new EventEmitter<any>();

@@ -1,4 +1,4 @@
-import { GetDirectoryMetadata } from './../state/media/media.action';
+import { GetDirectoryMetadata, GetDirectories, GetMediaTreeData } from './../state/media/media.action';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { projectData } from './data';
 import { SelectionSettingsModel } from '@syncfusion/ej2-treegrid';
@@ -6,11 +6,12 @@ import { RowDataBoundEventArgs } from '@syncfusion/ej2-grids';
 import { Observable } from 'rxjs';
 import { Validators } from '@angular/forms';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
-import { MetadataService } from 'src/app/shared/dynamic-components/metadata.service';
 import { Store, Select } from '@ngxs/store';
-import { GetMetadata } from '../state/media/media.action';
 import { MediaState } from '../state/media/media.state';
-import { FieldConfig } from 'src/app/shared/dynamic-components/field-config.interface';
+import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-setting';
+import { Directory } from 'src/app/core/models/entity/directory';
+import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data';
+import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 
 const BROWSE = 'Browse';
 const CHANGE = 'Change';
@@ -28,24 +29,32 @@ export class MediaUploadComponent implements OnInit {
   isFileSelected: boolean;
   isDestinationSelected: boolean;
 
-  data: Object[];
 
   @ViewChild('file') file;
   selectionOptions: SelectionSettingsModel;
 
   
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
-  metadata: FieldConfig[] = [];
+  metadata: FieldConfiguration[] = [];
 
+  @Select(MediaState.getDirectories) directories$: Observable<any[]>;
   @Select(MediaState.getDirectoryMetadata) directoryMetadata$: Observable<any[]>;
+  @Select(MediaState.getMediaTreeData) mediaData$: Observable<any[]>;
+
+  public directories: any[];
+  public data: any[];
   
   constructor(private store: Store) { }
 
   ngOnInit() {
-    this.data = projectData;
+    // this.data = projectData;
     this.selectionOptions = { mode: 'Row', type: 'Single' };
 
-    this.store.dispatch(new GetDirectoryMetadata(4));
+    this.store.dispatch(new GetDirectories());
+    this.directories$.subscribe(data => {
+      this.directories = data;
+      console.log('MediaUploadComponent ngOnInit directories: ', this.directories);
+    });
 
     this.directoryMetadata$.subscribe(data => {
       this.metadata = data;
@@ -74,7 +83,8 @@ export class MediaUploadComponent implements OnInit {
     console.log('MediaUploadComponent - rowBound: ', args);
     let data = args.data;
     if (data) {
-      this.isDestinationSelected = true;
+      this.isDestinationSelected = true;      
+      this.store.dispatch(new GetDirectoryMetadata(data.id));
     }
   }
 

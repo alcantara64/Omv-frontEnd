@@ -1,16 +1,15 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Select, Store } from '@ngxs/store';
-import { GetMediaItemDetails, GetItemMetadata, AddMediaItemField, RemoveMediaItemField, GetMetadata } from '../../state/media/media.action';
+import { GetMediaItemDetails, AddMediaItemField, RemoveMediaItemField } from '../../state/media/media.action';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { takeWhile } from 'rxjs/operators';
 import { EmitType } from '@syncfusion/ej2-base';
-import { FieldConfig } from 'src/app/shared/dynamic-components/field-config.interface';
-import { FormBuilder } from '@angular/forms';
-import { MediaItemDetailsService } from './media-item-details.service';
+import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-setting';
+import { MediaItem } from 'src/app/core/models/entity/media';
 
 @Component({
   selector: 'app-media-item-details',
@@ -27,19 +26,21 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
   @Select(MediaState.getCurrentItemId) mediaItemId$: Observable<number>;
+  @Select(MediaState.getCurrentMediaItem) mediaItem$: Observable<MediaItem>;
   @Select(MediaState.getItemFields) itemFields$: Observable<any[]>;
   @Select(MediaState.getCurrentItemMetadata) currentItemMetadata$: Observable<any[]>;
 
   @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
   @ViewChild('listview') element:any;  
 
-  fields: FieldConfig[] = [];
+  fields: FieldConfiguration[] = [];
   mediaItemId: number;
+  mediaItem: MediaItem;
   itemFields: Object = { text: 'label', value: 'name' };
   fieldItem: any;
   allItemFields: any[];
   itemDetails: any;
-  selectedFields: FieldConfig[] = [];
+  selectedFields: FieldConfiguration[] = [];
 
   isFormValid = false;
 
@@ -49,10 +50,16 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   ngOnInit() {
     this.mediaItemId$.subscribe(id => {
       if (id) {
-        this.store.dispatch(new GetMetadata(id));
+        console.log('MediaItemDetailsComponent - ngOnInit id: ', id);
+        this.store.dispatch(new GetMediaItemDetails(id));
       }
     }),
-    takeWhile(() => this.componentActive);    
+    takeWhile(() => this.componentActive);
+
+    this.mediaItem$.subscribe(data => {
+      console.log('MediaItemDetailsComponent - ngOnInit mediaItem: ', data);
+      this.mediaItem = data;
+    }), takeWhile(() => this.componentActive);
 
     this.currentItemMetadata$.subscribe(data => {
       this.allItemFields = data;
@@ -80,9 +87,9 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
 
   onFormFinished(finished: any) {    
     console.log('MediaItemDetailsComponent - onFormFinished outside: ', finished);
-    this.dynamicForm.changes.subscribe(value => {
-      console.log('MediaItemDetailsComponent - onFormFinished inside: ', value);
-    });
+    // this.dynamicForm.changes.subscribe(value => {
+    //   console.log('MediaItemDetailsComponent - onFormFinished inside: ', value);
+    // });
   }
   
   submit(value?: any) {
@@ -117,7 +124,9 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
 
   addFields() {
     this.selectedFields.forEach(field => {
-      this.dynamicForm.addControl(field);
+      if (this.dynamicForm) {
+        this.dynamicForm.addControl(field);
+      }
       this.store.dispatch(new AddMediaItemField(field));
     });
     this.closeDialog();

@@ -27,7 +27,7 @@ export class MediaItemComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      let mediaItemId = Number(params.get('id'));
+      let mediaItemId = params.get('id');
       if (mediaItemId) {
         this.store.dispatch(new SetCurrentMediaItemId(mediaItemId));
       } 

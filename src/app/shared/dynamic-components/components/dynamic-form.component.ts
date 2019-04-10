@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { FieldConfig } from '../field-config.interface';
+import { FieldConfiguration } from '../field-setting';
 
 @Component({
   exportAs: "dynamicForm",
@@ -10,11 +10,11 @@ import { FieldConfig } from '../field-config.interface';
       <ng-container *ngFor="let field of config;" dynamicField (remove)="performRemove($event)" [config]="field" [group]="form" [showDelete]="showDelete">
       </ng-container>      
     </form>
-  `, 
+  `,
   styles: []
 })
-export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
-  @Input() config: FieldConfig[] = [];
+export class DynamicFormComponent implements OnChanges, OnInit {
+  @Input() config: FieldConfiguration[] = [];
   @Input() showDelete: boolean;
 
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
@@ -23,21 +23,16 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
 
   form: FormGroup;
 
-  get controls() { return this.config.filter(({type}) => type !== 'button'); }
+  get controls() { return this.config.filter(({ type }) => type !== 'button'); }
   get changes() { return this.form.valueChanges; }
   get valid() { return this.form.valid; }
   get value() { return this.form.value; }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.form = this.createGroup();
     console.log('DynamicFormComponent - ngOnInit', this.form);
-  }
-  
-  ngAfterViewInit(): void {    
-    console.log('DynamicFormComponent - ngAfterViewInit', this.form);
-    this.formFinished.emit(true);
   }
 
   ngOnChanges() {
@@ -55,8 +50,8 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
           const config = this.config.find((control) => control.name === name);
           this.form.addControl(name, this.createControl(config));
         });
-        console.log('DynamicFormComponent - ngOnChanges if', this.form);
-    }    
+      console.log('DynamicFormComponent - ngOnChanges if', this.form);
+    }
   }
 
   onFormFinished(event: any) {
@@ -70,12 +65,12 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
     return group;
   }
 
-  createControl(config: FieldConfig) {
+  createControl(config: FieldConfiguration) {
     const { disabled, validations, value } = config;
     return this.fb.control(value, this.bindValidations(validations || []));
   }
 
-  addControl(config: FieldConfig) {
+  addControl(config: FieldConfiguration) {
     const control = this.createControl(config);
     this.form.addControl(config.name, control);
   }
@@ -96,7 +91,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
 
   setDisabled(name: string, disable: boolean) {
     if (this.form.controls[name]) {
-      const method = disable ? 'disable': 'enable';
+      const method = disable ? 'disable' : 'enable';
       this.form.controls[name][method]();
       return;
     }
@@ -110,7 +105,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   setValue(name: string, value: any) {
-    this.form.controls[name].setValue(value, {emitEvent: true});
+    this.form.controls[name].setValue(value, { emitEvent: true });
   }
 
   bindValidations(validations: any) {

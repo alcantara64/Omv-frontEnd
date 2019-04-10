@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export abstract class MetadataDataService {
+export abstract class MetadataFieldsDataService {
 
     constructor() { }
     
-    abstract getListOptions(id: number): Observable<any[]>;
+    abstract getListItems(listId: number): Observable<any[]>;
 }

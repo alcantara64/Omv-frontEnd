@@ -16,13 +16,13 @@ export class MediaService {
   getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]> {
     return this.MediaDataService.getMedia(pageNumber, pageSize);
   }
+
+  getMediaItem(id: number): Observable<MediaItem> {
+    return this.MediaDataService.getMediaItem(id);
+  }
   
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {
     return this.MediaDataService.toggleFavorite(id, payload);
-  }
-
-  getMediaItem(id: number): Observable<any> {
-    return this.MediaDataService.getMediaItem(id);
   }
   
   getHistory(id: number): Observable<History[]> {

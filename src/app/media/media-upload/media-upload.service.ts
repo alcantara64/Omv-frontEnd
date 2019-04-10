@@ -1,17 +1,18 @@
 import { Injectable } from "@angular/core";
-import { MediaDataService } from "src/app/core/services/data/media/media.data.service";
-import { Validators } from "@angular/forms";
-import { FieldConfig, Validator } from "src/app/shared/dynamic-components/field-config.interface";
+import { Validators, ValidatorFn } from "@angular/forms";
+import { FieldConfiguration, FieldValidator } from "src/app/shared/dynamic-components/field-setting";
 import { map } from "rxjs/operators";
 import { DirectoryDataService } from 'src/app/core/services/data/directory/directory.data.service';
-import { MetadataDataService } from 'src/app/core/services/data/metadata/metadata.data.service';
+import { MetadataFieldsDataService } from 'src/app/core/services/data/metadata-fields/metadata-fields.data.service';
+import { MetadataFieldType } from 'src/app/core/enum/metadataFieldType';
+import { Metadata } from 'src/app/core/models/entity/metadata';
 
 @Injectable({
   providedIn: "root"
 })
 export class MediaUploadService {
 
-  constructor(private directoryDataService: DirectoryDataService, private metadataDataService: MetadataDataService) {}
+  constructor(private directoryDataService: DirectoryDataService, private metadataFieldsDataService: MetadataFieldsDataService) {}
 
   async getDirectoryMetadata(directoryId: number) {
     let metaArray = [];
@@ -19,18 +20,15 @@ export class MediaUploadService {
     if (items) {
       items.forEach(async item => {
         let field: any; 
-        switch(item.type) {
-          case 'text':
+        switch(item.fieldTypeName) {
+          case MetadataFieldType.Text:
             field = this.buildTextBox(item);
             break;
-          case 'select':
+          case MetadataFieldType.Select:
             field = this.buildDropdown(item);
             break;
-          case 'date':
+          case MetadataFieldType.Date:
             field = this.buildDate(item);
-            break;
-          case 'label':
-            field = this.buildLabel(item);
             break;
         }
         metaArray.push(field);
@@ -46,12 +44,12 @@ export class MediaUploadService {
     return await metaArray.sort(x => x.order);
   }
 
-  private getOptions(id: number) {
-    return this.metadataDataService.getListOptions(id).pipe(
+  private getOptions(id: any) {
+    return this.metadataFieldsDataService.getListItems(id).pipe(
       map(items => {
         let options = [];
         items.forEach(res => {
-          let option = { value: res.key, text: res.value };
+          let option = { "value": res.key, "text": res.value };
           options.push(option);
         });
         return options;
@@ -59,57 +57,57 @@ export class MediaUploadService {
     );
   }
 
-  private buildTextBox(item: any): FieldConfig {
+  private buildTextBox(item: Metadata): FieldConfiguration {
     return {
       type: "input",
-      label: item.label,
+      label: item.fieldName,
       inputType: "text",
-      name: item.name,
+      name: item.fieldName,
       order: item.order,
-      placeholder: item.label,
+      placeholder: item.fieldName,
       validations: this.getValidations(item)
     };
   }
 
-  private buildLabel(item: any): FieldConfig {
+  private buildLabel(item: Metadata): FieldConfiguration {
     return {
       type: "label",
-      label: item.label,
-      name: item.name,
+      label: item.fieldName,
+      name: item.fieldName,
       order: item.order
     };
   }
 
-  private buildDropdown(item: any): any {
+  private buildDropdown(item: Metadata): FieldConfiguration {
     return {
       type: "select",
-      label: item.label,
-      name: item.name,
+      label: item.fieldName,
+      name: item.fieldName,
       order: item.order,
-      optionsId: item.optionsId,
-      options: item.options,
-      placeholder: "Select an option",
+      optionsId: item.listId,
+      options: [],
+      placeholder: 'Please select',
       validations: this.getValidations(item)
     };
   }
 
-  private buildDate(item: any) {
+  private buildDate(item: Metadata): FieldConfiguration {
     return {
       type: "date",
-      label: item.label,
-      name: item.name,
+      label: item.fieldName,
+      name: item.fieldName,
       order: item.order,
       validations: this.getValidations(item)
     };
   }
 
-  private getValidations(item: any): any[] {
-    let validations = [];
+  private getValidations(item: Metadata): ValidatorFn[] {
+    let validations: ValidatorFn[] = [];
     if (item.isRequired) {
-      let requiredValidation: Validator = {
-        name: "required",
+      let requiredValidation: any = {
+        name: 'required',
         validator: Validators.required,
-        message: `${item.label} is required`
+        message: `${item.fieldName} is required`
       };
       validations.push(requiredValidation);
     }
