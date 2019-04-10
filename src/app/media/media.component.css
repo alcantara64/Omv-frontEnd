@@ -10,10 +10,7 @@ i{
 .selected-background{
   filter: brightness(0.5) sepia(1) hue-rotate(140deg) saturate(6);
 }
-.tile-svg {
-  filter: brightness(2.44) contrast(0.68) grayscale(0.86) hue-rotate(-360deg) invert(0.03) ;
-}
-
+ 
 .box-sizing{
   background-color:#fff;
   padding: 0.5rem;
