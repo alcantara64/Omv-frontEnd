@@ -15,6 +15,7 @@ import { DirectoryService } from 'src/app/core/services/business/directory/direc
 
 export class MediaStateModel {
   media: MediaItem[];
+  treeviewMedia: MediaItem[];
   currentMediaItemId: any;
   currentMediaItem: MediaItem;
   metadata: FieldConfiguration[];
@@ -53,6 +54,7 @@ const initialMediaItem: MediaItem = {
   name: 'media',
   defaults: {
     media: [],
+    treeviewMedia: [],
     currentMediaItemId: null,
     currentMediaItem: null,
     directories: [],
@@ -88,7 +90,12 @@ export class MediaState {
 
   @Selector()
   static getMedia(state: MediaStateModel) {
-    return state.media;
+    return state.media.filter(x => x.id);
+  }
+
+  @Selector()
+  static getTreeViewMedia(state: MediaStateModel) {
+    return state.media.filter(x => !x.id);
   }
 
   @Selector()

@@ -41,9 +41,9 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   
   initialFields: FieldConfiguration[] = [{
     type: 'label',
-    name: 'id',
-    label: 'ID',
-    value: '23'
+    name: '',
+    label: '',
+    value: ''
   }]
   itemMetadataFields: FieldConfiguration[] = this.initialFields;
   mediaItem: MediaItem;
@@ -51,6 +51,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   metadataFields: any[];
   itemDetails: any;
   selectedFields: FieldConfiguration[] = [];
+  isFormValid: boolean;
   
 
   constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
@@ -78,14 +79,8 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     this.itemMetadataFields$.subscribe(fields => {
       if (fields.length > 0) {
         this.itemMetadataFields = fields;
-        console.log('MediaItemDetailsComponent - onFormFinished outside: ', this.dynamicForm);
-        this.dynamicForm.changes.subscribe(value => {
-          console.log('MediaItemDetailsComponent - onFormFinished inside: ', value);
-        }), takeWhile(() => this.componentActive);
       }
     }), takeWhile(() => this.componentActive);
-
-    console.log('MediaItemDetailsComponent - onFormFinished outside: ', this.dynamicForm);
   }
 
   ngOnDestroy(): void {
