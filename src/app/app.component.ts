@@ -5,7 +5,14 @@ import {Select, Store} from '@ngxs/store';
 import { Observable } from 'rxjs';
 import {Title} from "@angular/platform-browser";
 import {ActivatedRoute, ParamMap} from "@angular/router";
-import {ClearNotification, Confirmation, messageType, ShowConfirmationBox} from "./state/app.actions";
+import {
+  ClearNotification,
+  Confirmation,
+  DeviceWidth,
+  messageType,
+  ShowConfirmationBox,
+  ShowLeftNav
+} from "./state/app.actions";
 import { ToastPosition } from '@syncfusion/ej2-notifications';
 import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
@@ -17,11 +24,13 @@ import { closest } from '@syncfusion/ej2-base';
 })
 export class AppComponent {
 
+  public displayWidth: number;
   showLeftNav: boolean = false;
   
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
   @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
   @Select(AppState.getToastMessage) toastMessage$: Observable<Toast>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
 
   buttons = [{ model: { content: "Ignore" }, click: this.btnToastClick.bind(this)}, {model: { content: "reply" }}];
 
@@ -33,6 +42,10 @@ export class AppComponent {
   constructor(public authn: AuthService, private title: Title, private activatedRoute: ActivatedRoute, private store:Store) {
     this.currentPageTitle$.subscribe( (res) => {
       res === 'OMV Client Portal' ? this.title.setTitle(res) : this.title.setTitle(res + ' - OMV Client Portal');
+    });
+    window.onresize = () => {store.dispatch(new DeviceWidth(window.innerWidth))};
+    this.deviceWidth$.subscribe(width => {
+      this.displayWidth = width;
     });
   }
 
@@ -48,7 +61,11 @@ export class AppComponent {
   confirmBoxPosition = { X: 'Center', Y: 'Top' };
 
   ngOnInit(): void {
-
+    window.onload = () => {
+      const x = document.getElementById('loading');
+      x.style.display = 'none'; // for IE
+      x.remove();
+    };
     // this.authn.getUser().then(user => {
     //   this.currentUser = user;
 

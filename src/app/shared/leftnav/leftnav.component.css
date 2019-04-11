@@ -1,9 +1,39 @@
-#sidebar-section {
+.sidebar-section {
   background: white;
   margin-bottom: 0!important;
   clear-after: bottom;
   height: 100%;
+  display: block!important;
 }
+
+@keyframes adminNav {
+  from {height: 0}
+  to {height: auto}
+}
+
+.mobile-section {
+  position: absolute;
+  display: block!important;
+  background: red;
+  z-index: 50;
+  width: calc(100% - 30px);
+  animation: adminNav linear 5s;
+  margin-top: -30px;
+}
+
+.mobileAdminNav {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 30px 0;
+  border-radius: 3px;
+  border: outset thin #f3f8fb;
+  background: white;
+  color: #00a9bd;
+  font-size: large;
+  text-align: center;
+}
+
 .dashboard-texts {
   line-height: 45px;
   font-family: 'OpenSans', sans-serif;
