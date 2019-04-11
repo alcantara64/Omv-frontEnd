@@ -13,6 +13,7 @@ export abstract class MediaDataService {
 
     abstract getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]>; 
     abstract getMediaItem(id: number): Observable<MediaItem>;    
+    abstract createMediaItem(payload: MediaItem): Observable<any>;
     abstract updateMediaItem(id: any, payload: MediaItem): Observable<any>;
     abstract toggleFavorite(id: number, payload: MediaItem): Observable<any>; 
     abstract getHistory(id: number): Observable<History[]>;

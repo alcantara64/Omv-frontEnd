@@ -24,6 +24,10 @@ export class MediaService {
   updateMediaItem(id: any, payload: MediaItem): Observable<any> {
     return this.MediaDataService.updateMediaItem(id, payload);
   }
+
+  createMediaItem(payload: MediaItem): Observable<any> {
+    return this.MediaDataService.createMediaItem(payload);
+  }
   
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {
     return this.MediaDataService.toggleFavorite(id, payload);
