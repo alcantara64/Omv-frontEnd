@@ -17,7 +17,6 @@ import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import * as pdfViewerComponent  from './pdf-viewer/pdf-viewer.component';
 import { PdfViewerAltComponent } from './pdf-viewer-alt/pdf-viewer-alt.component';
-import {NgxExtendedPdfViewerModule} from "ngx-extended-pdf-viewer";
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';
 // import { ImageViewerModule } from 'ngx-image-viewer';
 //import { DocumentViewModule } from 'ngx-document-view';
@@ -34,8 +33,9 @@ import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogAllModule, TooltipModule } from '@syncfusion/ej2-angular-popups';
 import { FormLabelComponent } from './dynamic-components/components/form-label.component';
 import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
-
 import { ImageViewerModule } from 'ng2-image-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 @NgModule({
   declarations: [
     PageNotFoundComponent,

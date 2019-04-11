@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { MetadataDataService } from './metadata.data.service';
+import { MetadataFieldsDataService } from './metadata-fields.data.service';
 import { map } from 'rxjs/operators';
+import { ListItem } from 'src/app/core/models/entity/list-item';
 
 @Injectable({
     providedIn: 'root'
 })
-export class MetadataMockDataService implements MetadataDataService {
+export class MetadataFieldsMockDataService implements MetadataFieldsDataService {
 
     constructor(private httpClient: HttpClient) { }
     
-    getListOptions(id: number): Observable<any[]> {
+    getListItems(id: number): Observable<ListItem[]> {
       var url = `./assets/mock/metadata-list.json`;
       let data = this.httpClient.get<any[]>(url).pipe(
         map(options => {

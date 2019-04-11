@@ -12,7 +12,7 @@ import { MediaFavoritesListviewComponent } from './media-favorites/media-favorit
 import { MediaState } from './state/media/media.state';
 import { MediaUploadComponent } from './media-upload/media-upload.component';
 import { TreeViewAllModule } from '@syncfusion/ej2-angular-navigations';
-import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
+import { TreeGridModule, TreeGridAllModule } from '@syncfusion/ej2-angular-treegrid';
 import { MediaItemHistoryComponent } from './media-item/media-item-history/media-item-history.component';
 import { MediaItemDetailsComponent } from './media-item/media-item-details/media-item-details.component';
 import { MediaDataService } from "../core/services/data/media/media.data.service";
@@ -36,6 +36,9 @@ import { DirectoryDataService } from '../core/services/data/directory/directory.
 import { DirectoryMockDataService } from '../core/services/data/directory/directory.mock.data.service';
 import { DirectoryWebDataService } from '../core/services/data/directory/directory.web.data.service';
 import { MediaWebDataService } from '../core/services/data/media/media.web.data.service';
+import { MetadataFieldsDataService } from '../core/services/data/metadata-fields/metadata-fields.data.service';
+import { MetadataFieldsMockDataService } from '../core/services/data/metadata-fields/metadata-fields.mock.service';
+import { MetadataFieldsWebDataService } from '../core/services/data/metadata-fields/metadata-fields.web.data.service';
 
 @NgModule({
 	declarations: [
@@ -63,7 +66,7 @@ import { MediaWebDataService } from '../core/services/data/media/media.web.data.
 		SharedModule,
 		MediaRoutingModule,
 		TreeViewAllModule,
-		TreeGridModule,
+		TreeGridAllModule,
 		CheckBoxModule,
 		DialogModule,
 		DropDownListModule,
@@ -74,7 +77,8 @@ import { MediaWebDataService } from '../core/services/data/media/media.web.data.
 	],
 	providers: [
 		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
-    { provide: DirectoryDataService, useClass: environment.useMocks ? DirectoryMockDataService : DirectoryWebDataService },
+		{ provide: DirectoryDataService, useClass: environment.useMocks ? DirectoryMockDataService : DirectoryWebDataService },		
+    { provide: MetadataFieldsDataService, useClass: environment.useMocks ? MetadataFieldsMockDataService : MetadataFieldsWebDataService },
   ],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

@@ -9,7 +9,8 @@ import { MediaItem } from 'src/app/core/models/entity/media';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 import { environment } from 'src/environments/environment';
 import { Document_SearchOutputDTO } from 'src/app/core/dtos/output/documents/Document_SearchOutputDTO';
-import { FileTypes } from 'src/app/core/enum/fileTypes';
+import { Document_GetByIdOutputDTO } from 'src/app/core/dtos/output/documents/Document_GetByIdOutputDTO';
+import { Document_UpdateInputDTO } from 'src/app/core/dtos/input/documents/Document_UpdateInputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +62,7 @@ export class MediaWebDataService implements MediaDataService {
         var _response = automapper.map(response, MediaItem, response);
         _response.forEach(resp => {
           let splitName = splitByLastDot(resp.name);
-          resp.name = splitName[0].toUpperCase();
+          resp.name = splitName[0];
           resp.type = splitName[1].toUpperCase();
           
           if (!resp.thumbnail) {
@@ -82,10 +83,93 @@ export class MediaWebDataService implements MediaDataService {
     );
   } 
 
-  getMediaItem(id: number): Observable<any> {
-    return null;
+  getMediaItem(id: any): Observable<MediaItem> {
+    var requestUri = environment.api.baseUrl + `/v1/documents/${id}`;
+
+    return this.httpClient.get<Document_GetByIdOutputDTO>(requestUri).pipe(
+      map(
+        response => {
+          automapper
+            .createMap(response, MediaItem)
+            .forMember('id', function(opts) { opts.mapFrom('documentId'); })
+            .forMember('directoryId', function(opts) { opts.mapFrom('DirectoryId'); })
+            .forMember('directoryName', function(opts) { opts.mapFrom('DiirectoryName'); })
+            .forMember('directoryParentId', function(opts) { opts.mapFrom('DirectoryParentId'); })
+            .forMember('directoryParentName', function(opts) { opts.mapFrom('DirectoryParentName'); })
+            .forMember('storageType', function(opts) { opts.mapFrom('StorageType'); })
+            .forMember('entityType', function(opts) { opts.mapFrom('EntityType'); })
+            .forMember('entityId', function(opts) { opts.mapFrom('EntityId'); })
+            .forMember('documentTypeCode', function(opts) { opts.mapFrom('DocumentTypeCode'); })
+            .forMember('name', function(opts) { opts.mapFrom('documentName'); })
+            .forMember('url', function(opts) { opts.mapFrom('documentUrl'); })
+            .forMember('metadata', function(opts) { opts.mapFrom('Metadata'); })
+            .forMember('contentType', function(opts) { opts.mapFrom('ContentType'); })
+            .forMember('containerId', function(opts) { opts.mapFrom('ContainerId'); })
+            .forMember('size', function(opts) { opts.mapFrom('Size'); })
+            .forMember('thumbnail', function(opts) { opts.mapFrom('thumbnailContainerUrl'); })
+            .forMember('isDeleted', function(opts) { opts.mapFrom('IsDeleted'); })
+            .forMember('status', function(opts) { opts.mapFrom('Status'); });
+
+          let splitByLastDot = function(text) {
+            var index = text.lastIndexOf('.');
+            return [text.slice(0, index), text.slice(index + 1)]
+          }
+          var _response = automapper.map(response, MediaItem, response);
+
+          let splitName = splitByLastDot(_response.name);
+          _response.name = splitName[0].toUpperCase();
+          _response.type = splitName[1].toUpperCase();
+            
+          if (!_response.thumbnail) {
+            if (_response.type === 'PDF') {
+              _response.thumbnail = 'https://media.idownloadblog.com/wp-content/uploads/2016/04/52ff0e80b07d28b590bbc4b30befde52-484x320.png';
+            } else if (_response.type === 'DOCX') {
+              _response.thumbnail = 'http://icons.iconarchive.com/icons/pelfusion/flat-file-type/256/doc-icon.png';
+            }
+          }
+          console.log('MediaWebDataService - getMedia: ', _response);
+          return _response;
+        }
+      ),
+      catchError(e => {
+        console.log("'MediaWebDataService - getMedia error:", e);
+        return of(null);
+      })
+    );
   }
-  
+
+  updateMediaItem(id: any, payload: MediaItem): Observable<any> {
+    const requestUri = environment.api.baseUrl + `/v1/documents/${id}`;
+
+    automapper
+      .createMap(payload, Document_UpdateInputDTO)      
+      .forMember('storageType', function(opts) { opts.mapFrom('storageType'); })
+      .forMember('entityType', function(opts) { opts.mapFrom('entityType'); })
+      .forMember('entityId', function(opts) { opts.mapFrom('entityId'); })
+      .forMember('documentTypeCode', function(opts) { opts.mapFrom('documentTypeCode'); })
+      .forMember('documentName', function(opts) { opts.mapFrom('name'); })
+      .forMember('documentUrl', function(opts) { opts.mapFrom('url'); })
+      .forMember('metadata', function(opts) { opts.mapFrom('metadata'); })
+      .forMember('contentType', function(opts) { opts.mapFrom('contentType'); })
+      .forMember('containerId', function(opts) { opts.mapFrom('containerId'); })
+      .forMember('size', function(opts) { opts.mapFrom('size'); })
+      .forMember('thumbnailContainerUrl', function(opts) { opts.mapFrom('thumbnail'); })
+      .forMember('isDeleted', function(opts) { opts.mapFrom('isDeleted'); })
+      .forMember('status', function(opts) { opts.mapFrom('status'); });
+
+    const request = automapper.map(payload, Document_UpdateInputDTO, payload);
+
+    console.log('MediaWebDataService - updateMediaItem: ', request);
+
+    return this.httpClient.put(requestUri, request).pipe(map(
+      response => {
+        
+        console.log('MediaWebDataService - updateMediaItem: ', response);
+        return response;
+      })
+    );
+  }
+
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {
     throw new Error("Method not implemented.");
   }

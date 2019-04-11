@@ -10,8 +10,7 @@ import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 @Injectable({
     providedIn: 'root'
   })
-export class MediaMockDataService implements MediaDataService { 
-
+export class MediaMockDataService implements MediaDataService {
 
   constructor(private httpClient: HttpClient) { }
 
@@ -42,6 +41,10 @@ export class MediaMockDataService implements MediaDataService {
       })
     );
     return data;
+  }
+
+  updateMediaItem(id: any, payload: MediaItem): Observable<any> {
+    return of(1);
   }
 
   getHistory(id: number): Observable<History[]> {

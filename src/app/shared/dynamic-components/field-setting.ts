@@ -1,10 +1,12 @@
 import { ValidatorFn } from '@angular/forms';
+import { ListItem } from 'src/app/core/models/entity/list-item';
 
-export class FieldConfig {
+export class FieldConfiguration {
   disabled?: boolean;
   label?: string;
   name: string;
-  options?: any[];
+  options?: ListItem[];
+  optionsId?: number;
   order?: number;
   placeholder?: string;
   type: string;
@@ -15,7 +17,7 @@ export class FieldConfig {
   value?: any;
 }
 
-export class Validator {
+export class FieldValidator {
   name: string;
   validator: any;
   message: string;

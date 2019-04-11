@@ -8,17 +8,26 @@ export class GetMedia {
 
 export class GetMediaItem {
   static readonly type = '[Media] GetMediaItem';
+  
+  constructor(public id: any) { }
 }
+
+export class UpdateMediaItem {
+  static readonly type = '[Media] UpdateMediaItem';
+  
+  constructor(public id: any, public payload: MediaItem) { }
+}
+
 export class GetMediaItemDetails {
   static readonly type = '[Media] GetMediaItemDetails';
   
-  constructor(public id: number) { }
+  constructor(public id: any) { }
 }
 
 export class SetCurrentMediaItemId {
   static readonly type = '[Media] SetCurrentMediaItemId';
   
-  constructor(public id: string) { }
+  constructor(public id: any) { }
 }
 
 export class GetFavorites {
@@ -36,11 +45,6 @@ export class GetHistory {
 
   constructor(public id: number) { }
 }
-export class SetMediaId {
-  static readonly type = '[Media] GetMediaId';
-
-  constructor(public id: string) { }
-}
 
 export class GetMediaTreeData {
   static readonly type = '[Media] GetMediaTreeData';
@@ -54,20 +58,8 @@ export class GetDirectories {
   constructor() { }
 }
 
-export class GetMetadata {
-  static readonly type = '[Media] GetMetadata';
-  
-  constructor(public id: number) { }
-}
-
 export class GetDirectoryMetadata {
   static readonly type = '[Media] GetDirectoryMetadata';
-  
-  constructor(public id: number) { }
-}
-
-export class GetItemMetadata {
-  static readonly type = '[Media] GetItemMetadata';
   
   constructor(public id: number) { }
 }

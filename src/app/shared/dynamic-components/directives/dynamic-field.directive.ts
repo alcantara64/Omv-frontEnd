@@ -4,7 +4,7 @@ import { FormSelectComponent } from '../components/form-select.component';
 import { FormInputComponent } from '../components/form-input.component';
 import { FormDateComponent } from '../components/date.component';
 import { Field } from '../field.interface';
-import { FieldConfig } from '../field-config.interface';
+import { FieldConfiguration } from '../field-setting';
 import { FormLabelComponent } from '../components/form-label.component';
 
 const components: {[type: string]: Type<Field>} = {
@@ -18,7 +18,7 @@ const components: {[type: string]: Type<Field>} = {
   selector: "[dynamicField]"
 })
 export class DynamicFieldDirective implements Field, OnChanges, OnInit {
-  @Input() config: FieldConfig;
+  @Input() config: FieldConfiguration;
   @Input() group: FormGroup;
   @Input() showDelete: boolean;
   @Output() remove = new EventEmitter<any>();
