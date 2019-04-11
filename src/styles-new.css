@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+/**************************** Imports ***************************/
 @import './assets/css/material.css';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700');
@@ -15,6 +15,25 @@
 @import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
 @import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
 @import '../node_modules/@syncfusion/ej2-pdfviewer/styles/material.css';
+/**************************** End Imports ***************************/
+
+/**************************** Tags ***************************/
+* {
+  display: block;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+html, body {
+  height:100%;
+  width:100%;
+  background: #f3f8fb;
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 12px;
+}
+/**************************** End Tags ***************************/
 
 .e-upload{
   border-style: none !important ;
@@ -24,21 +43,16 @@
 
 .stroke{
   border-bottom: 3px solid #0097a9;
-  border-top: 0px solid rgba(0,0,0,.1);
-  height: 5.1px;
+  border-top: 0 solid rgba(0,0,0,.1);
+  height: 5px;
   opacity: 0.09;
 }
+
 .layout{
-    background: #f3f8fb;
-    height: 100% !important;
-}
-html, body {
-  height:100%;
-  width:100%;
   background: #f3f8fb;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 12px;
+  height: 100% !important;
 }
+
 .container {
   position: static;
   display: block;
@@ -48,139 +62,123 @@ html, body {
   padding-right:7rem !important;
 }
 .cursor{
-    cursor: pointer;
+  cursor: pointer;
 }
+
 .e-checkbox-wrapper .e-frame, .e-css.e-checkbox-wrapper .e-frame {
-    background-color: #fff;
-    border-color: #0097A9 !important;
+  background-color: #fff;
+  border-color: #0097A9 !important;
 }
-  .e-grid .e-headercell, .e-grid .e-detailheadercell {
-      background-color: #00263E !important;
-      color: #fff !important;
-    }
+
+.e-grid .e-headercell, .e-grid .e-detailheadercell {
+  background-color: #00263E !important;
+  color: #fff !important;
+}
+
 .e-row{
-    background-color:#DEEFF3;
-    cursor: pointer;
+  background-color:#DEEFF3;
+  cursor: pointer;
 }
+
 .e-altrow{
   background-color:#F3F8FB;
   cursor: pointer;
 }
+
 .breadcrumbs_type5{
-    --breadcrumbsDivider: "›";
-    --breadcrumbsDividerSize: 20px;
-  }
+  --breadcrumbsDivider: "›";
+  --breadcrumbsDividerSize: 20px;
+}
+
 .e-tab .e-content {
     background: #F3F8FB !important;
 }
-  .breadcrumbs{
-    --cssuiBreadcrumbsTextColor: var(--breadcrumbsTextColor);
-    --cssuiBreadcrumbsTextColorActive: var(--breadcrumbsTextColorActive);
-    --cssuiBreadcrumbsDivider: var(--breadcrumbsDivider);
-    --cssuiBreadcrumbsDividerColor: var(--breadcrumbsDividerColor, inherit);
-    --cssuiBreadcrumbsDividerSize: var(--breadcrumbsDividerSize, 16px);
-    --cssuiBreadcrumbsIndent:  var(--breadcrumbsIndent, 8px);
 
-    padding-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    list-style: none;
+.breadcrumbs{
+  --cssuiBreadcrumbsTextColor: var(--breadcrumbsTextColor);
+  --cssuiBreadcrumbsTextColorActive: var(--breadcrumbsTextColorActive);
+  --cssuiBreadcrumbsDivider: var(--breadcrumbsDivider);
+  --cssuiBreadcrumbsDividerColor: var(--breadcrumbsDividerColor, inherit);
+  --cssuiBreadcrumbsDividerSize: var(--breadcrumbsDividerSize, 16px);
+  --cssuiBreadcrumbsIndent:  var(--breadcrumbsIndent, 8px);
 
-    display: flex;
-    flex-wrap: wrap;
-  }
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style: none;
 
-  .breadcrumbs__item{
-    display: inline-block;
-    position: relative;
-
-    padding-right: calc(var(--cssuiBreadcrumbsDividerSize) + var(--cssuiBreadcrumbsIndent));
-    margin-right: var(--cssuiBreadcrumbsIndent);
-
-    color: var(--cssuiBreadcrumbsTextColor);
-  }
-
-  .breadcrumbs__item:after{
-    content: var(--cssuiBreadcrumbsDivider);
-    width: var(--cssuiBreadcrumbsDividerSize);
-    height: var(--cssuiBreadcrumbsDividerSize);
-
-    line-height: 1;
-    text-align: center;
-
-    font-family: "Arial", sans-serif;
-    font-size: var(--cssuiBreadcrumbsDividerSize);
-    color: var(--cssuiBreadcrumbsDividerColor);
-
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-  }
-
-  .breadcrumbs__item_active{
-    margin-right: 0;
-    padding-right: 0;
-    color: var(--cssuiBreadcrumbsTextColorActive);
-  }
-
-  .breadcrumbs__item_active:after{
-    display: none;
-  }
-  .breadcrumbs__element{
-    color: inherit;
-  }
-  .radiobutton-control {
-    margin: 5% 0 5% 40%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-@media only screen and (max-width: 500px) {
-    .radiobutton-control {
-        margin-left: 21%;
-        margin-top: 20%;
-        margin-bottom: 27%;
-    }
+.breadcrumbs__item{
+  display: inline-block;
+  position: relative;
+
+  padding-right: calc(var(--cssuiBreadcrumbsDividerSize) + var(--cssuiBreadcrumbsIndent));
+  margin-right: var(--cssuiBreadcrumbsIndent);
+
+  color: var(--cssuiBreadcrumbsTextColor);
 }
 
-@media only screen and (max-width: 700px) {
-    .checkbox-control {
-        margin-left: 35%;
-        margin-top: 8%;
-    }
+.breadcrumbs__item:after{
+  content: var(--cssuiBreadcrumbsDivider);
+  width: var(--cssuiBreadcrumbsDividerSize);
+  height: var(--cssuiBreadcrumbsDividerSize);
 
-    .control-section {
-        min-height: 200px;
-    }
+  line-height: 1;
+  text-align: center;
+
+  font-family: "Arial", sans-serif;
+  font-size: var(--cssuiBreadcrumbsDividerSize);
+  color: var(--cssuiBreadcrumbsDividerColor);
+
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.breadcrumbs__item_active{
+  margin-right: 0;
+  padding-right: 0;
+  color: var(--cssuiBreadcrumbsTextColorActive);
+}
+
+.breadcrumbs__item_active:after{
+  display: none;
+}
+
+.breadcrumbs__element{
+  color: inherit;
+}
+
+.radiobutton-control {
+  margin: 5% 0 5% 40%;
 }
 
 .control-section .row {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .radiobutton-control h4 {
-    color: rgba(0, 0, 0, 0.64);
-    font-size: 18px;
+  color: rgba(0, 0, 0, 0.64);
+  font-size: 18px;
 }
 
 .highcontrast .radio-control h4 {
-    color: rgba(255, 255, 255, 0.64);
+  color: rgba(255, 255, 255, 0.64);
 }
-
-.e-grid {
-  padding: 5px!important;
-  min-width: 800px!important;
-}
-
-.e-rowcell {
-  min-width: 200px!important;
-}
-
 
 .e-bigger .radiobutton-control h4 {
-    font-size: 20px;
+  font-size: 20px;
 }
 .leaflet-control-layers-toggle {
   background-image: url("https://unpkg.com/leaflet@1.4.0/dist/images/layers.png");
+}
+
+.e-grid .e-gridheader {
+  padding-right: 0px!important;
 }
 
 .e-tab .e-tab-header.e-tab-tex{
@@ -309,7 +307,6 @@ html, body {
   letter-spacing: 0.1px;
   color: #5b7f95;
 }
-
 /*#endregion Titles*/
 
 /*#region B r e a d C r u m b s*/
@@ -533,6 +530,29 @@ ins{
 
 .dialog-close {
   float: right;
+
 }
 
 /*#endregion */
+
+
+
+
+@media only screen and (max-width: 500px) {
+  .radiobutton-control {
+    margin-left: 21%;
+    margin-top: 20%;
+    margin-bottom: 27%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .checkbox-control {
+    margin-left: 35%;
+    margin-top: 8%;
+  }
+
+  .control-section {
+    min-height: 200px;
+  }
+}

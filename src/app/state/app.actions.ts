@@ -70,3 +70,9 @@ export class DisplayToastMessage {
 
   constructor(public message: string, public type: ToastType = ToastType.success) {}
 }
+
+export class DeviceWidth {
+  static readonly type = '[App] DeviceWidth';
+
+  constructor(public deviceWidth: number) {}
+}

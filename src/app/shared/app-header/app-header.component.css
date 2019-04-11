@@ -5,7 +5,7 @@
   position: static;
   height: 58px;
   width: 100%;
-  min-width: 1190px;
+  min-width: 100%;
   box-sizing: border-box!important;
 }
 
@@ -17,7 +17,7 @@
 
 .oceaneeringLogo {
   display: inline-block;
-  width: 100px;
+  /*width: 100px;*/
   border-right: thin solid green;
 }
 
@@ -52,10 +52,10 @@
 }
 
 a {
-    color: #6B8B9F;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'Open Sans', sans-serif;
+  color: #6B8B9F;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
   display: inline-block;
   width: auto;
 }
@@ -63,11 +63,12 @@ a {
 .active-link {
   font-weight: 600 !important;
   color: #033B5C !important;
-  display: inline-block;
+  /*display: inline-block;*/
 }
 
 .active-link > .line-stroke {
   display: block!important;
+  visibility: visible;
 }
 
 .e-indicator .e-ignore {
@@ -75,7 +76,7 @@ a {
 }
 
 .nav {
-    width: 100%;
+  width: 100%;
 }
 
 .navbar1 {
@@ -113,26 +114,28 @@ hr {
 }
 
 .arrow-down {
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    margin-right: auto;
-    margin-left: auto;
-    border-top: 5px solid #033B5C;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  margin-right: auto;
+  margin-left: auto;
+  border-top: 5px solid #033B5C;
 }
 
 .line-stroke {
   vertical-align: bottom;
   border-style: none;
   position: relative;
-  display: none;
+  display: block;
+  visibility: hidden;
   margin-top: 10px;
-  width: 100%;
+  width: auto;
+  text-align: center;
 }
 
 .userInfo {
-  display: inline-block;
+  display: block;
 }
 
 .arrowDown:before {
@@ -150,9 +153,7 @@ hr {
 .userDropdown > ul {
   display: block;
   position: absolute;
-  top: 35px;
-  right: 60px;
-  width: 250px;
+  width: 200px;
   height: auto;
   padding: 10px;
   background: white;
@@ -169,4 +170,104 @@ hr {
   font-weight: bold;
   color: #0097A9;
   height: 40px;
+}
+
+.e-menu:before {
+  display: block;
+  content: '\e99a';
+  font-size: xx-large;
+  color: #033b5c;
+  float: right;
+  margin: 15px 5px 0 0;
+  cursor: pointer;
+}
+
+.e-close {
+  position: absolute;
+  display: block;
+  font-size: xx-large;
+  color: #033b5c;
+  z-index: 1000;
+}
+
+.e-close:before {
+  content: '\ec0f';
+}
+
+.mobileMenuIcon {
+  display: block;
+  float: right;
+  padding: 10px;
+}
+
+.mobileMenuIcon > ul {
+  display: none;
+}
+
+@keyframes showMobileNav {
+  from {
+    position: fixed;
+    width: 80vw;
+    height: 80vw;
+    overflow: hidden;
+    top: 5vh;
+    left: 5vw;
+    background: rgba(255, 255, 255, 0);
+    z-index: -20;
+    visibility: hidden;
+  }
+
+  to {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+    top: 0;
+    left: 0;
+    background: #eaf0ff;
+    z-index: 1000;
+    visibility: visible;
+  }
+}
+
+.mobileMenuNav {
+  display: block;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
+  top: 0;
+  left: 0;
+  background: #eaf0ff;
+  z-index: 1000;
+  animation: showMobileNav 50ms linear;
+  cursor: pointer;
+}
+
+.mobileMenuNav > span {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.mobileMenuNav > ul {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 30px 0;
+  padding: 10px 0;
+}
+
+.mobileMenuNav > ul > li {
+  list-style: none;
+  display: block;
+  padding: 20px 20px;
+  color: #6B8B9F;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.mobileMenuNav > ul > .active-link {
+  border-left: solid thick #033b5c;
 }

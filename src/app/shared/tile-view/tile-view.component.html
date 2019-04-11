@@ -1,5 +1,5 @@
 <div class="row card-layout">
-  <div class="col-md-3" style="padding-bottom:2rem;" *ngFor="let data of dataSource">
+  <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3" style="padding: 0 2rem 2rem 2rem; box-sizing: border-box" *ngFor="let data of dataSource">
     <div tabindex="0" class="e-card card " id="basic">
       <div tabindex="0" class="e-card" id="basic_card">
         <div class="e-card-header">
@@ -10,13 +10,13 @@
                 <span style="padding-right:1rem;">
                   <label class="media-tile-info-bold pr-2">
                     {{ data.type }}
-                  </label>    
+                  </label>
                   <label class="media-tile-info">
                     {{ data.size }}
                   </label>
                 </span>
                 <span>
-                  <img (click)="performToggleFavorite(data)" class="favorite-cls cursor" 
+                  <img (click)="performToggleFavorite(data)" class="favorite-cls cursor"
                     [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">
                   <ejs-checkbox cssClass="e-small float-right"  [checked]="data.isChecked ? true: false"></ejs-checkbox>
                 </span>
@@ -33,7 +33,7 @@
           </span>
         </div>
         <div class="e-card-actions pt-0">
-        </div> 
+        </div>
           <label class="media-tile-info-bold text-md-left pl-3 tile-card-date" >
             {{data.date}}
           </label>

@@ -11,11 +11,11 @@
 
 <!-- Media tabs -->
 <div class="row">
-  <div class="col-6">
+  <div class="col-md-6">
     <app-tabs [tabs]="mediaTabs" (navigate)="switchTabs($event)"></app-tabs>
   </div>
-  <div class="col-6">
-    <button ejs-button class="omv-primary-plus float-right" [routerLink]="['/media/upload']">
+  <div class="col-md-6" style="text-align: center">
+    <button [ngClass]="{'btn-block': deviceWidth <= 500, 'float-right': deviceWidth >= 768}" ejs-button class="omv-primary-plus" [routerLink]="['/media/upload']">
       Upload Media
     </button>
   </div>
@@ -24,34 +24,37 @@
 <!-- Filter --ignore -->
 
 <!-- Toolbar -->
-<div style="display:block; margin-bottom: 1.5em">
-  <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total: {{ totalMedia$ | async }} </label>
-  <span style="padding-top:1rem;">
-    <i (click)="navigateToView('tile')"(click)="onIconClick('tile')" 
-    [ngClass]="{'selected-background': showtabs==='tile'}" >
+<div style="display:block; margin: 30px 0; clear-after: bottom!important;">
+  <div style="display: inline-block">
+    <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total: {{ totalMedia$ | async }} </label>
+    <span style="padding-top:1rem;">
+    <i (click)="navigateToView('tile')"(click)="onIconClick('tile')"
+       [ngClass]="{'selected-background': showtabs==='tile'}" >
       <img src="../../assets/images/group-2 (1).svg">
       <span class="vertical-line-grid"></span>
     </i>
     <i (click)="navigateToView('list')" (click)="onIconClick('list')"
-    [ngClass]="{'selected-background': showtabs==='list'}">
-      <img src="../../assets/images/group-3.svg"> 
+       [ngClass]="{'selected-background': showtabs==='list'}">
+      <img src="../../assets/images/group-3.svg">
        <span class="vertical-line-grid "></span>
     </i>
-    <i (click)="navigateToView('tree')" (click)="onIconClick('tree')" 
-    [ngClass]="{'selected-background': showtabs==='tree'}">
+    <i (click)="navigateToView('tree')" (click)="onIconClick('tree')"
+       [ngClass]="{'selected-background': showtabs==='tree'}">
       <img src="../../assets/images/noun-tree-view-511540.svg">
       <span class="vertical-line-grid"></span>
     </i>
     <i (click)="navigateToView('map')" (click)="onIconClick('map')"
-    [ngClass]="{'selected-background': showtabs==='map'}">
+       [ngClass]="{'selected-background': showtabs==='map'}">
       <img src="../../assets/images/noun-map-677579.svg">
     </i>
   </span>
-  <div style="float: right">
-    <label class="media-label" style="display:inline; margin: 16px 10px">Selected Files:</label>
-    <button class="media-button-small" style="display:inline; margin: 16px 10px">Sync Videos</button>
-    <button class="media-button-small" style="display:inline; margin: 16px 10px">Download All</button>
-    <button class="media-button-small" style="display:inline; margin: 16px 10px">Add to Playlist</button>
+  </div>
+
+  <div style="display: flex; flex-wrap: nowrap" [ngStyle]="{'display': deviceWidth < 800 ? 'block' : 'inline-block', 'float': deviceWidth > 800 ? 'right' : 'none'}">
+    <label class="media-label" style="display: inline-flex; margin: 16px 10px 16px 0">Selected Files:</label>
+    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px">Sync Videos</button>
+    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px">Download All</button>
+    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px">Add to Playlist</button>
   </div>
 </div>
 
