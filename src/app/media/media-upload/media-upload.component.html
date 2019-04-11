@@ -10,7 +10,7 @@
 
   <input type="file" #file style="display: none" (change)="onFilesAdded()" />
   <button class="file-upload-button" (click)="addFiles()"> {{ uploadButtonText }}</button>
-  <span class="file-upload-label">{{ fileName }}</span>
+  <span class="file-upload-label">{{ selectedFile?.name }}</span>
 </div>
 
 <div>
@@ -27,8 +27,8 @@
   <div *ngIf='isFileSelected && isDestinationSelected'>
     <button class="file-upload-button" (click)="changeDestination()"> Change </button>
     <span class="file-upload-label">
-      <b>Destination Folder Title </b>
-      <b>Folder path > Child path</b>
+      <b>Destination Folder Title: </b>
+      <i> \{{ folderPath }} </i>
     </span>
   </div>
 </div>
@@ -39,7 +39,7 @@
 
   <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="metadata" (submit)="submit($event)" *ngIf="metadata?.length > 0"></dynamic-form>
   <br />
-  <button type="submit" (click)="submit('')" class="btn omv-green btn-lg"> Upload </button>
+  <button type="submit"  [disabled]="dynamicForm ? !dynamicForm?.valid : false" [ngClass]="{'button-not-allowed': dynamicForm ? !dynamicForm?.valid : false}" (click)="submit()" class="btn omv-primary btn-lg"> Upload </button>
   <button type="button" class="btn btn-lg"> Cancel </button>
   
 </div>

@@ -41,6 +41,7 @@
     "@syncfusion/ej2-angular-treegrid": "^16.4.55",
     "@syncfusion/ej2-layouts": "^16.4.55",
     "@syncfusion/ej2-ng-navigations": "^16.2.50",
+    "angular-azure-blob-service": "^1.1.0",
     "automapper": "^1.0.0",
     "automapper-ts": "^1.9.0",
     "babel-polyfill": "^6.26.0",

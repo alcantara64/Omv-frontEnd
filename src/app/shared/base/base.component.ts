@@ -16,22 +16,23 @@ import { Observable } from 'rxjs';
 
 
 export class BaseComponent implements OnInit {
-  @Select(AppState.confirmation) confirmation$: Observable<string>;
-
+  public displayWidth: number;
   private _permission: string;
-  userHasPermission: boolean;
+  public userHasPermission: boolean;
+  public currentUserId: number;
+  public permission: string;
 
-  currentUserId: number;
-
-  permission: string;
-
-
-
+  @Select(AppState.confirmation) confirmation$: Observable<string>;
   @Select(AppState.getUserPermissions) userPermissions$: Observable<Permission[]>;
   @Select(AppState.getCurrentUserId) currentUserId$: Observable<number>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
 
   constructor(protected store: Store) {
     console.log("BaseComponent - constructor", this._permission);
+
+    this.deviceWidth$.subscribe(width => {
+      this.displayWidth = width;
+    });
 
     this.currentUserId$.subscribe(userId => {
       this.currentUserId = userId;
@@ -42,11 +43,11 @@ export class BaseComponent implements OnInit {
 
     this.userPermissions$.subscribe(permissions => {
       // console.log('BaseComponent - ngOnInit: _permission', this._permission);
-      if (this._permission) {        
+      if (this._permission) {
         console.log('BaseComponent - ngOnInit: _permission', this._permission);
         var permissionNames = permissions.map(p => p.name);
         this.userHasPermission = permissionNames.includes(this._permission);
-        
+
         if (!this.userHasPermission) {
           console.log('BaseComponent - ngOnInit: userHasPermission', this.userHasPermission);
         }
@@ -64,7 +65,6 @@ export class BaseComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
   }
 
   public ShowSpinner(show: boolean) {
@@ -106,7 +106,8 @@ export class BaseComponent implements OnInit {
     let confirmed: boolean;
     this.confirmation$.subscribe( (res) => {
       res === 'true' ? confirmed = true : confirmed = false;
-    })
+    });
+
     return confirmed;
   }
 }

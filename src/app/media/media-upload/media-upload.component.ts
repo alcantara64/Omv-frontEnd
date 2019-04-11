@@ -1,4 +1,4 @@
-import { GetDirectoryMetadata, GetDirectories, GetMediaTreeData } from './../state/media/media.action';
+import { GetDirectoryMetadata, GetDirectories, GetMediaTreeData, CreateMediaItem } from './../state/media/media.action';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { projectData } from './data';
 import { SelectionSettingsModel } from '@syncfusion/ej2-treegrid';
@@ -12,6 +12,8 @@ import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-sett
 import { Directory } from 'src/app/core/models/entity/directory';
 import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
+import { MediaUploadService } from './media-upload.service';
+import { BaseComponent } from 'src/app/shared/base/base.component';
 
 const BROWSE = 'Browse';
 const CHANGE = 'Change';
@@ -21,13 +23,16 @@ const CHANGE = 'Change';
   templateUrl: './media-upload.component.html',
   styleUrls: ['./media-upload.component.css']
 })
-export class MediaUploadComponent implements OnInit {
+export class MediaUploadComponent extends BaseComponent implements OnInit {
 
   fileName: string;
   uploadButtonText = BROWSE;
   dataSource: any;
   isFileSelected: boolean;
   isDestinationSelected: boolean;
+  selectedFile: File;
+  currentDirectoryId: number;
+  folderPath: string;
 
 
   @ViewChild('file') file;
@@ -44,10 +49,11 @@ export class MediaUploadComponent implements OnInit {
   public directories: any[];
   public data: any[];
   
-  constructor(private store: Store) { }
+  constructor(protected store: Store) {
+    super(store);
+  }
 
   ngOnInit() {
-    // this.data = projectData;
     this.selectionOptions = { mode: 'Row', type: 'Single' };
 
     this.store.dispatch(new GetDirectories());
@@ -68,8 +74,9 @@ export class MediaUploadComponent implements OnInit {
 
   onFilesAdded() {
     const files: { [key: string]: File } = this.file.nativeElement.files;
-    this.fileName = files[0].name;
-    if (this.fileName) {
+    this.selectedFile = files[0];
+    // this.fileName = files[0].name;
+    if (this.selectedFile) {
       this.uploadButtonText = CHANGE;
       this.isFileSelected = true;
     }
@@ -83,13 +90,22 @@ export class MediaUploadComponent implements OnInit {
     console.log('MediaUploadComponent - rowBound: ', args);
     let data = args.data;
     if (data) {
-      this.isDestinationSelected = true;      
+      this.isDestinationSelected = true;
+      this.currentDirectoryId = data.id;
+      this.folderPath = data.name;
       this.store.dispatch(new GetDirectoryMetadata(data.id));
     }
   }
 
-  submit(value: any) {
-    console.log('submit: ', value);
-    console.log('submit form: ', this.dynamicForm.value);
+  submit(value?: any) {
+    if (this.dynamicForm) {
+      console.log('submit form: ', this.dynamicForm.value);
+      if (!this.dynamicForm.valid) return;
+    }    
+    let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "";
+    
+    this.ShowSpinner(true);
+    this.store.dispatch(new CreateMediaItem(this.currentDirectoryId, this.selectedFile, metadata));
+    this.ShowSpinner(false);
   }
 }
