@@ -10,17 +10,20 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { MediaStreamingArchiveComponent } from './media-streaming-archive/media-streaming-archive.component';
 import {MediaFavoritesListviewComponent} from "./media-favorites/media-favorites-listview/media-favorites-listview.component";
+import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorites-tileview/media-favorites-tileview.component';
 
 const mediaRoutes: Routes = [
   {
     path: 'media',
     component: MediaComponent,
     children: [
-      { path: '', redirectTo: 'all', pathMatch: 'full' },
-      { path: 'all', component: AllMediaComponent },
-      { path: 'favorites', component: MediaFavoritesListviewComponent },
-      { path: 'archive', component: MediaStreamingArchiveComponent }
+      { path: '', redirectTo: 'all', pathMatch: 'full',data: { breadcrumb: 'Details'}, },
+      { path: 'all', component: AllMediaComponent, data: { breadcrumb: 'All Media'},},
+      { path: 'favorites', component: MediaFavoritesComponent, data: { breadcrumb: 'Favourites'},},
+      { path: 'archive', component: MediaStreamingArchiveComponent, data: { breadcrumb: 'Streaming Archive'},},
+      { path: 'favorites/all', component: MediaFavoritesTileviewComponent, data: { breadcrumb: 'Favourites All'},},
     ],
+    data: { breadcrumb: 'Media'} 
   },
   {
     path: 'media/upload',
@@ -30,10 +33,10 @@ const mediaRoutes: Routes = [
     path: 'media/:id',
     component: MediaItemComponent,
     children: [
-      { path: '', redirectTo: 'details', pathMatch: 'full' },
-      { path: 'details', component: MediaItemDetailsComponent },
-      { path: 'related-items', component: MediaItemRelatedFilesComponent },
-      { path: 'history', component: MediaItemHistoryComponent },
+      { path: '', redirectTo: 'details', pathMatch: 'full',data: { breadcrumb: 'Details'} },
+      { path: 'details', component: MediaItemDetailsComponent,data: { breadcrumb: 'Details'}},
+      { path: 'related-items', component: MediaItemRelatedFilesComponent, data: { breadcrumb: 'Related Items'}},
+      { path: 'history', component: MediaItemHistoryComponent, data: { breadcrumb: 'History'}},
     ]
   },
 

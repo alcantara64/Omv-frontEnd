@@ -1,55 +1,59 @@
-<div id="sidebar-section">
-  <div class="bg-light border-right" id="sidebar-wrapper">
-    <div class="list-group list-group-flush">
-      <button class="button-cls sidebar-heading dashboard-texts " (click)="setActiveTab(dashboardLink)">
-        <a class=" valign"> Admin Dashboard </a>
-      </button>
-      <button class="collapsible" (click)="mediaMenuClicked()">
-        Media
-      </button>
-      <div class="content" *ngIf="isMediaMenuOpen">
-        <ul>
-          <li class="cursor media-child-text">
-            Uploads
-          </li>
-          <li class="media-child-text cursor">
-            Folder Structure
-          </li>
-          <li class="media-child-text cursor">
-            Bulk Uploader
-          </li>
-          <li class="media-child-text cursor">
-            MetaData Details
-          </li>
-        </ul>
-      </div>
-      <button class="button-cls sidebar-heading dashboard-texts ">
-        KPIs
-      </button>
-      <button class="button-cls sidebar-heading dashboard-texts ">
-        Filters
-      </button>
-      <button class="collapsible" (click)="workPlanningMenuClicked()">Work Planning</button>
-      <div class="content" *ngIf="isWorkPlanningMenuOpen">
-        <ul>
-          <li class="cursor media-child-text">
-            Work Templates
-          </li>
-          <li class="media-child-text cursor">
-            Work Sets
-          </li>
-        </ul>
-      </div>
-      <button class="collapsible" (click)="usersMenuClicked()" [ngClass]="isUsersMenuOpen ? 'active' : 'sample'">Users</button>
-      <div *ngIf="isUsersMenuOpen" class="content">
-        <ul>
-          <li (click)="setActiveTab(groupsLink)" [ngClass]="{ 'selected-background': isGroupsActive }" class="cursor media-child-text">
-            Groups
-          </li>
-          <li (click)="setActiveTab(usersLink)" [ngClass]="{ 'selected-background': isUsersActive }" class="media-child-text cursor">
-            Users
-          </li>
-        </ul>
+<div style="width: 100%">
+  <div *ngIf="displayWidth <= 800" (click)="showAdminNav()" class="mobileAdminNav">Admin Menu</div>
+
+  <div [ngClass]="{'mobile-section': displayWidth <= 800 && isAdminNavActive === true, 'sidebar-section': displayWidth > 800}" style="display: none">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="list-group list-group-flush">
+        <button class="button-cls sidebar-heading dashboard-texts " (click)="setActiveTab(dashboardLink)">
+          <a class=" valign"> Admin Dashboard </a>
+        </button>
+        <button class="collapsible" (click)="mediaMenuClicked()"  [ngClass]="isMediaMenuOpen ? 'active' : 'sample'">
+          Media
+        </button>
+        <div class="content" *ngIf="isMediaMenuOpen">
+          <ul>
+            <li class="cursor media-child-text" (click)="setActiveTab(mediaUploadsLink)" [ngClass]="{ 'selected-background': isMediaUploadsActive }">
+              Uploads
+            </li>
+            <li class="media-child-text cursor">
+              Folder Structure
+            </li>
+            <li class="media-child-text cursor">
+              Bulk Uploader
+            </li>
+            <li class="media-child-text cursor">
+              MetaData Details
+            </li>
+          </ul>
+        </div>
+        <button class="button-cls sidebar-heading dashboard-texts ">
+          KPIs
+        </button>
+        <button class="button-cls sidebar-heading dashboard-texts ">
+          Filters
+        </button>
+        <button class="collapsible" (click)="workPlanningMenuClicked()">Work Planning</button>
+        <div class="content" *ngIf="isWorkPlanningMenuOpen">
+          <ul>
+            <li class="cursor media-child-text">
+              Work Templates
+            </li>
+            <li class="media-child-text cursor">
+              Work Sets
+            </li>
+          </ul>
+        </div>
+        <button class="collapsible" (click)="usersMenuClicked()" [ngClass]="isUsersMenuOpen ? 'active' : 'sample'">Users</button>
+        <div *ngIf="isUsersMenuOpen" class="content">
+          <ul>
+            <li (click)="setActiveTab(groupsLink)" [ngClass]="{ 'selected-background': isGroupsActive }" class="cursor media-child-text">
+              Groups
+            </li>
+            <li (click)="setActiveTab(usersLink)" [ngClass]="{ 'selected-background': isUsersActive }" class="media-child-text cursor">
+              Users
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

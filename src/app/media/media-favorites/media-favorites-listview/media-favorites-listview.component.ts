@@ -1,10 +1,11 @@
-import { GetMedia } from '../../state/media/media.action';
+import { GetFavorites, GetMedia } from '../../state/media/media.action';
 import { Component, OnInit } from '@angular/core';
 import {GridColumn} from "../../../core/models/grid.column";
 import {Select, Store} from "@ngxs/store";
 import {Observable} from "rxjs";
 import {MediaState} from "../../state/media/media.state";
-import {Media} from "../../../core/models/entity/media";
+import {MediaItem} from "../../../core/models/entity/media";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-media-favorites-listview',
@@ -13,27 +14,25 @@ import {Media} from "../../../core/models/entity/media";
 })
 
 export class MediaFavoritesListviewComponent implements OnInit {
-  @Select(MediaState.getFavoriteMedia) getFavoriteMedia$: Observable<Media[]>;
+  @Select(MediaState.getFavorites) favoriteMedia$: Observable<MediaItem[]>;
 
-  public favouriteList;
+  favouriteMedia;
+  editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
 
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "50", field: "" },
-    { headerText: "Type", field: "type", width: '180' },
-    { headerText: "Name", width: '170', field: "name" },
+    { headerText: "Type", field: "type", width: '100' },
+    { headerText: "Name", field: "name", width: '700' },
     { headerText: "Date", field: "date" }
   ];
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private router: Router) { }
 
   ngOnInit() {
-
-    this.store.dispatch(new GetMedia());
-
-    this.getFavoriteMedia$.subscribe(favouriteMedia => {
-      this.favouriteList = favouriteMedia;
-    });
-
+    this.store.dispatch(new GetFavorites());
   }
 
+  download(args: any) {
+    // this.router.navigate([`/dashboard`])
+  }
 }

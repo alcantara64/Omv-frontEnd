@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, DoCheck} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck } from '@angular/core';
 import { Tab } from 'src/app/core/models/tab';
 import { Router } from '@angular/router';
 
@@ -16,6 +16,7 @@ export class TabsComponent implements OnInit {
   @Output()
   navigate = new EventEmitter<string>();
 
+
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -23,12 +24,14 @@ export class TabsComponent implements OnInit {
   }
 
   performNavigation(link: string) {
-    this.setActiveTab(link);    
+    this.setActiveTab(link);
     this.navigate.emit(link);
   }
 
   setActiveTab(link: string) {
-    let tab = this.tabs.find(x => x.link === link);
+    let url = link.split('?')[0]; //get the current route without the query params
+    console.log('testing... ', url);
+    let tab = this.tabs.find(x => x.link === url);
     if (tab) {
       this.tabs.map(x => x.isActive = false);
       tab.isActive = true;

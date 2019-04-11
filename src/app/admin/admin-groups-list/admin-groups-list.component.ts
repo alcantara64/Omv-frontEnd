@@ -22,13 +22,15 @@ import { GetPermissions } from '../state/admin-permissions/admin-permissions.act
 })
 export class AdminGroupsListComponent extends ListComponent implements OnInit {
 
+  public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
+
   selectedGroups: Group[];
   groups: Group[];
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "50", field: "" },
     { headerText: "Name", field: "nameWithBadge", width: '180' },
     { headerText: "Description", width: '170', field: "description" },
-    { headerText: "Last Modified", field: "modifiedOn" },
+    { headerText: "Last Modified", field: "modifiedOnString" },
     { headerText: "Modified By", field: "modifiedBy" },
     { headerText: "Members", field: "memberCount", textAlign: 'center' }
   ];
@@ -89,7 +91,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     this.getAllPermissions$.subscribe(permissions => (this.permissions = permissions));
 
     // if (!this.userHasPermission) {
-    //   this.router.navigate(['dashboard']);
+    //   this.router.secondNavigateAction(['dashboard']);
     // }
   }
 

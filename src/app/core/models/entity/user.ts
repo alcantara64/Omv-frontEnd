@@ -11,6 +11,7 @@ export class User {
   createdOn?: Date;
   createdBy?: string;
   modifiedOn?: Date;
+  modifiedOnString?: string;
   modifiedBy?: string;
 }
 

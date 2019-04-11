@@ -1,21 +1,24 @@
 .card{
-    width:18.250em;
+    width:19.25em;
 }
 .e-card-header{
     padding-bottom: 0px;
 }
-.center-img{
-    width:17.5em;
-}
+
 .favorite-cls{
     vertical-align: initial;
-    padding-right: .5rem;
+    padding-right: .8rem;
 }
 .info-cls{
     vertical-align: initial;
     padding-right: .5rem;
+    cursor: pointer;
 }
 .align-items{
     vertical-align: middle;
     display: inline-flex;
+}
+.tile-card-date{
+    margin-bottom: 0px;
+    padding-bottom: 15px;
 }

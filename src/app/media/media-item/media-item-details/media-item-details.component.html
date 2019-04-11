@@ -1,3 +1,54 @@
-<p>
-  media-item-details works!
-</p>
+<br />
+<div class="step-title"> {{ mediaItem?.name }} </div>
+<br />
+<div class="actionBar">
+  <button (click)="showFieldsDialog()"><span class="actions"><img src="../../../../assets/images/icon-add.svg" /> &nbsp;Add Field</span></button>
+  <button (click)="submit()" [disabled]="!dynamicForm?.valid" [ngClass]="{'button-not-allowed': !dynamicForm?.valid}"><span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span></button>
+  <button><span class="actions"><i style="color: #da5200" class="e-icons e-clear"></i> Disregard Changes</span></button>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <dynamic-form #dynamicForm="dynamicForm" style="display: inline"
+        [config]="itemMetadataFields" 
+        (submit)="submit($event)" 
+        (remove)="performRemove($event)" 
+        [showDelete]='true'
+        *ngIf="itemMetadataFields?.length > 0" 
+        (formFinished)="onFormFinished($event)">
+    </dynamic-form>
+  </div>
+  <div class="col-md-6">
+    <img [src]="mediaItem ? mediaItem?.thumbnail : ''" alt="OMV Image" style="width: 100%; height: auto; margin: auto">
+    <!-- <img *ngIf="isPDF === true" src="../../../../assets/images/omvPDFMedia.png" alt="OMV Image" style="width: 100%; height: auto; margin: auto" (click)="activatePDFViewer()"> -->
+  </div>
+</div>
+
+<ejs-dialog #fieldsDialog [visible]='false' [width]='500'>
+  <ng-template #content>
+    <button class="dialog-close" (click)="closeDialog()">
+      <img src="../../../../assets/images/dialog-close.svg" />
+    </button>
+    <br />
+    
+    <label class="dialog-title">Add Field</label>
+    <hr />
+    <br />
+    <ejs-listview #listview id='List' [dataSource]='metadataFields'cssClass='e-list-template' sortOrder='Ascending'>
+      <ng-template #template let-metadataFields="">
+        <div class="e-list-wrapper e-list-multi-line dialog-list" (click)="selectField(metadataFields)" style="cursor: pointer;">          
+          <span [ngClass]="{'dialog-list-item-checked': metadataFields.isChecked, 'dialog-list-item': !metadataFields.isChecked}"> 
+            {{ metadataFields.label }} 
+          </span>
+          <img *ngIf="metadataFields.isChecked || metadataFields.isSelected" 
+                [src]="metadataFields.isSelected ? '../../../../assets/images/checkmark-yellow.svg' : '../../../../assets/images/checkmark.svg'" 
+                class="float-right" 
+                (click)="activateViewer()"
+            />
+        </div>
+      </ng-template>
+    </ejs-listview>
+    <br />
+    <button class="btn btn-lg omv-primary" (click)="addFields()"> Done </button>
+  </ng-template>
+</ejs-dialog>

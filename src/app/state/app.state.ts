@@ -4,8 +4,15 @@ import {
   Confirmation,
   messageType,
   SetNotification,
-  ClearConfirmation, 
-  SetPageTitle, ShowLeftNav, SetLoggedInUser, LogOut, GetUserPermissions, GetLoggedInUser, DisplayToastMessage
+  ClearConfirmation,
+  SetPageTitle,
+  ShowLeftNav,
+  SetLoggedInUser,
+  LogOut,
+  GetUserPermissions,
+  GetLoggedInUser,
+  DisplayToastMessage,
+  DeviceWidth
 } from './app.actions';
 import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
@@ -29,6 +36,7 @@ export class AppStateModel {
 
   toastMessage?: Toast;
   error: string;
+  deviceWidth: number;
 }
 
 @State<AppStateModel>({
@@ -45,7 +53,8 @@ export class AppStateModel {
     confirmation: false,
 
     toastMessage: null,
-    error: ''
+    error: '',
+    deviceWidth: window.innerWidth
   }
 })
 export class AppState {
@@ -59,7 +68,7 @@ export class AppState {
   static getPageTitle(state: AppStateModel) {
     return state.setPageTitle;
   }
-
+ 
   @Selector()
   static getCurrentUser(state: AppStateModel) {
     return state.currentUser;
@@ -98,6 +107,11 @@ export class AppState {
   @Selector()
   static getErrorMessage(state: AppStateModel) {
     return state.error;
+  }
+
+  @Selector()
+  static setDeviceWidth(state: AppStateModel) {
+    return state.deviceWidth;
   }
 
   constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
@@ -235,6 +249,16 @@ export class AppState {
     setState({
       ...state,
       toastMessage: toast
+    });
+  }
+
+  @Action(DeviceWidth)
+  DeviceWidth({getState, setState}: StateContext<AppStateModel>, {deviceWidth}: DeviceWidth) {
+    const state = getState();
+
+    setState({
+      ...state,
+      deviceWidth: deviceWidth,
     });
   }
 }

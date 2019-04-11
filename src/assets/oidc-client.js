@@ -17471,7 +17471,7 @@ var CordovaPopupWindow = exports.CordovaPopupWindow = function () {
             }
             this._popup = cordova.InAppBrowser.open(params.url, this.target, this.features);
             if (this._popup) {
-                _Log.Log.debug("CordovaPopupWindow.navigate: popup successfully created");
+                _Log.Log.debug("CordovaPopupWindow.secondNavigateAction: popup successfully created");
 
                 this._exitCallbackEvent = this._exitCallback.bind(this);
                 this._loadStartCallbackEvent = this._loadStartCallback.bind(this);
@@ -17859,7 +17859,7 @@ var IFrameWindow = exports.IFrameWindow = function () {
             this._error("No url provided");
         } else {
             var timeout = params.silentRequestTimeout || DefaultTimeout;
-            _Log.Log.debug("IFrameWindow.navigate: Using timeout of:", timeout);
+            _Log.Log.debug("IFrameWindow.secondNavigateAction: Using timeout of:", timeout);
             this._timer = window.setTimeout(this._timeout.bind(this), timeout);
             this._frame.src = params.url;
         }
@@ -19390,12 +19390,12 @@ var PopupWindow = exports.PopupWindow = function () {
 
     PopupWindow.prototype.navigate = function navigate(params) {
         if (!this._popup) {
-            this._error("PopupWindow.navigate: Error opening popup window");
+            this._error("PopupWindow.secondNavigateAction: Error opening popup window");
         } else if (!params || !params.url) {
-            this._error("PopupWindow.navigate: no url provided");
+            this._error("PopupWindow.secondNavigateAction: no url provided");
             this._error("No url provided");
         } else {
-            _Log.Log.debug("PopupWindow.navigate: Setting URL in popup");
+            _Log.Log.debug("PopupWindow.secondNavigateAction: Setting URL in popup");
 
             this._id = params.id;
             if (this._id) {
@@ -19528,7 +19528,7 @@ var RedirectNavigator = exports.RedirectNavigator = function () {
 
     RedirectNavigator.prototype.navigate = function navigate(params) {
         if (!params || !params.url) {
-            _Log.Log.error("RedirectNavigator.navigate: No url provided");
+            _Log.Log.error("RedirectNavigator.secondNavigateAction: No url provided");
             return Promise.reject(new Error("No url provided"));
         }
 

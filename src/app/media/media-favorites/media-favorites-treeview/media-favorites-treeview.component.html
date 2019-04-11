@@ -1,0 +1,36 @@
+<ejs-treegrid [dataSource]='data' [treeColumnIndex]='2' (rowSelected)="rowSelected($event)" [allowSorting]='true'
+[selectionSettings]='selectionOptions' parentIdMapping='parentID' idMapping='id'>
+  <e-columns>
+    <e-column  headerText=' ' type=" " width='50' textAlign='Center'>
+        <ng-template #template let-data>
+            <div *ngIf="!data.hasChildRecords; else elseblock">
+              <ejs-checkbox cssClass="e-success" [checked]="true"></ejs-checkbox>
+            </div>
+          </ng-template>
+          <ng-template #elseblock>
+            <ejs-checkbox cssClass="e-success" [checked]="false"></ejs-checkbox>
+          </ng-template>
+    </e-column>
+    <e-column headerText='' width='80' textAlign='Left'>
+      <ng-template #template let-data>
+        <img (click)="performToggleFavorite(data)" class="favorite-cls cursor"
+          [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">
+
+      </ng-template>
+    </e-column>
+    <e-column field='name' headerText='Name' width=" " textAlign='Left'></e-column>
+    <e-column field='date' headerText='Date' textAlign='Left'></e-column>
+    <e-column field='' headerText=' '  width="100"textAlign='Left'>
+        <ng-template #template let-data>
+            <a class="link" style="text-decoration:underline;" (click)="performFirstAction($event)"  >
+            Download</a>
+          
+          </ng-template>
+    </e-column>
+  <e-column  width="100">  
+      <ng-template #template let-data>
+      <span class='e-icons e-pencil' style='color: #0097A9 !important'></span>
+      </ng-template>
+  </e-column>
+  </e-columns>
+</ejs-treegrid>

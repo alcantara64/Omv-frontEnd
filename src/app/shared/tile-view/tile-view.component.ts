@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { Store } from '@ngxs/store';
 
@@ -10,8 +10,10 @@ import { Store } from '@ngxs/store';
 export class TileViewComponent extends BaseComponent implements OnInit {
 
   @Input() dataSource = [];
+  @Output() itemClick = new EventEmitter<any>();
+  @Output() toggleFavorite = new EventEmitter<any>();
+  @Input() pageCount;
 
-  
   constructor(protected store: Store) {
     super(store);
   }
@@ -19,11 +21,12 @@ export class TileViewComponent extends BaseComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggleFavoriteIcon(data: any) {
+  performToggleFavorite(data: any) {
     data.isFavorite = !data.isFavorite;
-    // this.dataSource.forEach((item,index )=>{
-    //   console.log(item);
-    //   item.isFavorite = !item.isFavorite;
-    // });
+    // this.toggleFavorite.emit(data);
+  }
+
+  performItemClick(data: any) {
+    this.itemClick.emit(data);
   }
 }

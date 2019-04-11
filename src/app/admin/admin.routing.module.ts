@@ -1,3 +1,5 @@
+import { AdminMediaUploadsListComponent } from './admin-media-uploads-list/admin-media-uploads-list.component';
+import { AdminMediaUploadsTabsComponent } from './admin-media-uploads-list/admin-media-uploads-tabs/admin-media-uploads-tabs.component';
 import { AdminGroupMediaAccessComponent } from './admin-group-edit/admin-group-media-access/admin-group-media-access.component';
 import { AdminGroupPermissionsComponent } from './admin-group-edit/admin-group-permissions/admin-group-permissions.component';
 import { AdminGroupMembersComponent } from './admin-group-edit/admin-group-members/admin-group-members.component';
@@ -25,6 +27,14 @@ const adminRoutes: Routes = [
     path: 'admin/dashboard',
     component: AdminDashboardComponent,
     // canActivate: [AuthGuardService]
+  },
+  {
+    path: 'admin/media/uploads',
+    component: AdminMediaUploadsTabsComponent,
+    children: [
+      { path: '', redirectTo: 'new', pathMatch: 'full' },
+      { path: ':type', component: AdminMediaUploadsListComponent }
+    ]
   },
   {
     path: 'admin/users',

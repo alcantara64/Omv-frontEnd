@@ -1,0 +1,29 @@
+.breadcrumb li {
+    display: inline;
+  }
+  .breadcrumb li+li:before {
+    content: ">";
+      color: black;
+  }
+  .breadcrumb{
+    background-color: #F3F8FB;
+    margin-left: -10px;
+  }
+    a{
+      font-family: 'Source Sans Pro', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #0097a9;
+      text-decoration: underline;
+      font-size: 14px;
+    }
+    .breadcrumb-item.active {
+      color: #033B5C;
+  text-decoration: none;
+  font-family: 'Source Sans Pro', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      font-size: 14px;
+  }
+  
+ 

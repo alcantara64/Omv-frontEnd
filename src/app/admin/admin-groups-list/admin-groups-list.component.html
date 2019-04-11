@@ -18,8 +18,11 @@
     </ejs-dialog>
   <div class="">
     <app-list [listData]="groups" [columns]="columns" [selectedRecords]="selectedGroups" [isToolBarVisible]="true"
-      [firstActionButtonText]="statusChange" (firstAction)="changeGroupStatus($event)" (navigate)="edit($event)"
-      [shouldEdit]="true">
+              [toolbarActionOne]="statusChange" (firstAction)="changeGroupStatus($event)"
+              (secondNavigateAction)="edit($event)"
+              [showSecondAction]="true"
+              [secondActionText]="editIcon" 
+              [totalCountText]="'Total Groups'">
     </app-list>
   </div>
 </div>

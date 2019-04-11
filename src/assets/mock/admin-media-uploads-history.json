@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "name": "Jeremiah Johnson",
+        "destination": "South America",
+        "date": "0/1/2019",
+        "size": "1GB",
+        "file": "100",
+        "status": "<img src=../../../assets/images/rejected.png>"
+    },
+    {
+        "id": 2,
+        "name": "Johnson",
+        "destination": "South America/T&T",
+        "date": "0/1/2019",
+        "size": "2GB",
+        "file": "60",
+        "status": "<img src=../../../assets/images/attention.png>"
+    },
+    {
+        "id": 3,
+        "name": "Smith John",
+        "destination": "Trinidad",
+        "date": "0/1/2019",
+        "size": "3GB",
+        "file": "66",
+        "status": "<img src=../../../assets/images/rejected.png>"
+    },
+    {
+        "id": 4,
+        "name": "James John",
+        "destination": "South America",
+        "date": "0/1/2019",
+        "size": "1GB",
+        "file": "86",
+        "status": "<img src=../../../assets/images/attention.png>"
+    },
+    {
+        "id": 5,
+        "name": "Daniel Herny",
+        "destination": "Trinidad",
+        "date": "0/1/2019",
+        "size": "2GB",
+        "file": "94",
+        "status": "<img src=../../../assets/images/rejected.png>"
+    }
+]

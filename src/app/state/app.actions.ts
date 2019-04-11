@@ -18,6 +18,7 @@ export class SetPageTitle {
   constructor(public payload: string) { }
 }
 
+
 export class SetLoggedInUser {
   static readonly type = '[App] SetLoggedInUser';
 
@@ -69,4 +70,10 @@ export class DisplayToastMessage {
   static readonly type = '[App] DisplayToastMessage';
 
   constructor(public message: string, public type: ToastType = ToastType.success) {}
+}
+
+export class DeviceWidth {
+  static readonly type = '[App] DeviceWidth';
+
+  constructor(public deviceWidth: number) {}
 }

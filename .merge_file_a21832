@@ -93,7 +93,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
     takeWhile(() => this.componentActive);
 
     if (!this.userHasPermission) {
-      this.router.navigate(['dashboard']);
+      this.router.secondNavigateAction(['dashboard']);
     }
   }
 
@@ -111,7 +111,7 @@ export class AdminUserEditComponent extends ListComponent implements OnInit, OnD
           this.currentUserId$.subscribe(userId => {
             if (userId) {
               this.userForm.reset();
-              this.router.navigate([`/admin/users/${userId}/edit`])
+              this.router.secondNavigateAction([`/admin/users/${userId}/edit`])
             }
           }),
           takeWhile(() => this.componentActive);

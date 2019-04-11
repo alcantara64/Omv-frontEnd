@@ -7,6 +7,10 @@ i{
   padding-left: 9px;
     margin-left: 9px;
 }
+.selected-background{
+  filter: brightness(0.5) sepia(1) hue-rotate(140deg) saturate(6);
+}
+ 
 .box-sizing{
   background-color:#fff;
   padding: 0.5rem;
@@ -142,9 +146,7 @@ input[type=text]:focus {
 .e-tab .e-content .e-item {
   color: #98B0BE !important;
 }
-.selected-background{
-  color: #0097A9 !important;
-}
+
 .e-grid .e-detailcell {
   border-color: transparent!important;
   background-color: #F3F8FB;

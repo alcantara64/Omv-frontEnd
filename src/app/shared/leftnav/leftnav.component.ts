@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import {Select} from "@ngxs/store";
+import {AppState} from "../../state/app.state";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -9,6 +12,25 @@ import { Router } from '@angular/router';
 })
 export class LeftNavComponent implements OnInit {
 
+  public displayWidth: number;
+  public isAdminNavActive: boolean;
+  isDashboardActive = false;
+
+  isMediaMenuOpen: boolean;
+  isMediaUploadsActive: boolean;
+  isMediaFolderStructureActive: boolean;
+  isMediaBulkUploaderActive: boolean;
+  isMediaMetadataDetailsActive: boolean;
+  mediaUploadsLink = '/admin/media/uploads';
+  newMediaUploadsLink = '/admin/media/uploads/new';
+  inProgressMediaUploadsLink = '/admin/media/uploads/in-progress';
+  historyMediaUploadsLink = '/admin/media/uploads/history';
+
+  isWorkPlanningMenuOpen: boolean;
+
+  isUsersMenuOpen: boolean;
+  isUsersActive: boolean;
+  isGroupsActive: boolean;
   dashboardLink = '/admin/dashboard';
   usersLink = '/admin/users';
   activeUsersLink = '/admin/users/active';
@@ -18,17 +40,19 @@ export class LeftNavComponent implements OnInit {
   activeGroupsLink = '/admin/groups/active';
   disabledGroupsLink = '/admin/groups/disabled';
 
-  isMediaMenuOpen: boolean = false;
-  isWorkPlanningMenuOpen: boolean = false;
-  isUsersMenuOpen: boolean = false;
-  isDashboardActive = false;
-  isUsersActive: boolean = false;
-  isGroupsActive: boolean = false;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    this.deviceWidth$.subscribe(width => {
+      this.displayWidth = width;
+    });
+
+    // const button = document.getElementsByTagName("button")
+  }
 
   ngOnInit() {
     this.setActiveTab(this.router.url);
+    this.isAdminNavActive = false;
   }
 
   mediaMenuClicked() {
@@ -49,30 +73,38 @@ export class LeftNavComponent implements OnInit {
   setActiveTab(url: string) {
     this.clearActiveSelections();
     this.router.navigate([url]);
+    this.showAdminNav();
     switch(url) {
       case this.dashboardLink:
         this.isDashboardActive = true;
-        return;
+        break;
+      case this.mediaUploadsLink:
+        this.isMediaMenuOpen = true;
+        this.isMediaUploadsActive = true;     
       case this.usersLink:
       case this.activeUsersLink:
       case this.unassignedUsersLink:
       case this.disabledUsersLink:
         this.isUsersMenuOpen = true;
         this.isUsersActive = true;
-        return;
+        break;
       case this.groupsLink:
       case this.activeGroupsLink:
       case this.disabledGroupsLink:
         this.isUsersMenuOpen = true;
         this.isGroupsActive = true;
-        return;
+        break;      
       
       default:
-        return;
+        break;
     }
   }
 
   clearActiveSelections() {
-    this.isUsersActive = this.isGroupsActive = false;
+    this.isUsersActive = this.isGroupsActive = this.isDashboardActive = this.isMediaUploadsActive = false;
+  }
+
+  showAdminNav() {
+    this.isAdminNavActive === true ? this.isAdminNavActive = false : this.isAdminNavActive = true;
   }
 }

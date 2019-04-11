@@ -1,0 +1,62 @@
+[
+  {
+    "name": "fileName",
+    "label": "Name",
+    "type": "text",
+    "optionsId": null,
+    "optionsName": null,
+    "value": "Representation Document",
+    "isRequired": true,
+    "order": 14  
+  },
+  {
+    "name": "platform",
+    "label": "Platform",
+    "type": "text",
+    "optionsId": null,
+    "optionsName": null,
+    "value": "",
+    "isRequired": false,
+    "order": 3
+  },
+  {
+    "name": "country",
+    "label": "Country",
+    "type": "select",
+    "optionsId": "2",
+    "optionsName": "CountryList",
+    "value": "MX",
+    "isRequired": true,
+    "order": 1
+  },
+  {
+    "name": "author",
+    "label": "Author",
+    "type": "text",
+    "optionsId": null,
+    "optionsName": null,
+    "value": "",
+    "isRequired": true,
+    "order": 2
+  },
+  {
+    "name": "dob",
+    "label": "DOB",
+    "type": "date",
+    "optionsId": null,
+    "optionsName": null,
+    "value": "01/10/1990",
+    "isRequired": true,
+    "order": 12
+  },
+  {
+    "name": "gender",
+    "label": "Gender",
+    "type": "select",
+    "optionsId": "GN",
+    "optionsName": "GenderList",
+    "value": "",
+    "isRequired": true,
+    "order": 11
+  }
+]

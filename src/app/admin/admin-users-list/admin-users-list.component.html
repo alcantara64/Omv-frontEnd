@@ -32,9 +32,13 @@
 
   <div class="">
     <app-list [listData]="users" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true"
-      [firstActionButtonText]="statusChange" [secondActionButtonText]="'Assign User to Group'"
-      (firstAction)="changeUsersStatus($event)" (secondAction)="assignUsersToGroups($event)" (navigate)="edit($event)"
-      [shouldEdit]="true" [checkField]="'userId'">
+              [toolbarActionOne]="statusChange" [toolbarActionTwo]="'Assign to Groups'"
+              (firstAction)="changeUsersStatus($event)" (secondAction)="assignUsersToGroups($event)"
+              (secondNavigateAction)="edit($event)"
+              [showSecondAction]="true"
+              [secondActionText]="editIcon" 
+              [checkField]="'userId'"
+              [totalCountText]="'Total Users'">
     </app-list>
   </div>
 

@@ -25,9 +25,17 @@
             "styles": [
               "src/styles.css",
               "src/assets/css/material.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ng2-image-viewer/imageviewer.scss",
+              "node_modules/viewerjs/dist/viewer.css"
+              
             ],
-            "scripts": [ "node_modules/automapper-ts/dist/automapper.min.js" ],
+            "scripts": [
+              "node_modules/automapper-ts/dist/automapper.min.js",
+              "node_modules/ng2-image-viewer/imageviewer.js",
+              "node_modules/viewerjs/dist/viewer.js"
+
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
@@ -50,8 +58,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "6mb"
                 }
               ]
             }
@@ -84,10 +92,21 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/ngx-extended-pdf-viewer/assets/pdf.js",
+              "node_modules/ngx-extended-pdf-viewer/assets/pdf.worker.js",
+              "node_modules/ngx-extended-pdf-viewer/assets/viewer.js"
+            ],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-extended-pdf-viewer/assets/locale",
+                "output": "/assets/locale/"
+              }
             ]
           }
         },

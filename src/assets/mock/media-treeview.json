@@ -1,0 +1,78 @@
+[
+  {
+    "id": "1",
+    "name": "Parent Folder Title 1",
+    "date": "Jan 30, 2018 10:15:12",
+    "isChecked": true,
+    "isFavorite": false
+  },
+  {
+    "id": "2",
+    "name": "Parent Folder Title 2",
+    "date": "Jan 30, 2018 10:15:12",
+    "parentID": "1",
+    "isChecked": false,
+    "isFavorite": false
+  },
+  {
+    "id": "3",
+    "name": "Parent Folder Title 3",
+    "date": "Jan 30, 2018 10:15:12",
+    "parentID": "2",
+    "isChecked": false,
+    "isFavorite": true
+  },
+  {
+    "id": "4",
+    "name": "Parent Folder Title 4",
+    "date": "Jan 30, 2018 10:15:12",
+    "parentID": "3",
+    "isChecked": true,
+    "isFavorite": false
+  },
+  {
+    "id": "5",
+    "name": "Parent Folder Title 5",
+    "date": "Jan 30, 2018 10:15:12",
+    "parentID": "3",
+    "isChecked": false,
+    "isFavorite": false
+  },
+  {
+    "id": "6",
+    "name": "Parent Folder Title 6",
+    "date": "Jan 30, 2018 10:15:12",
+    "parentID": "3",
+    "isChecked": false,
+    "isFavorite": true
+  },
+  {
+    "id": "7",
+    "name": "Parent Folder Title 7",
+    "date": "Jan 30, 2018 10:15:12",
+    "parentID": "3",
+    "isChecked": true,
+    "isFavorite": true
+  },
+  {
+    "id": "8",
+    "name": "Parent Folder Title 8",
+    "date": "Jan 30, 2018 10:15:12",
+    "isChecked": true,
+    "isFavorite": true
+  },
+  {
+    "id": "9",
+    "name": "Parent Folder Title 9",
+    "date": "Jan 30, 2018 10:15:12",
+    "isChecked": false,
+    "isFavorite": true
+  },
+  {
+    "id": "10",
+    "name": "Parent Folder Title 10",
+    "date": "Jan 30, 2018 10:15:12",
+    "isChecked": false,
+    "isFavorite": true
+  }
+]
