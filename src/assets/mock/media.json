@@ -1,58 +1,61 @@
 [
   {
-    "id": "1",
-    "type": "PDF",
+    "id": 1,
+    "type": "JPG",
     "name": "BRAZOS INSPECTION REPORT ",
     "isFavorite": true,
-    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "mediaPath":"../../../assets/images/photo-oceaneering.jpg",
     "date": "Jan 30, 2018  "
   },
   {
-    "id": "2",
-    "type": "PDF",
+    "id": 2,
+    "type": "DOC",
     "name": "URSA INSPECTION REPORT  ",
     "isFavorite": false,
-    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "mediaPath":"../../../assets/images/photo-oceaneering.jpg",
     "date": "Jan 30, 2018  "
   },
   {
-    "id": "3",
+    "id": 3,
     "type": "PDF",
     "name": "URSA INSPECTION REPORT  ",
     "isFavorite": true,
-    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "mediaPath":"../../../assets/images/photo-oceaneering.jpg",
     "date": "Jan 30, 2018  "
   },
   {
-    "id": "4",
-    "type": "PDF",
+    "id": 4,
+    "type": "DOC",
     "name": "URSA INSPECTION REPORT ",
+    "fileName": "URSA INSPECTION REPORT",
+    "company": "Shell Limited",
+    "country": "MX",
     "isFavorite": true,
-    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "mediaPath":"../../../assets/images/photo-oceaneering.jpg",
     "date": "Jan 30, 2018 "
   },
   {
-    "id": "5",
-    "type": "PDF",
+    "id": 5,
+    "type": "DOC",
     "name": "URSA INSPECTION REPORT 2",
     "isFavorite": false,
-    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "mediaPath":"../../../assets/images/photo-oceaneering.jpg",
     "date": "Jan 30, 2018 "
   },
   {
-    "id": "8",
-    "type": "PDF",
+    "id": 8,
+    "type": "DOC",
     "name": "URSA INSPECTION REPORT 3",
     "isFavorite": false,
-    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "mediaPath":"../../../assets/images/photo-oceaneering.jpg",
     "date": "Jan 30, 2018 "
   },
   {
-    "id": "9",
-    "type": "PDF",
+    "id": 9,
+    "type": "DOC",
     "name": "BRAZOS INSPECTION REPORT",
     "isFavorite": true,
-    "imgPath":"../../../assets/images/oceaneering-nautilus-bell.jpg",
+    "mediaPath":"../../../assets/images/photo-oceaneering.jpg",
     "date": "Jan 30, 2018 "
   }
 ]

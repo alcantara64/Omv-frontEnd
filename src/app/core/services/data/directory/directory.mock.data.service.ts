@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Metadata } from 'src/app/core/models/entity/metadata';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,12 @@ export class DirectoryMockDataService implements DirectoryDataService {
   getDirectories(): Observable<any[]> {
     var mockUrl = `./assets/mock/directories.json`;
     var data = this.httpClient.get<any[]>(mockUrl);
+    return data;
+  }
+  
+  getMetadata(directoryId: number): Observable<Metadata[]> {
+    var url = `./assets/mock/metadata.json`;
+    let data = this.httpClient.get<any[]>(url);
     return data;
   }
 }

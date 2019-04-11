@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {SetPageTitle, ShowLeftNav} from "../../state/app.actions";
 import {Store} from "@ngxs/store";
 
+
 @Component({
   selector: 'app-pdf-viewer',
   templateUrl: './pdf-viewer.component.html',

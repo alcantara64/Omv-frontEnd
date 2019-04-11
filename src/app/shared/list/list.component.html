@@ -1,7 +1,7 @@
 <div *ngIf="isToolBarVisible" style="padding-top:2rem;padding-bottom: .3rem;">
   <span>
     <label class="grid-toolbar-item-label">
-      Total Users: {{ listData?.length }}
+      {{ totalCountText }}: {{ listData?.length }}
     </label>
   </span>
   <span class="float-right">
@@ -27,13 +27,20 @@
                   [textAlign]="column.textAlign">
         </e-column>
 
-      </ng-template>
-
-      <e-column *ngIf="showFirstAction" field='' headerText='' width='100'>
-        <ng-template #template>
-          <a class="link" (click)="performFirstAction($event)" [innerHTML]="firstActionText" style="text-decoration: none!important"></a>
+      <!-- FAVORITE ICON COLUMN -->
+      <e-column *ngIf="showFavoriteIcon && i === favoriteIconPosition" headerText='' width='40' textAlign='Left'>
+        <ng-template #template let-data>
+          <img class="favorite-cls cursor" (click)="performToggleFavorite(data)"
+            [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">  
         </ng-template>
       </e-column>
+    </ng-template>
+
+    <e-column *ngIf="showFirstAction" field='' headerText='' width='100'>
+      <ng-template #template>
+        <a class="link" (click)="performFirstAction($event)" [innerHTML]="firstActionText" style="text-decoration: none!important"></a>
+      </ng-template>
+    </e-column>
 
       <e-column *ngIf="showSecondAction" field='' headerText='' width='70'>
         <ng-template #template>
@@ -44,7 +51,7 @@
   </ejs-grid>
 </section>
 
-<br/>
+
 <div style='margin-top: 16px;' class="float-right">
   <button *ngIf="buttonOneText" type="button" class="btn btn-primary" style="margin-right:8px" (click)="buttonone()">{{buttonOneText}}</button>
   <button *ngIf="secondButtonText" [disabled]="selectedRecords.length <= 0" type="button" class="btn btn-primary" style="margin-right:8px" (click)="performSecondButtonEvent()">{{ secondButtonText }}</button>

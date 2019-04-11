@@ -1,19 +1,21 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, EventEmitter } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { FieldConfig } from '../field.interface';
+import { Field } from '../field.interface';
+import { FieldConfiguration } from '../field-setting';
 
 @Component({
-  selector: "app-date",
+  selector: "form-date",
   template: `
     <div class="" [formGroup]="group">
-      <label class="form-label">{{ field.label }}</label>
+      <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
-        <ejs-datepicker class="" strictMode='true' placeholder="{{field.label}}" [formControlName]="field.name"></ejs-datepicker>  
-        <span class="e-icons e-delete" style="margin: 10px; color: #0097a9; font-size: 1.5em;"></span>
-      </div>      
-      <ng-container *ngFor="let validation of field.validations;">
-        <label class="form-description" 
-          *ngIf="group.get(field.name).hasError(validation.name) && (group.get(field.name).dirty || group.get(field.name).touched)">
+        <ejs-datepicker class="" strictMode='true' placeholder="{{config.label}}" [formControlName]="config.name"></ejs-datepicker>  
+        <button type="button" class="form-delete" (click)="performRemove(config)" *ngIf="showDelete">
+          <span class="e-icons e-delete"></span>
+        </button>
+      </div>
+      <ng-container *ngFor="let validation of config.validations;">
+        <label class="form-description" *ngIf="group.get(config.name).hasError(validation.name) && (group.get(config.name).touched || group.get(config.name).dirty)">
           {{validation.message}}
         </label>
       </ng-container>
@@ -22,9 +24,13 @@ import { FieldConfig } from '../field.interface';
 `,
   styles: []
 })
-export class DateComponent implements OnInit {
-  field: FieldConfig;
+export class FormDateComponent implements Field {
+  config: FieldConfiguration;
   group: FormGroup;
-  constructor() {}
-  ngOnInit() {}
+  showDelete: boolean;
+  remove = new EventEmitter<any>();
+
+  performRemove(config: any) {
+    this.remove.emit(config);
+  }
 }

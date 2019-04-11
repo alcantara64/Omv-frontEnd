@@ -1,5 +1,7 @@
 <app-list [listData]="media$ | async"
           [columns]="columns"
+          [showFavoriteIcon]="true"
+          [favoriteIconPosition]="1"
           [showFirstAction]="true"
           [firstActionText]="'Download'"
           [showSecondAction]="true"

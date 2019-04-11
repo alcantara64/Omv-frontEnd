@@ -23,7 +23,7 @@ export class TileViewComponent extends BaseComponent implements OnInit {
 
   performToggleFavorite(data: any) {
     data.isFavorite = !data.isFavorite;
-    this.toggleFavorite.emit(data);
+    // this.toggleFavorite.emit(data);
   }
 
   performItemClick(data: any) {

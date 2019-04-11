@@ -68,7 +68,7 @@ export class AppState {
   static getPageTitle(state: AppStateModel) {
     return state.setPageTitle;
   }
-
+ 
   @Selector()
   static getCurrentUser(state: AppStateModel) {
     return state.currentUser;

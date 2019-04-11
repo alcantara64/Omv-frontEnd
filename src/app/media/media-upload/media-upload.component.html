@@ -17,11 +17,10 @@
   <span class="step-title"> Step 2 <i class="step-description-title">Select Destination</i></span>
   <br /><br />
 
-  <ejs-treegrid *ngIf='!isFileSelected || !isDestinationSelected' [dataSource]='data' [treeColumnIndex]='0' (rowSelected)="rowSelected($event)" 
-    [selectionSettings]='selectionOptions' [allowSorting]='true' parentIdMapping='parentID' idMapping='TaskID'>
-    <e-columns>
-      <e-column field='TaskName' headerText='Name' textAlign='Left'></e-column>
-      <e-column field='StartDate' headerText='Date' textAlign='Left'></e-column>
+  <ejs-treegrid *ngIf='!isFileSelected || !isDestinationSelected' [dataSource]='directories' [treeColumnIndex]='0' (rowSelected)="rowSelected($event)" [allowSorting]='true'
+    parentIdMapping='parentID' idMapping='id'>
+    <e-columns>    
+      <e-column field='name' headerText='Name' width="" textAlign='Left'></e-column>
     </e-columns>
   </ejs-treegrid>
 
@@ -38,7 +37,7 @@
   <span class="step-title"> Step 3 <i class="step-description-title">Metadata</i></span>
   <br /><br />
 
-  <dynamic-form style="display: inline" [fields]="regConfig" (submit)="submit($event)" *ngIf="regConfig.length > 0"></dynamic-form>
+  <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="metadata" (submit)="submit($event)" *ngIf="metadata?.length > 0"></dynamic-form>
   <br />
   <button type="submit" (click)="submit('')" class="btn omv-green btn-lg"> Upload </button>
   <button type="button" class="btn btn-lg"> Cancel </button>
