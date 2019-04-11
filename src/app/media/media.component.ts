@@ -6,6 +6,7 @@ import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { MediaState } from './state/media/media.state';
 import { MediaItem } from '../core/models/entity/media';
+import {AppState} from "../state/app.state";
 
 @Component({
   selector: 'app-media',
@@ -13,6 +14,7 @@ import { MediaItem } from '../core/models/entity/media';
   styleUrls: ['./media.component.css']
 })
 export class MediaComponent extends BaseComponent implements OnInit {
+  public deviceWidth: number;
 
   mediaTabs: Tab[] = [
     { link: '/media/all', query: 'tile', name: 'All Media', isActive: true  },
@@ -24,10 +26,16 @@ export class MediaComponent extends BaseComponent implements OnInit {
   currentRoute: any;
 
   @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+
 
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
     super(store);
     this.ShowLefNav(false);
+
+    this.deviceWidth$.subscribe(width => {
+      this.deviceWidth = width;
+    });
    }
 
   ngOnInit() {

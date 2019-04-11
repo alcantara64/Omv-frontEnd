@@ -43,6 +43,10 @@ export class MediaMockDataService implements MediaDataService {
     return data;
   }
 
+  createMediaItem(payload: MediaItem): Observable<any> {
+    return of(1);
+  }
+
   updateMediaItem(id: any, payload: MediaItem): Observable<any> {
     return of(1);
   }

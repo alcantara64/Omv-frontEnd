@@ -45,8 +45,9 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     label: '',
     value: ''
   }]
-  itemMetadataFields: FieldConfiguration[] = this.initialFields;
+  itemMetadataFields: FieldConfiguration[] = [];
   mediaItem: MediaItem;
+  mediaItemId: any;
   itemFields: Object = { text: 'label', value: 'name' };
   metadataFields: any[];
   itemDetails: any;
@@ -54,16 +55,13 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   isFormValid: boolean;
   
 
-  constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
-  }
+  constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-
-    // this.itemMetadataFields = this.initialFields;
-
     this.mediaItemId$.subscribe(id => {
       if (id) {
         this.id = id;
+        this.mediaItemId = id;
         this.store.dispatch(new GetMediaItemDetails(id));
       }
     }),
@@ -78,9 +76,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     }), takeWhile(() => this.componentActive);
 
     this.itemMetadataFields$.subscribe(fields => {
-      if (fields.length > 0) {
-        this.itemMetadataFields = fields;
-      }
+      this.itemMetadataFields = fields;
     }), takeWhile(() => this.componentActive);
 
     this.itemMetadataFields$.subscribe(fields => {
@@ -118,11 +114,13 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     // });
   }
 
+  discardChanges() {
+    this.store.dispatch(new GetMediaItemDetails(this.mediaItemId));
+  }
+
   submit(value?: any) {
     console.log('submit form: ', this.dynamicForm.value);
-    console.log('submit is Form valid: ', this.dynamicForm.valid);
     const { id }  = this.mediaItem;
-    this.mediaItem.name = "OMV.Core.Tenant.pdf";
     this.mediaItem.metadata = JSON.stringify(this.dynamicForm.value);
     this.store.dispatch(new UpdateMediaItem(id, this.mediaItem));
   }
