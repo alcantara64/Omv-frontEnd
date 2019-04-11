@@ -41,9 +41,9 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   
   initialFields: FieldConfiguration[] = [{
     type: 'label',
-    name: 'id',
-    label: 'ID',
-    value: '23'
+    name: '',
+    label: '',
+    value: ''
   }]
   itemMetadataFields: FieldConfiguration[] = this.initialFields;
   mediaItem: MediaItem;
@@ -51,6 +51,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   metadataFields: any[];
   itemDetails: any;
   selectedFields: FieldConfiguration[] = [];
+  isFormValid: boolean;
   
 
   constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
@@ -62,6 +63,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
 
     this.mediaItemId$.subscribe(id => {
       if (id) {
+        this.id = id;
         this.store.dispatch(new GetMediaItemDetails(id));
       }
     }),
@@ -73,6 +75,12 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
 
     this.metadataFields$.subscribe(fields => {      
       this.metadataFields = fields;
+    }), takeWhile(() => this.componentActive);
+
+    this.itemMetadataFields$.subscribe(fields => {
+      if (fields.length > 0) {
+        this.itemMetadataFields = fields;
+      }
     }), takeWhile(() => this.componentActive);
 
     this.itemMetadataFields$.subscribe(fields => {

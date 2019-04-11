@@ -55,23 +55,16 @@ export class MediaWebDataService implements MediaDataService {
           .forMember('modifiedOn', function(opts) { opts.mapFrom('modifiedOn'); })
           .forMember('modifiedBy', function(opts) { opts.mapFrom('modifiedBy'); })
 
-        let splitByLastDot = function(text) {
-          var index = text.lastIndexOf('.');
-          return [text.slice(0, index), text.slice(index + 1)]
-        }
         var _response = automapper.map(response, MediaItem, response);
-        _response.forEach(resp => {
-          let splitName = splitByLastDot(resp.name);
-          resp.name = splitName[0];
-          resp.type = splitName[1].toUpperCase();
-          
+        _response.forEach(resp => {          
           if (!resp.thumbnail) {
-            if (resp.type === 'PDF') {
+            if (resp.documentTypeCode === 'PDF') {
               resp.thumbnail = 'https://media.idownloadblog.com/wp-content/uploads/2016/04/52ff0e80b07d28b590bbc4b30befde52-484x320.png';
-            } else if (resp.type === 'DOCX') {
+            } else if (resp.documentTypeCode === 'DOCX') {
               resp.thumbnail = 'http://icons.iconarchive.com/icons/pelfusion/flat-file-type/256/doc-icon.png';
             }
           }
+          resp.type = resp.documentTypeCode;
         });
         console.log('MediaWebDataService - getMedia: ', _response);
         return _response;
@@ -110,23 +103,16 @@ export class MediaWebDataService implements MediaDataService {
             .forMember('isDeleted', function(opts) { opts.mapFrom('IsDeleted'); })
             .forMember('status', function(opts) { opts.mapFrom('Status'); });
 
-          let splitByLastDot = function(text) {
-            var index = text.lastIndexOf('.');
-            return [text.slice(0, index), text.slice(index + 1)]
-          }
+        
           var _response = automapper.map(response, MediaItem, response);
-
-          let splitName = splitByLastDot(_response.name);
-          _response.name = splitName[0].toUpperCase();
-          _response.type = splitName[1].toUpperCase();
-            
           if (!_response.thumbnail) {
-            if (_response.type === 'PDF') {
+            if (_response.documentTypeCode === 'PDF') {
               _response.thumbnail = 'https://media.idownloadblog.com/wp-content/uploads/2016/04/52ff0e80b07d28b590bbc4b30befde52-484x320.png';
-            } else if (_response.type === 'DOCX') {
+            } else if (_response.documentTypeCode === 'DOCX') {
               _response.thumbnail = 'http://icons.iconarchive.com/icons/pelfusion/flat-file-type/256/doc-icon.png';
             }
           }
+          _response.type = _response.documentTypeCode;
           console.log('MediaWebDataService - getMedia: ', _response);
           return _response;
         }

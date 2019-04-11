@@ -15,6 +15,7 @@ import { DirectoryService } from 'src/app/core/services/business/directory/direc
 
 export class MediaStateModel {
   media: MediaItem[];
+  treeviewMedia: MediaItem[];
   currentMediaItemId: any;
   currentMediaItem: MediaItem;
   metadata: FieldConfiguration[];
@@ -53,6 +54,7 @@ const initialMediaItem: MediaItem = {
   name: 'media',
   defaults: {
     media: [],
+    treeviewMedia: [],
     currentMediaItemId: null,
     currentMediaItem: null,
     directories: [],
@@ -88,7 +90,12 @@ export class MediaState {
 
   @Selector()
   static getMedia(state: MediaStateModel) {
-    return state.media;
+    return state.media.filter(x => x.id);
+  }
+
+  @Selector()
+  static getTreeViewMedia(state: MediaStateModel) {
+    return state.treeviewMedia;
   }
 
   @Selector()
@@ -151,10 +158,13 @@ export class MediaState {
         media.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
         });
-        console.log('MediaState getMedia: ', media);
+        const treeViewMedia = media.filter(x => !x.id);
+        const allMedia = media.filter(x => x.id);
+        console.log('MediaState getMedia: ', allMedia, treeViewMedia);
         setState({
           ...state,
-          media: media,
+          media: allMedia,
+          treeviewMedia: treeViewMedia,
           totalMedia: media ? media.length : 0
         });
       })

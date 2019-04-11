@@ -21,12 +21,14 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   @Output() remove = new EventEmitter<any>();
   @Output() formFinished = new EventEmitter<any>();
 
-  form: FormGroup;
+  form: FormGroup = this.fb.group({});
 
   get controls() { return this.config.filter(({ type }) => type !== 'button'); }
   get changes() { return this.form.valueChanges; }
   get formChange() { return this.form; }
-  get valid() { return this.form.valid; }
+  get valid() {
+     return this.form.valid;
+     }
   get value() { return this.form.value; }
 
   constructor(private fb: FormBuilder) { }

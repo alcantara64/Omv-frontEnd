@@ -4,5 +4,6 @@
 <app-all-media-treeview *ngIf="viewType === 'tree'"></app-all-media-treeview>
 <app-all-media-mapview *ngIf="viewType === 'map'"></app-all-media-mapview>
 
-<ejs-pager [pageSize]= '2' (click)="performClick($event)" [totalRecordsCount]='totalMedia'>
-</ejs-pager>
+<div *ngIf="viewType !== 'tree'">
+        <ejs-pager  [pageSize]= '2' (click)="performClick($event)"  [pageCount]='3' [totalRecordsCount]='totalMedia'></ejs-pager>
+</div>
