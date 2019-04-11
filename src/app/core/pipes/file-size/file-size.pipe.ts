@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FileSizePipe implements PipeTransform {
 
   transform(size: number, decimals: number = 2): any {
-    if (size === 0) return '0 Bytes';
+    if (!size) return '0 KB';
 
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
