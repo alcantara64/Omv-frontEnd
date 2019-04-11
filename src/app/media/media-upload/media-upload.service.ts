@@ -51,9 +51,8 @@ export class MediaUploadService {
           item.contentType = file.type;
           item.directoryId = directoryId;
           item.url = this.config.baseUrl;
-          item.entityId = "2",
-          item.entityType = "UploadRequest",
           item.storageType = 'DB';
+          item.documentTypeCode = 'PDF';
           item.requester = 1;
           item.requestType = "1";
           item.createdBy = "System";

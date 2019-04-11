@@ -1,10 +1,8 @@
 export class UploadRequest_InsertInputDTO {
-  UploadRequestId: number;
-  UploadRequestType: number;
+  UploadRequestId?: number;
   Requester: number;
   DirectoryId: number;
   DocumentId: any;
-  StorageType: string;
   DocumentTypeCode: string;
   DocumentName: string;
   DocumentUrl: string;
@@ -13,6 +11,4 @@ export class UploadRequest_InsertInputDTO {
   Size?: number;
   ContainerId: string;
   ThumbnailContainerUrl: string;
-  CreatedBy?: string;
-  Status: number;
 }
