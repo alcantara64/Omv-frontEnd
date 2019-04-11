@@ -25,6 +25,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   get controls() { return this.config.filter(({ type }) => type !== 'button'); }
   get changes() { return this.form.valueChanges; }
+  get formChange() { return this.form; }
   get valid() { return this.form.valid; }
   get value() { return this.form.value; }
 

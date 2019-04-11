@@ -33,8 +33,9 @@ import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogAllModule, TooltipModule } from '@syncfusion/ej2-angular-popups';
 import { FormLabelComponent } from './dynamic-components/components/form-label.component';
 import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
-
 import { ImageViewerModule } from 'ng2-image-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 @NgModule({
   declarations: [
     PageNotFoundComponent,

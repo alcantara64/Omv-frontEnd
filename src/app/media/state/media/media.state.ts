@@ -1,6 +1,6 @@
 import { MediaUploadService } from './../../media-upload/media-upload.service';
 import { GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
-  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories } from './media.action';
+  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
@@ -195,6 +195,15 @@ export class MediaState {
             itemFields: itemFields
           });
         });
+      })
+    );
+  }
+
+  @Action(UpdateMediaItem)
+  updateItem({ getState, setState }: StateContext<MediaStateModel>, { id, payload }: UpdateMediaItem) {
+    return this.mediaService.updateMediaItem(id, payload).pipe(
+      tap(item => {
+       
       })
     );
   }

@@ -10,6 +10,7 @@ import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 import { environment } from 'src/environments/environment';
 import { Document_SearchOutputDTO } from 'src/app/core/dtos/output/documents/Document_SearchOutputDTO';
 import { Document_GetByIdOutputDTO } from 'src/app/core/dtos/output/documents/Document_GetByIdOutputDTO';
+import { Document_UpdateInputDTO } from 'src/app/core/dtos/input/documents/Document_UpdateInputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -136,7 +137,39 @@ export class MediaWebDataService implements MediaDataService {
       })
     );
   }
-  
+
+  updateMediaItem(id: any, payload: MediaItem): Observable<any> {
+    const requestUri = environment.api.baseUrl + `/v1/documents/${id}`;
+
+    automapper
+      .createMap(payload, Document_UpdateInputDTO)      
+      .forMember('storageType', function(opts) { opts.mapFrom('storageType'); })
+      .forMember('entityType', function(opts) { opts.mapFrom('entityType'); })
+      .forMember('entityId', function(opts) { opts.mapFrom('entityId'); })
+      .forMember('documentTypeCode', function(opts) { opts.mapFrom('documentTypeCode'); })
+      .forMember('documentName', function(opts) { opts.mapFrom('name'); })
+      .forMember('documentUrl', function(opts) { opts.mapFrom('url'); })
+      .forMember('metadata', function(opts) { opts.mapFrom('metadata'); })
+      .forMember('contentType', function(opts) { opts.mapFrom('contentType'); })
+      .forMember('containerId', function(opts) { opts.mapFrom('containerId'); })
+      .forMember('size', function(opts) { opts.mapFrom('size'); })
+      .forMember('thumbnailContainerUrl', function(opts) { opts.mapFrom('thumbnail'); })
+      .forMember('isDeleted', function(opts) { opts.mapFrom('isDeleted'); })
+      .forMember('status', function(opts) { opts.mapFrom('status'); });
+
+    const request = automapper.map(payload, Document_UpdateInputDTO, payload);
+
+    console.log('MediaWebDataService - updateMediaItem: ', request);
+
+    return this.httpClient.put(requestUri, request).pipe(map(
+      response => {
+        
+        console.log('MediaWebDataService - updateMediaItem: ', response);
+        return response;
+      })
+    );
+  }
+
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {
     throw new Error("Method not implemented.");
   }

@@ -1,10 +1,11 @@
 import { ValidatorFn } from '@angular/forms';
+import { ListItem } from 'src/app/core/models/entity/list-item';
 
 export class FieldConfiguration {
   disabled?: boolean;
   label?: string;
   name: string;
-  options?: any[];
+  options?: ListItem[];
   optionsId?: number;
   order?: number;
   placeholder?: string;

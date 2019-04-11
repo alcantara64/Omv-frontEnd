@@ -5,6 +5,8 @@ import { map, catchError } from 'rxjs/operators';
 import { MetadataFieldsDataService } from './metadata-fields.data.service';
 import { environment } from 'src/environments/environment';
 import * as automapper from 'automapper-ts';
+import { MetadataField_GetListItemByIdOutputDTO } from 'src/app/core/dtos/output/metadata/MetadataField_GetListItemByIdOutputDTO';
+import { ListItem } from 'src/app/core/models/entity/list-item';
 
 @Injectable({
     providedIn: 'root'
@@ -13,36 +15,26 @@ export class MetadataFieldsWebDataService implements MetadataFieldsDataService {
 
   constructor(private httpClient: HttpClient) { }
     
-  getListItems(listId: number): Observable<any[]> {
-      var requestUri = environment.api.baseUrl + `/v1/metadatafields/${listId}/listitems`;
+  getListItems(listId: number): Observable<ListItem[]> {
+    var requestUri = environment.api.baseUrl + `/v1/metadatafields/${listId}/listItems`;
 
-      return of([]);
-
-    return this.httpClient.get<any[]>(requestUri).pipe(
+    return this.httpClient.get<MetadataField_GetListItemByIdOutputDTO[]>(requestUri).pipe(
       map(response => {
         automapper
-          .createMap(response, {})
-          .forMember('fieldId', function(opts) { opts.mapFrom('metadataFieldId'); })
-          .forMember('fieldName', function(opts) { opts.mapFrom('fieldName'); })
-          .forMember('listId', function(opts) { opts.mapFrom('metadataListId'); })
-          .forMember('listName', function(opts) { opts.mapFrom('metadataListName'); })
-          .forMember('fieldTypeId', function(opts) { opts.mapFrom('fieldTypeId'); })
-          .forMember('fieldTypeName', function(opts) { opts.mapFrom('fieldTypeName'); })
-          .forMember('entityId', function(opts) { opts.mapFrom('entityId'); })
-          .forMember('entityName', function(opts) { opts.mapFrom('entityName'); })
-          .forMember('isRequired', function(opts) { opts.mapFrom('isRequired'); })
-          .forMember('order', function(opts) { opts.mapFrom('order'); })
-          .forMember('status', function(opts) { opts.mapFrom('status'); });
+          .createMap(response, MetadataField_GetListItemByIdOutputDTO)
+          .forMember('value', function(opts) { opts.mapFrom('itemValue'); })
+          .forMember('description', function(opts) { opts.mapFrom('itemDescription'); })
+          .forMember('sort', function(opts) { opts.mapFrom('itemSort'); });
 
-        var _response = automapper.map(response, {}, response);
+        var _response = automapper.map(response, MetadataField_GetListItemByIdOutputDTO, response);
         
-        console.log('DirectoryWebDataService - getMetadata: ', _response);
+        console.log('MetadataFieldsWebDataService - getListItems: ', _response);
         return _response;
       }),
       catchError(e => {
-        console.log("'DirectoryWebDataService - getMetadata error:", e);
+        console.log("'MetadataFieldsWebDataService - getListItems error:", e);
         return of(null);
       })
     );
-    }
+  }
 }

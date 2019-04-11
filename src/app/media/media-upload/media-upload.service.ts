@@ -49,10 +49,10 @@ export class MediaUploadService {
       map(items => {
         let options = [];
         items.forEach(res => {
-          let option = { "value": res.key, "text": res.value };
+          let option = { "value": res.value, "text": res.description, "sort": res.sort };
           options.push(option);
         });
-        return options;
+        return options.sort(x => x.sort);
       })
     );
   }

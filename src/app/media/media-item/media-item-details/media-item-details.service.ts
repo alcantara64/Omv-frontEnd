@@ -26,7 +26,7 @@ export class MediaItemDetailsService {
       }
       // Get options if field is a dropdown select
       if (item.type === 'select') {
-        let options = await this.getOptions(item).toPromise();    
+        let options = await this.getOptions(item.optionsId).toPromise();    
         item.options = options; 
       }
     });
@@ -34,11 +34,11 @@ export class MediaItemDetailsService {
   }
 
   async getMetadata(mediaItem: MediaItem) {
-    let metaArray = [];
+    let metaArray: FieldConfiguration[] = [];
     let items = await this.directoryDataService.getMetadata(mediaItem.directoryId).toPromise();
     if (items) {
       items.forEach(async item => {
-        let field: any;
+        let field: FieldConfiguration;
         switch(item.fieldTypeName) {
           case MetadataFieldType.Text:
             field = this.buildTextBox(item);
@@ -56,10 +56,9 @@ export class MediaItemDetailsService {
       // Get fields that exist in media item but are not in its corresponding metadata
       let itemMetadata = JSON.parse(mediaItem.metadata);
       let itemFieldNames = Object.keys(itemMetadata);
-      const otherFields = itemFieldNames.map(x => x.toLowerCase())
-                                        .filter(_item => 
-                                                items.map(x => x.fieldName.toLowerCase())
-                                                      .indexOf(_item) === -1);
+      const otherFields = itemFieldNames.filter(_item => 
+                                    items.map(x => x.fieldName)
+                                          .indexOf(_item) === -1);
       otherFields.forEach(name => {
         let labelControl = new FieldConfiguration();
         labelControl.type = 'label';
@@ -73,15 +72,13 @@ export class MediaItemDetailsService {
     return await metaArray.sort(x => x.order);
   }
 
-  private getOptions(id: any) {
+  private getOptions(id: number) {
     return this.metadataFieldsDataService.getListItems(id).pipe(
       map(items => {
-        let options = [];
-        items.forEach(res => {
-          let option = { "value": res.key, "text": res.value };
-          options.push(option);
-        });
-        return options;
+        if (items) {
+          return items.sort(x => x.sort);
+        } 
+        return [];
       })
     );
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Select, Store } from '@ngxs/store';
-import { GetMediaItemDetails, AddMediaItemField, RemoveMediaItemField } from '../../state/media/media.action';
+import { GetMediaItemDetails, AddMediaItemField, RemoveMediaItemField, UpdateMediaItem } from '../../state/media/media.action';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
@@ -32,47 +32,60 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
 
   @Select(MediaState.setMediaItemId) mediaItemId$: Observable<number>;
   @Select(MediaState.getCurrentMediaItem) mediaItem$: Observable<MediaItem>;
-  @Select(MediaState.getItemFields) itemFields$: Observable<any[]>;
-  @Select(MediaState.getCurrentItemMetadata) currentItemMetadata$: Observable<any[]>;
+  @Select(MediaState.getItemFields) itemMetadataFields$: Observable<any[]>;
+  @Select(MediaState.getCurrentItemMetadata) metadataFields$: Observable<any[]>;
 
   @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
   @ViewChild('listview') element: any;
 
-  fields: FieldConfiguration[] = [];
-  mediaItemId: number;
+  
+  initialFields: FieldConfiguration[] = [{
+    type: 'label',
+    name: 'id',
+    label: 'ID',
+    value: '23'
+  }]
+  itemMetadataFields: FieldConfiguration[] = this.initialFields;
   mediaItem: MediaItem;
   itemFields: Object = { text: 'label', value: 'name' };
-  fieldItem: any;
-  allItemFields: any[];
+  metadataFields: any[];
   itemDetails: any;
   selectedFields: FieldConfiguration[] = [];
-
-  isFormValid = false;
+  
 
   constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
+
+    // this.itemMetadataFields = this.initialFields;
+
     this.mediaItemId$.subscribe(id => {
       if (id) {
-        console.log('MediaItemDetailsComponent - ngOnInit id: ', id);
         this.store.dispatch(new GetMediaItemDetails(id));
       }
     }),
     takeWhile(() => this.componentActive);
 
-    this.mediaItem$.subscribe(data => {
-      console.log('MediaItemDetailsComponent - ngOnInit mediaItem: ', data);
-      this.mediaItem = data;
+    this.mediaItem$.subscribe(item => {
+      this.mediaItem = item;
     }), takeWhile(() => this.componentActive);
 
-    this.currentItemMetadata$.subscribe(data => {
-      this.allItemFields = data;
+    this.metadataFields$.subscribe(fields => {      
+      this.metadataFields = fields;
     }), takeWhile(() => this.componentActive);
 
-    this.itemFields$.subscribe(data => {
-      this.fields = data;
+    this.itemMetadataFields$.subscribe(fields => {
+      if (fields.length > 0) {
+        this.itemMetadataFields = fields;
+        console.log('MediaItemDetailsComponent - onFormFinished outside: ', this.dynamicForm);
+        this.dynamicForm.changes.subscribe(value => {
+          console.log('MediaItemDetailsComponent - onFormFinished inside: ', value);
+        }), takeWhile(() => this.componentActive);
+      }
     }), takeWhile(() => this.componentActive);
+
+    console.log('MediaItemDetailsComponent - onFormFinished outside: ', this.dynamicForm);
   }
 
   ngOnDestroy(): void {
@@ -100,6 +113,10 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   submit(value?: any) {
     console.log('submit form: ', this.dynamicForm.value);
     console.log('submit is Form valid: ', this.dynamicForm.valid);
+    const { id }  = this.mediaItem;
+    this.mediaItem.name = "OMV.Core.Tenant.pdf";
+    this.mediaItem.metadata = JSON.stringify(this.dynamicForm.value);
+    this.store.dispatch(new UpdateMediaItem(id, this.mediaItem));
   }
 
   activateViewer() {
@@ -125,7 +142,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   clearSelectedFields() {
-    this.allItemFields.map(field => field.isSelected = false);
+    this.metadataFields.map(field => field.isSelected = false);
     this.selectedFields = [];
   }
 
@@ -141,7 +158,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
 
   selectField(item) {
     if (item.isChecked) return;
-    this.allItemFields.map(x => {
+    this.metadataFields.map(x => {
       if (x.name === item.name) {
         x.isSelected = !x.isSelected;
         if (x.isSelected) {

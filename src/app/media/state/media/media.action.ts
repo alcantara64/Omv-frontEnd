@@ -12,6 +12,12 @@ export class GetMediaItem {
   constructor(public id: any) { }
 }
 
+export class UpdateMediaItem {
+  static readonly type = '[Media] UpdateMediaItem';
+  
+  constructor(public id: any, public payload: MediaItem) { }
+}
+
 export class GetMediaItemDetails {
   static readonly type = '[Media] GetMediaItemDetails';
   
@@ -38,11 +44,6 @@ export class GetHistory {
   static readonly type = '[Media] GetHistory';
 
   constructor(public id: number) { }
-}
-export class SetMediaId {
-  static readonly type = '[Media] GetMediaId';
-
-  constructor(public id: string) { }
 }
 
 export class GetMediaTreeData {

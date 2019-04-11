@@ -50,7 +50,7 @@ export class DirectoryWebDataService implements DirectoryDataService {
   }
   
   getMetadata(directoryId: number): Observable<Metadata[]> {
-    var requestUri = environment.api.baseUrl + `/v1/directories/${directoryId}/metadata`;
+    var requestUri = environment.api.baseUrl + `/v1/directories/${directoryId}/metadatafields`;
 
     return this.httpClient.get<MetadataSetting_GetAllOutputDTO[]>(requestUri).pipe(
       map(response => {
