@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import {Select} from "@ngxs/store";
+import {AppState} from "../../state/app.state";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -9,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class LeftNavComponent implements OnInit {
 
+  public displayWidth: number;
+  public isAdminNavActive: boolean;
   isDashboardActive = false;
 
   isMediaMenuOpen: boolean;
@@ -35,10 +40,19 @@ export class LeftNavComponent implements OnInit {
   activeGroupsLink = '/admin/groups/active';
   disabledGroupsLink = '/admin/groups/disabled';
 
-  constructor(private router: Router) { }
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+
+  constructor(private router: Router) {
+    this.deviceWidth$.subscribe(width => {
+      this.displayWidth = width;
+    });
+
+    // const button = document.getElementsByTagName("button")
+  }
 
   ngOnInit() {
     this.setActiveTab(this.router.url);
+    this.isAdminNavActive = false;
   }
 
   mediaMenuClicked() {
@@ -59,6 +73,7 @@ export class LeftNavComponent implements OnInit {
   setActiveTab(url: string) {
     this.clearActiveSelections();
     this.router.navigate([url]);
+    this.showAdminNav();
     switch(url) {
       case this.dashboardLink:
         this.isDashboardActive = true;
@@ -87,5 +102,9 @@ export class LeftNavComponent implements OnInit {
 
   clearActiveSelections() {
     this.isUsersActive = this.isGroupsActive = this.isDashboardActive = this.isMediaUploadsActive = false;
+  }
+
+  showAdminNav() {
+    this.isAdminNavActive === true ? this.isAdminNavActive = false : this.isAdminNavActive = true;
   }
 }
