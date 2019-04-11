@@ -15,20 +15,21 @@
 
 <div>
   <span class="step-title"> Step 2 <i class="step-description-title">Select Destination</i></span>
-  <br /><br />
+  <br />
+  <br *ngIf='!isDestinationSelected' />
 
-  <ejs-treegrid *ngIf='!isFileSelected || !isDestinationSelected' [dataSource]='directories' [treeColumnIndex]='0' (rowSelected)="rowSelected($event)" [allowSorting]='true'
-    parentIdMapping='parentID' idMapping='id'>
+  <ejs-treegrid *ngIf='!isDestinationSelected' [dataSource]='directories' [treeColumnIndex]='0' (rowSelected)="rowSelected($event)" [allowSorting]='true'
+    parentIdMapping='parentId' idMapping='id'>
     <e-columns>    
       <e-column field='name' headerText='Name' width="" textAlign='Left'></e-column>
     </e-columns>
   </ejs-treegrid>
 
-  <div *ngIf='isFileSelected && isDestinationSelected'>
+  <div *ngIf='isDestinationSelected'>
     <button class="file-upload-button" (click)="changeDestination()"> Change </button>
     <span class="file-upload-label">
-      <b>Destination Folder Title: </b>
-      <i> \{{ folderPath }} </i>
+      <p>Destination Folder Title: </p>
+      <p> {{ folderPath }} </p>
     </span>
   </div>
 </div>
@@ -39,7 +40,7 @@
 
   <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="metadata" (submit)="submit($event)" *ngIf="metadata?.length > 0"></dynamic-form>
   <br />
-  <button type="submit"  [disabled]="dynamicForm ? !dynamicForm?.valid : false" [ngClass]="{'button-not-allowed': dynamicForm ? !dynamicForm?.valid : false}" (click)="submit()" class="btn omv-primary btn-lg"> Upload </button>
+  <button type="submit"  [disabled]="dynamicForm ? !dynamicForm.valid : false" [ngClass]="{'button-not-allowed': dynamicForm ? !dynamicForm.valid : false}" (click)="submit()" class="btn omv-primary btn-lg"> Upload </button>
   <button type="button" class="btn btn-lg"> Cancel </button>
   
 </div>

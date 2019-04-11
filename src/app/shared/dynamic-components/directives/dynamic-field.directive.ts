@@ -2,7 +2,7 @@ import { ComponentFactoryResolver, ComponentRef, Directive, Input, OnInit, ViewC
 import { FormGroup } from "@angular/forms";
 import { FormSelectComponent } from '../components/form-select.component';
 import { FormInputComponent } from '../components/form-input.component';
-import { FormDateComponent } from '../components/date.component';
+import { FormDateComponent } from '../components/form-date.component';
 import { Field } from '../field.interface';
 import { FieldConfiguration } from '../field-setting';
 import { FormLabelComponent } from '../components/form-label.component';
