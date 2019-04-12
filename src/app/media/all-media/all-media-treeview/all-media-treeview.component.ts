@@ -78,5 +78,8 @@ export class AllMediaTreeviewComponent implements OnInit {
     }
   }
 
-  
+  download(arg: any) {
+    console.log('AAA', arg.url);
+    // window.location.href = `${arg.url}`;
+  }
 }

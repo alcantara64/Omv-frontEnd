@@ -24,7 +24,7 @@
 <!-- Filter --ignore -->
 
 <!-- Toolbar -->
-<div style="display:block; margin: 30px 0; clear-after: bottom!important;">
+<div style="display:block; margin: 0 0 20px 0; clear-after: bottom!important;">
   <div style="display: inline-block">
     <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total: {{ totalMedia$ | async }} </label>
     <span style="padding-top:1rem;">
@@ -50,12 +50,14 @@
   </span>
   </div>
 
-  <div style="display: flex; flex-wrap: nowrap" [ngStyle]="{'display': deviceWidth < 800 ? 'block' : 'inline-block', 'float': deviceWidth > 800 ? 'right' : 'none'}">
+  <div style="display: flex; flex-wrap: nowrap; clear: bottom" [ngStyle]="{'display': deviceWidth < 800 ? 'block' : 'inline-block', 'float': deviceWidth > 800 ? 'right' : 'none'}">
     <label class="media-label" style="display: inline-flex; margin: 16px 10px 16px 0">Selected Files:</label>
-    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px">Sync Videos</button>
-    <button class="media-button-small" (click)="downloadAll()" style="display:inline-flex; margin: 16px 10px">Download All</button>
-    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px">Add to Playlist</button>
+    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px; cursor: not-allowed">Sync Videos</button>
+    <button class="media-button-small" (click)="downloadAll()" style="display:inline-flex; margin: 16px 10px" [ngStyle]="{'cursor': selectedItems.length > 0 ? 'pointer' : 'not-allowed'}">Download All</button>
+    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px; cursor: not-allowed">Add to Playlist</button>
   </div>
 </div>
 
-<router-outlet></router-outlet>
+<div style="display: block">
+  <router-outlet></router-outlet>
+</div>
