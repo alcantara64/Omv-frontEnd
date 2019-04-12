@@ -12,6 +12,10 @@ export class GetMediaItem {
   constructor(public id: any) { }
 }
 
+export class ClearMediaItemMetadata {
+  static readonly type = '[Media] ClearMediaItemMetadata';
+}
+
 export class UpdateMediaItem {
   static readonly type = '[Media] UpdateMediaItem';
   

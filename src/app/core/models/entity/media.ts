@@ -24,4 +24,7 @@ export class MediaItem {
   modifiedBy?: string;
 
   type: string;
+  requester?: number;
+  requestId?: number;
+  requestType?: string;  
 }

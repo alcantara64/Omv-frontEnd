@@ -27,7 +27,7 @@ import { FormInputComponent } from './dynamic-components/components/form-input.c
 import { FormSelectComponent } from './dynamic-components/components/form-select.component';
 import { DynamicFormComponent } from './dynamic-components/components/dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-components/directives/dynamic-field.directive';
-import { FormDateComponent } from './dynamic-components/components/date.component';
+import { FormDateComponent } from './dynamic-components/components/form-date.component';
 import { DatePickerAllModule } from '@syncfusion/ej2-angular-calendars';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogAllModule, TooltipModule } from '@syncfusion/ej2-angular-popups';

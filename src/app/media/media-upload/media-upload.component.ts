@@ -1,19 +1,14 @@
 import { GetDirectoryMetadata, GetDirectories, GetMediaTreeData, CreateMediaItem } from './../state/media/media.action';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { projectData } from './data';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SelectionSettingsModel } from '@syncfusion/ej2-treegrid';
-import { RowDataBoundEventArgs } from '@syncfusion/ej2-grids';
-import { Observable } from 'rxjs';
-import { Validators } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
 import { Store, Select } from '@ngxs/store';
 import { MediaState } from '../state/media/media.state';
 import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-setting';
-import { Directory } from 'src/app/core/models/entity/directory';
-import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data';
-import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
-import { MediaUploadService } from './media-upload.service';
 import { BaseComponent } from 'src/app/shared/base/base.component';
+import { takeUntil } from 'rxjs/operators';
+import { Directory } from 'src/app/core/models/entity/directory';
 
 const BROWSE = 'Browse';
 const CHANGE = 'Change';
@@ -23,8 +18,9 @@ const CHANGE = 'Change';
   templateUrl: './media-upload.component.html',
   styleUrls: ['./media-upload.component.css']
 })
-export class MediaUploadComponent extends BaseComponent implements OnInit {
+export class MediaUploadComponent extends BaseComponent implements OnInit, OnDestroy {
 
+  private unsubscribe: Subject<void> = new Subject();
   fileName: string;
   uploadButtonText = BROWSE;
   dataSource: any;
@@ -33,22 +29,20 @@ export class MediaUploadComponent extends BaseComponent implements OnInit {
   selectedFile: File;
   currentDirectoryId: number;
   folderPath: string;
-
+  public directories: Directory[];
 
   @ViewChild('file') file;
   selectionOptions: SelectionSettingsModel;
 
-  
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
   metadata: FieldConfiguration[] = [];
 
-  @Select(MediaState.getDirectories) directories$: Observable<any[]>;
+  @Select(MediaState.getDirectories) directories$: Observable<Directory[]>;
   @Select(MediaState.getDirectoryMetadata) directoryMetadata$: Observable<any[]>;
   @Select(MediaState.getMediaTreeData) mediaData$: Observable<any[]>;
 
-  public directories: any[];
   public data: any[];
-  
+
   constructor(protected store: Store) {
     super(store);
   }
@@ -57,16 +51,24 @@ export class MediaUploadComponent extends BaseComponent implements OnInit {
     this.selectionOptions = { mode: 'Row', type: 'Single' };
 
     this.store.dispatch(new GetDirectories());
-    this.directories$.subscribe(data => {
-      this.directories = data;
-      console.log('MediaUploadComponent ngOnInit directories: ', this.directories);
-    });
+    this.directories$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.directories = data;
+      });
 
-    this.directoryMetadata$.subscribe(data => {
-      this.metadata = data;
-      console.log('MediaUploadComponent ngOnInit fields: ', this.metadata);   
-    });
-  }  
+    this.directoryMetadata$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.metadata = data;
+      });
+  }
+
+  ngOnDestroy() {
+    console.log('ngOnDestory');
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 
   addFiles() {
     this.file.nativeElement.click();
@@ -75,7 +77,6 @@ export class MediaUploadComponent extends BaseComponent implements OnInit {
   onFilesAdded() {
     const files: { [key: string]: File } = this.file.nativeElement.files;
     this.selectedFile = files[0];
-    // this.fileName = files[0].name;
     if (this.selectedFile) {
       this.uploadButtonText = CHANGE;
       this.isFileSelected = true;
@@ -92,7 +93,8 @@ export class MediaUploadComponent extends BaseComponent implements OnInit {
     if (data) {
       this.isDestinationSelected = true;
       this.currentDirectoryId = data.id;
-      this.folderPath = data.name;
+      this.folderPath = '';
+      this.buildFolderPath(data.id);
       this.store.dispatch(new GetDirectoryMetadata(data.id));
     }
   }
@@ -101,11 +103,21 @@ export class MediaUploadComponent extends BaseComponent implements OnInit {
     if (this.dynamicForm) {
       console.log('submit form: ', this.dynamicForm.value);
       if (!this.dynamicForm.valid) return;
-    }    
+    }
     let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "";
-    
+
     this.ShowSpinner(true);
     this.store.dispatch(new CreateMediaItem(this.currentDirectoryId, this.selectedFile, metadata));
     this.ShowSpinner(false);
+  }
+
+  private buildFolderPath(directoryId: number) {
+    let directory = this.directories.find(x => x.id === directoryId);
+    let parent = this.directories.find(x => x.id === directory.parentId);
+    if (parent) {
+      this.folderPath = this.folderPath ? `${directory.name} > ${this.folderPath}` : `${directory.name}`;
+      return this.buildFolderPath(parent.id);
+    }
+    return this.folderPath = this.folderPath ? `${directory.name} > ${this.folderPath}` : `${directory.name}`;
   }
 }

@@ -52,6 +52,11 @@ export class MediaUploadService {
           item.directoryId = directoryId;
           item.url = this.config.baseUrl;
           item.storageType = 'DB';
+          item.documentTypeCode = 'PDF';
+          item.requester = 1;
+          item.requestType = "1";
+          item.createdBy = "System";
+
           return this.mediaDataService.createMediaItem(item).subscribe(response => {
             console.log('MediaUploadService upload createMediaItem response: ', response);
           });

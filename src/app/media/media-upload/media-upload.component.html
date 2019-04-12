@@ -15,16 +15,17 @@
 
 <div>
   <span class="step-title"> Step 2 <i class="step-description-title">Select Destination</i></span>
-  <br /><br />
+  <br />
+  <br *ngIf='!isDestinationSelected' />
 
-  <ejs-treegrid *ngIf='!isFileSelected || !isDestinationSelected' [dataSource]='directories' [treeColumnIndex]='0' (rowSelected)="rowSelected($event)" [allowSorting]='true'
-    parentIdMapping='parentID' idMapping='id'>
+  <ejs-treegrid *ngIf='!isDestinationSelected' [dataSource]='directories' [treeColumnIndex]='0' (rowSelected)="rowSelected($event)" [allowSorting]='true'
+    parentIdMapping='parentId' idMapping='id'>
     <e-columns>    
       <e-column field='name' headerText='Name' width="" textAlign='Left'></e-column>
     </e-columns>
   </ejs-treegrid>
 
-  <div *ngIf='isFileSelected && isDestinationSelected'>
+  <div *ngIf='isDestinationSelected'>
     <button class="file-upload-button" (click)="changeDestination()"> Change </button>
       <div class="Step-2-folder">
           <span class="file-upload-label">Destination Folder Title:</span>
