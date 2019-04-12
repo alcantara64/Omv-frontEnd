@@ -1,7 +1,12 @@
+import { BaseDTO } from '../../BaseDTO';
 
-export class Document_SearchOutputDTO {
-  DocumentId: any;
-  StorageType: string;
+export class Document_SearchOutputDTO extends BaseDTO {
+  Id: number;
+  Name: string;
+  ParentId?: number;
+  HasChild?: boolean;
+  DirectoryId?: number;
+  DocumentId?: any;
   EntityType: string;
   EntityId: string;
   DocumentTypeCode: string;
@@ -9,13 +14,8 @@ export class Document_SearchOutputDTO {
   DocumentUrl: string;
   Metadata: string;
   ContentType: string;
-  ContainerId: string;
   Size?: number;
   ThumbnailContainerUrl: string;
-  IsDeleted: boolean;
   Status?: number;
-  CreatedOn: Date;
-  CreatedBy: string;
-  ModifiedOn: Date;
-  ModifiedBy: string;
+
 }

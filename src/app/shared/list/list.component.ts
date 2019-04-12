@@ -5,6 +5,7 @@ import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectE
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { setSpinner, createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
+import { Request_Status } from 'src/app/core/enum/request-status';
 
 @Component({
   selector: 'app-list',
@@ -31,11 +32,14 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Input() checkField: string;
   @Input() showFavoriteIcon: boolean;
   @Input() favoriteIconPosition: number = 1;
+  @Input() showStatusIcon: boolean;
+  @Input() statusIconPosition: number = 0;
+  @Input() requestStatusEnum = Request_Status;
 
   @Output() firstAction = new EventEmitter<Object[]>();
   @Output() secondAction = new EventEmitter<Object[]>();
   @Output() firstNavigateAction = new EventEmitter<any>();
-  @Output()secondNavigateAction = new EventEmitter<any>();
+  @Output() secondNavigateAction = new EventEmitter<any>();
   @Output() buttonOneEvent = new EventEmitter<Object[]>();
   @Output() secondButtonEvent = new EventEmitter<any[]>();
   @Output() toggleFavorite = new EventEmitter<any[]>();

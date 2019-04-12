@@ -6,5 +6,6 @@
           [firstActionText]="'Download'"
           [showSecondAction]="true"
           [secondActionText]="editIcon"
+          (secondNavigateAction)="navigate($event)"
           (firstNavigateAction)="download($event)">
 </app-list>

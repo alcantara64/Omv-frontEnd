@@ -18,7 +18,7 @@
 </div>
 
 <section style="display: flex; width: 100%; overflow-x: auto; margin: 0 5px 0 0">
-  <ejs-grid #grid [dataSource]="listData" (rowDataBound)='rowDataBound($event)' (dataBound)='dataBound($event)'
+  <ejs-grid #grid [dataSource]="listData" (rowDataBound)='rowDataBound($event)' (dataBound)='dataBound($event)' [allowPaging]="true"
             (rowSelected)="rowSelected($event)" (rowDeselected)="rowDeselected($event)" [allowSorting]='true'
             (created)='gridCreated()' id="Grid">
     <e-columns>
@@ -27,6 +27,16 @@
                   [textAlign]="column.textAlign">
         </e-column>
 
+        <e-column *ngIf="showStatusIcon && i === statusIconPosition" headerText='' width='40' textAlign='Left'>
+            <ng-template #template let-data>
+              <img *ngIf="data.status === requestStatusEnum.Rejected " class="status-cls cursor"
+                [src]=" '../../../assets/images/rejected.png'">
+              <img *ngIf="data.status === requestStatusEnum.Draft " class="status-cls  cursor"
+                [src]=" '../../../assets/images/attention.png'">
+              <img *ngIf="data.status === requestStatusEnum.Approved " class="status-cls cursor"
+                [src]=" '../../../assets/images/attention.png'">
+            </ng-template>
+          </e-column>
       <!-- FAVORITE ICON COLUMN -->
       <e-column *ngIf="showFavoriteIcon && i === favoriteIconPosition" headerText='' width='40' textAlign='Left'>
         <ng-template #template let-data>

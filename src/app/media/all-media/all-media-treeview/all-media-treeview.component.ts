@@ -4,10 +4,12 @@ import { Observable } from 'rxjs';
 import { MediaState } from '../../state/media/media.state';
 import { Select, Store } from '@ngxs/store';
 import { GridColumn } from 'src/app/core/models/grid.column';
-import { GetMediaTreeData, GetMedia, GetDirectories } from '../../state/media/media.action';
+import { GetMediaTreeData, GetMedia, GetDirectories, GetDocuments } from '../../state/media/media.action';
 import { QueryCellInfoEventArgs } from '@syncfusion/ej2-grids';
 import { EmitType } from '@syncfusion/ej2-base';
 import { ITreeData } from '@syncfusion/ej2-treegrid';
+import { Document } from 'src/app/core/models/entity/document';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-media-treeview',
@@ -16,27 +18,24 @@ import { ITreeData } from '@syncfusion/ej2-treegrid';
 })
 export class AllMediaTreeviewComponent implements OnInit {
 
-  public data: MediaTreeGrid[];
-  @Select(MediaState.getDirectories) data$: Observable<MediaTreeGrid[]>;
+  public data: Document[];
+  @Select(MediaState.getDocuments) data$: Observable<Document[]>;
   selectionOptions: Object;
   options: any;
   columns: GridColumn[] = [
     { headerText: 'Name', field: 'name', width: '700' },
-    { headerText: 'Date', field: 'date' }
+    { headerText: 'Date', field: 'modifiedOnString' }
   ];
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
 
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetDirectories());
+    this.store.dispatch(new GetDocuments());
     this.data$.subscribe(data => {
       this.data = data;
       console.log('data', data);
-      this.data.forEach(item => {
-        console.log('checked', item.isChecked);
-      });
       if (data) {
         this.selectionOptions = {
           mode: 'Row', cellSelectionMode: 'Flow', type: 'Single', checkboxOnly: true,
@@ -60,7 +59,8 @@ export class AllMediaTreeviewComponent implements OnInit {
   }
 
   queryCellInfo(args) {
-    if (args.column.field === 'name' && args.data.Children) {
+    console.log('args.data', args.data);
+    if (args.column.field === 'name' && (args.data.Children || args.data.directoryId)) {
       let imgElement: HTMLElement = document.createElement('IMG');
       let val: string = !(<ITreeData>args.data).level ? args.data[args.column.field] :
         (<ITreeData>args.data).parentItem[args.column.field];
@@ -78,6 +78,10 @@ export class AllMediaTreeviewComponent implements OnInit {
       args.cell.querySelector('.e-treecell').appendChild(cellValue);
     }
   }
-
   
+
+  navigate(data: any) {
+    console.log('AllMediaTreeComponent - navigate - data: ', data);
+    this.router.navigate([`media/${data.documentId}/details`]);
+  }
 }

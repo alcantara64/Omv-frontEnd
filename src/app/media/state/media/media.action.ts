@@ -89,3 +89,7 @@ export class RemoveMediaItemField {
   
   constructor(public name: string) { }
 }
+
+export class GetDocuments{
+  static readonly type = '[Media] GetDocuments';
+}
