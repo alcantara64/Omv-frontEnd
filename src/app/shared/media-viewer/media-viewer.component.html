@@ -1,13 +1,12 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#" class="breadcrumbs__element"><ins></ins></a></li>
-    <li class="breadcrumb-item"><a class="breadcrumbs__element"><ins>BACK</ins></a></li>
-  </ol>
-</nav>
-
+<div class="page__section" style=" padding-top: 1rem;">
+  <a  routerLink="/media/{{mediaID}}/details" class="back-button">BACK</a>
+</div>
 <hr class="stroke" />
 
-<div class="form-title">File Title</div>
+<div class="form-title">File Title :
+  <label class="file-title">
+      {{dataSource.name}}
+  </label>  </div>
 
 
 <div class="control-section">
@@ -16,18 +15,18 @@
     <div *ngIf="mediaType === 'JPG' || mediaType === 'PNG' || mediaType === 'GIF'" style="width: 100%; height: 100vh">
       <!-- <iframe style="height: 45vh; width:100%; display: block;" src="../../../assets/files/oceaneering-logo.jpg"
         provider="google"></iframe> -->
-       
-          <img class="image" [src]="url" alt="Picture">
-        
-        
+
+      <img class="image" [src]="url" alt="Picture">
+
+
     </div>
-    <div *ngIf="mediaType === 'DOC' || mediaType === 'DOCX' || mediaType === 'PDF' " style="width: 100%; height: 100vh"> 
+    <div *ngIf="mediaType === 'DOC' || mediaType === 'DOCX' || mediaType === 'PDF' " style="width: 100%; height: 100vh">
       <div class="body">
-        <iframe
-          class="office iframe" [src]="trustedUrl" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" role="document" aria-label="Doc document"
-          title="Doc document">
+        <iframe class="office iframe" [src]="trustedUrl" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+          role="document" aria-label="Doc document" title="Doc document">
         </iframe>
-      </div> </div>
+      </div>
+    </div>
 
   </div>
 </div>
