@@ -35,8 +35,12 @@ import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/
             .forMember('uploadRequestType', function(opts) { opts.mapFrom('uploadRequestType'); })
             .forMember('requester', function(opts) { opts.mapFrom('requester'); })
             .forMember('directoryId', function(opts) { opts.mapFrom('directoryId'); })
-            .forMember('requesterName', function(opts) { opts.mapFrom('requesterName'); })
-            .forMember('status', function(opts) { opts.mapFrom('status'); });
+            .forMember('status', function(opts) { opts.mapFrom('status'); })
+            .forMember('statusName', function(opts) { opts.mapFrom('statusName'); })
+            .forMember('size', function(opts) { opts.mapFrom('size'); })
+            .forMember('containerId', function(opts) { opts.mapFrom('containerId'); })
+            .forMember('documentName', function(opts) { opts.mapFrom('documentName'); })
+            .forMember('documentTypeCode', function(opts) { opts.mapFrom('documentTypeCode'); });
   
           let _response = automapper.map(UploadRequestHistory_GetAllOutputDTO, UploadHistory, response);
           console.log('AdminMediaWebDataService - getUploadHistory: ', _response);
