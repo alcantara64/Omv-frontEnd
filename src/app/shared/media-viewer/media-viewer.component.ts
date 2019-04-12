@@ -117,4 +117,5 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
 
     }
   }
+  
 }
