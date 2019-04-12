@@ -236,6 +236,7 @@ export class MediaState {
   createItem(ctx: StateContext<MediaStateModel>, { directoryId, file, metadata }: CreateMediaItem) {
     return this.mediaUploadService.upload(directoryId, file, metadata).pipe(
       tap(item => {
+        console.log('MediaState createItem: ', item);
         ctx.dispatch(new DisplayToastMessage(`Media Item successfully uploaded!`));
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
