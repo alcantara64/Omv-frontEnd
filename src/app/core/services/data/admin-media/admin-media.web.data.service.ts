@@ -6,6 +6,7 @@ import { AdminMediaDataService } from './admin-media.data.service';
 import { catchError, map } from 'rxjs/operators';
 import { UploadRequestHistory_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequestHistory_GetAllOutputDTO';
 import { environment } from 'src/environments/environment';
+import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequest_GetAllOutputDTO';
 
 @Injectable({
     providedIn: 'root'
@@ -25,18 +26,17 @@ import { environment } from 'src/environments/environment';
     constructor(private httpClient: HttpClient) { }
 
     getUploadHistory(): Observable<UploadHistory[]> {
-      var requestUri = environment.api.baseUrl + `/v1/uploadrequests/1/history`;
+      var requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
 
-      return this.httpClient.get<UploadRequestHistory_GetAllOutputDTO[]>(requestUri).pipe(map(
+      return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
         response => {
           automapper
             .createMap(UploadRequestHistory_GetAllOutputDTO, UploadHistory)
-            .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('uploadRequestHistoryId'))
-            .forMember('status', function(opts) { opts.mapFrom('status'); })
-            .forMember('createdOn', function(opts) { opts.mapFrom('createdOn'); })
-            .forMember('createdBy', function(opts) { opts.mapFrom('createdBy'); })
-            .forMember('modifiedOn', function(opts) { opts.mapFrom('modifiedOn'); })
-            .forMember('modifiedBy', function(opts) { opts.mapFrom('modifiedBy'); });
+            .forMember('uploadRequestType', function(opts) { opts.mapFrom('uploadRequestType'); })
+            .forMember('requester', function(opts) { opts.mapFrom('requester'); })
+            .forMember('directoryId', function(opts) { opts.mapFrom('directoryId'); })
+            .forMember('requesterName', function(opts) { opts.mapFrom('requesterName'); })
+            .forMember('status', function(opts) { opts.mapFrom('status'); });
   
           let _response = automapper.map(UploadRequestHistory_GetAllOutputDTO, UploadHistory, response);
           console.log('AdminMediaWebDataService - getUploadHistory: ', _response);

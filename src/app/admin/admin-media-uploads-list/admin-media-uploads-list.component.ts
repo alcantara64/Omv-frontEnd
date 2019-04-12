@@ -14,8 +14,9 @@ import { GetUploadHistory } from '../state/admin-media/admin-media.action';
   styleUrls: ['./admin-media-uploads-list.component.css']
 })
 export class AdminMediaUploadsListComponent extends ListComponent implements OnInit {
-
-@Select(AdminMediaState.getUploadHistory) uploadHistoryMedia$: Observable<UploadHistory[]>;
+  showStatusIcon = true;
+  @Select(AdminMediaState.getUploadHistory) uploadHistoryMedia$: Observable<UploadHistory[]>;
+  total: number;
 
   constructor(
     protected store: Store,
@@ -27,9 +28,9 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
     this.PageTitle('Admin User');
   }
   columns: GridColumn[] = [
-    { headerText: "Status", field: "status" },
-    { headerText: "Name", field: "name"},
-    { headerText: "Destination", field: "destination"},
+    { headerText: "Status ", field: " ", width: "5" },
+    { headerText: "Name", field: "requesterName" },
+    { headerText: "Destination", field: "destination" },
     { headerText: "Date", field: "date" },
     { headerText: "Size", field: "size" },
     { headerText: "File", field: "file" }
@@ -37,6 +38,9 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
 
   ngOnInit() {
     this.store.dispatch(new GetUploadHistory());
+    this.uploadHistoryMedia$.subscribe(historyMedia => {
+      this.total = historyMedia.length;
+    })
   }
 
 }
