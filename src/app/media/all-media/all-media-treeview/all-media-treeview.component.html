@@ -4,12 +4,9 @@
   <e-columns>
     <e-column headerText=' ' type=" " width='50' textAlign='Center'>
       <ng-template #template let-data>
-        <div *ngIf="!data.hasChildRecords; else elseblock">
-          <ejs-checkbox cssClass="e-success" [checked]="true"></ejs-checkbox>
+        <div >
+          <ejs-checkbox cssClass="e-success" [checked]="false"></ejs-checkbox>
         </div>
-      </ng-template>
-      <ng-template #elseblock>
-        <ejs-checkbox cssClass="e-success" [checked]="false"></ejs-checkbox>
       </ng-template>
     </e-column>
     <e-column headerText='' width='80' textAlign='Left'>
