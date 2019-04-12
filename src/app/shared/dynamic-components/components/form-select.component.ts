@@ -9,7 +9,7 @@ import { FieldConfiguration } from '../field-setting';
     <div [formGroup]="group">
       <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
-        <ejs-dropdownlist class="form-control form-control-lg" [dataSource]='config.options' [fields]='fields' [(value)]="config.itemValue"
+        <ejs-dropdownlist class="form-control form-control-lg" [dataSource]='config.options' [fields]='fields' [(value)]="config.value"
           [formControlName]="config.name" placeholder="'Please select'"></ejs-dropdownlist>
         <button type="button" class="form-delete" (click)="performRemove(config)" *ngIf="showDelete">
           <span class="e-icons e-delete"></span>
