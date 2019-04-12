@@ -9,7 +9,7 @@ import { Metadata } from 'src/app/core/models/entity/metadata';
   providedIn: 'root'
 })
 export class DirectoryMockDataService implements DirectoryDataService {
-  
+
   constructor(private httpClient: HttpClient) {}
 
   
@@ -24,4 +24,8 @@ export class DirectoryMockDataService implements DirectoryDataService {
     let data = this.httpClient.get<any[]>(url);
     return data;
   }
+  getDocuments(): Observable<import("../../../models/entity/document").Document[]> {
+  return null;
+  }
+  
 }

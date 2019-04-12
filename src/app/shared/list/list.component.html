@@ -22,11 +22,21 @@
             (rowSelected)="rowSelected($event)" (rowDeselected)="rowDeselected($event)" [allowSorting]='true'
             (created)='gridCreated()' id="Grid">
     <e-columns>
-      <ng-template #template ngFor let-column [ngForOf]="columns">
+      <ng-template #template ngFor let-column [ngForOf]="columns" let-i="index">
         <e-column [field]="column.field" [type]="column.type" [headerText]="column.headerText" [width]="column.width"
                   [textAlign]="column.textAlign">
         </e-column>
 
+        <e-column *ngIf="showStatusIcon && i === statusIconPosition" headerText='' width='40' textAlign='Left'>
+            <ng-template #template let-data>
+              <img *ngIf="data.status === requestStatusEnum.Rejected " class="status-cls cursor"
+                [src]=" '../../../assets/images/rejected.png'">
+              <img *ngIf="data.status === requestStatusEnum.Draft " class="status-cls  cursor"
+                [src]=" '../../../assets/images/attention.png'">
+              <img *ngIf="data.status === requestStatusEnum.Approved " class="status-cls cursor"
+                [src]=" '../../../assets/images/attention.png'">
+            </ng-template>
+          </e-column>
       <!-- FAVORITE ICON COLUMN -->
       <e-column *ngIf="showFavoriteIcon && i === favoriteIconPosition" headerText='' width='40' textAlign='Left'>
         <ng-template #template let-data>
