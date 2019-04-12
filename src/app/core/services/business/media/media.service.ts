@@ -5,6 +5,7 @@ import { History } from 'src/app/core/models/entity/history';
 
 import { MediaItem } from 'src/app/core/models/entity/media';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
+import { Document } from 'src/app/core/models/entity/document';
 
 @Injectable({
   providedIn: 'root'
@@ -48,4 +49,5 @@ export class MediaService {
   getMetadataOptions(id: any): Observable<any[]> {
     return this.MediaDataService.getMetadataOptions(id);
   }
+
 }

@@ -1,6 +1,9 @@
 import { MediaUploadService } from './../../media-upload/media-upload.service';
-import { GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
-  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, ClearMediaItemMetadata } from './media.action';
+import {
+  GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
+  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId,
+  GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, GetDocuments, ClearMediaItemMetadata
+} from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
 import { MediaItem } from "../../../core/models/entity/media";
@@ -14,6 +17,7 @@ import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-sett
 import { DirectoryService } from 'src/app/core/services/business/directory/directory.service';
 import { DisplayToastMessage } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
+import { Document } from 'src/app/core/models/entity/document';
 
 export class MediaStateModel {
   media: MediaItem[];
@@ -29,6 +33,7 @@ export class MediaStateModel {
   mediaTreeData: MediaTreeGrid[];
   currentItemMetadata: any[];
   directoryMetadata: any[];
+  documents: Document[];
 }
 
 const initialMediaItem: MediaItem = {
@@ -63,11 +68,12 @@ const initialMediaItem: MediaItem = {
     favorites: [],
     historyItems: [],
     totalMedia: 0,
-    mediaTreeData:[],
+    mediaTreeData: [],
     metadata: [],
     currentItemMetadata: [],
     itemFields: [],
-    directoryMetadata: []
+    directoryMetadata: [],
+    documents: []
   }
 })
 
@@ -145,11 +151,15 @@ export class MediaState {
     return state.directoryMetadata;
   }
 
+  @Selector()
+  static getDocuments(state: MediaStateModel) {
+    return state.documents;
+  }
   //#endregion
 
   constructor(private mediaService: MediaService, private mediaItemDetailsService: MediaItemDetailsService, private mediaUploadService: MediaUploadService,
-              private directoryService: DirectoryService, private dateService: DateService) { }
-  
+    private directoryService: DirectoryService, private dateService: DateService) { }
+
   //#region A C T I O N S
 
   @Action(GetMedia)
@@ -162,12 +172,11 @@ export class MediaState {
         });
         const treeViewMedia = media.filter(x => !x.id);
         const allMedia = media.filter(x => x.id);
-        console.log('MediaState getMedia: ', allMedia, treeViewMedia);
         setState({
           ...state,
           media: allMedia,
           treeviewMedia: treeViewMedia,
-          totalMedia: media ? media.length : 0
+          totalMedia: media ? media.filter(x => x.id).length : 0
         });
       })
     );
@@ -227,7 +236,7 @@ export class MediaState {
   @Action(UpdateMediaItem)
   updateItem(ctx: StateContext<MediaStateModel>, { id, payload }: UpdateMediaItem) {
     return this.mediaService.updateMediaItem(id, payload).pipe(
-      tap(item => {       
+      tap(item => {
         ctx.dispatch(new DisplayToastMessage(`Details updated successfully.`));
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
@@ -239,6 +248,7 @@ export class MediaState {
   createItem(ctx: StateContext<MediaStateModel>, { directoryId, file, metadata }: CreateMediaItem) {
     return this.mediaUploadService.upload(directoryId, file, metadata).pipe(
       tap(item => {
+        console.log('MediaState createItem: ', item);
         ctx.dispatch(new DisplayToastMessage(`Media Item successfully uploaded!`));
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
@@ -288,9 +298,9 @@ export class MediaState {
       });
     }));
   }
-  
+
   @Action(GetMediaTreeData)
-  getMediaTreeData({ getState, setState }: StateContext<MediaStateModel>,){
+  getMediaTreeData({ getState, setState }: StateContext<MediaStateModel>, ) {
     return this.mediaService.getMediaTreeData().pipe(
       tap(media => {
         const state = getState();
@@ -317,7 +327,7 @@ export class MediaState {
   }
 
   @Action(GetDirectoryMetadata)
-  async getDirectoryMetadata({ getState, setState }: StateContext<MediaStateModel>, {id}: GetDirectoryMetadata) {
+  async getDirectoryMetadata({ getState, setState }: StateContext<MediaStateModel>, { id }: GetDirectoryMetadata) {
     await this.mediaUploadService.getDirectoryMetadata(id).then(metadata => {
       console.log('MediaState getDirectoryMetadata: ', metadata);
       const state = getState();
@@ -330,8 +340,8 @@ export class MediaState {
 
   @Action(AddMediaItemField)
   addItemField({ getState, setState }: StateContext<MediaStateModel>, { payload }: AddMediaItemField) {
-    const state = getState();    
-    let itemFields = state.itemFields;    
+    const state = getState();
+    let itemFields = state.itemFields;
     itemFields.push(payload);
     let itemMetadata = state.currentItemMetadata;
     itemMetadata.map(x => {
@@ -365,5 +375,22 @@ export class MediaState {
     })
   }
 
+  @Action(GetDocuments)
+  getDocuments({ getState, setState }: StateContext<MediaStateModel>, ) {
+    return this.directoryService.getDocuments().pipe(
+      tap(documents => {
+        documents.map(item => {
+          item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
+        });
+        const state = getState();
+        console.log('documents', documents);
+        setState({
+          ...state,
+          documents: documents,
+          totalMedia: documents ? documents.length : 0
+        });
+      })
+    );
+  }
   //#endregion
 }
