@@ -6,13 +6,73 @@ import { DirectoryDataService } from 'src/app/core/services/data/directory/direc
 import { MetadataFieldsDataService } from 'src/app/core/services/data/metadata-fields/metadata-fields.data.service';
 import { MetadataFieldType } from 'src/app/core/enum/metadataFieldType';
 import { Metadata } from 'src/app/core/models/entity/metadata';
+import { BlobService, UploadConfig, UploadParams } from 'angular-azure-blob-service'
+import { of } from 'rxjs/internal/observable/of';
+import { Observable } from 'rxjs/internal/Observable';
+import { MediaDataService } from 'src/app/core/services/data/media/media.data.service';
+import { MediaItem } from 'src/app/core/models/entity/media';
+import { Store } from '@ngxs/store';
+import { BaseComponent } from 'src/app/shared/base/base.component';
 
 @Injectable({
   providedIn: "root"
 })
 export class MediaUploadService {
 
-  constructor(private directoryDataService: DirectoryDataService, private metadataFieldsDataService: MetadataFieldsDataService) {}
+  config: any;
+  percent: any;
+
+  constructor(private directoryDataService: DirectoryDataService, private metadataFieldsDataService: MetadataFieldsDataService,
+              private mediaDataService: MediaDataService, private blob: BlobService) {}
+
+
+  upload (directoryId: number, file: File, metadata: string): Observable<any> {
+    const Config: UploadParams = {
+      sas: '?sv=2018-03-28&ss=b&srt=sco&sp=rwdlacup&st=2019-04-11T14%3A39%3A29Z&se=2019-04-12T14%3A39%3A29Z&sig=wZ4dpQb6oG%2BYtm60s4gy6%2FBFl9OgZqQXiT6Xizsvl5w%3D',
+      storageAccount: 'ocean33r1ngm3d1avault',
+      containerName: 'media/Platform/rigs/ursa/2019/Documents'
+    };
+    
+    console.log('MediaUploadService upload currentFile: ', file);   
+
+    if (file !== null) {
+      const baseUrl = this.blob.generateBlobUrl(Config, file.name);
+      this.config = {
+        baseUrl: baseUrl,
+        sasToken: Config.sas,
+        blockSize: 1024 * 64, // OPTIONAL, default value is 1024 * 32
+        file: file,
+        complete: (value) => {
+          console.log('MediaUploadService upload Transfer completed: ', value);
+          let item = new MediaItem();
+          item.metadata = metadata;
+          item.size = file.size;
+          item.name = file.name;
+          item.contentType = file.type;
+          item.directoryId = directoryId;
+          item.url = this.config.baseUrl;
+          item.storageType = 'DB';
+          item.documentTypeCode = 'PDF';
+          item.requester = 1;
+          item.requestType = "1";
+          item.createdBy = "System";
+
+          return this.mediaDataService.createMediaItem(item).subscribe(response => {
+            console.log('MediaUploadService upload createMediaItem response: ', response);
+          });
+        },
+        error: (err) => {
+          console.log('MediaUploadService upload Error: ', err);  
+        },
+        progress: (percent) => {          
+          console.log('MediaUploadService upload progress: ', percent);  
+          this.percent = percent;
+        }
+      };
+      this.blob.upload(this.config);
+    }
+    return of(null);
+  }
 
   async getDirectoryMetadata(directoryId: number) {
     let metaArray = [];
@@ -44,15 +104,13 @@ export class MediaUploadService {
     return await metaArray.sort(x => x.order);
   }
 
-  private getOptions(id: any) {
+  private getOptions(id: number) {
     return this.metadataFieldsDataService.getListItems(id).pipe(
       map(items => {
-        let options = [];
-        items.forEach(res => {
-          let option = { "value": res.value, "text": res.description, "sort": res.sort };
-          options.push(option);
-        });
-        return options.sort(x => x.sort);
+        if (items) {
+          return items.sort(x => x.sort);
+        } 
+        return [];
       })
     );
   }

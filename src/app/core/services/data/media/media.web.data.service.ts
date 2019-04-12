@@ -11,6 +11,8 @@ import { environment } from 'src/environments/environment';
 import { Document_SearchOutputDTO } from 'src/app/core/dtos/output/documents/Document_SearchOutputDTO';
 import { Document_GetByIdOutputDTO } from 'src/app/core/dtos/output/documents/Document_GetByIdOutputDTO';
 import { Document_UpdateInputDTO } from 'src/app/core/dtos/input/documents/Document_UpdateInputDTO';
+import { Document_InsertInputDTO } from 'src/app/core/dtos/input/documents/Document_InsertInputDTO';
+import { UploadRequest_InsertInputDTO } from 'src/app/core/dtos/input/upload-request/UploadRequest_InsertInputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -156,6 +158,40 @@ export class MediaWebDataService implements MediaDataService {
     );
   }
 
+  createMediaItem(payload: MediaItem): Observable<any> {
+    const requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
+
+    payload.id = this.newGuid();
+
+
+
+    automapper
+      .createMap(payload, UploadRequest_InsertInputDTO)      
+      .forMember('UploadRequestId', function(opts) { opts.mapFrom('requestId'); })
+      .forMember('Requester', function(opts) { opts.mapFrom('requester'); })
+      .forMember('documentId', function(opts) { opts.mapFrom('id'); })
+      .forMember('directoryId', function(opts) { opts.mapFrom('directoryId'); })
+      .forMember('documentTypeCode', function(opts) { opts.mapFrom('documentTypeCode'); })
+      .forMember('documentName', function(opts) { opts.mapFrom('name'); })
+      .forMember('documentUrl', function(opts) { opts.mapFrom('url'); })
+      .forMember('metadata', function(opts) { opts.mapFrom('metadata'); })
+      .forMember('contentType', function(opts) { opts.mapFrom('contentType'); })
+      .forMember('containerId', function(opts) { opts.mapFrom('containerId'); })
+      .forMember('size', function(opts) { opts.mapFrom('size'); })
+      .forMember('thumbnailContainerUrl', function(opts) { opts.mapFrom('thumbnail'); })
+
+    const request = automapper.map(payload, UploadRequest_InsertInputDTO, payload);
+
+    console.log('MediaWebDataService - createMediaItem: ', request);
+
+    return this.httpClient.post<any>(requestUri, request).pipe(map(
+      response => {        
+        console.log('MediaWebDataService - createMediaItem: ', response);
+        return response;
+      })
+    );
+  }
+
   toggleFavorite(id: number, payload: MediaItem): Observable<any> {
     throw new Error("Method not implemented.");
   }
@@ -175,5 +211,12 @@ export class MediaWebDataService implements MediaDataService {
 
   getMetadataOptions(id: any): Observable<any[]> {
     throw new Error("Method not implemented.");
+  }
+
+  newGuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 }

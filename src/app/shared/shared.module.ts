@@ -20,21 +20,26 @@ import { PdfViewerAltComponent } from './pdf-viewer-alt/pdf-viewer-alt.component
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';
 // import { ImageViewerModule } from 'ngx-image-viewer';
 //import { DocumentViewModule } from 'ngx-document-view';
-import { PdfViewerModule} from "@syncfusion/ej2-angular-pdfviewer";
+import  { PdfViewerModule} from "@syncfusion/ej2-angular-pdfviewer";
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { FormInputComponent } from './dynamic-components/components/form-input.component';
 import { FormSelectComponent } from './dynamic-components/components/form-select.component';
 import { DynamicFormComponent } from './dynamic-components/components/dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-components/directives/dynamic-field.directive';
-import { FormDateComponent } from './dynamic-components/components/date.component';
+import { FormDateComponent } from './dynamic-components/components/form-date.component';
 import { DatePickerAllModule } from '@syncfusion/ej2-angular-calendars';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
-import { DialogAllModule, TooltipModule } from '@syncfusion/ej2-angular-popups';
+import {DialogAllModule, DialogModule, TooltipModule} from '@syncfusion/ej2-angular-popups';
 import { FormLabelComponent } from './dynamic-components/components/form-label.component';
 import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import {ToolbarModule} from "@syncfusion/ej2-angular-navigations";
+import {
+  LinkAnnotationService, BookmarkViewService, MagnificationService, ThumbnailViewService,
+  ToolbarService, NavigationService, TextSearchService, TextSelectionService, PrintService, AnnotationService
+} from '@syncfusion/ej2-angular-pdfviewer';
 
 @NgModule({
   declarations: [
@@ -79,6 +84,8 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     NgxExtendedPdfViewerModule,
     ImageViewerModule,
     PdfViewerModule,
+    ToolbarModule,
+    DialogModule,
     TooltipModule
   ],
   exports: [
@@ -109,6 +116,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     FormSelectComponent,
     FormDateComponent
   ],
+  // providers: [LinkAnnotationService, BookmarkViewService, MagnificationService, ThumbnailViewService, ToolbarService, NavigationService, TextSearchService, TextSelectionService, PrintService, AnnotationService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class SharedModule { }

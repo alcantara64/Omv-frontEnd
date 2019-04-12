@@ -25,6 +25,7 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
 import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
+import { BlobModule } from 'angular-azure-blob-service';
 
 @NgModule({
   declarations: [
@@ -51,10 +52,11 @@ import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
       AppState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
+    NgxsLoggerPluginModule.forRoot(),
+    BlobModule.forRoot()
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     SettingsService,
     AdminUsersService
    ],

@@ -2,14 +2,14 @@
 
   <div class="row">
     <div class="pb-3 col-md-4">
-
-    <div class="e-control e-textbox e-lib">
-      <div class="e-float-input e-control-wrapper e-input-group">
-        <input class="e-control e-textbox e-lib" type="text" placeholder="Name" ngst>
+      <div class="e-control e-textbox e-lib">
+        <div class="e-float-input e-control-wrapper e-input-group">
+          <input #nameInput [(value)]='searchName' name="name" class="e-control e-textbox e-lib" type="text" placeholder="Name">
+          <span *ngIf="nameInput.value !==''" style="display: inline-block; margin-left: -20px" (click)="nameInput.value = ''">X</span>
+        </div>
       </div>
     </div>
 
-    </div>
     <div class="pb-3 col-md-4">
       <ejs-dropdownlist #groupselect name="group" id="group" [fields]='groupFields'  [(value)] ='groupid' [showClearButton]="true"
         [dataSource]="groups"  [placeholder]="'Select'" floatLabelType='Auto'>

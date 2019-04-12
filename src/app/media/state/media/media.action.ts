@@ -12,10 +12,20 @@ export class GetMediaItem {
   constructor(public id: any) { }
 }
 
+export class ClearMediaItemMetadata {
+  static readonly type = '[Media] ClearMediaItemMetadata';
+}
+
 export class UpdateMediaItem {
   static readonly type = '[Media] UpdateMediaItem';
   
   constructor(public id: any, public payload: MediaItem) { }
+}
+
+export class CreateMediaItem {
+  static readonly type = '[Media] CreateMediaItem';
+  
+  constructor(public directoryId: number, public file: File, public metadata: string) { }
 }
 
 export class GetMediaItemDetails {

@@ -101,7 +101,7 @@ import { AdminMediaMockDataService } from '../core/services/data/admin-media/adm
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
     { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
     { provide: AdminMediaAccessDataService, useClass: environment.useMocks ? AdminMediaAccessMockDataService : AdminMediaAccessWebDataService },
-    { provide: AdminMediaDataService, useClass: environment.useMocks ? AdminMediaMockDataService : AdminMediaMockDataService }
+    { provide: AdminMediaDataService, useClass: environment.useMocks ? AdminMediaMockDataService : AdminMediaWebDataService }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

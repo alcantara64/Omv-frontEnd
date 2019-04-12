@@ -28,7 +28,9 @@
       </div>
     </div>
 
-    <ejs-pdfviewer *ngIf="mediaType === 'PDF'" id="pdfViewer" [serviceUrl]='service' [documentPath]='document' style="height:640px;display:block"></ejs-pdfviewer>
+    <div *ngIf="mediaType === 'PDF'">
+      <ejs-pdfviewer id="pdfViewer" [serviceUrl]='service' [documentPath]='url' style="height:640px;display:block"></ejs-pdfviewer>
+    </div>
 
   </div>
 </div>

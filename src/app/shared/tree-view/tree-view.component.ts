@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
 
 @Component({
@@ -8,11 +8,14 @@ import { GridColumn } from 'src/app/core/models/grid.column';
 })
 export class TreeViewComponent implements OnInit {
 
-  @Input()
-  columns: GridColumn[];
+  @Input() showFavoriteIcon: boolean;
+  @Input() columns: GridColumn[];
+  @Input() data: any;
+  @Input() firstActionText: string;
+  @Input() parentID: any;
+  @Input() id: any;
 
-  @Input()
-  data: any;
+  @Output() firstAction = new EventEmitter<Object[]>();
   constructor() { }
 
   ngOnInit() {
