@@ -223,6 +223,9 @@ html, body {
 .omv-primary[disabled]{
   background: #74f1f8 !important;
   color: #ffffff!important;
+  width: 217px;
+  height: 50px;
+  border-radius: 8px;
 }
 
 .omv-primary-plus{
@@ -365,7 +368,7 @@ html, body {
 }
 
 .btn {
-  width: 155px;
+  width: 217px;
   height: 50px;
   border-radius: 8px;
   border: solid 1px #0097a9;
@@ -374,12 +377,7 @@ html, body {
   font-weight: 600;
   letter-spacing: -0.3px;
   text-align: center;
-  color: #ffffff;
 }
-
-
-
-
 /************ End OMV Confirmation **************/
 /************Media Label**********/
 button{
