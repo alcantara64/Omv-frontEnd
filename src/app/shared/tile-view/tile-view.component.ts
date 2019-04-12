@@ -8,9 +8,11 @@ import { Store } from '@ngxs/store';
   styleUrls: ['./tile-view.component.css']
 })
 export class TileViewComponent extends BaseComponent implements OnInit {
+  public selectedItems: any[] = [];
 
   @Input() dataSource = [];
   @Output() itemClick = new EventEmitter<any>();
+  @Output() selectedItemData = new EventEmitter<any>();
   @Output() toggleFavorite = new EventEmitter<any>();
   @Input() pageCount;
 
@@ -28,5 +30,17 @@ export class TileViewComponent extends BaseComponent implements OnInit {
 
   performItemClick(data: any) {
     this.itemClick.emit(data);
+  }
+
+  getItemData(data: any) {
+    console.log('ZZZ', data);
+    const isAlreadySelected = this.selectedItems.filter(x => x.id === data.id);
+    if (isAlreadySelected.length === 0) {
+      this.selectedItems.push(data);
+      this.selectedItemData.emit(this.selectedItems);
+    }else {
+      this.selectedItems.splice( this.selectedItems.indexOf(data), 1 );
+      this.selectedItemData.emit(this.selectedItems);
+    }
   }
 }

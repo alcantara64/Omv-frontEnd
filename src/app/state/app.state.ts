@@ -12,7 +12,8 @@ import {
   GetUserPermissions,
   GetLoggedInUser,
   DisplayToastMessage,
-  DeviceWidth
+  DeviceWidth,
+  GridData
 } from './app.actions';
 import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
@@ -37,6 +38,7 @@ export class AppStateModel {
   toastMessage?: Toast;
   error: string;
   deviceWidth: number;
+  gridData: any[];
 }
 
 @State<AppStateModel>({
@@ -54,7 +56,8 @@ export class AppStateModel {
 
     toastMessage: null,
     error: '',
-    deviceWidth: window.innerWidth
+    deviceWidth: window.innerWidth,
+    gridData: []
   }
 })
 export class AppState {
@@ -112,6 +115,11 @@ export class AppState {
   @Selector()
   static setDeviceWidth(state: AppStateModel) {
     return state.deviceWidth;
+  }
+
+  @Selector()
+  static setGridData(state: AppStateModel) {
+    return state.gridData;
   }
 
   constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
@@ -259,6 +267,16 @@ export class AppState {
     setState({
       ...state,
       deviceWidth: deviceWidth,
+    });
+  }
+
+  @Action(GridData)
+  GridData({getState, setState}: StateContext<AppStateModel>, {gridData}: GridData) {
+    const state = getState();
+
+    setState({
+      ...state,
+      gridData: gridData,
     });
   }
 }

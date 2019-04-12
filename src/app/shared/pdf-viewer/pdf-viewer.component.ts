@@ -11,7 +11,7 @@ import {Store} from "@ngxs/store";
 })
 export class PdfViewerComponent implements OnInit {
 
-  public service: string;
+  public service = 'http://omv.test.eminenttechnology.com/OMV.Api/api/V1/pdfviewer';
   public document: string;
 
   constructor(private router: ActivatedRoute, private store: Store) {
@@ -21,8 +21,7 @@ export class PdfViewerComponent implements OnInit {
 
   ngOnInit() {
     this.router.params.subscribe(params => {
-        this.service = params.service;
-        this.document = params.document;
+        this.document = "https://ocean33r1ngm3d1avault.blob.core.windows.net/media/Platform/rigs/ursa/2019/Documents/OMV-Tenant.pdf";
       });
   }
 

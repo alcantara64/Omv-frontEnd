@@ -45,7 +45,7 @@
   <div style="display: flex; flex-wrap: nowrap" [ngStyle]="{'display': deviceWidth < 800 ? 'block' : 'inline-block', 'float': deviceWidth > 800 ? 'right' : 'none'}">
     <label class="media-label" style="display: inline-flex; margin: 16px 10px 16px 0">Selected Files:</label>
     <button class="media-button-small" style="display:inline-flex; margin: 16px 10px">Sync Videos</button>
-    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px">Download All</button>
+    <button class="media-button-small" (click)="downloadAll()" style="display:inline-flex; margin: 16px 10px">Download All</button>
     <button class="media-button-small" style="display:inline-flex; margin: 16px 10px">Add to Playlist</button>
   </div>
 </div>

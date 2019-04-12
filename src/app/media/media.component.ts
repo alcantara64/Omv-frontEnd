@@ -26,6 +26,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
 
   @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
   @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.setGridData) gridData$: Observable<any[]>;
 
 
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
@@ -51,5 +52,15 @@ export class MediaComponent extends BaseComponent implements OnInit {
   
   onIconClick(tab){
     this.showtabs = tab;
+  }
+
+  downloadAll() {
+    this.gridData$.subscribe((data) => {
+      data.forEach((x) => {
+        // window.location.href = x.metadata;
+        console.log('WWW', x.metadata);
+      });
+      console.log('QQQ', data);
+    })
   }
 }

@@ -6,6 +6,8 @@ import { Select, Store } from '@ngxs/store';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
 import { GetMedia, ToggleFavorite } from '../../state/media/media.action';
+import {AppState} from "../../../state/app.state";
+import {DeviceWidth, GridData} from "../../../state/app.actions";
 
 @Component({
   selector: 'app-all-media-tileview',
@@ -27,6 +29,11 @@ export class AllMediaTileviewComponent implements OnInit {
 
   navigate(data: any) {
     this.router.navigate([`media/${data.id}/details`]);
+  }
+
+  selectedItemData(data: any) {
+    this.store.dispatch(new GridData(data));
+    console.log(data);
   }
 
   toggleFavorite(data: any) {
