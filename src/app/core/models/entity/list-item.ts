@@ -1,5 +1,5 @@
 export class ListItem {
-  value: string;
-  description: string;
-  sort: number;
+  itemValue: string;
+  itemDescription: string;
+  itemSort: number;
 }

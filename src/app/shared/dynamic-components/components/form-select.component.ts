@@ -30,7 +30,7 @@ export class FormSelectComponent implements Field {
   group: FormGroup;  
   showDelete: boolean;
   remove = new EventEmitter<any>();
-  fields: Object = { text: 'description', value: 'value' };
+  fields: Object = { text: 'itemDescription', value: 'itemValue' };
 
   performRemove(config: any) {
     this.remove.emit(config);

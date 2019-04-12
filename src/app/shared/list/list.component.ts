@@ -39,7 +39,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Output() firstAction = new EventEmitter<Object[]>();
   @Output() secondAction = new EventEmitter<Object[]>();
   @Output() firstNavigateAction = new EventEmitter<any>();
-  @Output()secondNavigateAction = new EventEmitter<any>();
+  @Output() secondNavigateAction = new EventEmitter<any>();
   @Output() buttonOneEvent = new EventEmitter<Object[]>();
   @Output() secondButtonEvent = new EventEmitter<any[]>();
   @Output() toggleFavorite = new EventEmitter<any[]>();

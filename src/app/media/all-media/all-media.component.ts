@@ -1,6 +1,6 @@
 import { BaseComponent } from './../../shared/base/base.component';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ViewType } from 'src/app/core/constants/view-type';
 import { Store, Select } from '@ngxs/store';
 import { MediaState } from '../state/media/media.state';
@@ -48,6 +48,4 @@ export class AllMediaComponent extends BaseComponent implements OnInit {
     }
     return event;
   }
-
-
 }

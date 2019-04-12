@@ -27,7 +27,7 @@
     </e-column>
     <e-column width="100">
       <ng-template #template let-data>
-        <span class='e-icons e-pencil' style='color: #0097A9 !important'></span>
+        <span class='e-icons e-pencil' (click)="navigate(data)" style='color: #0097A9 !important'></span>
       </ng-template>
     </e-column>
   </e-columns>

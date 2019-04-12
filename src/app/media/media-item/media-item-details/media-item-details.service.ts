@@ -19,6 +19,8 @@ export class MediaItemDetailsService {
     let itemMetadata = JSON.parse(mediaItem.metadata);
     let itemFieldNames = Object.keys(itemMetadata);
     return await this.getMetadata(mediaItem).then(data => {
+      
+      console.log('MediaItemDetailsService - getMetadaFields data: ', data);
       data.forEach(async item => {
         // Set the value of each metadata field based on the media item details
         if (itemFieldNames.map(x => x.toLowerCase()).includes(item.name.toLowerCase())) {
@@ -26,12 +28,12 @@ export class MediaItemDetailsService {
           console.log('MediaItemDetailsService - getMetadaFields item.value ', item.value);
         }
         // Get options if field is a dropdown select
-        if (item.type === 'select') {
-          this.getOptions(item.optionsId).subscribe(options => {
-            item.options = options; 
-            console.log('MediaItemDetailsService - getMetadaFields ', item.options);
-          });              
-        }
+        // if (item.type === 'select') {
+        //   this.getOptions(item.optionsId).subscribe(options => {
+        //     item.options = options; 
+        //     console.log('MediaItemDetailsService - getMetadaFields ', item.options);
+        //   });              
+        // }
       });
       return data;
     });
@@ -80,7 +82,7 @@ export class MediaItemDetailsService {
     return this.metadataFieldsDataService.getListItems(id).pipe(
       map(items => {
         if (items) {
-          return items.sort(x => x.sort);
+          return items.sort(x => x.itemSort);
         } 
         return [];
       })
@@ -115,7 +117,7 @@ export class MediaItemDetailsService {
       name: item.fieldName,
       order: item.order,
       optionsId: item.listId,
-      options: [],
+      options: item.options,
       placeholder: 'Please select',
       validations: this.getValidations(item)
     };

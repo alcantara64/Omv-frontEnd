@@ -122,7 +122,6 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetUsers());
       this.displayUsers(params.type);
-      this.nameSelect.value = "";
       this.groupSelect.index = null;
     }),
     takeWhile(() => this.componentActive);

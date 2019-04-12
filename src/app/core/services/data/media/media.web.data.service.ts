@@ -42,6 +42,7 @@ export class MediaWebDataService implements MediaDataService {
           .forMember('storageType', function(opts) { opts.mapFrom('StorageType'); })
           .forMember('entityType', function(opts) { opts.mapFrom('EntityType'); })
           .forMember('entityId', function(opts) { opts.mapFrom('EntityId'); })
+          .forMember('directoryId', function(opts) { opts.mapFrom('DirectoryId'); })
           .forMember('documentTypeCode', function(opts) { opts.mapFrom('DocumentTypeCode'); })
           .forMember('name', function(opts) { opts.mapFrom('documentName'); })
           .forMember('url', function(opts) { opts.mapFrom('documentUrl'); })
@@ -52,11 +53,12 @@ export class MediaWebDataService implements MediaDataService {
           .forMember('thumbnail', function(opts) { opts.mapFrom('thumbnailContainerUrl'); })
           .forMember('isDeleted', function(opts) { opts.mapFrom('IsDeleted'); })
           .forMember('status', function(opts) { opts.mapFrom('Status'); })
+          .forMember('parentId', function(opts) { opts.mapFrom('parentId'); })
           .forMember('createdOn', function(opts) { opts.mapFrom('createdOn'); })
           .forMember('createdBy', function(opts) { opts.mapFrom('createdBy'); })
           .forMember('modifiedOn', function(opts) { opts.mapFrom('modifiedOn'); })
           .forMember('modifiedBy', function(opts) { opts.mapFrom('modifiedBy'); })
-
+       
         var _response = automapper.map(response, MediaItem, response);
         _response.forEach(resp => {          
           switch(resp.documentTypeCode) {
@@ -73,6 +75,9 @@ export class MediaWebDataService implements MediaDataService {
             case 'GIF':
               resp.thumbnail = 'https://i1.wp.com/thefrontline.org.uk/wp-content/uploads/2018/10/placeholder.jpg?ssl=1';
               break;
+          }
+          if (resp.parentId === 0) {
+            resp.parentId = null;
           }
           resp.type = resp.documentTypeCode;
         });
