@@ -37,7 +37,7 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
     { headerText: "Status ", field: " ", width: "5" },
     { headerText: "Name", field: "documentName" },
     { headerText: "Destination", field: "folderPath" },
-    { headerText: "Date", field: "date" },
+    { headerText: "Date", field: "modifiedOnString" },
     { headerText: "Size", field: "size" }
   ];
 

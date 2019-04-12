@@ -7,7 +7,7 @@ export class UploadRequest_GetAllOutputDTO extends BaseDTO{
     DirectoryId: number;
     RequesterName: string;
     Size: number;
-    ContainerId: number;
+    ContainerId: string;
     ContentType: string;
     DocumentName: string;
     DocumentTypeCode: string;

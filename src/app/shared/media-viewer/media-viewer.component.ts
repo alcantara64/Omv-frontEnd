@@ -25,7 +25,6 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
   public document: string;
   @Select(MediaState.getCurrentMediaItem) mediaItem$: Observable<string>;
   @Select(MediaState.getMedia) media$: Observable<any>;
-  //  @Input() mediaDataSrc: any;
   dataSource: any;
   mediaID: string;
   url: string;
