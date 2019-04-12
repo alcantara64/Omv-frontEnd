@@ -29,4 +29,7 @@ export class TileViewComponent extends BaseComponent implements OnInit {
   performItemClick(data: any) {
     this.itemClick.emit(data);
   }
+  getItemData(data: any){
+    console.log('getItemData',data )
+  }
 }

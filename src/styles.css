@@ -430,7 +430,7 @@ button{
   padding: 12px 6px 19px 6px;
 }
 .center-img{
-  width:18.5em;
+  width:100%;
   border: 1px solid #CFDBE1;
   height: 155px;
 }

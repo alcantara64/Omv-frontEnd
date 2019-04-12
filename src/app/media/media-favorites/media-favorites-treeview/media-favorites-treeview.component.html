@@ -1,4 +1,4 @@
-<ejs-treegrid [dataSource]='data' [treeColumnIndex]='2' (rowSelected)="rowSelected($event)" [allowSorting]='true'
+<!-- <ejs-treegrid [dataSource]='data' [treeColumnIndex]='2' (rowSelected)="rowSelected($event)" [allowSorting]='true'
 [selectionSettings]='selectionOptions' parentIdMapping='parentID' idMapping='id'>
   <e-columns>
     <e-column  headerText=' ' type=" " width='50' textAlign='Center'>
@@ -33,4 +33,6 @@
       </ng-template>
   </e-column>
   </e-columns>
-</ejs-treegrid>
+</ejs-treegrid> -->
+
+<app-tree-grid [data]="data" [columns]="columns" [parentID]="data.parentID" [id]= "data.id" ></app-tree-grid>

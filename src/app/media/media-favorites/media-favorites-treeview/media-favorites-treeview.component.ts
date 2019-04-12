@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 import { SelectionSettings, SelectionSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { CheckboxSelectionType } from '@syncfusion/ej2-grids';
+import { GridColumn } from 'src/app/core/models/grid.column';
 
 @Component({
   selector: 'app-media-favorites-treeview',
@@ -17,6 +18,11 @@ export class MediaFavoritesTreeviewComponent implements OnInit {
   @Select(MediaState.getMediaTreeData) mediaData$: Observable<MediaTreeGrid[]>;
   selectionOptions: Object;
   options: any;
+  columns: GridColumn[] = [
+    { headerText: 'Name', field: 'name', width: '700' },
+    { headerText: 'Date', field: 'date' }
+  ];
+
   constructor(private store: Store) {
 
   }
