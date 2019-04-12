@@ -1,4 +1,4 @@
-import { GetDirectoryMetadata, GetDirectories, GetMediaTreeData, CreateMediaItem, ResetUploadStatus } from './../state/media/media.action';
+import { GetDirectoryMetadata, GetDirectories, GetMediaTreeData, CreateMediaItem, ResetUploadStatus, ClearDirectoryMetadata } from './../state/media/media.action';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SelectionSettingsModel } from '@syncfusion/ej2-treegrid';
 import { Observable, Subject } from 'rxjs';
@@ -70,13 +70,6 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
         this.metadata = data;
       });
 
-    this.showSpinner$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(showSpinner => {
-        if (showSpinner) this.ShowSpinner(true);
-        else this.ShowSpinner(false);
-      });
-
     this.uploadComplete$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(complete => {
@@ -86,7 +79,7 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
 
   ngOnDestroy() {    
     console.log('ngOnDestory');
-    if (this.dynamicForm) this.dynamicForm.form.reset();
+    this.store.dispatch(new ClearDirectoryMetadata());
     this.store.dispatch(new ResetUploadStatus());
     this.unsubscribe.next();
     this.unsubscribe.complete();

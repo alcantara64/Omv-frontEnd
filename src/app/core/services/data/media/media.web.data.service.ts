@@ -82,7 +82,7 @@ export class MediaWebDataService implements MediaDataService {
           resp.type = resp.documentTypeCode;
         });
         console.log('MediaWebDataService - getMedia: ', _response);
-        return _response;
+        return _response.sort((a, b) => new Date(b.modifiedOn).getTime() - new Date(a.modifiedOn).getTime()) ;
       }),
       catchError(e => {
         console.log("'MediaWebDataService - getMedia error:", e);

@@ -2,7 +2,7 @@ import { AppState } from './state/app.state';
 import { Component, ViewChild } from '@angular/core';
 import { AuthService, User } from './core/services/data/appsettings/auth.service';
 import {Select, Store} from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {Title} from "@angular/platform-browser";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {
@@ -16,6 +16,8 @@ import {
 import { ToastPosition } from '@syncfusion/ej2-notifications';
 import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
+import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +26,11 @@ import { closest } from '@syncfusion/ej2-base';
 })
 export class AppComponent {
 
+  private unsubscribe: Subject<void> = new Subject();
   public displayWidth: number;
   showLeftNav: boolean = false;
   
+  @Select(AppState.getSpinnerVisibility) showSpinner$: Observable<boolean>;
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
   @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
   @Select(AppState.getToastMessage) toastMessage$: Observable<Toast>;
@@ -66,6 +70,12 @@ export class AppComponent {
       x.style.display = 'none'; // for IE
       x.remove();
     };
+    this.showSpinner$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(showSpinner => {
+        if (showSpinner) this.showSpinner(true);
+        else this.showSpinner(false);
+      });
     // this.authn.getUser().then(user => {
     //   this.currentUser = user;
 
@@ -91,9 +101,20 @@ export class AppComponent {
       }
     });
   }
+
+  ngOnDestroy() {    
+    console.log('ngOnDestory');
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
   
-  onCreate() {
-  
+  showSpinner(show: boolean) {
+    createSpinner({
+      // Specify the target for the spinner to show
+      target: document.getElementById('spinnerContainer')
+    });
+    if (show) showSpinner(document.getElementById('spinnerContainer'));
+    else hideSpinner(document.getElementById('spinnerContainer'));
   }
 
   clearMessages() {
