@@ -1,5 +1,13 @@
 <!-- //Breadcrumb -->
-<app-breadcrumb></app-breadcrumb>
+<div class="page__section" style=" padding-top: 1rem;">
+  <ul class="breadcrumbs breadcrumbs_type5">
+    <li class="breadcrumbs__item "><a routerLink="/" routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{exact: true}" class="breadcrumbs__element link">Media</a></li>
+    <li class="breadcrumbs__item  breadcrumbs__item_active"><a routerLink="/media" routerLinkActive="active-link"
+        class="breadcrumbs__element active link">All Media</a></li>
+  </ul>
+</div>
+<hr class="stroke" />
 
 <!-- Media tabs -->
 <div class="row">
