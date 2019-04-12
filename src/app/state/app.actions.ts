@@ -18,6 +18,14 @@ export class SetPageTitle {
   constructor(public payload: string) { }
 }
 
+export class ShowSpinner {
+  static readonly type = '[App] ShowSpinner';
+}
+
+export class HideSpinner {
+  static readonly type = '[App] HideSpinner';
+}
+
 
 export class SetLoggedInUser {
   static readonly type = '[App] SetLoggedInUser';

@@ -66,7 +66,8 @@ export class DirectoryWebDataService implements DirectoryDataService {
           .forMember('entityName', function(opts) { opts.mapFrom('entityName'); })
           .forMember('isRequired', function(opts) { opts.mapFrom('isRequired'); })
           .forMember('order', function(opts) { opts.mapFrom('order'); })
-          .forMember('status', function(opts) { opts.mapFrom('status'); });
+          .forMember('status', function(opts) { opts.mapFrom('status'); })
+          .forMember('options', function(opts) { opts.mapFrom('options'); });
 
         var _response = automapper.map(response, Metadata, response);
         

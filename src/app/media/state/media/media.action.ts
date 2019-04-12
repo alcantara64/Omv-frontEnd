@@ -16,6 +16,10 @@ export class ClearMediaItemMetadata {
   static readonly type = '[Media] ClearMediaItemMetadata';
 }
 
+export class ResetUploadStatus {
+  static readonly type = '[Media] ResetUploadStatus';
+}
+
 export class UpdateMediaItem {
   static readonly type = '[Media] UpdateMediaItem';
   
@@ -25,7 +29,7 @@ export class UpdateMediaItem {
 export class CreateMediaItem {
   static readonly type = '[Media] CreateMediaItem';
   
-  constructor(public directoryId: number, public file: File, public metadata: string) { }
+  constructor(public payload: MediaItem) { }
 }
 
 export class GetMediaItemDetails {

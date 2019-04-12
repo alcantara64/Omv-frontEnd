@@ -1,4 +1,4 @@
-import { GetDirectoryMetadata, GetDirectories, GetMediaTreeData, CreateMediaItem } from './../state/media/media.action';
+import { GetDirectoryMetadata, GetDirectories, GetMediaTreeData, CreateMediaItem, ResetUploadStatus } from './../state/media/media.action';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SelectionSettingsModel } from '@syncfusion/ej2-treegrid';
 import { Observable, Subject } from 'rxjs';
@@ -9,6 +9,11 @@ import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-sett
 import { BaseComponent } from 'src/app/shared/base/base.component';
 import { takeUntil } from 'rxjs/operators';
 import { Directory } from 'src/app/core/models/entity/directory';
+import { AppState } from 'src/app/state/app.state';
+import { ShowSpinner, HideSpinner, DisplayToastMessage } from 'src/app/state/app.actions';
+import { MediaUploadService } from './media-upload.service';
+import { Router } from '@angular/router';
+import { ToastType } from 'src/app/core/enum/toast';
 
 const BROWSE = 'Browse';
 const CHANGE = 'Change';
@@ -37,13 +42,15 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
   metadata: FieldConfiguration[] = [];
 
+  @Select(AppState.getSpinnerVisibility) showSpinner$: Observable<boolean>;
+  @Select(MediaState.getUploadCompleteStatus) uploadComplete$: Observable<boolean>;
   @Select(MediaState.getDirectories) directories$: Observable<Directory[]>;
   @Select(MediaState.getDirectoryMetadata) directoryMetadata$: Observable<any[]>;
   @Select(MediaState.getMediaTreeData) mediaData$: Observable<any[]>;
 
   public data: any[];
 
-  constructor(protected store: Store) {
+  constructor(protected store: Store, private router: Router, private mediaUploadService: MediaUploadService) {
     super(store);
   }
 
@@ -62,10 +69,25 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
       .subscribe(data => {
         this.metadata = data;
       });
+
+    this.showSpinner$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(showSpinner => {
+        if (showSpinner) this.ShowSpinner(true);
+        else this.ShowSpinner(false);
+      });
+
+    this.uploadComplete$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(complete => {
+        if (complete) this.router.navigate(['/media/all'], { queryParams: { view: 'tile' } } );
+      });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy() {    
     console.log('ngOnDestory');
+    if (this.dynamicForm) this.dynamicForm.form.reset();
+    this.store.dispatch(new ResetUploadStatus());
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
@@ -104,11 +126,10 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
       console.log('submit form: ', this.dynamicForm.value);
       if (!this.dynamicForm.valid) return;
     }
-    let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "";
+    let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "{}";
 
-    this.ShowSpinner(true);
-    this.store.dispatch(new CreateMediaItem(this.currentDirectoryId, this.selectedFile, metadata));
-    this.ShowSpinner(false);
+    this.store.dispatch(new ShowSpinner());
+    this.mediaUploadService.upload(this.currentDirectoryId, this.selectedFile, metadata);
   }
 
   private buildFolderPath(directoryId: number) {

@@ -27,12 +27,14 @@
 
   <div *ngIf='isDestinationSelected'>
     <button class="file-upload-button" (click)="changeDestination()"> Change </button>
-      <div class="Step-2-folder">
-          <span class="file-upload-label">Destination Folder Title:</span>
-          <div class="file-upload-path">  >{{ folderPath }} </div>
+    <div class="Step-2-folder">
+      <span class="file-upload-label">Destination Folder Title:</span>
+      <div>
+        <span class="file-upload-path">{{ folderPath }} </span>
       </div>
     </div>
   </div>
+</div>
 
 <div *ngIf='isFileSelected && isDestinationSelected'>
   <span class="step-title"> Step 3 <i class="step-description-title">Metadata</i></span>
@@ -41,7 +43,7 @@
   <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="metadata" (submit)="submit($event)" *ngIf="metadata?.length > 0"></dynamic-form>
   <br />
   <button type="submit"  [disabled]="dynamicForm ? !dynamicForm?.valid : false" [ngClass]="{'button-not-allowed': dynamicForm ? !dynamicForm?.valid : false}" (click)="submit()" class="btn omv-primary btn-lg"> Upload </button>
-  <button type="button" class="media-button-small" style="color:#079AAB; margin-left: 25px;"> Cancel </button>
+  <button type="button" class="media-button-small" style="color:#079AAB; margin-left: 25px;" routerLink="/media/all"> Cancel </button>
   
 </div>
 
