@@ -25,6 +25,10 @@ export class AppHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.activatedRoute.url.subscribe((urlPath) => {
+      console.log('AppHeaderComponent - ngOnInit: ', urlPath);
+  })
   }
 
   // ngDoCheck(): void {

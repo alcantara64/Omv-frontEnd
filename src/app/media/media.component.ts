@@ -22,7 +22,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
     { link: '/media/archive', query: 'tile', name: 'Streaming Archive' }
   ];
 
-  showtabs;
+  activeView = 'tile';
   currentRoute: any;
 
   @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
@@ -39,6 +39,15 @@ export class MediaComponent extends BaseComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      console.log('MediaComponent ngOnit queryParams: ', params);
+      let view = params.view;
+      this.activeView = view ? view : 'tile';
+    });
+
+    this.route.params.subscribe(params => {
+      console.log('MediaComponent ngOnit params: ', params);
+    });
   }
 
   switchTabs(tabLink: string) {
@@ -50,7 +59,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
     this.router.navigate([url], { queryParams: { view: view } } );
   }
 
-  onIconClick(tab) {
-    this.showtabs = tab;
+  viewChange(tab) {
+    this.activeView = tab;
   }
 }

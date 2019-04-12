@@ -27,13 +27,6 @@ export class MediaItemDetailsService {
           item.value = itemMetadata[item.name];
           console.log('MediaItemDetailsService - getMetadaFields item.value ', item.value);
         }
-        // Get options if field is a dropdown select
-        // if (item.type === 'select') {
-        //   this.getOptions(item.optionsId).subscribe(options => {
-        //     item.options = options; 
-        //     console.log('MediaItemDetailsService - getMetadaFields ', item.options);
-        //   });              
-        // }
       });
       return data;
     });

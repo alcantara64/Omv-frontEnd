@@ -59,6 +59,7 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
   toggleMediaViewer() {
     // this.mediaOBJ = this.dataSource.find((ids: { id: string; }) => ids.id === this.mediaID);
     this.mediaType = this.dataSource.type;
+    console.log('MediaView - toggle type', this.mediaType);
     this.toggleMediaType(this.mediaType);
   }
 
@@ -80,30 +81,34 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
         this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
         break;
       }
+      case 'PNG':
       case 'JPG': {
-        const imageElement = window.document.querySelector('img.image');
-        console.log('element', imageElement);
-        const viewer = new Viewer(imageElement, {
-          url: 'data-original',
-          toolbar: {
-            oneToOne: true,
-            prev() {
-              viewer.prev(true);
+        setTimeout(() => {
+          const imageElement = window.document.querySelector('img.image');
+          console.log('element', imageElement);
+          const viewer = new Viewer(imageElement, {
+            url: 'data-original',
+            toolbar: {
+              oneToOne: true,
+              prev() {
+                viewer.prev(true);
+              },
+              play: true,
+              next() {
+                viewer.next(true);
+              },
+              // download() {
+              //   const a = document.createElement('a');
+              //   a.href = viewer.image.src;
+              //   a.download = viewer.image.alt;
+              //   document.body.appendChild(a);
+              //   a.click();
+              //   document.body.removeChild(a);
+              // },
             },
-            play: true,
-            next() {
-              viewer.next(true);
-            },
-            // download() {
-            //   const a = document.createElement('a');
-            //   a.href = viewer.image.src;
-            //   a.download = viewer.image.alt;
-            //   document.body.appendChild(a);
-            //   a.click();
-            //   document.body.removeChild(a);
-            // },
-          },
-        });
+          });
+        }, 20);
+    
         break;
       }
       default:
