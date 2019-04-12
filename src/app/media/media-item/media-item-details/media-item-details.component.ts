@@ -60,6 +60,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   ngOnInit() {
     this.mediaItemId$.subscribe(id => {
       if (id) {
+        this.id = id;
         this.mediaItemId = id;
         this.store.dispatch(new GetMediaItemDetails(id));
       }
@@ -77,6 +78,18 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     this.itemMetadataFields$.subscribe(fields => {
       this.itemMetadataFields = fields;
     }), takeWhile(() => this.componentActive);
+
+    this.itemMetadataFields$.subscribe(fields => {
+      if (fields.length > 0) {
+        this.itemMetadataFields = fields;
+        console.log('MediaItemDetailsComponent - onFormFinished outside: ', this.dynamicForm);
+        this.dynamicForm.changes.subscribe(value => {
+          console.log('MediaItemDetailsComponent - onFormFinished inside: ', value);
+        }), takeWhile(() => this.componentActive);
+      }
+    }), takeWhile(() => this.componentActive);
+
+    console.log('MediaItemDetailsComponent - onFormFinished outside: ', this.dynamicForm);
   }
 
   ngOnDestroy(): void {
