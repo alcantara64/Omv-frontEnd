@@ -15,6 +15,7 @@ import {AppState} from "../state/app.state";
 })
 export class MediaComponent extends BaseComponent implements OnInit {
   public deviceWidth: number;
+  public selectedItems: any[];
 
   mediaTabs: Tab[] = [
     { link: '/media/all', query: 'tile', name: 'All Media', isActive: true  },
@@ -27,6 +28,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
 
   @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
   @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.setGridData) gridData$: Observable<any[]>;
 
 
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
@@ -39,6 +41,9 @@ export class MediaComponent extends BaseComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.gridData$.subscribe((data) => {
+      this.selectedItems = data;
+    })
   }
 
   switchTabs(tabLink: string) {
@@ -52,5 +57,20 @@ export class MediaComponent extends BaseComponent implements OnInit {
 
   onIconClick(tab) {
     this.showtabs = tab;
+  }
+
+  downloadAll() {
+    this.gridData$.subscribe((data) => {
+      this.selectedItems = data;
+      data.forEach((x) => {
+        const url = x.url;
+        const html = "<a id='download' href='"+ url +"' download style='display: none'></a>";
+        const sample = new Blob([x.url]);
+        document.writeln(html);
+        document.getElementById('download').click();
+        console.log('WWW', x.url);
+      });
+      console.log('QQQ', data);
+    })
   }
 }

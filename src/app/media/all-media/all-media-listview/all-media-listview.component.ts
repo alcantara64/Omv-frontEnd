@@ -38,7 +38,7 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
   }
 
   download(arg: any) {
-    this.router.navigate([`/dashboard`])
+    window.location.href = `${arg.url}`;
   }
   
   navigate(data: any) {

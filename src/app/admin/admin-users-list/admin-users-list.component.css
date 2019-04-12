@@ -1,0 +1,8 @@
+.searchName {
+  font-size: small;
+}
+
+.searchName:focus {
+  font-size: medium;
+  border-bottom: solid #00a9bd!important;
+}

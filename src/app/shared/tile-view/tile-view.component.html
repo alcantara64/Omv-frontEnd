@@ -21,7 +21,8 @@
                 <span>
                   <img (click)="performToggleFavorite(data)" class="favorite-cls cursor" 
                     [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">
-                  <ejs-checkbox cssClass="e-small float-right" (click)="getItemData(data.metaData)" [checked]="data.isChecked ? true: false"></ejs-checkbox>
+
+                  <ejs-checkbox cssClass="e-small float-right" (change)="getItemData(data)"  [checked]="data.isChecked ? true: false"></ejs-checkbox>
                 </span>
               </span>
             </div>

@@ -13,8 +13,6 @@
   <div class="content-wrapper">
 
     <div *ngIf="mediaType === 'JPG' || mediaType === 'PNG' || mediaType === 'GIF'" style="width: 100%; height: 100vh">
-      <!-- <iframe style="height: 45vh; width:100%; display: block;" src="../../../assets/files/oceaneering-logo.jpg"
-        provider="google"></iframe> -->
 
       <img class="image" [src]="url" alt="Picture">
 
@@ -26,6 +24,10 @@
           role="document" aria-label="Doc document" title="Doc document">
         </iframe>
       </div>
+    </div>
+
+    <div *ngIf="mediaType === 'PDF'">
+      <ejs-pdfviewer id="pdfViewer" [serviceUrl]='service' [documentPath]='url' style="height:640px;display:block"></ejs-pdfviewer>
     </div>
 
   </div>
