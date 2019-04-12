@@ -3,7 +3,7 @@
 <br />
 <div class="actionBar">
   <button (click)="showFieldsDialog()"><span class="actions"><img src="../../../../assets/images/icon-add.svg" /> &nbsp;Add Field</span></button>
-  <button (click)="submit()" [disabled]="!dynamicForm?.valid" [ngClass]="{'button-not-allowed': !dynamicForm?.valid}"><span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span></button>
+  <button (click)="submit()" [disabled]="dynamicForm ? !dynamicForm.valid : false" [ngClass]="{'button-not-allowed': dynamicForm ? !dynamicForm.valid : false}"><span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span></button>
   <button (click)="discardChanges()"><span class="actions"><i style="color: #da5200" class="e-icons e-clear"></i> Disregard Changes</span></button>
 </div>
 

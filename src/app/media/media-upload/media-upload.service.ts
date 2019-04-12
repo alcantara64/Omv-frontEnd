@@ -32,8 +32,11 @@ export class MediaUploadService {
       storageAccount: 'ocean33r1ngm3d1avault',
       containerName: 'media/Platform/rigs/ursa/2019/Documents'
     };
-    
-    console.log('MediaUploadService upload currentFile: ', file);   
+
+    let splitByLastDot = function(text) {
+      var index = text.lastIndexOf('.');
+      return [text.slice(0, index), text.slice(index + 1)]
+    } 
 
     if (file !== null) {
       const baseUrl = this.blob.generateBlobUrl(Config, file.name);
@@ -42,8 +45,7 @@ export class MediaUploadService {
         sasToken: Config.sas,
         blockSize: 1024 * 64, // OPTIONAL, default value is 1024 * 32
         file: file,
-        complete: (value) => {
-          console.log('MediaUploadService upload Transfer completed: ', value);
+        complete: () => {
           let item = new MediaItem();
           item.metadata = metadata;
           item.size = file.size;
@@ -51,22 +53,25 @@ export class MediaUploadService {
           item.contentType = file.type;
           item.directoryId = directoryId;
           item.url = this.config.baseUrl;
-          item.storageType = 'DB';
+          item.documentTypeCode = splitByLastDot(file.name).pop().toUpperCase();
+          item.requester = 1;
+
           return this.mediaDataService.createMediaItem(item).subscribe(response => {
             console.log('MediaUploadService upload createMediaItem response: ', response);
+            return true;
           });
         },
         error: (err) => {
           console.log('MediaUploadService upload Error: ', err);  
         },
-        progress: (percent) => {          
+        progress: (percent) => {
           console.log('MediaUploadService upload progress: ', percent);  
           this.percent = percent;
         }
       };
       this.blob.upload(this.config);
     }
-    return of(null);
+    return of(false);
   }
 
   async getDirectoryMetadata(directoryId: number) {

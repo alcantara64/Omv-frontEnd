@@ -12,6 +12,7 @@ import { Document_SearchOutputDTO } from 'src/app/core/dtos/output/documents/Doc
 import { Document_GetByIdOutputDTO } from 'src/app/core/dtos/output/documents/Document_GetByIdOutputDTO';
 import { Document_UpdateInputDTO } from 'src/app/core/dtos/input/documents/Document_UpdateInputDTO';
 import { Document_InsertInputDTO } from 'src/app/core/dtos/input/documents/Document_InsertInputDTO';
+import { UploadRequest_InsertInputDTO } from 'src/app/core/dtos/input/upload-request/UploadRequest_InsertInputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -58,12 +59,20 @@ export class MediaWebDataService implements MediaDataService {
 
         var _response = automapper.map(response, MediaItem, response);
         _response.forEach(resp => {          
-          if (!resp.thumbnail) {
-            if (resp.documentTypeCode === 'PDF') {
-              resp.thumbnail = 'https://media.idownloadblog.com/wp-content/uploads/2016/04/52ff0e80b07d28b590bbc4b30befde52-484x320.png';
-            } else if (resp.documentTypeCode === 'DOCX') {
-              resp.thumbnail = 'http://icons.iconarchive.com/icons/pelfusion/flat-file-type/256/doc-icon.png';
-            }
+          switch(resp.documentTypeCode) {
+            case 'PDF':
+              resp.thumbnail = 'https://haywardgordon.com/wp-content/themes/HaywardGordon/assets/pdf-icon.jpg';
+              break;
+            case 'DOCX':
+            case 'DOC':
+              resp.thumbnail = 'https://vacanegra.com/wp-content/plugins/widgetkit/assets/images/file.svg';
+              break;
+            case 'JPG':
+            case 'PNG':
+            case 'JPEG':
+            case 'GIF':
+              resp.thumbnail = 'https://i1.wp.com/thefrontline.org.uk/wp-content/uploads/2018/10/placeholder.jpg?ssl=1';
+              break;
           }
           resp.type = resp.documentTypeCode;
         });
@@ -106,13 +115,24 @@ export class MediaWebDataService implements MediaDataService {
 
         
           var _response = automapper.map(response, MediaItem, response);
-          if (!_response.thumbnail) {
-            if (_response.documentTypeCode === 'PDF') {
-              _response.thumbnail = 'https://media.idownloadblog.com/wp-content/uploads/2016/04/52ff0e80b07d28b590bbc4b30befde52-484x320.png';
-            } else if (_response.documentTypeCode === 'DOCX') {
-              _response.thumbnail = 'http://icons.iconarchive.com/icons/pelfusion/flat-file-type/256/doc-icon.png';
+          
+          // if (!_response.thumbnail) {
+            switch(_response.documentTypeCode) {
+              case 'PDF':
+                _response.thumbnail = 'https://haywardgordon.com/wp-content/themes/HaywardGordon/assets/pdf-icon.jpg';
+                break;
+              case 'DOCX':
+              case 'DOC':
+                _response.thumbnail = 'https://vacanegra.com/wp-content/plugins/widgetkit/assets/images/file.svg';
+                break;
+              case 'JPG':
+              case 'PNG':
+              case 'JPEG':
+              case 'GIF':
+                _response.thumbnail = 'https://i1.wp.com/thefrontline.org.uk/wp-content/uploads/2018/10/placeholder.jpg?ssl=1';
+                break;
             }
-          }
+          // }
           _response.type = _response.documentTypeCode;
           console.log('MediaWebDataService - getMedia: ', _response);
           return _response;
@@ -149,8 +169,7 @@ export class MediaWebDataService implements MediaDataService {
     console.log('MediaWebDataService - updateMediaItem: ', request);
 
     return this.httpClient.put(requestUri, request).pipe(map(
-      response => {
-        
+      response => {        
         console.log('MediaWebDataService - updateMediaItem: ', response);
         return response;
       })
@@ -158,18 +177,15 @@ export class MediaWebDataService implements MediaDataService {
   }
 
   createMediaItem(payload: MediaItem): Observable<any> {
-    const requestUri = environment.api.baseUrl + `/v1/documents`;
+    const requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
 
     payload.id = this.newGuid();
 
-
-
     automapper
-      .createMap(payload, Document_InsertInputDTO)      
+      .createMap(payload, UploadRequest_InsertInputDTO)      
+      .forMember('UploadRequestId', function(opts) { opts.mapFrom('requestId'); })
+      .forMember('Requester', function(opts) { opts.mapFrom('requester'); })
       .forMember('documentId', function(opts) { opts.mapFrom('id'); })
-      .forMember('storageType', function(opts) { opts.mapFrom('storageType'); })
-      .forMember('entityType', function(opts) { opts.mapFrom('entityType'); })
-      .forMember('entityId', function(opts) { opts.mapFrom('entityId'); })
       .forMember('directoryId', function(opts) { opts.mapFrom('directoryId'); })
       .forMember('documentTypeCode', function(opts) { opts.mapFrom('documentTypeCode'); })
       .forMember('documentName', function(opts) { opts.mapFrom('name'); })
@@ -179,10 +195,8 @@ export class MediaWebDataService implements MediaDataService {
       .forMember('containerId', function(opts) { opts.mapFrom('containerId'); })
       .forMember('size', function(opts) { opts.mapFrom('size'); })
       .forMember('thumbnailContainerUrl', function(opts) { opts.mapFrom('thumbnail'); })
-      .forMember('isDeleted', function(opts) { opts.mapFrom('isDeleted'); })
-      .forMember('status', function(opts) { opts.mapFrom('status'); });
 
-    const request = automapper.map(payload, Document_InsertInputDTO, payload);
+    const request = automapper.map(payload, UploadRequest_InsertInputDTO, payload);
 
     console.log('MediaWebDataService - createMediaItem: ', request);
 
@@ -222,3 +236,4 @@ export class MediaWebDataService implements MediaDataService {
     });
   }
 }
+

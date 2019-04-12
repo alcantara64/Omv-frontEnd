@@ -1,7 +1,8 @@
 import { MediaUploadService } from './../../media-upload/media-upload.service';
 import {
   GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
-  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, GetDocuments
+  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId,
+  GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, GetDocuments, ClearMediaItemMetadata
 } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
@@ -222,6 +223,16 @@ export class MediaState {
     );
   }
 
+  @Action(ClearMediaItemMetadata)
+  clearItemMetadata(ctx: StateContext<MediaStateModel>) {
+    const state = ctx.getState();
+    ctx.setState({
+      ...state,
+      currentItemMetadata: [],
+      itemFields: []
+    });
+  }
+
   @Action(UpdateMediaItem)
   updateItem(ctx: StateContext<MediaStateModel>, { id, payload }: UpdateMediaItem) {
     return this.mediaService.updateMediaItem(id, payload).pipe(
@@ -237,6 +248,7 @@ export class MediaState {
   createItem(ctx: StateContext<MediaStateModel>, { directoryId, file, metadata }: CreateMediaItem) {
     return this.mediaUploadService.upload(directoryId, file, metadata).pipe(
       tap(item => {
+        console.log('MediaState createItem: ', item);
         ctx.dispatch(new DisplayToastMessage(`Media Item successfully uploaded!`));
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));

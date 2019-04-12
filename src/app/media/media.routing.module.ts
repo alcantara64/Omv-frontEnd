@@ -12,6 +12,8 @@ import { MediaStreamingArchiveComponent } from './media-streaming-archive/media-
 import {MediaFavoritesListviewComponent} from "./media-favorites/media-favorites-listview/media-favorites-listview.component";
 import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorites-tileview/media-favorites-tileview.component';
 
+
+
 const mediaRoutes: Routes = [
   {
     path: 'media',
@@ -23,7 +25,7 @@ const mediaRoutes: Routes = [
       { path: 'archive', component: MediaStreamingArchiveComponent, data: { breadcrumb: 'Streaming Archive'},},
       { path: 'favorites/all', component: MediaFavoritesTileviewComponent, data: { breadcrumb: 'Favourites All'},},
     ],
-    data: { breadcrumb: 'Media'} 
+    data: { breadcrumb: 'Media'}
   },
   {
     path: 'media/upload',

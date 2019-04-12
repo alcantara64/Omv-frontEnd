@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Select, Store } from '@ngxs/store';
-import { GetMediaItemDetails, AddMediaItemField, RemoveMediaItemField, UpdateMediaItem } from '../../state/media/media.action';
+import { GetMediaItemDetails, AddMediaItemField, RemoveMediaItemField, UpdateMediaItem, ClearMediaItemMetadata } from '../../state/media/media.action';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
@@ -93,6 +93,8 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   ngOnDestroy(): void {
+    this.dynamicForm = null;
+    this.store.dispatch(new ClearMediaItemMetadata());
     this.componentActive = false;
   }
 
@@ -119,9 +121,10 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   submit(value?: any) {
-    console.log('submit form: ', this.dynamicForm.value);
+    let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : '{}';
+    console.log('submit form: ', metadata);
     const { id }  = this.mediaItem;
-    this.mediaItem.metadata = JSON.stringify(this.dynamicForm.value);
+    this.mediaItem.metadata = metadata;
     this.store.dispatch(new UpdateMediaItem(id, this.mediaItem));
   }
 
