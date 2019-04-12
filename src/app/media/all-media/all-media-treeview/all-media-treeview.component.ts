@@ -84,4 +84,8 @@ export class AllMediaTreeviewComponent implements OnInit {
     console.log('AllMediaTreeComponent - navigate - data: ', data);
     this.router.navigate([`media/${data.documentId}/details`]);
   }
+  download(arg: any) {
+    console.log('AAA', arg.url);
+    // window.location.href = `${arg.url}`;
+  }
 }

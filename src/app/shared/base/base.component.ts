@@ -68,15 +68,15 @@ export class BaseComponent implements OnInit {
   }
 
   public ShowSpinner(show: boolean) {
-    createSpinner({
-      // Specify the target for the spinner to show
-      target: document.getElementById('spinnerContainer')
-    });
-    if (show) {
-      showSpinner(document.getElementById('spinnerContainer'));
-    } else {
-      hideSpinner(document.getElementById('spinnerContainer'));
-    }
+    // createSpinner({
+    //   // Specify the target for the spinner to show
+    //   target: document.getElementById('spinnerContainer')
+    // });
+    // if (show) {
+    //   showSpinner(document.getElementById('spinnerContainer'));
+    // } else {
+    //   hideSpinner(document.getElementById('spinnerContainer'));
+    // }
   }
 
   get Permission(): string {

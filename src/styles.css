@@ -591,6 +591,12 @@ img{
 
 /*#endregion */
 /* Media-item-details */
+.e-float-line:before {
+  top: 10px!important;
+}
+.e-float-line:after {
+  top: 10px!important;
+}
 
 .e-input-group:not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left),
 .e-input-group.e-control-wrapper:not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left){

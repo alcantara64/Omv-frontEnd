@@ -9,23 +9,27 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { BaseComponent } from '../base/base.component';
 import Viewer from 'viewerjs';
 import { takeWhile } from 'rxjs/operators';
+import {
+  LinkAnnotationService, BookmarkViewService, MagnificationService, ThumbnailViewService,
+  ToolbarService, NavigationService, TextSearchService, TextSelectionService, PrintService, AnnotationService
+} from '@syncfusion/ej2-angular-pdfviewer';
 
 @Component({
   selector: 'app-media-viewer',
   templateUrl: './media-viewer.component.html',
   styleUrls: ['./media-viewer.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [LinkAnnotationService, BookmarkViewService, MagnificationService, ThumbnailViewService, ToolbarService, NavigationService, TextSearchService, TextSelectionService, PrintService, AnnotationService]
 })
 export class MediaViewerComponent extends BaseComponent implements OnInit, OnDestroy {
   public mediaOBJ: any;
   public media: string;
   public mediaType: string;
   public mediaSource: string;
-  public service: string;
+  public service = 'http://omv.test.eminenttechnology.com/OMV.Api/api/V1/pdfviewer';
   public document: string;
   @Select(MediaState.getCurrentMediaItem) mediaItem$: Observable<string>;
   @Select(MediaState.getMedia) media$: Observable<any>;
-  //  @Input() mediaDataSrc: any;
   dataSource: any;
   mediaID: string;
   url: string;
@@ -59,7 +63,6 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
   toggleMediaViewer() {
     // this.mediaOBJ = this.dataSource.find((ids: { id: string; }) => ids.id === this.mediaID);
     this.mediaType = this.dataSource.type;
-    console.log('MediaView - toggle type', this.mediaType);
     this.toggleMediaType(this.mediaType);
   }
 
@@ -77,13 +80,14 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
         break;
       }
       case 'PDF': {
-        this.url = `http://docs.google.com/gview?url=${this.dataSource.url}&embedded=true`;
-        this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+        this.url = this.dataSource.url;
         break;
-      }
+      }    
       case 'PNG':
       case 'JPG': {
         setTimeout(() => {
+          console.log(this.dataSource.url)
+          this.url = this.dataSource.url;
           const imageElement = window.document.querySelector('img.image');
           console.log('element', imageElement);
           const viewer = new Viewer(imageElement, {
@@ -116,4 +120,5 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
 
     }
   }
+  
 }
