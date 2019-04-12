@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import './assets/css/material.css';
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,500,600');
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700');
 @import "../node_modules/@syncfusion/ej2-base/styles/material.css";
 @import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
@@ -351,8 +351,6 @@ html, body {
 }
 
 .file-upload-label {
-  width: 78px;
-  height: 19px;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;

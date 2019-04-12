@@ -12,7 +12,9 @@ import { Observable } from 'rxjs/internal/Observable';
 import { MediaDataService } from 'src/app/core/services/data/media/media.data.service';
 import { MediaItem } from 'src/app/core/models/entity/media';
 import { Store } from '@ngxs/store';
-import { BaseComponent } from 'src/app/shared/base/base.component';
+import { CreateMediaItem } from '../state/media/media.action';
+import { HideSpinner, DisplayToastMessage } from 'src/app/state/app.actions';
+import { ToastType } from 'src/app/core/enum/toast';
 
 @Injectable({
   providedIn: "root"
@@ -23,20 +25,22 @@ export class MediaUploadService {
   percent: any;
 
   constructor(private directoryDataService: DirectoryDataService, private metadataFieldsDataService: MetadataFieldsDataService,
-              private mediaDataService: MediaDataService, private blob: BlobService) {}
+    private store: Store, private blob: BlobService) { }
 
 
-  upload (directoryId: number, file: File, metadata: string): Observable<any> {
+  upload(directoryId: number, file: File, metadata: string): Observable<any> {
     const Config: UploadParams = {
-      sas: '?sv=2018-03-28&ss=b&srt=sco&sp=rwdlacup&st=2019-04-11T14%3A39%3A29Z&se=2019-04-12T14%3A39%3A29Z&sig=wZ4dpQb6oG%2BYtm60s4gy6%2FBFl9OgZqQXiT6Xizsvl5w%3D',
+      sas: '?st=2019-04-12T14%3A31%3A52Z&se=2019-04-13T14%3A31%3A52Z&sp=rwl&sv=2018-03-28&sr=c&sig=HyVLzOAgBMuvHq49DZxTFv0%2FFdNuIpthmkGMkeSnc0A%3D',
       storageAccount: 'ocean33r1ngm3d1avault',
       containerName: 'media/Platform/rigs/ursa/2019/Documents'
     };
-
-    let splitByLastDot = function(text) {
+    
+    let splitByLastDot = function (text) {
       var index = text.lastIndexOf('.');
       return [text.slice(0, index), text.slice(index + 1)]
-    } 
+    }
+
+    let retVal = false;
 
     if (file !== null) {
       const baseUrl = this.blob.generateBlobUrl(Config, file.name);
@@ -46,6 +50,7 @@ export class MediaUploadService {
         blockSize: 1024 * 64, // OPTIONAL, default value is 1024 * 32
         file: file,
         complete: () => {
+          
           let item = new MediaItem();
           item.metadata = metadata;
           item.size = file.size;
@@ -55,23 +60,21 @@ export class MediaUploadService {
           item.url = this.config.baseUrl;
           item.documentTypeCode = splitByLastDot(file.name).pop().toUpperCase();
           item.requester = 1;
-
-          return this.mediaDataService.createMediaItem(item).subscribe(response => {
-            console.log('MediaUploadService upload createMediaItem response: ', response);
-            return true;
-          });
+          this.store.dispatch(new CreateMediaItem(item));
         },
         error: (err) => {
-          console.log('MediaUploadService upload Error: ', err);  
+          console.log('MediaUploadService upload Error: ', err);
+          this.store.dispatch(new HideSpinner());
+          this.store.dispatch(new DisplayToastMessage(err.statusText, ToastType.error));
         },
         progress: (percent) => {
-          console.log('MediaUploadService upload progress: ', percent);  
+          console.log('MediaUploadService upload progress: ', percent);
           this.percent = percent;
         }
       };
       this.blob.upload(this.config);
     }
-    return of(false);
+    return of(retVal);
   }
 
   async getDirectoryMetadata(directoryId: number) {
@@ -79,8 +82,8 @@ export class MediaUploadService {
     let items = await this.directoryDataService.getMetadata(directoryId).toPromise();
     if (items) {
       items.forEach(async item => {
-        let field: any; 
-        switch(item.fieldTypeName) {
+        let field: any;
+        switch (item.fieldTypeName) {
           case MetadataFieldType.Text:
             field = this.buildTextBox(item);
             break;
@@ -92,12 +95,12 @@ export class MediaUploadService {
             break;
         }
         metaArray.push(field);
-      });  
+      });
     }
 
     metaArray.forEach(async item => {
       if (item.type === 'select') {
-        item.options = await this.getOptions(item.optionsId).toPromise();      
+        item.options = await this.getOptions(item.optionsId).toPromise();
       }
     });
 
@@ -108,8 +111,8 @@ export class MediaUploadService {
     return this.metadataFieldsDataService.getListItems(id).pipe(
       map(items => {
         if (items) {
-          return items.sort(x => x.sort);
-        } 
+          return items.sort(x => x.itemSort);
+        }
         return [];
       })
     );

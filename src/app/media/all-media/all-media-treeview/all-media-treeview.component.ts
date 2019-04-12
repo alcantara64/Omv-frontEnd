@@ -9,6 +9,7 @@ import { QueryCellInfoEventArgs } from '@syncfusion/ej2-grids';
 import { EmitType } from '@syncfusion/ej2-base';
 import { ITreeData } from '@syncfusion/ej2-treegrid';
 import { Document } from 'src/app/core/models/entity/document';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-media-treeview',
@@ -26,7 +27,7 @@ export class AllMediaTreeviewComponent implements OnInit {
     { headerText: 'Date', field: 'modifiedOnString' }
   ];
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
 
   }
 
@@ -77,7 +78,12 @@ export class AllMediaTreeviewComponent implements OnInit {
       args.cell.querySelector('.e-treecell').appendChild(cellValue);
     }
   }
+  
 
+  navigate(data: any) {
+    console.log('AllMediaTreeComponent - navigate - data: ', data);
+    this.router.navigate([`media/${data.documentId}/details`]);
+  }
   download(arg: any) {
     console.log('AAA', arg.url);
     // window.location.href = `${arg.url}`;

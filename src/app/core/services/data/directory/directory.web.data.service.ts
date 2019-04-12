@@ -69,7 +69,8 @@ export class DirectoryWebDataService implements DirectoryDataService {
           .forMember('entityName', function(opts) { opts.mapFrom('entityName'); })
           .forMember('isRequired', function(opts) { opts.mapFrom('isRequired'); })
           .forMember('order', function(opts) { opts.mapFrom('order'); })
-          .forMember('status', function(opts) { opts.mapFrom('status'); });
+          .forMember('status', function(opts) { opts.mapFrom('status'); })
+          .forMember('options', function(opts) { opts.mapFrom('options'); });
 
         var _response = automapper.map(response, Metadata, response);
         
@@ -90,6 +91,7 @@ export class DirectoryWebDataService implements DirectoryDataService {
         automapper
           .createMap(response, Document)
           .forMember('id', function(opts) { opts.mapFrom('id'); })
+          .forMember('documentId', function(opts) { opts.mapFrom('documentId'); })
           .forMember('directoryId', function(opts) { opts.mapFrom('directoryId'); })
           .forMember('parentId', function(opts) { opts.mapFrom('parentId'); })
           .forMember('name', function(opts) { opts.mapFrom('name'); })

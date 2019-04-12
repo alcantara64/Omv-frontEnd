@@ -14,6 +14,8 @@ import {
   DisplayToastMessage,
   DeviceWidth,
   GridData
+  ShowSpinner,
+  HideSpinner
 } from './app.actions';
 import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
@@ -39,6 +41,7 @@ export class AppStateModel {
   error: string;
   deviceWidth: number;
   gridData: any[];
+  showSpinner: boolean;
 }
 
 @State<AppStateModel>({
@@ -57,7 +60,8 @@ export class AppStateModel {
     toastMessage: null,
     error: '',
     deviceWidth: window.innerWidth,
-    gridData: []
+    gridData: [],
+    showSpinner: false
   }
 })
 export class AppState {
@@ -65,6 +69,11 @@ export class AppState {
   @Selector()
   static getLeftNavVisibility(state: AppStateModel) {
     return state.showLeftNav;
+  }
+
+  @Selector()
+  static getSpinnerVisibility(state: AppStateModel) {
+    return state.showSpinner;
   }
 
   @Selector()
@@ -130,6 +139,24 @@ export class AppState {
     setState({
       ...state,
       showLeftNav: payload
+    });
+  }
+
+  @Action(ShowSpinner)
+  showSpinner({getState, setState}: StateContext<AppStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      showSpinner: true
+    });
+  }
+
+  @Action(HideSpinner)
+  hideSpinner({getState, setState}: StateContext<AppStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      showSpinner: false
     });
   }
 

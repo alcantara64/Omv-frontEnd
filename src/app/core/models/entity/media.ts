@@ -22,6 +22,7 @@ export class MediaItem {
   modifiedOn?: Date;
   modifiedOnString?: string;
   modifiedBy?: string;
+  parentId?: number;
 
   type: string;
   requester?: number;

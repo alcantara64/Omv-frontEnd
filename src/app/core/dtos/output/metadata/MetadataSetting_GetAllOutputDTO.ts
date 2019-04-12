@@ -1,3 +1,5 @@
+import { MetadataField_GetListItemByIdOutputDTO } from './MetadataField_GetListItemByIdOutputDTO';
+
 export class MetadataSetting_GetAllOutputDTO {
   MetadataSettingId: number;
   MetadataFieldId: number;
@@ -11,4 +13,5 @@ export class MetadataSetting_GetAllOutputDTO {
   IsRequired: boolean;
   Order: number;
   Status: number;
+  Options: MetadataField_GetListItemByIdOutputDTO[];
 }
