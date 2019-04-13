@@ -1,10 +1,12 @@
 export class History {
-    id: number;
-    name: string;
-    actionTaken: string;
-    updatedBy: boolean;
-    oldValue: string;
-    newValue: string;
-    date: Date;
-  }
-  
+  auditId: string;
+  eventName: string;
+  entityType: string;
+  entityId: string;
+  columnName: string;
+  oldValue: string;
+  newValue: string;
+  createdOn: Date;
+  createdBy: string;
+}
+

@@ -34,11 +34,11 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
     this.PageTitle('Admin User');
   }
   columns: GridColumn[] = [
-    { headerText: "Status ", field: " ", width: "5" },
-    { headerText: "Name", field: "documentName" },
-    { headerText: "Destination", field: "folderPath" },
-    { headerText: "Date", field: "modifiedOnString" },
-    { headerText: "Size", field: "size" }
+    { headerText: 'Status ', field: ' ', width: '5' },
+    { headerText: 'Name', field: 'documentName' },
+    { headerText: 'Destination', field: 'metadata' },
+    { headerText: 'Date', field: 'modifiedOnString' },
+    { headerText: 'Size (KB)', field: 'size' }
   ];
 
   ngOnInit() {
@@ -49,22 +49,7 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
     });
     this.uploadHistoryMedia$.subscribe(historyMedia => {
       this.total = historyMedia.length;
-      if (historyMedia) {
-        historyMedia.forEach((item, index) => {
-          this.buildFolderPath(item.directoryId);
-        });
-      }
     });
-  }
-
-  private buildFolderPath(directoryId: number) {
-    let directory = this.directories.find(x => x.id === directoryId);
-    let parent = this.directories.find(x => x.id === directory.parentId);
-    if (parent) {
-      this.folderPath = this.folderPath ? `${directory.name} > ${this.folderPath}` : `${directory.name}`;
-      return this.buildFolderPath(parent.id);
-    }
-    return this.folderPath = this.folderPath ? `${directory.name} > ${this.folderPath}` : `${directory.name}`;
   }
 }
 
