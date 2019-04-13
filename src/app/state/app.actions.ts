@@ -85,3 +85,9 @@ export class DeviceWidth {
 
   constructor(public deviceWidth: number) {}
 }
+
+export class GridData {
+  static readonly type = '[App] GridData';
+
+  constructor(public gridData: any[]) {}
+}

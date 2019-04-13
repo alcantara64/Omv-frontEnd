@@ -98,11 +98,11 @@ export class MediaUploadService {
       });
     }
 
-    metaArray.forEach(async item => {
-      if (item.type === 'select') {
-        item.options = await this.getOptions(item.optionsId).toPromise();
-      }
-    });
+    // metaArray.forEach(async item => {
+    //   if (item.type === 'select') {
+    //     item.options = await this.getOptions(item.optionsId).toPromise();
+    //   }
+    // });
 
     return await metaArray.sort(x => x.order);
   }
@@ -146,7 +146,7 @@ export class MediaUploadService {
       name: item.fieldName,
       order: item.order,
       optionsId: item.listId,
-      options: [],
+      options: item.options,
       placeholder: 'Please select',
       validations: this.getValidations(item)
     };

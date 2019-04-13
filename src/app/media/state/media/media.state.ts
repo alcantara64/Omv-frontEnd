@@ -1,8 +1,8 @@
 import { MediaUploadService } from './../../media-upload/media-upload.service';
 import {
   GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
-  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem,
-  ClearMediaItemMetadata, ResetUploadStatus, GetDocuments
+  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, 
+  ClearMediaItemMetadata, ResetUploadStatus, GetDocuments, ClearDirectoryMetadata
 } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
@@ -266,6 +266,15 @@ export class MediaState {
     ctx.setState({
       ...state,
       uploadComplete: false
+    });
+  }
+
+  @Action(ClearDirectoryMetadata)
+  clearDirectoryMetadata(ctx: StateContext<MediaStateModel>) {
+    const state = ctx.getState();
+    ctx.setState({
+      ...state,
+      directoryMetadata: []
     });
   }
 

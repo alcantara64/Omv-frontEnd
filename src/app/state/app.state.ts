@@ -13,6 +13,7 @@ import {
   GetLoggedInUser,
   DisplayToastMessage,
   DeviceWidth,
+  GridData,
   ShowSpinner,
   HideSpinner
 } from './app.actions';
@@ -39,6 +40,7 @@ export class AppStateModel {
   toastMessage?: Toast;
   error: string;
   deviceWidth: number;
+  gridData: any[];
   showSpinner: boolean;
 }
 
@@ -58,6 +60,7 @@ export class AppStateModel {
     toastMessage: null,
     error: '',
     deviceWidth: window.innerWidth,
+    gridData: [],
     showSpinner: false
   }
 })
@@ -121,6 +124,11 @@ export class AppState {
   @Selector()
   static setDeviceWidth(state: AppStateModel) {
     return state.deviceWidth;
+  }
+
+  @Selector()
+  static setGridData(state: AppStateModel) {
+    return state.gridData;
   }
 
   constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
@@ -286,6 +294,16 @@ export class AppState {
     setState({
       ...state,
       deviceWidth: deviceWidth,
+    });
+  }
+
+  @Action(GridData)
+  GridData({getState, setState}: StateContext<AppStateModel>, {gridData}: GridData) {
+    const state = getState();
+
+    setState({
+      ...state,
+      gridData: gridData,
     });
   }
 }

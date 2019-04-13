@@ -21,8 +21,10 @@
     <e-column width="100" textAlign='Left'>
       <ng-template #template let-data>
         <a *ngIf=" !data.directoryId " class="link" style="text-decoration:underline;"
-          (click)="performFirstAction($event)">
-          Download</a>
+          (click)="download(data)">
+          Download
+        </a>
+
       </ng-template>
     </e-column>
     <e-column width="100">

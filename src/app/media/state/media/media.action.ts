@@ -16,6 +16,10 @@ export class ClearMediaItemMetadata {
   static readonly type = '[Media] ClearMediaItemMetadata';
 }
 
+export class ClearDirectoryMetadata {
+  static readonly type = '[Media] ClearDirectoryMetadata';
+}
+
 export class ResetUploadStatus {
   static readonly type = '[Media] ResetUploadStatus';
 }

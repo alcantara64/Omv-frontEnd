@@ -51,7 +51,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
   DISABLE = 'Disable';
   public groupFields = { text: 'name', value: 'id' };
   groupid: number;
-  name: string;
+  searchName = '';
   urlparam: string;
   columns: GridColumn[] = [
     { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
@@ -73,7 +73,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
 
   @ViewChild('listviewgroup') groupDialogList: any;
 
-  @ViewChild('nameselect') nameSelect: TextBoxComponent;
+
   @ViewChild('groupselect') groupSelect: DropDownListComponent;
 
   target = '.control-section';
@@ -123,6 +123,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
       this.store.dispatch(new GetUsers());
       this.displayUsers(params.type);
       this.groupSelect.index = null;
+      this.searchName = '';
     }),
     takeWhile(() => this.componentActive);
 
@@ -158,7 +159,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
   }
 
   search() {
-    this.store.dispatch(new GetUsers(this.name, this.groupid));
+    this.store.dispatch(new GetUsers(this.searchName, this.groupid));
   }
 
   changeUsersStatus(users: User[]) {
