@@ -135,4 +135,16 @@ export class ListComponent extends BaseComponent implements OnInit {
     data.isFavorite = !data.isFavorite;
     this.toggleFavorite.emit(data);
   }
+
+  // getItemData(data: any) {
+  //   console.log('ZZZ', data);
+  //   const isAlreadySelected = this.selectedItems.filter(x => x.id === data.id);
+  //   if (isAlreadySelected.length === 0) {
+  //     this.selectedItems.push(data);
+  //     this.selectedItemData.emit(this.selectedItems);
+  //   }else {
+  //     this.selectedItems.splice( this.selectedItems.indexOf(data), 1 );
+  //     this.selectedItemData.emit(this.selectedItems);
+  //   }
+  // }
 }

@@ -31,16 +31,30 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(new GetMedia(1));
+    this.media$.subscribe(data => this.media = data)
   }
 
   ngOnDestroy(): void {
     this.componentActive = false;
   }
+  // getItemData(data: any) {
+  //   console.log('ZZZ', data);
+  //   const isAlreadySelected = this.selectedItems.filter(x => x.id === data.id);
+  //   if (isAlreadySelected.length === 0) {
+  //     this.selectedItems.push(data);
+  //     this.selectedItemData.emit(this.selectedItems);
+  //   }else {
+  //     this.selectedItems.splice( this.selectedItems.indexOf(data), 1 );
+  //     this.selectedItemData.emit(this.selectedItems);
+  //   }
+  // }
 
-  download(arg: any) {
-    window.location.href = `${arg.url}`;
+  download(data: MediaItem) {
+    var FileSaver = require('file-saver');
+    FileSaver.saveAs(data.url, data.name);
+
   }
-  
+
   navigate(data: any) {
     this.router.navigate([`media/${data.id}/details`]);
   }
