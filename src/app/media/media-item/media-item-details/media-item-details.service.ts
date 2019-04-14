@@ -1,19 +1,17 @@
 import { Injectable } from "@angular/core";
 import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-setting';
 import { Validators, ValidatorFn } from '@angular/forms';
-import { map } from 'rxjs/operators';
 import { MediaItem } from 'src/app/core/models/entity/media';
 import { DirectoryDataService } from 'src/app/core/services/data/directory/directory.data.service';
 import { MetadataFieldType } from 'src/app/core/enum/metadataFieldType';
 import { Metadata } from 'src/app/core/models/entity/metadata';
-import { MetadataFieldsDataService } from 'src/app/core/services/data/metadata-fields/metadata-fields.data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaItemDetailsService {
 
-  constructor(private directoryDataService: DirectoryDataService, private metadataFieldsDataService: MetadataFieldsDataService) {}
+  constructor(private directoryDataService: DirectoryDataService) {}
 
   async getMetadaFields(mediaItem: MediaItem) {
     let itemMetadata = JSON.parse(mediaItem.metadata);
@@ -71,17 +69,6 @@ export class MediaItemDetailsService {
     return await metaArray.sort(x => x.order);
   }
 
-  private getOptions(id: number) {
-    return this.metadataFieldsDataService.getListItems(id).pipe(
-      map(items => {
-        if (items) {
-          return items.sort(x => x.itemSort);
-        } 
-        return [];
-      })
-    );
-  }
-
   private buildTextBox(item: Metadata): FieldConfiguration {
     return {
       type: "input",
@@ -94,14 +81,6 @@ export class MediaItemDetailsService {
     };
   }
 
-  private buildLabel(item: Metadata): FieldConfiguration {
-    return {
-      type: "label",
-      label: item.fieldName,
-      name: item.fieldName,
-      order: item.order
-    };
-  }
 
   private buildDropdown(item: Metadata): FieldConfiguration {
     return {

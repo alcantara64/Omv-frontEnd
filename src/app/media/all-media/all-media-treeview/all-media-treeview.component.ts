@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { MediaState } from '../../state/media/media.state';
 import { Select, Store } from '@ngxs/store';
 import { GridColumn } from 'src/app/core/models/grid.column';
-import { GetMediaTreeData, GetMedia, GetDirectories, GetDocuments } from '../../state/media/media.action';
+import { GetMediaTreeData, GetMedia, GetDirectories, GetTreeViewMedia } from '../../state/media/media.action';
 import { QueryCellInfoEventArgs } from '@syncfusion/ej2-grids';
 import { EmitType } from '@syncfusion/ej2-base';
 import { ITreeData } from '@syncfusion/ej2-treegrid';
 import { Document } from 'src/app/core/models/entity/document';
 import { Router } from '@angular/router';
+import { MediaItem } from 'src/app/core/models/entity/media';
+import { ShowSpinner } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-all-media-treeview',
@@ -18,12 +20,12 @@ import { Router } from '@angular/router';
 })
 export class AllMediaTreeviewComponent implements OnInit {
 
-  public data: Document[];
-  @Select(MediaState.getDocuments) data$: Observable<Document[]>;
+  media: MediaItem[];
+  @Select(MediaState.getTreeViewMedia) media$: Observable<MediaItem[]>;
   selectionOptions: Object;
   options: any;
   columns: GridColumn[] = [
-    { headerText: 'Name', field: 'name', width: '700' },
+    { headerText: 'Name', field: 'name' },
     { headerText: 'Date', field: 'modifiedOnString' }
   ];
 
@@ -32,14 +34,15 @@ export class AllMediaTreeviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetDocuments());
-    this.data$.subscribe(data => {
-      this.data = data;
-      console.log('data', data);
+    this.store.dispatch(new ShowSpinner());
+    this.store.dispatch(new GetMedia());
+    this.media$.subscribe(data => {
+      this.media = data;
+      console.log('AllMediaTreeviewComponent ngOnInit - data', data);
       if (data) {
         this.selectionOptions = {
-          mode: 'Row', cellSelectionMode: 'Flow', type: 'Single', checkboxOnly: true,
-          persistSelection: false, checkboxMode: 'Default', enableSimpleMultiRowSelection: true,
+          mode: 'Row', cellSelectionMode: 'Flow', type: 'Single', checkboxOnly: false,
+          persistSelection: false, checkboxMode: 'ResetOnRowClick', enableSimpleMultiRowSelection: true,
           enableToggle: false
         };
       }
@@ -50,8 +53,8 @@ export class AllMediaTreeviewComponent implements OnInit {
     data.isFavorite = !data.isFavorite;
   }
 
-  rowSelected(action) {
-    console.log(action.data);
+  rowChecked(data: any) {
+    console.log('AllMediaTreeViewComponent - rowChecked: ', data);
   }
 
   checkboxSelected(action) {
@@ -79,13 +82,11 @@ export class AllMediaTreeviewComponent implements OnInit {
     }
   }
   
-
   navigate(data: any) {
-    console.log('AllMediaTreeComponent - navigate - data: ', data);
     this.router.navigate([`media/${data.documentId}/details`]);
   }
+
   download(arg: any) {
     console.log('AAA', arg.url);
-    // window.location.href = `${arg.url}`;
   }
 }

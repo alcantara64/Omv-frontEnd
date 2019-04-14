@@ -1,36 +1,19 @@
-<ejs-treegrid [dataSource]='data' [treeColumnIndex]='2' (rowSelected)="rowSelected($event)" [allowSorting]='true'
-  [allowPaging]='true' (queryCellInfo)='queryCellInfo($event)' [selectionSettings]='selectionOptions'
-  hasChildMapping='directoryId ? true : false' parentIdMapping='parentId' idMapping='id'>
-  <e-columns>
-    <e-column headerText=' ' type=" " width='50' textAlign='Center'>
-      <ng-template #template let-data>
-        <div >
-          <ejs-checkbox cssClass="e-success" [checked]="false"></ejs-checkbox>
-        </div>
-      </ng-template>
-    </e-column>
-    <e-column headerText='' width='80' textAlign='Left'>
-      <ng-template #template let-data>
-        <img (click)="performToggleFavorite(data)" class="favorite-cls cursor"
-          [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">
-
-      </ng-template>
-    </e-column>
-    <e-column field='name' headerText='Name' width=" " textAlign='Left'></e-column>
-    <e-column field='modifiedOnString' headerText='Date' width=" " textAlign='Left'></e-column>
-    <e-column width="100" textAlign='Left'>
-      <ng-template #template let-data>
-        <a *ngIf=" !data.directoryId " class="link" style="text-decoration:underline;"
-          (click)="download(data)">
-          Download
-        </a>
-
-      </ng-template>
-    </e-column>
-    <e-column width="100">
-      <ng-template #template let-data>
-        <span class='e-icons e-pencil' (click)="navigate(data)" style='color: #0097A9 !important'></span>
-      </ng-template>
-    </e-column>
-  </e-columns>
-</ejs-treegrid>
+<app-tree-grid
+  [dataSource]="media"
+  [columns]="columns"
+  [treeColumnIndex]="2"
+  [idMapping]="'id'"
+  [parentIdMapping]="'parentId'"
+  [hasChildMapping]="directoryId ? true : false"
+  [selectionOptions]="selectionOptions"
+  [favoriteColumnIndex]="2"
+  [showFolderIcon]="true"
+  [showFavorite]="true"
+  [allowNavigating]="true"
+  [allowChecking]="true"
+  [allowDownloading]="true"
+  (clickFavorite)="performToggleFavorite($event)"
+  (download)="download($event)"
+  (navigate)="navigate($event)"
+  (rowChecked)="rowChecked($event)">
+</app-tree-grid>

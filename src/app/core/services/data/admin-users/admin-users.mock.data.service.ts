@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdminUsersDataService } from './admin-users.data.service';
 import { map } from 'rxjs/operators';
-import { User } from 'src/app/core/models/entity/user';
+import { User, Users } from 'src/app/core/models/entity/user';
 import { Permission } from 'src/app/core/enum/permission';
 
 
@@ -18,9 +18,9 @@ export class AdminUsersMockDataService implements AdminUsersDataService {
   private mockCRUDurl: string = 'https://omvclient.free.beeceptor.com';
   constructor(private httpClient: HttpClient) { }
 
-  getUsers(name:string, groupid:number): Observable<User[]> {
+  getUsers(name:string, groupid:number, pageNumber?: number, pageSize?: number): Observable<Users> {
     var mockUrl = `./assets/mock/admin-users.json`;
-    var data = this.httpClient.get<User[]>(mockUrl);
+    var data = this.httpClient.get<Users>(mockUrl);
 
     return data;
   }

@@ -1,5 +1,13 @@
+import { PaginationInfo } from '../../dtos/output/PaginationInfo';
+
+export class Media {
+  pagination: PaginationInfo;
+  data: MediaItem[];
+}
+
 export class MediaItem {
-  id: string;
+  id: any;
+  documentId?: any;
   directoryId: number;
   directoryName: string;
   directoryParentId: number;
@@ -23,6 +31,9 @@ export class MediaItem {
   modifiedOnString?: string;
   modifiedBy?: string;
   parentId?: number;
+  hasChild?: boolean;
+  isFavorite?: boolean;
+  isChecked?: boolean;
 
   type: string;
   requester?: number;

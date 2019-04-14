@@ -27,8 +27,8 @@ export class AllMediaTileviewComponent implements OnInit {
     this.store.dispatch(new GetMedia(1, 5));
   }
 
-  navigate(data: any) {
-    this.router.navigate([`media/${data.id}/details`]);
+  navigate(data: MediaItem) {
+    this.router.navigate([`media/${data.documentId}/details`]);
   }
 
   selectedItemData(data: any) {

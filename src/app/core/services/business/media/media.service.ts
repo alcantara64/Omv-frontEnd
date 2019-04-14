@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {MediaDataService} from "../../data/media/media.data.service";
 import { History } from 'src/app/core/models/entity/history';
 
-import { MediaItem } from 'src/app/core/models/entity/media';
+import { MediaItem, Media } from 'src/app/core/models/entity/media';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 import { Document } from 'src/app/core/models/entity/document';
 
@@ -14,7 +14,7 @@ export class MediaService {
 
   constructor(private MediaDataService: MediaDataService) { }
 
-  getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]> {
+  getMedia(pageNumber?: number, pageSize?: number): Observable<Media> {
     return this.MediaDataService.getMedia(pageNumber, pageSize);
   }
 

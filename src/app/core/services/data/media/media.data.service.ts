@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MediaItem } from 'src/app/core/models/entity/media';
+import { MediaItem, Media } from 'src/app/core/models/entity/media';
 import { History } from 'src/app/core/models/entity/history';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 
@@ -11,7 +11,7 @@ export abstract class MediaDataService {
 
     constructor() { }
 
-    abstract getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]>; 
+    abstract getMedia(pageNumber?: number, pageSize?: number): Observable<Media>; 
     abstract getMediaItem(id: number): Observable<MediaItem>;    
     abstract createMediaItem(payload: MediaItem): Observable<any>;
     abstract updateMediaItem(id: any, payload: MediaItem): Observable<any>;

@@ -6,6 +6,12 @@ export class GetMedia {
   constructor(public pageNumber?: number, public pageSize?: number) { }
 }
 
+export class GetTreeViewMedia{
+  static readonly type = '[Media] GetTreeViewMedia';
+
+  constructor(public pageNumber?: number, public pageSize?: number) { }
+}
+
 export class GetMediaItem {
   static readonly type = '[Media] GetMediaItem';
   
@@ -92,8 +98,4 @@ export class RemoveMediaItemField {
   static readonly type = '[Media] RemoveMediaItemField';
   
   constructor(public name: string) { }
-}
-
-export class GetDocuments{
-  static readonly type = '[Media] GetDocuments';
 }

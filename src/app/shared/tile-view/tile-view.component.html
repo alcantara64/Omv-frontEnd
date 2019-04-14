@@ -13,7 +13,7 @@
                 <span style="padding-right:1rem;">
                   <label class="media-tile-info-bold pr-2">
                     {{ data.type }}
-                  </label>    
+                  </label>
                   <label class="media-tile-info">
                     {{ data.size | filesize:0 }}
                   </label>
@@ -21,7 +21,6 @@
                 <span>
                   <img (click)="performToggleFavorite(data)" class="favorite-cls cursor" 
                     [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">
-
                   <ejs-checkbox cssClass="e-small float-right" (change)="getItemData(data)"  [checked]="data.isChecked ? true: false"></ejs-checkbox>
                 </span>
               </span>
@@ -29,7 +28,7 @@
           </div>
         </div>
         <div class="e-card-content cursor pb-0" (click)="performItemClick(data)">
-          <img  [src]="data.thumbnail"  class="center-img cursor" height="150">
+          <img [src]="data.thumbnail" [default]="data.url" class="center-img cursor" height="150" width="100%">
           <span>
             <label class="media-tile-info pt-4">
               {{data.name | uppercase}}

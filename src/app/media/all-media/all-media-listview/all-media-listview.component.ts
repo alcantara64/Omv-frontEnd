@@ -41,7 +41,7 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
     window.location.href = `${arg.url}`;
   }
   
-  navigate(data: any) {
-    this.router.navigate([`media/${data.id}/details`]);
+  navigate(data: MediaItem) {
+    this.router.navigate([`media/${data.documentId}/details`]);
   }
 }
