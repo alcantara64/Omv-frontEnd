@@ -55,6 +55,7 @@ import { AdminMediaState } from './state/admin-media/admin-media.state';
 import { AdminMediaDataService } from '../core/services/data/admin-media/admin-media.data.service';
 import { AdminMediaWebDataService } from '../core/services/data/admin-media/admin-media.web.data.service';
 import { AdminMediaMockDataService } from '../core/services/data/admin-media/admin-media.mock.data.service';
+import { AdminMetadataListComponent } from './admin-metadata-list/admin-metadata-list.component';
 // import { AdminMediaMockDataService } from '../core/services/data/admin-media/admin-media.mock.data.service';
 
 @NgModule({
@@ -72,7 +73,8 @@ import { AdminMediaMockDataService } from '../core/services/data/admin-media/adm
     AdminGroupMembersComponent,
     AdminGroupMediaAccessComponent,
     AdminMediaUploadsListComponent,
-    AdminMediaUploadsTabsComponent
+    AdminMediaUploadsTabsComponent,
+    AdminMetadataListComponent
   ],
   imports: [
     SharedModule,

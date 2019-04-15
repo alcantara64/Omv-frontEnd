@@ -19,50 +19,7 @@ import {AppState} from "../../state/app.state";
 })
 export class AdminMediaUploadsListComponent extends ListComponent implements OnInit {
 
-  newUpload =
-    [
-      {
-        "id": 1,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
-      {
-        "id": 2,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
-      {
-        "id": 3,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
-      {
-        "id": 4,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
-      {
-        "id": 5,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
 
-    ];
   showStatusIcon = true;
   @Select(AdminMediaState.getUploadHistory) uploadHistoryMedia$: Observable<UploadHistory[]>;
   @Select(MediaState.getDirectories) directory$ : Observable<Directory[]>;

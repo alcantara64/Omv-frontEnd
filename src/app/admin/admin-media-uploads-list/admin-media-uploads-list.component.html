@@ -20,7 +20,7 @@
     </span>
 </div>
 
-<app-list [listData]="newUpload"
+<app-list [listData]="uploadHistoryMedia | async"
           [statusIconPosition]="0"
           [columns]="columns">
 </app-list>

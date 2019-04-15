@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import {Select} from "@ngxs/store";
-import {AppState} from "../../state/app.state";
-import {Observable} from "rxjs";
+import { Select } from "@ngxs/store";
+import { AppState } from "../../state/app.state";
+import { Observable } from "rxjs";
 
 
 @Component({
@@ -21,6 +21,8 @@ export class LeftNavComponent implements OnInit {
   isMediaFolderStructureActive: boolean;
   isMediaBulkUploaderActive: boolean;
   isMediaMetadataDetailsActive: boolean;
+  isMediaMetaDataListActive: boolean;
+  mediaMetadataLink = '/admin/media/metadata';
   mediaUploadsLink = '/admin/media/uploads';
   newMediaUploadsLink = '/admin/media/uploads/new';
   inProgressMediaUploadsLink = '/admin/media/uploads/in-progress';
@@ -74,13 +76,13 @@ export class LeftNavComponent implements OnInit {
     this.clearActiveSelections();
     this.router.navigate([url]);
     this.showAdminNav();
-    switch(url) {
+    switch (url) {
       case this.dashboardLink:
         this.isDashboardActive = true;
         break;
       case this.mediaUploadsLink:
         this.isMediaMenuOpen = true;
-        this.isMediaUploadsActive = true;     
+        this.isMediaUploadsActive = true;
       case this.usersLink:
       case this.activeUsersLink:
       case this.unassignedUsersLink:
@@ -93,8 +95,9 @@ export class LeftNavComponent implements OnInit {
       case this.disabledGroupsLink:
         this.isUsersMenuOpen = true;
         this.isGroupsActive = true;
-        break;      
-      
+        break;
+      case this.mediaMetadataLink:
+        this.isMediaMetaDataListActive = true;
       default:
         break;
     }
