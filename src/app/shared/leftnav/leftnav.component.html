@@ -43,7 +43,7 @@
             </li>
           </ul>
         </div>
-        <button class="collapsible" (click)="usersMenuClicked()" [ngClass]="isUsersMenuOpen ? 'active' : 'sample'">Users</button>
+        <button class="collapsible" (click)="usersMenuClicked()" [ngClass]="isUsersMenuOpen ? 'active' : 'sample'">Users & Groups</button>
         <div *ngIf="isUsersMenuOpen" class="content">
           <ul>
             <li (click)="setActiveTab(groupsLink)" [ngClass]="{ 'selected-background': isGroupsActive }" class="cursor media-child-text">
