@@ -29,31 +29,25 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     AuthCallbackComponent,
+    DashboardComponent,
     StartupComponent
   ],
-  imports: [
-    BrowserModule,
+  imports: [    
     AppRoutingModule,
+    BrowserModule,
     HttpModule,
     HttpClientModule,
+    
     AdminModule,
     MediaModule,
-    SharedModule, 
-    TreeViewModule,
-    CheckBoxModule,
+    SharedModule,
     ToastModule,
-    ListViewModule,
-    GridModule,
-    DatePickerModule,
-    NgxsModule.forRoot([
-      AppState
-    ]),
-    NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
+
     BlobModule.forRoot(),
-    ButtonModule
+    NgxsModule.forRoot([ AppState ]),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot()
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },

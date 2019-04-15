@@ -2,7 +2,6 @@ import { MediaRoutingModule } from './media.routing.module';
 import { MediaComponent } from "../media/media.component";
 import { AllMediaComponent } from "../media/all-media/all-media.component";
 import { MediaStreamingArchiveComponent } from "../media/media-streaming-archive/media-streaming-archive.component";
-
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgxsModule } from '@ngxs/store';
 import { MediaFavoritesComponent } from './media-favorites/media-favorites.component';
@@ -43,24 +42,23 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.
 
 @NgModule({
 	declarations: [
-		MediaComponent,
 		AllMediaComponent,
-		MediaStreamingArchiveComponent,
+		AllMediaListviewComponent,
+		AllMediaMapviewComponent,
+		AllMediaTileviewComponent,
+		AllMediaTreeviewComponent,
+		MediaComponent,
 		MediaFavoritesComponent,
 		MediaFavoritesListviewComponent,
 		MediaFavoritesMapviewComponent,
 		MediaFavoritesTileviewComponent,
 		MediaFavoritesTreeviewComponent,
+		MediaStreamingArchiveComponent,
 		MediaUploadComponent,
-		MediaItemHistoryComponent,
-		MediaItemDetailsComponent,
-		MediaItemRelatedFilesComponent,
 		MediaItemComponent,
-		AllMediaTileviewComponent,
-		AllMediaListviewComponent,
-		AllMediaTreeviewComponent,
-		AllMediaMapviewComponent,
-		MediaFavoritesTileviewComponent
+		MediaItemDetailsComponent,
+		MediaItemHistoryComponent,
+		MediaItemRelatedFilesComponent
 	],
 	imports: [
 		PagerModule,
@@ -72,9 +70,7 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.
 		DialogModule,
 		DropDownListModule,
 		ListViewModule,
-		NgxsModule.forFeature([
-			MediaState
-		]),
+		NgxsModule.forFeature([ MediaState ]),
 		CheckBoxModule,
 		ButtonModule,
 		MultiSelectModule,

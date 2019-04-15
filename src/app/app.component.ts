@@ -4,8 +4,7 @@ import { AuthService, User } from './core/services/data/appsettings/auth.service
 import {Select, Store} from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import {Title} from "@angular/platform-browser";
-import {
-  DeviceWidth} from "./state/app.actions";
+import { DeviceWidth} from "./state/app.actions";
 import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
