@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { MediaAccess } from 'src/app/core/models/media-access';
 import { Select, Store } from '@ngxs/store';
 import { DataManager, JsonAdaptor, Query, ODataV4Adaptor, WebApiAdaptor } from '@syncfusion/ej2-data';
-import { GetMediaAccess, GetRoleMediaAccess, UpdateGroupPermissions, UpdateRoleMediaAccess } from '../../state/admin-groups/admin.groups.action';
+import { GetMediaAccess, GetRoleMediaAccess, UpdateGroupPermissions, UpdateRoleMediaAccess } from '../../state/admin-groups/admin-groups.action';
 import { EmitType } from '@syncfusion/ej2-base';
 import { NodeExpandEventArgs, NodeClickEventArgs, NodeSelectEventArgs, DataBoundEventArgs } from '@syncfusion/ej2-navigations';
 import { AdminMediaAccessService } from 'src/app/core/services/business/admin-media-access/admin-media-access.service';

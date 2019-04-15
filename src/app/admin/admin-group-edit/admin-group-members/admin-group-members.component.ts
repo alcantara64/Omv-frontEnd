@@ -1,10 +1,10 @@
-import { AddGroupMembers } from '../../state/admin-groups/admin.groups.action';
+import { AddGroupMembers } from '../../state/admin-groups/admin-groups.action';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
 import { Select, Store } from '@ngxs/store';
 import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
-import { GetMembers, GetGroupMembers, RemoveGroupMembers } from '../../state/admin-groups/admin.groups.action';
+import { GetMembers, GetGroupMembers, RemoveGroupMembers } from '../../state/admin-groups/admin-groups.action';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/core/models/entity/user';
 import { takeWhile } from 'rxjs/operators';

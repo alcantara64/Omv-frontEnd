@@ -40,7 +40,7 @@ export class LeftNavComponent implements OnInit {
   activeGroupsLink = '/admin/groups/active';
   disabledGroupsLink = '/admin/groups/disabled';
 
-  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
 
   constructor(private router: Router) {
     this.deviceWidth$.subscribe(width => {

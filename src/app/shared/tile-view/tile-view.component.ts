@@ -38,7 +38,7 @@ export class TileViewComponent extends BaseComponent implements OnInit {
     if (isAlreadySelected.length === 0) {
       this.selectedItems.push(data);
       this.selectedItemData.emit(this.selectedItems);
-    }else {
+    } else {
       this.selectedItems.splice( this.selectedItems.indexOf(data), 1 );
       this.selectedItemData.emit(this.selectedItems);
     }

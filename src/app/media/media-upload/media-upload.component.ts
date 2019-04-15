@@ -125,10 +125,10 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
       if (!this.dynamicForm.valid) return;
     }
     console.log('submit form: ', this.dynamicForm);
-    // let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "{}";
+    let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "{}";
 
-    // this.store.dispatch(new ShowSpinner());
-    // this.mediaUploadService.upload(this.currentDirectoryId, this.selectedFile, metadata, this.folderPath);
+    this.store.dispatch(new ShowSpinner());
+    this.mediaUploadService.upload(this.currentDirectoryId, this.selectedFile, metadata, this.folderPath);
   }
 
   private buildFolderPath(directoryId: number) {

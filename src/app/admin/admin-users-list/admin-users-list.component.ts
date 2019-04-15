@@ -1,7 +1,7 @@
 import { BaseComponent } from './../../shared/base/base.component';
 import { EmitType } from '@syncfusion/ej2-base';
 import { AdminUserType } from './../../core/enum/admin-user-type';
-import { GetGroups } from '../state/admin-groups/admin.groups.action';
+import { GetGroups } from '../state/admin-groups/admin-groups.action';
 import { Group } from '../../core/models/entity/group';
 import { ShowLeftNav } from './../../state/app.actions';
 import { ListComponent } from './../../shared/list/list.component';

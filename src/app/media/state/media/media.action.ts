@@ -99,3 +99,9 @@ export class RemoveMediaItemField {
   
   constructor(public name: string) { }
 }
+
+export class SetSelectedItems {
+  static readonly type = '[Media] SetSelectedItems';
+
+  constructor(public selectedItems: any[]) {}
+}

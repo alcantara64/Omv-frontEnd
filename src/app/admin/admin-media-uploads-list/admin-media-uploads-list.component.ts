@@ -66,7 +66,7 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
   showStatusIcon = true;
   @Select(AdminMediaState.getUploadHistory) uploadHistoryMedia$: Observable<UploadHistory[]>;
   @Select(MediaState.getDirectories) directory$ : Observable<Directory[]>;
-  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
 
   total: number;
   directories: Directory[];
