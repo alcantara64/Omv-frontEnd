@@ -14,6 +14,7 @@ import { ShowSpinner, HideSpinner, DisplayToastMessage } from 'src/app/state/app
 import { MediaUploadService } from './media-upload.service';
 import { Router } from '@angular/router';
 import { ToastType } from 'src/app/core/enum/toast';
+import { GridColumn } from 'src/app/core/models/grid.column';
 
 const BROWSE = 'Browse';
 const CHANGE = 'Change';
@@ -34,7 +35,10 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
   selectedFile: File;
   currentDirectoryId: number;
   folderPath: string;
-  public directories: Directory[];
+  directories: Directory[];
+  columns: GridColumn[] = [
+    { headerText: 'Name', field: 'name' }
+  ];
 
   @ViewChild('file') file;
   selectionOptions: SelectionSettingsModel;
@@ -63,7 +67,7 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
       .subscribe(data => {
         this.directories = data;
       });
-
+    
     this.directoryMetadata$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
@@ -110,19 +114,21 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
       this.currentDirectoryId = data.id;
       this.folderPath = '';
       this.buildFolderPath(data.id);
+      this.store.dispatch(new ClearDirectoryMetadata());
       this.store.dispatch(new GetDirectoryMetadata(data.id));
     }
   }
 
-  submit(value?: any) {
+  upload(value?: any) {
     if (this.dynamicForm) {
       console.log('submit form: ', this.dynamicForm.value);
       if (!this.dynamicForm.valid) return;
     }
-    let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "{}";
+    console.log('submit form: ', this.dynamicForm);
+    // let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "{}";
 
-    this.store.dispatch(new ShowSpinner());
-    this.mediaUploadService.upload(this.currentDirectoryId, this.selectedFile, metadata);
+    // this.store.dispatch(new ShowSpinner());
+    // this.mediaUploadService.upload(this.currentDirectoryId, this.selectedFile, metadata, this.folderPath);
   }
 
   private buildFolderPath(directoryId: number) {

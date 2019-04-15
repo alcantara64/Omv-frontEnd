@@ -1,6 +1,3 @@
-<app-tile-view  [dataSource]="media$ | async"
-                (itemClick)="navigate($event)"
-                (selectedItemData)="selectedItemData($event)"
-                (toggleFavorite)="toggleFavorite($event)"
-                >
+<app-tile-view [dataSource]="media$ | async" (itemClick)="navigate($event)"
+  (selectedItemData)="selectedItemData($event)" (toggleFavorite)="toggleFavorite($event)">
 </app-tile-view>

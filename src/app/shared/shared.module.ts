@@ -9,8 +9,8 @@ import { TabsComponent } from './tabs/tabs.component';
 import { ModalComponent } from './modal/modal.component';
 import { EditComponent } from './edit/edit.component';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
-import { GridAllModule } from '@syncfusion/ej2-angular-grids';
-import { ButtonAllModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
+import { GridAllModule, GridModule } from '@syncfusion/ej2-angular-grids';
+import { ButtonAllModule, CheckBoxModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
@@ -28,18 +28,16 @@ import { FormSelectComponent } from './dynamic-components/components/form-select
 import { DynamicFormComponent } from './dynamic-components/components/dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-components/directives/dynamic-field.directive';
 import { FormDateComponent } from './dynamic-components/components/form-date.component';
-import { DatePickerAllModule } from '@syncfusion/ej2-angular-calendars';
-import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DatePickerAllModule, DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DropDownListAllModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import {DialogAllModule, DialogModule, TooltipModule} from '@syncfusion/ej2-angular-popups';
 import { FormLabelComponent } from './dynamic-components/components/form-label.component';
 import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import {ToolbarModule} from "@syncfusion/ej2-angular-navigations";
-import {
-  LinkAnnotationService, BookmarkViewService, MagnificationService, ThumbnailViewService,
-  ToolbarService, NavigationService, TextSearchService, TextSelectionService, PrintService, AnnotationService
-} from '@syncfusion/ej2-angular-pdfviewer';
+import {ToolbarModule, TreeViewModule} from "@syncfusion/ej2-angular-navigations";
+import { ImagePreloadDirective } from '../core/directives/image-preload/image-preload.directive';
+import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
 
 @NgModule({
   declarations: [
@@ -59,34 +57,36 @@ import {
     PdfViewerComponent,
     PdfViewerAltComponent,
     MediaViewerComponent,
-    PdfViewerComponent,
     FileSizePipe,
     FormInputComponent,
     FormLabelComponent,
     FormSelectComponent,
     FormDateComponent,
     DynamicFormComponent,    
-    DynamicFieldDirective,
+    DynamicFieldDirective, 
+    ImagePreloadDirective,
   ],
   imports: [
     CommonModule,
     ListViewModule,
-    GridAllModule,
-    ButtonAllModule, 
+    GridModule,
+    ButtonModule, 
     CheckBoxModule,
-    DialogAllModule,
+    DialogModule,
     RouterModule,
-    GridAllModule,
+    GridModule,
     ListViewModule,
-    DatePickerAllModule,
-    DropDownListAllModule,
+    DatePickerModule,
+    DropDownListModule,
     ReactiveFormsModule,
     NgxExtendedPdfViewerModule,
     ImageViewerModule,
     PdfViewerModule,
     ToolbarModule,
     DialogModule,
-    TooltipModule
+    TooltipModule,
+    TreeViewModule,
+    TreeGridModule
   ],
   exports: [
     CommonModule,
@@ -95,9 +95,9 @@ import {
     LeftNavComponent,
     PageNotFoundComponent,
     ListComponent,
-    TabsComponent, 
+    TabsComponent,
     ModalComponent,
-    EditComponent, 
+    EditComponent,
     MapViewComponent,
     TreeViewComponent,
     TileViewComponent,
@@ -108,15 +108,15 @@ import {
     FormSelectComponent,
     FormDateComponent,
     PdfViewerComponent,
-    DynamicFieldDirective
+    DynamicFieldDirective,
+    ImagePreloadDirective
   ],
   entryComponents: [
+    FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
-    FormSelectComponent,
-    FormDateComponent
+    FormSelectComponent
   ],
-  // providers: [LinkAnnotationService, BookmarkViewService, MagnificationService, ThumbnailViewService, ToolbarService, NavigationService, TextSearchService, TextSelectionService, PrintService, AnnotationService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class SharedModule { }

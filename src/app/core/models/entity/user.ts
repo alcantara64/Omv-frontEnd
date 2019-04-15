@@ -1,3 +1,10 @@
+import { PaginationInfo } from '../../dtos/output/PaginationInfo';
+
+export class Users {
+  pagination: PaginationInfo;
+  data: User[];
+}
+
 export class User {
   userId: number;
   userName: string;

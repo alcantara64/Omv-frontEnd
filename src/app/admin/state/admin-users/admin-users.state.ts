@@ -95,7 +95,8 @@ export class AdminUserState {
   @Action(GetUsers)
   getUsers({ getState, setState }: StateContext<AdminUserStateModel>, { name, groupId }: GetUsers) {
     return this.adminUserService.getUsers(name, groupId).pipe(
-      tap(users => {
+      tap(response => {
+        let users = response.data;
         const state = getState();
         users.map(user => {
           user.modifiedOnString = this.dateService.formatToString(user.modifiedOn);

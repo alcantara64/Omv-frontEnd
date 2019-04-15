@@ -1,5 +1,5 @@
 import { Permission } from 'src/app/core/enum/permission';
-import { User } from '../../../models/entity/user';
+import { User, Users } from '../../../models/entity/user';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -10,7 +10,7 @@ export abstract class AdminUsersDataService {
 
     constructor() { }
 
-    abstract getUsers(name:string, groupid:number): Observable<User[]>;
+    abstract getUsers(name:string, groupid:number, pageNumber?: number, pageSize?: number): Observable<Users>;
     abstract getUser(id: number): Observable<User>;
     abstract createUser (payload: User);
     abstract updateUser(id: number, payload: User) ;

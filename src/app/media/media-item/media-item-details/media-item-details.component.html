@@ -19,7 +19,8 @@
     </dynamic-form>
   </div>
   <div class="col-md-6">
-    <img (click)="activateViewer()" [src]="mediaItem ? mediaItem?.thumbnail : ''" alt="OMV Image" style="width: 100%; height: auto; margin: auto">
+    <img (click)="activateViewer()" [src]="mediaItem?.thumbnails" [default]="mediaItem?.url"
+      alt="OMV Image" style="width: 100%; height: auto; margin: auto">
     <!-- <img *ngIf="isPDF === true" src="../../../../assets/images/omvPDFMedia.png" alt="OMV Image" style="width: 100%; height: auto; margin: auto" (click)="activatePDFViewer()"> -->
   </div>
 </div>

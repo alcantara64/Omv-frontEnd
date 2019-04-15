@@ -2,7 +2,7 @@ import { MediaUploadService } from './../../media-upload/media-upload.service';
 import {
   GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
   AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, 
-  ClearMediaItemMetadata, ResetUploadStatus, GetDocuments, ClearDirectoryMetadata
+  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata
 } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
@@ -12,12 +12,10 @@ import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 import { MediaItemDetailsService } from '../../media-item/media-item-details/media-item-details.service';
 import { DateService } from 'src/app/core/services/business/dates/date.service';
-import { Directory } from 'src/app/core/models/entity/directory';
 import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-setting';
 import { DirectoryService } from 'src/app/core/services/business/directory/directory.service';
 import { DisplayToastMessage, ShowSpinner, HideSpinner } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
-import { Document } from 'src/app/core/models/entity/document';
 
 export class MediaStateModel {
   media: MediaItem[];
@@ -162,6 +160,7 @@ export class MediaState {
   static getDocuments(state: MediaStateModel) {
     return state.documents;
   }
+
   //#endregion
 
   constructor(private mediaService: MediaService,
@@ -173,19 +172,45 @@ export class MediaState {
   //#region A C T I O N S
 
   @Action(GetMedia)
-  getMedia({ getState, setState }: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
+  getMedia(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
+    pageSize = 100;    
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
-      tap(media => {
-        const state = getState();
+      tap(response => {
+        if (!response) return;
+
+        let media = response.data;
         media.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
+          item.isFavorite = false; //
         });
-        const allMedia = media.filter(x => x.id);
-        setState({
+        const allMedia: MediaItem[] = media.filter(x => x.documentId);
+        const state = ctx.getState();
+        ctx.setState({
           ...state,
           media: allMedia,
           treeviewMedia: media,
-          totalMedia: media ? media.filter(x => x.id).length : 0
+          totalMedia: response.pagination.Total
+        });
+        ctx.dispatch(new HideSpinner());
+      }, err => {
+        ctx.dispatch(new HideSpinner());
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      })
+    );
+  }
+
+  @Action(GetTreeViewMedia)
+  getTreeViewMedia({ getState, setState }: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
+    return this.directoryService.getDocuments().pipe(
+      tap(documents => {
+        documents.map(item => {
+          item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
+        });
+        const state = getState();
+        setState({
+          ...state,
+          documents: documents,
+          totalMedia: documents ? documents.filter(x => x.documentId).length : 0
         });
       })
     );
@@ -408,21 +433,5 @@ export class MediaState {
     })
   }
 
-  @Action(GetDocuments)
-  getDocuments({ getState, setState }: StateContext<MediaStateModel>, ) {
-    return this.directoryService.getDocuments().pipe(
-      tap(documents => {
-        documents.map(item => {
-          item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
-        });
-        const state = getState();
-        setState({
-          ...state,
-          documents: documents,
-          totalMedia: documents ? documents.filter(x => x.documentId).length : 0
-        });
-      })
-    );
-  }
   //#endregion
 }

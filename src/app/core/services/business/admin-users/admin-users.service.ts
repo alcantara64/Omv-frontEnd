@@ -1,7 +1,7 @@
 import { User_SearchInputDTO } from '../../../dtos/input/users/User_SearchInputDTO';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { User } from '../../../models/entity/user';
+import { User, Users } from '../../../models/entity/user';
 import { AdminUsersDataService } from '../../data/admin-users/admin-users.data.service';
 import { Group } from 'src/app/core/models/entity/group';
 import { Permission } from 'src/app/core/enum/permission';
@@ -13,8 +13,8 @@ export class AdminUsersService {
 
   constructor(private AdminUserService: AdminUsersDataService) { }
 
-  getUsers(name: string, groupId: number): Observable<User[]> {
-    return this.AdminUserService.getUsers(name, groupId);
+  getUsers(name: string, groupId: number, pageNumber?: number, pageSize?: number): Observable<Users> {
+    return this.AdminUserService.getUsers(name, groupId, pageNumber, pageSize);
   }
 
   getUser(id: number): Observable<User> {

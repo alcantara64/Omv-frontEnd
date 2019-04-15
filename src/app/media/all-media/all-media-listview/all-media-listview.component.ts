@@ -54,8 +54,8 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
     FileSaver.saveAs(data.url, data.name);
 
   }
-
-  navigate(data: any) {
-    this.router.navigate([`media/${data.id}/details`]);
+  
+  navigate(data: MediaItem) {
+    this.router.navigate([`media/${data.documentId}/details`]);
   }
 }
