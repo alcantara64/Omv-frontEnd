@@ -1,14 +1,23 @@
-<!-- Toolbar -->
-<div style="display:block; margin: 0 0 20px 0; clear-after: bottom!important;">
-  <div style="display: inline-block">
-    <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total Uploads: 21 </label>
-  </div>
-
-  <div style="display: flex; flex-wrap: nowrap; clear: bottom">
-    <label class="media-label" style="display: inline-flex; margin: 16px 10px 16px 0">Selected::</label>
-    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px; cursor: not-allowed">Approve</button>
-    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px; cursor: not-allowed">Reject</button>
-  </div>
+<div style="padding-top:2rem;padding-bottom: .3rem;">
+    <span>
+        <label class="grid-toolbar-item-label">
+            Total : {{ total }}
+        </label>
+    </span>
+    <span class="float-right">
+        <label class="grid-toolbar-item-label pr-2">
+                <img class="status-cls pl-1 cursor" src=" ../../../../../assets/images/check-circle-regular.svg">
+            Completed
+        </label>
+        <label class="grid-toolbar-item-label  pr-2">
+            <img class="status-cls pl-1 cursor" src=" ../../../../../assets/images/attention.png">
+            Issues
+        </label>
+        <label class="grid-toolbar-item-label">
+            <img class="status-cls pl-1 cursor" src=" ../../../../../assets/images/rejected.png">
+            Errors
+        </label>
+    </span>
 </div>
 
 <app-list [listData]="newUpload"
