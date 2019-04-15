@@ -1,5 +1,5 @@
 import { AppState } from './state/app.state';
-import { Component, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import { AuthService, User } from './core/services/data/appsettings/auth.service';
 import {Select, Store} from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -24,7 +24,7 @@ import { takeUntil } from 'rxjs/internal/operators/takeUntil';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit{
 
   private unsubscribe: Subject<void> = new Subject();
   public displayWidth: number;
@@ -65,11 +65,6 @@ export class AppComponent {
   confirmBoxPosition = { X: 'Center', Y: 'Top' };
 
   ngOnInit(): void {
-    window.onload = () => {
-      const x = document.getElementById('loading');
-      x.style.display = 'none'; // for IE
-      x.remove();
-    };
     this.showSpinner$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(showSpinner => {
@@ -102,7 +97,19 @@ export class AppComponent {
     });
   }
 
-  ngOnDestroy() {    
+  ngAfterViewInit(): void {
+    window.onload = () => {
+      const x = document.getElementById('loading');
+      // for IE
+      x.style.display = 'none';
+      x.style.visibility = 'hidden';
+      x.style.zIndex = '-20';
+      // End for IE
+      x.remove();
+    };
+  }
+
+  ngOnDestroy() {
     console.log('ngOnDestory');
     this.unsubscribe.next();
     this.unsubscribe.complete();
