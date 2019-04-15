@@ -11,7 +11,7 @@ import { GridColumn } from 'src/app/core/models/grid.column';
 export class AdminMetadataListComponent extends ListComponent implements OnInit {
   columns: GridColumn[] = [
     { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
-    { headerText: 'Name', field: 'name', width: '180' },
+    { headerText: 'Name', field: 'name', width: '70' },
     { headerText: 'Fields', field: 'field', width: '180' },
   ]
   constructor(protected store: Store) {
