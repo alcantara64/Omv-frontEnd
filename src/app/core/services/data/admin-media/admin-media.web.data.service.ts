@@ -9,48 +9,51 @@ import { environment } from 'src/environments/environment';
 import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequest_GetAllOutputDTO';
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root'
+})
 
-  export class AdminMediaWebDataService implements AdminMediaDataService {
+export class AdminMediaWebDataService implements AdminMediaDataService {
 
-    private paging_batch_size: number = 25;
-    mockUrl = `./assets/mock/`;
-  
-    httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
+  private paging_batch_size: number = 25;
+  mockUrl = `./assets/mock/`;
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+  };
+
+  constructor(private httpClient: HttpClient) { }
+
+  getUploadHistory(): Observable<UploadHistory[]> {
+    var requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
+
+    return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
+      response => {
+        automapper
+          .createMap(UploadRequestHistory_GetAllOutputDTO, UploadHistory)
+          .forMember('uploadRequestType', function (opts) { opts.mapFrom('uploadRequestType'); })
+          .forMember('requester', function (opts) { opts.mapFrom('requester'); })
+          .forMember('directoryId', function (opts) { opts.mapFrom('directoryId'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
+          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
+          .forMember('size', function (opts) { opts.mapFrom('size'); })
+          .forMember('metadata', function (opts) { opts.mapFrom('metadata'); })
+          .forMember('containerId', function (opts) { opts.mapFrom('containerId'); })
+          .forMember('documentName', function (opts) { opts.mapFrom('documentName'); })
+          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); });
+
+        let _response = automapper.map(UploadRequestHistory_GetAllOutputDTO, UploadHistory, response);
+        console.log('AdminMediaWebDataService - getUploadHistory: ', _response);
+
+
+        return _response;
+      }),
+      catchError(e => {
+        console.log("AdminMediaWebDataService - getUploadHistory error: ", e);
+        return of(null);
       })
-    };
-    
-    constructor(private httpClient: HttpClient) { }
-
-    getUploadHistory(): Observable<UploadHistory[]> {
-      var requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
-
-      return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
-        response => {
-          automapper
-            .createMap(UploadRequestHistory_GetAllOutputDTO, UploadHistory)
-            .forMember('uploadRequestType', function(opts) { opts.mapFrom('uploadRequestType'); })
-            .forMember('requester', function(opts) { opts.mapFrom('requester'); })
-            .forMember('directoryId', function(opts) { opts.mapFrom('directoryId'); })
-            .forMember('status', function(opts) { opts.mapFrom('status'); })
-            .forMember('statusName', function(opts) { opts.mapFrom('statusName'); })
-            .forMember('size', function(opts) { opts.mapFrom('size'); })
-            .forMember('containerId', function(opts) { opts.mapFrom('containerId'); })
-            .forMember('documentName', function(opts) { opts.mapFrom('documentName'); })
-            .forMember('documentTypeCode', function(opts) { opts.mapFrom('documentTypeCode'); });
-  
-          let _response = automapper.map(UploadRequestHistory_GetAllOutputDTO, UploadHistory, response);
-          console.log('AdminMediaWebDataService - getUploadHistory: ', _response);
-          return _response;
-        }),
-        catchError(e => {
-          console.log("AdminMediaWebDataService - getUploadHistory error: ", e);
-          return of(null);
-        })
-      );
-    }
-      
+    );
   }
+
+}

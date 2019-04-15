@@ -67,7 +67,7 @@ export class ToggleFavorite {
 export class GetHistory {
   static readonly type = '[Media] GetHistory';
 
-  constructor(public id: number) { }
+  constructor(public id: string) { }
 }
 
 export class GetMediaTreeData {

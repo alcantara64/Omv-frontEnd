@@ -6,7 +6,9 @@ import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { MediaState } from './state/media/media.state';
 import { MediaItem } from '../core/models/entity/media';
-import {AppState} from "../state/app.state";
+import { AppState } from "../state/app.state";
+declare var require: any
+
 
 @Component({
   selector: 'app-media',
@@ -18,7 +20,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
   public selectedItems: any[];
 
   mediaTabs: Tab[] = [
-    { link: '/media/all', query: 'tile', name: 'All Media', isActive: true  },
+    { link: '/media/all', query: 'tile', name: 'All Media', isActive: true },
     { link: '/media/favorites', query: 'tile', name: 'Favorites' },
     { link: '/media/archive', query: 'tile', name: 'Streaming Archive' }
   ];
@@ -38,7 +40,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
     this.deviceWidth$.subscribe(width => {
       this.deviceWidth = width;
     });
-   }
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -56,12 +58,12 @@ export class MediaComponent extends BaseComponent implements OnInit {
   }
 
   switchTabs(tabLink: string) {
-    this.router.navigate([ tabLink ], { queryParams: { view : 'tile' } });
+    this.router.navigate([tabLink], { queryParams: { view: 'tile' } });
   }
 
   navigateToView(view: string) {
     var url = this.router.url.split('?')[0];
-    this.router.navigate([url], { queryParams: { view: view } } );
+    this.router.navigate([url], { queryParams: { view: view } });
   }
 
   viewChange(tab) {
@@ -69,17 +71,13 @@ export class MediaComponent extends BaseComponent implements OnInit {
   }
 
   downloadAll() {
+    this.ShowSpinner(true);
+    var FileSaver = require('file-saver');
     this.gridData$.subscribe((data) => {
-      this.selectedItems = data;
       data.forEach((x) => {
-        const url = x.url;
-        const html = "<a id='download' href='"+ url +"' download style='display: none'></a>";
-        const sample = new Blob([x.url]);
-        document.writeln(html);
-        document.getElementById('download').click();
-        console.log('WWW', x.url);
+        FileSaver.saveAs(x.url, x.name);
+        this.ShowSpinner(false);
       });
-      console.log('QQQ', data);
-    })
+    });
   }
 }

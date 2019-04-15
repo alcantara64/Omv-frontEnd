@@ -35,6 +35,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Input() showStatusIcon: boolean;
   @Input() statusIconPosition: number = 0;
   @Input() requestStatusEnum = Request_Status;
+  @Input() selectedItemRecords = [];
 
   @Output() firstAction = new EventEmitter<Object[]>();
   @Output() secondAction = new EventEmitter<Object[]>();
@@ -43,6 +44,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Output() buttonOneEvent = new EventEmitter<Object[]>();
   @Output() secondButtonEvent = new EventEmitter<any[]>();
   @Output() toggleFavorite = new EventEmitter<any[]>();
+  @Output () selectedItemData =  new EventEmitter<any>();
 
   public selIndex: any[] = [];
 
@@ -88,7 +90,18 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   rowSelected(args: RowSelectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
-    console.log(this.selectedRecords);
+    this.selectedItemRecords  = this.grid.getSelectedRecords();
+    console.log('args - rowSelected', args.data['id']);
+    const isSelected = this.selectedRecords.filter(x => x.id === args.data['id']);
+    if (this.selectedItemRecords.length > 0) {
+      this.selectedItemRecords.push(args.data);
+      this.selectedItemData.emit(this.selectedItemRecords);
+    } else if(this.selectedItemRecords.length > 1 && this.selectedItemRecords.includes(isSelected)) {
+      this.selectedItemRecords.splice( this.selectedItemRecords.indexOf(args.data), 1 );
+    }
+    else{
+      this.selectedItemData.emit(this.selectedItemRecords);
+    }
   }
 
   rowDeselected(args: RowDeselectEventArgs) {
@@ -98,15 +111,12 @@ export class ListComponent extends BaseComponent implements OnInit {
   rowDataBound(args) {
     if (this.initialRecords) {
       if (this.initialRecords.includes(args.data[this.checkField])) {
-        console.log('rowDataBound args: this.initialRecords after', this.initialRecords);
         this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
       }
     }
   }
 
   dataBound(args): void {
-    console.log('ListComponent - dataBound');
-
     if (this.selIndex.length) {
       this.grid.selectRows(this.selIndex);
       this.selIndex = [];

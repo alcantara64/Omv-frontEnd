@@ -34,7 +34,7 @@ export class MediaService {
     return this.MediaDataService.toggleFavorite(id, payload);
   }
   
-  getHistory(id: number): Observable<History[]> {
+  getHistory(id: string): Observable<History[]> {
     return this.MediaDataService.getHistory(id);
   }
 
