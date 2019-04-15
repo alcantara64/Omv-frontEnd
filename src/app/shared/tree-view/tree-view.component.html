@@ -45,7 +45,7 @@
     <!-- Pencil icon -->
     <e-column width="100" *ngIf="allowNavigating">
       <ng-template #template let-data>
-        <span class='e-icons e-pencil' (click)="navigateEvent(data)" style='color: #0097A9 !important'></span>
+        <span *ngIf="!data.directoryId" class='e-icons e-pencil' (click)="navigateEvent(data)" style='color: #0097A9 !important'></span>
       </ng-template>
     </e-column>
     

@@ -73,11 +73,9 @@ export class MediaComponent extends BaseComponent implements OnInit {
   downloadAll() {
     this.ShowSpinner(true);
     var FileSaver = require('file-saver');
-    this.gridData$.subscribe((data) => {
-      data.forEach((x) => {
+    this.selectedItems .forEach((x) => {
         FileSaver.saveAs(x.url, x.name);
         this.ShowSpinner(false);
       });
-    });
   }
 }

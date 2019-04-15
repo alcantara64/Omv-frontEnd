@@ -35,7 +35,6 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Input() showStatusIcon: boolean;
   @Input() statusIconPosition: number = 0;
   @Input() requestStatusEnum = Request_Status;
-  @Input() selectedItemRecords = [];
 
   @Output() firstAction = new EventEmitter<Object[]>();
   @Output() secondAction = new EventEmitter<Object[]>();
@@ -90,22 +89,19 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   rowSelected(args: RowSelectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
-    this.selectedItemRecords  = this.grid.getSelectedRecords();
     console.log('args - rowSelected', args.data['id']);
-    const isSelected = this.selectedRecords.filter(x => x.id === args.data['id']);
-    if (this.selectedItemRecords.length > 0) {
-      this.selectedItemRecords.push(args.data);
-      this.selectedItemData.emit(this.selectedItemRecords);
-    } else if(this.selectedItemRecords.length > 1 && this.selectedItemRecords.includes(isSelected)) {
-      this.selectedItemRecords.splice( this.selectedItemRecords.indexOf(args.data), 1 );
+    if (this.selectedRecords.length > 0) {
+      this.selectedItemData.emit(this.selectedRecords);
+    }else {
+      this.selectedRecords.splice( this.selectedRecords.indexOf(args.data), 1 );
+      this.selectedItemData.emit(this.selectedRecords);
     }
-    else{
-      this.selectedItemData.emit(this.selectedItemRecords);
-    }
+  
   }
 
   rowDeselected(args: RowDeselectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
+    this.selectedItemData.emit(this.selectedRecords);
   }
 
   rowDataBound(args) {
