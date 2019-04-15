@@ -6,3 +6,13 @@
   font-size: medium;
   border-bottom: solid #00a9bd!important;
 }
+
+.e-close {
+  color: gray;
+  font-size: larger;
+  font-weight: lighter;
+}
+
+.e-close:before {
+  content: '\ec0f';
+}
