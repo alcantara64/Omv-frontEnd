@@ -12,11 +12,14 @@ import { Document } from 'src/app/core/models/entity/document';
 import { Router } from '@angular/router';
 import { MediaItem } from 'src/app/core/models/entity/media';
 import { ShowSpinner } from 'src/app/state/app.actions';
+declare var require: any;
+import { PageService} from '@syncfusion/ej2-angular-treegrid';
 
 @Component({
   selector: 'app-all-media-treeview',
   templateUrl: './all-media-treeview.component.html',
-  styleUrls: ['./all-media-treeview.component.css']
+  styleUrls: ['./all-media-treeview.component.css'],
+  providers: [ PageService ]
 })
 export class AllMediaTreeviewComponent implements OnInit {
 
@@ -25,9 +28,9 @@ export class AllMediaTreeviewComponent implements OnInit {
   selectionOptions: Object;
   options: any;
   columns: GridColumn[] = [
-    { headerText: 'Name', field: 'name' },
+    { headerText: 'Name', field: 'name', showCheckbox: true },
     { headerText: 'Date', field: 'modifiedOnString' }
-  ];
+  ]; 
 
   constructor(private store: Store, private router: Router) {
 
@@ -81,12 +84,13 @@ export class AllMediaTreeviewComponent implements OnInit {
       args.cell.querySelector('.e-treecell').appendChild(cellValue);
     }
   }
-  
+
   navigate(data: any) {
     this.router.navigate([`media/${data.documentId}/details`]);
   }
 
-  download(arg: any) {
-    console.log('AAA', arg.url);
+  download(data: any) {
+    var FileSaver = require('file-saver');
+    FileSaver.saveAs(data.url, data.name);
   }
 }
