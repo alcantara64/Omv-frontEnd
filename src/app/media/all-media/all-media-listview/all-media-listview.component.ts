@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { MediaItem } from 'src/app/core/models/entity/media';
 import { GetMedia } from '../../state/media/media.action';
 import { takeWhile } from 'rxjs/operators';
+import { GridData } from 'src/app/state/app.actions';
+declare var require: any
 
 @Component({
   selector: 'app-all-media-listview',
@@ -24,6 +26,7 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
   media: MediaItem[];
   componentActive = true;
   editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
+  selectedItemRecords : any;
 
   @Select(MediaState.getMedia) media$: Observable<MediaItem[]>;
 
@@ -37,17 +40,11 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.componentActive = false;
   }
-  // getItemData(data: any) {
-  //   console.log('ZZZ', data);
-  //   const isAlreadySelected = this.selectedItems.filter(x => x.id === data.id);
-  //   if (isAlreadySelected.length === 0) {
-  //     this.selectedItems.push(data);
-  //     this.selectedItemData.emit(this.selectedItems);
-  //   }else {
-  //     this.selectedItems.splice( this.selectedItems.indexOf(data), 1 );
-  //     this.selectedItemData.emit(this.selectedItems);
-  //   }
-  // }
+  selectedItemData(data: any) {
+    console.log('records',this.selectedItemRecords);
+    this.store.dispatch(new GridData(data));
+    console.log('data - selectedItemData',data);
+  }
 
   download(data: MediaItem) {
     var FileSaver = require('file-saver');

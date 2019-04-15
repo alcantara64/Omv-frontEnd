@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { MediaState } from './state/media/media.state';
 import { MediaItem } from '../core/models/entity/media';
 import { AppState } from "../state/app.state";
-import * as saveAs from 'file-saver';
+declare var require: any
 
 
 @Component({
