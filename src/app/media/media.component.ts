@@ -5,7 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { MediaState } from './state/media/media.state';
-import { MediaItem } from '../core/models/entity/media';
 import { AppState } from "../state/app.state";
 declare var require: any
 

@@ -4,7 +4,6 @@ import { BaseComponent } from '../base/base.component';
 import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectEventArgs, CellSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { setSpinner, createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
 import { Request_Status } from 'src/app/core/enum/request-status';
 
 @Component({

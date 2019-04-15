@@ -21,10 +21,12 @@ export class TileViewComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataSource.map(x => x.isChecked = true);
   }
 
   performToggleFavorite(data: any) {
     data.isFavorite = !data.isFavorite;
+    this.dataSource.map(x => x.isChecked = false);
     // this.toggleFavorite.emit(data);
   }
 
@@ -32,8 +34,10 @@ export class TileViewComponent extends BaseComponent implements OnInit {
     this.itemClick.emit(data);
   }
 
-  getItemData(data: any) {
-    console.log('ZZZ', data);
+  checkValue: boolean = false;
+
+  getItemData(data: any) {    
+    data.isChecked = !data.isChecked;
     const isAlreadySelected = this.selectedItems.filter(x => x.id === data.id);
     if (isAlreadySelected.length === 0) {
       this.selectedItems.push(data);
@@ -42,5 +46,11 @@ export class TileViewComponent extends BaseComponent implements OnInit {
       this.selectedItems.splice( this.selectedItems.indexOf(data), 1 );
       this.selectedItemData.emit(this.selectedItems);
     }
+    // this.dataSource.map(x => x.isChecked = false);
+    console.log('TileView Component - checkValue: ', this.checkValue);
+  }
+
+  clearSelection() {
+    this.dataSource.map(x => x.isChecked = false);
   }
 }

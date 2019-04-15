@@ -8,8 +8,8 @@ import {
   DeviceWidth} from "./state/app.actions";
 import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
-import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups/src/spinner/spinner';
 
 @Component({
   selector: 'app-root',

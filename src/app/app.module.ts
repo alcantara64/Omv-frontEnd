@@ -1,4 +1,3 @@
-import { LeftNavComponent } from './shared/leftnav/leftnav.component';
 import { AppState } from './state/app.state';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -8,32 +7,31 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpModule } from '@angular/http';
 import { SettingsService } from './core/services/data/appsettings/appsettings.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { SharedModule } from './shared/shared.module';
-import {TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { StartupComponent } from './startup/startup.component';
-import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
-import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import { MediaModule } from './media/media.module';
-import { ListViewModule } from '@syncfusion/ej2-angular-lists';
-import { GridAllModule } from '@syncfusion/ej2-angular-grids';
-import { HttpInterceptorService } from './core/services/httpinterceptor.service';
-import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { BlobModule } from 'angular-azure-blob-service';
-import { ButtonAllModule , CheckBoxAllModule} from '@syncfusion/ej2-angular-buttons';
+import { TreeViewModule } from '@syncfusion/ej2-angular-navigations/src/treeview/treeview.module';
+import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons/src/check-box/checkbox.module';
+import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/listview.module';
+import { GridModule } from '@syncfusion/ej2-angular-grids/src/grid/grid.module';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars/src/datepicker/datepicker.module';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.module';
+import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     AuthCallbackComponent,
-    StartupComponent, 
+    StartupComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +45,7 @@ import { ButtonAllModule , CheckBoxAllModule} from '@syncfusion/ej2-angular-butt
     CheckBoxModule,
     ToastModule,
     ListViewModule,
-    GridAllModule,
+    GridModule,
     DatePickerModule,
     NgxsModule.forRoot([
       AppState
@@ -55,8 +53,7 @@ import { ButtonAllModule , CheckBoxAllModule} from '@syncfusion/ej2-angular-butt
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     BlobModule.forRoot(),
-    CheckBoxAllModule,
-    ButtonAllModule
+    ButtonModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
