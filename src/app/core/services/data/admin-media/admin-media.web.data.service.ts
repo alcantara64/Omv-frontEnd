@@ -31,7 +31,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
       response => {
         automapper
-          .createMap(UploadRequestHistory_GetAllOutputDTO, UploadHistory)
+          .createMap(UploadRequest_GetAllOutputDTO, UploadHistory)
           .forMember('uploadRequestType', function (opts) { opts.mapFrom('uploadRequestType'); })
           .forMember('requester', function (opts) { opts.mapFrom('requester'); })
           .forMember('directoryId', function (opts) { opts.mapFrom('directoryId'); })
@@ -41,11 +41,12 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
           .forMember('metadata', function (opts) { opts.mapFrom('metadata'); })
           .forMember('containerId', function (opts) { opts.mapFrom('containerId'); })
           .forMember('documentName', function (opts) { opts.mapFrom('documentName'); })
-          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); });
+          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); })
+          .forMember('files', function (opts) { opts.mapFrom('files'); });
 
-        let _response = automapper.map(UploadRequestHistory_GetAllOutputDTO, UploadHistory, response);
+        let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
         console.log('AdminMediaWebDataService - getUploadHistory: ', _response);
-
+        _response.map(x => x.files = 100);
 
         return _response;
       }),

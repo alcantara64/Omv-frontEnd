@@ -14,6 +14,7 @@ export class UploadRequest_GetAllOutputDTO extends BaseDTO{
     DocumentUrl: string;
     Metadata: string;
     Status: number;
-    StatusName: string;    
+    StatusName: string;
+    Files: number;
 }
 

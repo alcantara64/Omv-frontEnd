@@ -28,6 +28,7 @@ export class AppComponent implements AfterViewInit{
 
   private unsubscribe: Subject<void> = new Subject();
   public displayWidth: number;
+  public browser = window.navigator.userAgent;
   showLeftNav: boolean = false;
   
   @Select(AppState.getSpinnerVisibility) showSpinner$: Observable<boolean>;
@@ -104,6 +105,7 @@ export class AppComponent implements AfterViewInit{
       x.style.display = 'none';
       x.style.visibility = 'hidden';
       x.style.zIndex = '-20';
+      console.log('PPPP', window.navigator.appVersion.indexOf("MSIE 1")==-1);
       // End for IE
       x.remove();
     };
