@@ -17,7 +17,7 @@ export class AdminMediaStateModel {
 })
 
 export class AdminMediaState {
-  constructor(private adminMediaService: AdminMediaService,  private dateService: DateService) { }
+  constructor(private adminMediaService: AdminMediaService, private dateService: DateService) { }
 
   @Selector()
   static getUploadHistory(state: AdminMediaStateModel) {
@@ -26,11 +26,14 @@ export class AdminMediaState {
 
   @Action(GetUploadHistory)
   getUploadHistory({ getState, setState }: StateContext<AdminMediaStateModel>) {
-  
+
     return this.adminMediaService.getUploadHistory().pipe(
       tap(history => {
         history.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
+        });
+        history.map(item => {
+         item.size =  Math.floor((item.size) / 1000);
         });
         const state = getState();
         console.log('AdminMediaState - getUploadHistory - history: ', history);

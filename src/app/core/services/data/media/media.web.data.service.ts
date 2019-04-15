@@ -12,6 +12,7 @@ import { Document_SearchOutputDTO, Document_SearchOutputData } from 'src/app/cor
 import { Document_GetByIdOutputDTO } from 'src/app/core/dtos/output/documents/Document_GetByIdOutputDTO';
 import { Document_UpdateInputDTO } from 'src/app/core/dtos/input/documents/Document_UpdateInputDTO';
 import { UploadRequest_InsertInputDTO } from 'src/app/core/dtos/input/upload-request/UploadRequest_InsertInputDTO';
+import { Document_GetAuditOutputDTO } from 'src/app/core/dtos/output/documents/Document_GetAuditOutputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -242,8 +243,35 @@ export class MediaWebDataService implements MediaDataService {
     throw new Error("Method not implemented.");
   }
 
-  getHistory(id: number): Observable<History[]> {
-    return null;
+  getHistory(id: string): Observable<History[]> {
+    var requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
+
+    return this.httpClient.get<Document_GetAuditOutputDTO[]>(requestUri).pipe(map(
+      response => {
+        automapper
+          .createMap(Document_GetAuditOutputDTO, History)
+          .forMember('auditId', function (opts) { opts.mapFrom('auditId'); })
+          .forMember('eventName', function (opts) { opts.mapFrom('eventName'); })
+          .forMember('entityType', function (opts) { opts.mapFrom('entityType'); })
+          .forMember('entityId', function (opts) { opts.mapFrom('entityId'); })
+          .forMember('columnName', function (opts) { opts.mapFrom('columnName'); })
+          .forMember('oldValue', function (opts) { opts.mapFrom('oldValue'); })
+          .forMember('newValue', function (opts) { opts.mapFrom('newValue'); })
+          .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
+          .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); });
+
+        let _response = automapper.map(Document_GetAuditOutputDTO, History, response);
+        console.log('AdminMediaWebDataService - getHistory: ', _response);
+
+
+        return _response;
+      }),
+      catchError(e => {
+        console.log("AdminMediaWebDataService - getHistory error: ", e);
+        return of(null);
+      })
+    );
+
   }
   getMediaTreeData(): Observable<MediaTreeGrid[]> {
     var url = `./assets/mock/media-treeview.json`;

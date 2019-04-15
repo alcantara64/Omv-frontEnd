@@ -163,8 +163,11 @@ export class MediaState {
 
   //#endregion
 
-  constructor(private mediaService: MediaService, private mediaItemDetailsService: MediaItemDetailsService, private mediaUploadService: MediaUploadService,
-    private directoryService: DirectoryService, private dateService: DateService) { }
+  constructor(private mediaService: MediaService,
+    private mediaItemDetailsService: MediaItemDetailsService,
+    private mediaUploadService: MediaUploadService,
+    private directoryService: DirectoryService,
+    private dateService: DateService) { }
 
   //#region A C T I O N S
 
@@ -280,7 +283,7 @@ export class MediaState {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
-  }  
+  }
 
   @Action(ResetUploadStatus)
   resetUploadStatus(ctx: StateContext<MediaStateModel>) {
@@ -303,7 +306,7 @@ export class MediaState {
   @Action(UpdateMediaItem)
   updateItem(ctx: StateContext<MediaStateModel>, { id, payload }: UpdateMediaItem) {
     return this.mediaService.updateMediaItem(id, payload).pipe(
-      tap(item => {       
+      tap(item => {
         ctx.dispatch(new DisplayToastMessage(`Details updated successfully.`));
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));

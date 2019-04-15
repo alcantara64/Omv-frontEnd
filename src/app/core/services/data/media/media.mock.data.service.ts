@@ -52,7 +52,7 @@ export class MediaMockDataService implements MediaDataService {
     return of(1);
   }
 
-  getHistory(id: number): Observable<History[]> {
+  getHistory(id: string): Observable<History[]> {
     var url = `./assets/mock/media-history.json`;
     let data = this.httpClient.get<History[]>(url);
     return data;
