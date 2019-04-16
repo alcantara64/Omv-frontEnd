@@ -26,7 +26,7 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
   componentActive = true;
   editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
   selectedItemRecords : any;
-  pageSize = 100;
+  pageSize = 20;
   totalMedia: number;
   pageCount: number;
 

@@ -39,6 +39,9 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns/src/drop-d
 import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/listview.module';
 import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns/src/multi-select/multiselect.module';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.module';
+import { CustomersDataService } from '../core/services/data/customers/customers.data.service';
+import { CustomersMockDataService } from '../core/services/data/customers/customers.mock.data.service';
+import { CustomersWebDataService } from '../core/services/data/customers/customers.web.data.service';
 
 @NgModule({
 	declarations: [
@@ -77,9 +80,10 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.
 		DropDownListModule
 	],
 	providers: [
-		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
+		{ provide: CustomersDataService, useClass: environment.useMocks ? CustomersMockDataService : CustomersWebDataService },
 		{ provide: DirectoryDataService, useClass: environment.useMocks ? DirectoryMockDataService : DirectoryWebDataService },		
-    { provide: MetadataFieldsDataService, useClass: environment.useMocks ? MetadataFieldsMockDataService : MetadataFieldsWebDataService },
+		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
+		{ provide: MetadataFieldsDataService, useClass: environment.useMocks ? MetadataFieldsMockDataService : MetadataFieldsWebDataService },
   ],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

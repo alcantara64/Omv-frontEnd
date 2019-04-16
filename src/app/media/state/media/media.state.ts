@@ -180,22 +180,18 @@ export class MediaState {
 
   @Action(GetMedia)
   getMedia(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
-    // pageSize = 100;    
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(response => {
         if (!response) return;
-
         let media = response.data;
         media.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
           item.isFavorite = false; //
         });
-        const allMedia: MediaItem[] = media.filter(x => x.documentId);
         const state = ctx.getState();
         ctx.setState({
           ...state,
-          media: allMedia,
-          treeviewMedia: media,
+          media: media,
           totalMedia: response.pagination.total
         });
         ctx.dispatch(new HideSpinner());
@@ -207,18 +203,25 @@ export class MediaState {
   }
 
   @Action(GetTreeViewMedia)
-  getTreeViewMedia({ getState, setState }: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
-    return this.directoryService.getDocuments().pipe(
-      tap(documents => {
-        documents.map(item => {
+  getTreeViewMedia(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetTreeViewMedia) {
+    return this.mediaService.getMedia(1, 100, true).pipe(
+      tap(response => {
+        if (!response) return;
+
+        let media = response.data;
+        media.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
         });
-        const state = getState();
-        setState({
+        const state = ctx.getState();
+        ctx.setState({
           ...state,
-          documents: documents,
-          totalMedia: documents ? documents.filter(x => x.documentId).length : 0
+          treeviewMedia: media,
+          totalMedia: response.pagination.total
         });
+        ctx.dispatch(new HideSpinner());
+      }, err => {
+        ctx.dispatch(new HideSpinner());
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
   }

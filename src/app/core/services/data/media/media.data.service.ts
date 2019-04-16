@@ -11,7 +11,7 @@ export abstract class MediaDataService {
 
     constructor() { }
 
-    abstract getMedia(pageNumber?: number, pageSize?: number): Observable<Media>; 
+    abstract getMedia(pageNumber?: number, pageSize?: number, isTreeView?: boolean): Observable<Media>; 
     abstract getMediaItem(id: number): Observable<MediaItem>;    
     abstract createMediaItem(payload: MediaItem): Observable<any>;
     abstract updateMediaItem(id: any, payload: MediaItem): Observable<any>;
