@@ -15,7 +15,7 @@ export class AppHeaderComponent implements OnInit {
   public displayWidth: number;
   public activated: boolean;
 
-  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
 
   constructor(private activatedRoute: ActivatedRoute) {
     this.deviceWidth$.subscribe(width => {

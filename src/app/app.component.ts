@@ -19,13 +19,14 @@ export class AppComponent implements AfterViewInit{
 
   private unsubscribe: Subject<void> = new Subject();
   public displayWidth: number;
+  public browser = window.navigator.userAgent;
   showLeftNav: boolean = false;
   
   @Select(AppState.getSpinnerVisibility) showSpinner$: Observable<boolean>;
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
   @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
   @Select(AppState.getToastMessage) toastMessage$: Observable<Toast>;
-  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
 
   buttons = [{ model: { content: "Ignore" }, click: this.btnToastClick.bind(this)}, {model: { content: "reply" }}];
 
@@ -95,6 +96,7 @@ export class AppComponent implements AfterViewInit{
       x.style.display = 'none';
       x.style.visibility = 'hidden';
       x.style.zIndex = '-20';
+      console.log('PPPP', window.navigator.appVersion.indexOf("MSIE 1")==-1);
       // End for IE
       x.remove();
     };

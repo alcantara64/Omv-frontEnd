@@ -16,8 +16,10 @@ import {AdminGroupEditComponent} from "./admin-group-edit/admin-group-edit.compo
 import { AdminGroupEditGuard } from './admin-group-edit/admin-group-edit.guard';
 import { AdminUserEditGuard } from './admin-user-edit/admin-user-edit.guard';
 import { AuthGuardService } from '../core/guards/auth-guard.service';
-import { AdminMetadataListComponent } from './admin-metadata-list/admin-metadata-list.component';
 import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
+import {AdminMediaNewUploadsComponent} from "./admin-media-uploads-list/admin-media-new-uploads/admin-media-new-uploads.component";
+import {AdminMediaUploadsHistoryComponent} from "./admin-media-uploads-list/admin-media-uploads-history/admin-media-uploads-history.component";
+import {AdminMetadataListComponent} from "./admin-metadata-list/admin-metadata-list.component";
 
 const adminRoutes: Routes = [
   {
@@ -32,10 +34,11 @@ const adminRoutes: Routes = [
   },
   {
     path: 'admin/media/uploads',
-    component: AdminMediaUploadsTabsComponent,
+    component: AdminMediaUploadsListComponent,
     children: [
       { path: '', redirectTo: 'new', pathMatch: 'full' },
-      { path: ':type', component: AdminMediaUploadsListComponent }
+      { path: 'new', component: AdminMediaNewUploadsComponent },
+      { path: 'history', component: AdminMediaUploadsHistoryComponent }
     ]
   },
   {
