@@ -233,7 +233,7 @@ export class MediaState {
   getItemDetails(ctx: StateContext<MediaStateModel>, { id }: GetMediaItemDetails) {
     return this.mediaService.getMediaItem(id).pipe(
       tap(async item => {
-        console.log('MediaState item: ', item);
+        console.log('MediaState - getItemDetails item: ', item);
         if (!item) return;
         await this.mediaItemDetailsService.getMetadaFields(item).then(metadata => {
           console.log('MediaState metadata: ', metadata);

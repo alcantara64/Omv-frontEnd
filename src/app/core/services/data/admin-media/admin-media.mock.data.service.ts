@@ -5,16 +5,20 @@ import { Observable } from 'rxjs';
 import { AdminMediaDataService } from './admin-media.data.service';
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root'
+})
 
-  export  class AdminMediaMockDataService implements AdminMediaDataService {
+export class AdminMediaMockDataService implements AdminMediaDataService {
 
-    constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-    getUploadHistory(): Observable<UploadHistory[]> {
-        var url = `./assets/mock/admin-media-uploads-history.json`;
-        let data = this.httpClient.get<UploadHistory[]>(url);
-        return data;
-      }
+  getUploadHistory(): Observable<UploadHistory[]> {
+    var url = `./assets/mock/admin-media-uploads-history.json`;
+    let data = this.httpClient.get<UploadHistory[]>(url);
+    return data;
   }
+
+  getUploadRequest(id: number): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
+}

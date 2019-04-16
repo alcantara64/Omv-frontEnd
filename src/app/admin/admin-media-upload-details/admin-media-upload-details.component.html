@@ -1,0 +1,17 @@
+<!-- <span class="e-icons arrowBack"><a routerLink="/admin/users"> Back </a></span> -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" routerLink="/admin/users"><a href="#" class="breadcrumbs__element"><ins></ins></a></li>
+    <li class="breadcrumb-item" routerLink="/admin/users"><a class="breadcrumbs__element"><ins>BACK</ins></a></li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col-sm-6">
+    <h4> Upload Number One </h4><br>
+    
+    <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="fields" *ngIf="fields?.length > 0"></dynamic-form>
+    <br />
+
+  </div>
+</div>

@@ -19,6 +19,7 @@ import { AuthGuardService } from '../core/guards/auth-guard.service';
 import {AdminMediaNewUploadsComponent} from "./admin-media-uploads-list/admin-media-new-uploads/admin-media-new-uploads.component";
 import {AdminMediaUploadsHistoryComponent} from "./admin-media-uploads-list/admin-media-uploads-history/admin-media-uploads-history.component";
 import {AdminMetadataListComponent} from "./admin-metadata-list/admin-metadata-list.component";
+import { AdminMediaUploadDetailsComponent } from './admin-media-upload-details/admin-media-upload-details.component';
 
 const adminRoutes: Routes = [
   {
@@ -39,6 +40,10 @@ const adminRoutes: Routes = [
       { path: 'new', component: AdminMediaNewUploadsComponent },
       { path: 'history', component: AdminMediaUploadsHistoryComponent }
     ]
+  },
+  {
+    path: 'admin/media/uploads/:id/details',
+    component: AdminMediaUploadDetailsComponent
   },
   {
     path: 'admin/users',

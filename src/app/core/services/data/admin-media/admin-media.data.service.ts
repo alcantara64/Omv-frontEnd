@@ -8,4 +8,5 @@ import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
 export abstract class AdminMediaDataService {
 
     abstract getUploadHistory(): Observable<UploadHistory[]>;
+    abstract getUploadRequest(id: number): Observable<any>;
 }
