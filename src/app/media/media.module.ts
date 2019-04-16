@@ -42,6 +42,7 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.
 import { CustomersDataService } from '../core/services/data/customers/customers.data.service';
 import { CustomersMockDataService } from '../core/services/data/customers/customers.mock.data.service';
 import { CustomersWebDataService } from '../core/services/data/customers/customers.web.data.service';
+import { TreeGridAllModule } from '@syncfusion/ej2-angular-treegrid';
 
 @NgModule({
 	declarations: [
@@ -68,7 +69,7 @@ import { CustomersWebDataService } from '../core/services/data/customers/custome
 		SharedModule,
 		MediaRoutingModule,
 		TreeViewModule,
-		TreeGridModule,
+		TreeGridAllModule,
 		CheckBoxModule,
 		DialogModule,
 		DropDownListModule,

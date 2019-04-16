@@ -36,7 +36,7 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns/src/drop-d
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations/src/toolbar/toolbar.module';
 import { TooltipModule } from '@syncfusion/ej2-angular-popups/src/tooltip/tooltip.module';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations/src/treeview/treeview.module';
-import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
+import { TreeGridModule, TreeGridAllModule } from '@syncfusion/ej2-angular-treegrid';
 import { PdfViewerModule } from '@syncfusion/ej2-angular-pdfviewer';
 
 @NgModule({
@@ -84,8 +84,8 @@ import { PdfViewerModule } from '@syncfusion/ej2-angular-pdfviewer';
     ToolbarModule,
     DialogModule,
     TooltipModule,
-    TreeViewModule,
-    TreeGridModule
+    TreeViewModule,    
+		TreeGridAllModule,
   ],
   exports: [
     CommonModule,

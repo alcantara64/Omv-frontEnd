@@ -28,11 +28,11 @@ export class MediaUploadService {
 
 
   upload(directoryId: number, file: File, metadata: string, folderPath: string) {
-    this.customersDataService.getSetting(1, 'SASToken').pipe(
-      tap(response => {
+    this.customersDataService.getSetting(1, 'SASToken').subscribe(
+      response => {
         this.sasToken = response.value;
-        this.customersDataService.getSetting(1, 'storageAccount').pipe(
-          tap(account => {
+        this.customersDataService.getSetting(1, 'storageAccount').subscribe(
+          account => {
             this.storageAccount = account.value;
 
             const Config: UploadParams = {
@@ -84,9 +84,9 @@ export class MediaUploadService {
               };
               this.blob.upload(this.config);
             }
-          })
+          }
         )
-      })
+      }
     );
   }
 

@@ -24,11 +24,13 @@
         <img class="favorite-cls cursor" (click)="clickFavoriteEvent(data)"
           [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">  
       </ng-template>
-    </e-column>
+    </e-column>    
 
     <ng-template #template ngFor let-column [ngForOf]="columns" let-i="index">
+
       <!-- Other columns -->
       <e-column [field]="column.field" [headerText]="column.headerText" [width]="column.width" textAlign='Left'></e-column>
+
     </ng-template>
 
     <!-- Download link -->

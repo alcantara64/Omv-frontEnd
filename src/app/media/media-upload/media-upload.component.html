@@ -18,9 +18,10 @@
   <br />
   <br *ngIf='!isDestinationSelected' />
 
-  <app-tree-grid *ngIf='!isDestinationSelected' [dataSource]="directories" [columns]="columns" [treeColumnIndex]="0" [idMapping]="'id'" [parentIdMapping]="'parentId'"
+  <app-tree-grid *ngIf='!isDestinationSelected' [dataSource]="directories$ | async" [columns]="columns" [treeColumnIndex]="0" [idMapping]="'id'" [parentIdMapping]="'parentId'"
     (rowSelected)="rowSelected($event)" [selectionOptions]="selectionOptions">
   </app-tree-grid>
+
 
   <div *ngIf='isDestinationSelected'>
     <button class="file-upload-button" (click)="changeDestination()"> Change </button>
