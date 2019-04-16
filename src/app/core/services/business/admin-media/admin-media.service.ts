@@ -23,4 +23,8 @@ export class AdminMediaService {
   createMetaDataField(payload: MetadataFields){
     return this.AdminMediaDataService.createMetadataField(payload);
   }
+  getNewUploads(): Observable<UploadHistory[]>{
+    return this.AdminMediaDataService.getNewUploads();
+  }
+  
 }

@@ -17,3 +17,7 @@ export class CreateMetaDataField {
   static readonly type = '[Admin media] CreateMetaDataField';
   constructor(public payload: MetadataFields) { }
 }
+
+export class GetNewUploads{
+  static readonly type = '[Admin media] GetNewUploads';
+}

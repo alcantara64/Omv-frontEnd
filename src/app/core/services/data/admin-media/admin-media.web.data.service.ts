@@ -69,5 +69,9 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   createMetadataField(payload: MetadataFields):Observable<MetadataFields> {
     return null;
   }
+  getNewUploads(): Observable<UploadHistory[]> {
+    throw new Error("Method not implemented.");
+  }
+
 
 }

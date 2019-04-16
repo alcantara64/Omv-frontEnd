@@ -43,5 +43,13 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     }));
     return data;
   }
+
+  getNewUploads(): Observable<UploadHistory[]> {
+    var url = `./assets/mock/media-new-uploads.json`;
+    let data = this.httpClient.get<UploadHistory[]>(url);
+    console.log('data', data);
+    return data;
+  }
+
 }
 

@@ -1,17 +1,14 @@
 <!-- Toolbar -->
-<div style="display:block; margin: 0 0 20px 0; clear-after: bottom!important;">
-  <div style="display: inline-block">
-    <label class="media-label" style="padding-top:1rem; padding-right: 2rem;"> Total Uploads: 21 </label>
-  </div>
 
-  <div style="display: flex; flex-wrap: nowrap; clear: bottom" [ngStyle]="{'display': (deviceWidth$ | async) < 800 ? 'block' : 'inline-block', 'float': deviceWidth > 800 ? 'right' : 'none'}">
-    <label class="media-label" style="display: inline-flex; margin: 16px 10px 16px 0">Selected::</label>
-    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px; cursor: not-allowed">Approve</button>
-    <button class="media-button-small" style="display:inline-flex; margin: 16px 10px; cursor: not-allowed">Reject</button>
-  </div>
-</div>
 
-<app-list [listData]="newUpload"
+<app-list [listData]="newUploads"
+          [totalCountText]="'Total'"
+          (firstAction)="Approve($event)"
+          [toolbarActionOne]="'Approve'"
+          [toolbarActionTwo]="'Reject'"
+          (secondAction)="Reject($event)"
           [statusIconPosition]="0"
+          [isToolBarVisible] = "true"
+          [selectedRecords]="selectedUploads"
           [columns]="columns">
 </app-list>

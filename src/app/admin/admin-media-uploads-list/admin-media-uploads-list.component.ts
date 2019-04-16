@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
 import { GridColumn } from 'src/app/core/models/grid.column';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
-import { GetUploadHistory } from '../state/admin-media/admin-media.action';
+import { GetUploadHistory, GetNewUploads } from '../state/admin-media/admin-media.action';
 import { MediaState } from 'src/app/media/state/media/media.state';
 import { Directory } from 'src/app/core/models/entity/directory';
 import { GetDirectories } from 'src/app/media/state/media/media.action';
@@ -45,6 +45,7 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
 
   ngOnInit() {
     this.store.dispatch(new GetUploadHistory());
+    this.store.dispatch(new GetNewUploads());
     this.store.dispatch(new GetDirectories());
     this.directory$.subscribe(directory => {
       this.directories = directory;

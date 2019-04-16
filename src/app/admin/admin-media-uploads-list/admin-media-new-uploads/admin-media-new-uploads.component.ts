@@ -1,78 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import {GridColumn} from "../../../core/models/grid.column";
-import {Select} from "@ngxs/store";
+import {Select, Store} from "@ngxs/store";
 import {AppState} from "../../../state/app.state";
 import {Observable} from "rxjs";
+import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
+import { AdminMediaState } from '../../state/admin-media/admin-media.state';
+import { ListComponent } from 'src/app/shared/list/list.component';
+import { GetNewUploads } from '../../state/admin-media/admin-media.action';
 
 @Component({
   selector: 'app-admin-media-new-uploads',
   templateUrl: './admin-media-new-uploads.component.html',
   styleUrls: ['./admin-media-new-uploads.component.css']
 })
-export class AdminMediaNewUploadsComponent implements OnInit {
+export class AdminMediaNewUploadsComponent extends ListComponent implements OnInit {
   @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AdminMediaState.getNewUploads) newUploads$: Observable<UploadHistory[]>
   public deviceWidth: number;
-
-  newUpload =
-    [
-      {
-        "id": 1,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
-      {
-        "id": 2,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
-      {
-        "id": 3,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
-      {
-        "id": 4,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
-      {
-        "id": 5,
-        "documentName": "Upload Number 1",
-        "metadata": "South America / Trinidad / T&T",
-        "modifiedOnString": "Jan 30, 2018 10:15:12",
-        "size": "1GB",
-        "files": 100,
-      },
-
-    ];
+  selectedUploads: UploadHistory[];
+  newUploads: UploadHistory[];
 
   columns: GridColumn[] = [
     { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
     { headerText: 'Name', field: 'documentName' },
     { headerText: 'Destination', field: 'metadata' },
     { headerText: 'Date', field: 'modifiedOnString' },
-    { headerText: 'Size (KB)', field: 'size' },
-    { headerText: '#Files', field: 'files' },
+    { headerText: 'Size (KB)', field: 'size' }
   ];
 
-  constructor() { }
+  constructor(protected store: Store) {
+    super(store);
+  }
 
   ngOnInit() {
+    // this.store.dispatch(new GetNewUploads());
+    this.newUploads$.subscribe(newUploads => {
+      this.newUploads = newUploads;
+      console.log('ngOnInit newUploads ', this.newUploads);
+    });
     this.deviceWidth$.subscribe(width => {
       this.deviceWidth = width;
-    })
+    });
   }
 
 }

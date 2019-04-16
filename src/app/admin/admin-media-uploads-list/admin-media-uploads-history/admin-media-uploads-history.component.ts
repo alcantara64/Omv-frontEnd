@@ -16,18 +16,21 @@ export class AdminMediaUploadsHistoryComponent implements OnInit {
   @Select(AdminMediaState.getUploadHistory) uploadHistoryMedia$: Observable<UploadHistory[]>;
 
   columns: GridColumn[] = [
-    { headerText: 'Status ', field: ' ', width: '5' },
+    { headerText: 'Status ', field: 'status', width: '50' },
     { headerText: 'Name', field: 'documentName' },
     { headerText: 'Destination', field: 'metadata' },
     { headerText: 'Date', field: 'modifiedOnString' },
     { headerText: 'Size (KB)', field: 'size' },
     { headerText: '#Files', field: 'files' },
   ];
+  historyMedia: UploadHistory[];
 
   constructor() { }
 
   ngOnInit() {
-
+    this.uploadHistoryMedia$.subscribe(historyMedia=>{
+      this.historyMedia = historyMedia;
+    })
   }
 
 }

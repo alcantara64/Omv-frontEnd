@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField } from './admin-media.action';
+import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, GetNewUploads } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { AdminMediaService } from 'src/app/core/services/business/admin-media/admin-media.service';
 import { DateService } from 'src/app/core/services/business/dates/date.service';
@@ -9,6 +9,7 @@ import { DisplayToastMessage } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
 
 export class AdminMediaStateModel {
+  newUploads: UploadHistory[];
   uploadHistory: UploadHistory[];
   metadataFields: MetadataFields[];
   currentMetadataId: number;
@@ -17,6 +18,7 @@ export class AdminMediaStateModel {
 @State<AdminMediaStateModel>({
   name: 'admin_media',
   defaults: {
+    newUploads: [],
     uploadHistory: [],
     metadataFields: [],
     currentMetadataId: null
@@ -36,9 +38,13 @@ export class AdminMediaState {
     return state.metadataFields;
   }
 
+  @Selector()
+  static getNewUploads(state: AdminMediaStateModel) {
+    return state.metadataFields;
+  }
+
   @Action(GetUploadHistory)
   getUploadHistory({ getState, setState }: StateContext<AdminMediaStateModel>) {
-
     return this.adminMediaService.getUploadHistory().pipe(
       tap(history => {
         history.map(item => {
@@ -69,6 +75,7 @@ export class AdminMediaState {
       })
     );
   }
+
   @Action(RemoveMetaDataFields)
   removeMetaDataFields(ctx: StateContext<AdminMediaStateModel>, { id }: RemoveMetaDataFields) {
     return this.adminMediaService.removeMetadataField(id).pipe(map(fields => {
@@ -98,4 +105,17 @@ export class AdminMediaState {
     );
   }
 
+  @Action(GetNewUploads)
+  getNewUploads({ getState, setState }: StateContext<AdminMediaStateModel>) {
+    return this.adminMediaService.getNewUploads().pipe(
+      tap(newUploads => {
+        const state = getState();
+        console.log('AdminMediaState - getNewUploads - history: ', newUploads);
+        setState({
+          ...state,
+          newUploads: newUploads
+        });
+      })
+    );
+  }
 }

@@ -1,16 +1,17 @@
 <div style="padding-top:2rem;padding-bottom: .3rem;">
     <span>
         <label class="grid-toolbar-item-label">
-            Total : {{ total }}
+            Total : {{ historyMedia.length ?  historyMedia.length : '0'}}
         </label>
     </span>
-  <span class="float-right">
+    <span class="float-right">
         <label class="grid-toolbar-item-label pr-2">
-            Completed
+            <img class="status-cls pl-1 cursor" src=" ../../../../../assets/images/check-circle-regular.svg">
+            Approved
         </label>
         <label class="grid-toolbar-item-label  pr-2">
             <img class="status-cls pl-1 cursor" src=" ../../../../../assets/images/attention.png">
-            Issues
+            Rejected
         </label>
         <label class="grid-toolbar-item-label">
             <img class="status-cls pl-1 cursor" src=" ../../../../../assets/images/rejected.png">
@@ -19,8 +20,5 @@
     </span>
 </div>
 
-<app-list [listData]="uploadHistoryMedia$ | async"
-          [showStatusIcon]="true"
-          [statusIconPosition]="0"
-          [columns]="columns">
+<app-list [listData]="uploadHistoryMedia$ | async" [showStatusIcon]="true" [statusIconPosition]="0" [columns]="columns">
 </app-list>
