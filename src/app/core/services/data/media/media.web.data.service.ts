@@ -244,7 +244,7 @@ export class MediaWebDataService implements MediaDataService {
   }
 
   getHistory(id: string): Observable<History[]> {
-    var requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
+    let requestUri = environment.api.baseUrl + `/v1/documents/${id}/audit`;
 
     return this.httpClient.get<Document_GetAuditOutputDTO[]>(requestUri).pipe(map(
       response => {

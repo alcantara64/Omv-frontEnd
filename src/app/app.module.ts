@@ -26,6 +26,7 @@ import { GridAllModule } from '@syncfusion/ej2-angular-grids';
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
 import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { BlobModule } from 'angular-azure-blob-service';
+import { ButtonAllModule , CheckBoxAllModule} from '@syncfusion/ej2-angular-buttons';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,9 @@ import { BlobModule } from 'angular-azure-blob-service';
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
-    BlobModule.forRoot()
+    BlobModule.forRoot(),
+    CheckBoxAllModule,
+    ButtonAllModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },

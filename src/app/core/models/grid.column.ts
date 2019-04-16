@@ -5,4 +5,5 @@ export class GridColumn {
   width?: string;
   textAlign?: string = 'right';
   format?: string;
+  showCheckbox? : boolean;
 }

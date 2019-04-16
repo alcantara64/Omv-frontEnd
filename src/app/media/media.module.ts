@@ -39,6 +39,17 @@ import { MediaWebDataService } from '../core/services/data/media/media.web.data.
 import { MetadataFieldsDataService } from '../core/services/data/metadata-fields/metadata-fields.data.service';
 import { MetadataFieldsMockDataService } from '../core/services/data/metadata-fields/metadata-fields.mock.service';
 import { MetadataFieldsWebDataService } from '../core/services/data/metadata-fields/metadata-fields.web.data.service';
+import { SparklineAllModule } from '@syncfusion/ej2-angular-charts';
+
+import { DropDownListAllModule, MultiSelectAllModule } from '@syncfusion/ej2-angular-dropdowns';
+
+import { ToolbarModule, ToolbarAllModule } from '@syncfusion/ej2-angular-navigations';
+
+import { ButtonAllModule , CheckBoxAllModule} from '@syncfusion/ej2-angular-buttons';
+
+import { DatePickerModule, DatePickerAllModule } from '@syncfusion/ej2-angular-calendars';
+
+import { NumericTextBoxAllModule } from '@syncfusion/ej2-angular-inputs';
 
 @NgModule({
 	declarations: [
@@ -73,7 +84,12 @@ import { MetadataFieldsWebDataService } from '../core/services/data/metadata-fie
 		ListViewModule,
 		NgxsModule.forFeature([
 			MediaState
-		])
+		]),
+		CheckBoxAllModule,
+		ButtonAllModule,
+		MultiSelectAllModule,
+		DropDownListAllModule,
+		SparklineAllModule
 	],
 	providers: [
 		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
