@@ -124,7 +124,7 @@ export class MediaState {
   }
 
   @Selector()
-  static setMediaItemId(state: MediaStateModel) {
+  static getMediaItemId(state: MediaStateModel) {
     return state.currentMediaItemId;
   }
 

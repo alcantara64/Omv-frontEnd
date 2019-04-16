@@ -84,8 +84,14 @@ export class MediaUploadService {
               };
               this.blob.upload(this.config);
             }
+          }, err => {
+            this.store.dispatch(new HideSpinner());
+            this.store.dispatch(new DisplayToastMessage(err.message, ToastType.error));
           }
         )
+      }, err => {
+        this.store.dispatch(new HideSpinner());
+        this.store.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       }
     );
   }

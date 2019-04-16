@@ -1,22 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { MediaItem } from 'src/app/core/models/entity/media';
 import { MediaState } from '../../state/media/media.state';
 import { Select, Store } from '@ngxs/store';
-import { GetHistory } from '../../state/media/media.action';
+import { GetHistory, GetMediaItemDetails } from '../../state/media/media.action';
 import { ActivatedRoute } from '@angular/router';
+import { takeWhile, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-media-item-history',
   templateUrl: './media-item-history.component.html',
   styleUrls: ['./media-item-history.component.css']
 })
-export class MediaItemHistoryComponent implements OnInit {
+export class MediaItemHistoryComponent implements OnInit, OnDestroy {
 
+  private unsubscribe: Subject<void> = new Subject();
   @Select(MediaState.getHistory) getHistoryMedia$: Observable<MediaItem[]>;
+  @Select(MediaState.getMediaItemId) mediaItemId$: Observable<any>;
 
-  public historyList;
+  historyList;
 
   columns: GridColumn[] = [
     { type: '', headerText: 'Field Title', width: '', field: 'eventName ' },
@@ -30,13 +33,27 @@ export class MediaItemHistoryComponent implements OnInit {
   constructor(private store: Store, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      let mediaItemId = params.get('id');
-    this.store.dispatch(new GetHistory(mediaItemId));
+    this.mediaItemId$
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe(id => {
+      console.log('MediaItemHistoryComponent ngOnInit: ', id);
+      this.store.dispatch(new GetHistory(id));
     });
+    
+    // this.route.paramMap.subscribe(params => {
+    //   console.log('MediaItemHistoryComponent ngOnInit: ', params);
+    //   let mediaItemId = params.get('id');
+
+      
+    // });
     this.getHistoryMedia$.subscribe(historyMedia => {
       this.historyList = historyMedia;
     });
   }
 
+  ngOnDestroy() {    
+    console.log('ngOnDestory');
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 }

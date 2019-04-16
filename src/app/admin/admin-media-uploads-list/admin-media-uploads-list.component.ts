@@ -39,11 +39,11 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
     this.PageTitle('Admin User');
   }
   columns: GridColumn[] = [
-    { headerText: 'Name', field: 'documentName' },
-    { headerText: 'Destination', field: 'metadata' },
+    { headerText: 'Name', field: 'name' },
+    { headerText: 'Destination', field: 'destination' },
     { headerText: 'Date', field: 'modifiedOnString' },
     { headerText: 'Size (KB)', field: 'size' },
-    { headerText: '#Files', field: 'files' },
+    { headerText: '#Files', field: 'file' }
   ];
 
   ngOnInit() {
@@ -53,6 +53,7 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
       this.directories = directory;
     });
     this.uploadHistoryMedia$.subscribe(historyMedia => {
+      console.log('AdminMediaUploadsListComponent - history media: ', historyMedia);
       this.total = historyMedia.length;
     });
   }

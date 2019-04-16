@@ -69,7 +69,6 @@ import { TreeGridAllModule } from '@syncfusion/ej2-angular-treegrid';
 		SharedModule,
 		MediaRoutingModule,
 		TreeViewModule,
-		TreeGridAllModule,
 		CheckBoxModule,
 		DialogModule,
 		DropDownListModule,
