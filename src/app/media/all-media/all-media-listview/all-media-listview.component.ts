@@ -4,9 +4,11 @@ import { Store, Select } from '@ngxs/store';
 import { Router } from '@angular/router';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
-import { MediaItem } from 'src/app/core/models/entity/media';
+import { MediaItem, Media } from 'src/app/core/models/entity/media';
 import { GetMedia, SetSelectedItems } from '../../state/media/media.action';
 import { EmitType } from '@syncfusion/ej2-base';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MediaService } from 'src/app/core/services/business/media/media.service';
 declare var require: any
 
 @Component({
@@ -26,16 +28,20 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
   componentActive = true;
   editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
   selectedItemRecords : any;
-  pageSize = 20;
+  pageSize = 100;
   totalMedia: number;
   pageCount: number;
 
   @Select(MediaState.getMedia) media$: Observable<MediaItem[]>;
   @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
+  medias: MediaItem[];
 
-  constructor(private store: Store, private router: Router) { }
+  constructor(private store: Store, private router: Router, private mediaService: MediaService) { }
 
   ngOnInit() {
+    this.mediaService.getMedia(1, this.pageSize).subscribe(medias=>{
+      this.media = medias.data;
+    })
     this.store.dispatch(new GetMedia(1, this.pageSize));
     this.totalMedia$.subscribe(totalMedia => {
       this.totalMedia = totalMedia;
