@@ -1,3 +1,5 @@
 <app-tile-view [dataSource]="media$ | async" (itemClick)="navigate($event)"
   (selectedItemData)="selectedItemData($event)" (toggleFavorite)="toggleFavorite($event)">
 </app-tile-view>
+
+<ejs-pager [pageSize]='pageSize' [pageCount]='pageCount' [totalRecordsCount]='totalMedia' (click)="changePage($event)"></ejs-pager>

@@ -3,7 +3,7 @@ import { AdminGroupsService } from '../../../core/services/business/admin-groups
 import {
   GetGroups, DisableGroup, EnableGroup, UpdateGroup, AssignToPermission, GetGroup, CreateGroup,
   SetCurrentGroupId, GetMembers, GetGroupMembers, GetGroupPermissions, UpdateGroupPermissions, AddGroupMembers, RemoveGroupMembers, GetMediaAccess, ClearGroup, GetRoleMediaAccess, UpdateRoleMediaAccess
-} from './admin.groups.action';
+} from './admin-groups.action';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { tap, mergeMap, map } from 'rxjs/operators';
 import { AdminPermissionsService } from 'src/app/core/services/business/admin-permissions/admin-permissions.service';
@@ -162,20 +162,20 @@ export class AdminGroupState {
           currentGroupId: group.id
         });
       }, (err) => {
-        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
   }
 
   @Action(UpdateGroup)
-  updateGroup(ctx: StateContext<AdminGroupStateModel>, { payload, id }: UpdateGroup) {
-    ctx.dispatch(new DisplayToastMessage('Group updated successfully.'));
+  updateGroup(ctx: StateContext<AdminGroupStateModel>, { payload, id }: UpdateGroup) {    
     return this.adminGroupService.updateGroup(id, payload).pipe(
-      () => { }, (err) => {
-        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      tap(group => {
+        ctx.dispatch(new DisplayToastMessage('Group updated successfully.'));
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
-    // ctx.dispatch(new GetGroups());
-
+    );
   }
 
   @Action(DisableGroup)
@@ -188,7 +188,7 @@ export class AdminGroupState {
           ctx.dispatch(new GetGroups());
         }
       }, (err) => {
-        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
   }

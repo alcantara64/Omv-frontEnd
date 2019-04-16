@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Store, Select } from "@ngxs/store";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ShowLeftNav, SetPageTitle } from 'src/app/state/app.actions';
 import { MediaState } from 'src/app/media/state/media/media.state';
 import { Observable } from 'rxjs';
-import { GetMediaItem, GetMedia, SetCurrentMediaItemId, GetMediaItemDetails } from 'src/app/media/state/media/media.action';
+import { GetMediaItem } from 'src/app/media/state/media/media.action';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BaseComponent } from '../base/base.component';
 import Viewer from 'viewerjs';
@@ -35,7 +34,7 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
   url: string;
   trustedUrl: any;
   componentActive = true;
-  constructor(protected store: Store, private router: Router, private activeRoute: ActivatedRoute,
+  constructor(protected store: Store, private activeRoute: ActivatedRoute,
     private sanitizer: DomSanitizer) {
     super(store);
 

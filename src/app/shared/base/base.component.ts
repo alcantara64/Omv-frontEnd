@@ -10,9 +10,9 @@ import {
   ShowLeftNav,
   GetUserPermissions
 } from "src/app/state/app.actions";
-import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
 import { AppState } from 'src/app/state/app.state';
 import { Observable } from 'rxjs';
+import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups/src/spinner/spinner';
 
 
 export class BaseComponent implements OnInit {
@@ -25,7 +25,7 @@ export class BaseComponent implements OnInit {
   @Select(AppState.confirmation) confirmation$: Observable<string>;
   @Select(AppState.getUserPermissions) userPermissions$: Observable<Permission[]>;
   @Select(AppState.getCurrentUserId) currentUserId$: Observable<number>;
-  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
 
   constructor(protected store: Store) {
     console.log("BaseComponent - constructor", this._permission);

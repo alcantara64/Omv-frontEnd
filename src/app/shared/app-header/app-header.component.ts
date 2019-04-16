@@ -1,7 +1,6 @@
-import { LogOut } from './../../state/app.actions';
-import {Component, DoCheck, OnInit} from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
-import {Select, Store} from '@ngxs/store';
+import {Component, OnInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {Select} from '@ngxs/store';
 import {AppState} from "../../state/app.state";
 import {Observable} from "rxjs";
 
@@ -16,9 +15,9 @@ export class AppHeaderComponent implements OnInit {
   public displayWidth: number;
   public activated: boolean;
 
-  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
 
-  constructor(private store: Store, private activatedRoute: ActivatedRoute, private router:Router) {
+  constructor(private activatedRoute: ActivatedRoute) {
     this.deviceWidth$.subscribe(width => {
       this.displayWidth = width;
     });

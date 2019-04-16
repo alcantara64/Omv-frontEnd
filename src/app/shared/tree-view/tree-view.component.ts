@@ -1,9 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
-import { ITreeData } from '@syncfusion/ej2-treegrid';
-import { EmitType } from '@syncfusion/ej2-base';
-import { RowSelectEventArgs } from '@syncfusion/ej2-grids';
-import { ChangeEventArgs } from '@syncfusion/ej2-inputs';
+import { RowSelectEventArgs } from '@syncfusion/ej2-grids/src/grid/base/interface';
+import { ITreeData } from '@syncfusion/ej2-treegrid/src/treegrid/base/interface';
 
 @Component({
   selector: 'app-tree-grid',

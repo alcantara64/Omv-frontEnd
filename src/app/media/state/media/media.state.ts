@@ -2,7 +2,7 @@ import { MediaUploadService } from './../../media-upload/media-upload.service';
 import {
   GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
   AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, 
-  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata
+  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems
 } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
@@ -33,6 +33,7 @@ export class MediaStateModel {
   directoryMetadata: any[];
   documents: any[]
   uploadComplete: boolean;
+  selectedItems: any[];
 }
 
 const initialMediaItem: MediaItem = {
@@ -73,7 +74,8 @@ const initialMediaItem: MediaItem = {
     itemFields: [],
     documents: [],
     directoryMetadata: [],
-    uploadComplete: false
+    uploadComplete: false,
+    selectedItems: []
   }
 })
 
@@ -161,6 +163,11 @@ export class MediaState {
     return state.documents;
   }
 
+  @Selector()
+  static getSelectedItems(state: MediaStateModel) {
+    return state.selectedItems;
+  }
+
   //#endregion
 
   constructor(private mediaService: MediaService,
@@ -173,7 +180,7 @@ export class MediaState {
 
   @Action(GetMedia)
   getMedia(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
-    pageSize = 100;    
+    // pageSize = 100;    
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(response => {
         if (!response) return;
@@ -189,7 +196,7 @@ export class MediaState {
           ...state,
           media: allMedia,
           treeviewMedia: media,
-          totalMedia: response.pagination.Total
+          totalMedia: response.pagination.total
         });
         ctx.dispatch(new HideSpinner());
       }, err => {
@@ -431,6 +438,15 @@ export class MediaState {
       ...state,
       itemFields: itemFields
     })
+  }
+
+  @Action(SetSelectedItems)
+  addSelectedItem({getState, setState}: StateContext<MediaStateModel>, { selectedItems }: SetSelectedItems) {
+    const state = getState();
+    setState({
+      ...state,
+      selectedItems: selectedItems,
+    });
   }
 
   //#endregion

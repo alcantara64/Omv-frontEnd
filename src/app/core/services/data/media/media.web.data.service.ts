@@ -78,8 +78,7 @@ export class MediaWebDataService implements MediaDataService {
           .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
           .forMember('createdBy', function (opts) { opts.mapFrom('createdBy'); })
           .forMember('modifiedOn', function (opts) { opts.mapFrom('modifiedOn'); })
-          .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); })
-          .forMember('isFavorite', function (opts) { opts.mapFrom('hasChild'); });
+          .forMember('modifiedBy', function (opts) { opts.mapFrom('modifiedBy'); });
 
         let mediaItems = automapper.map(Document_SearchOutputData, MediaItem, media.data);
         

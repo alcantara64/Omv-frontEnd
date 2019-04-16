@@ -1,4 +1,4 @@
-import { GetGroups, EnableGroup, DisableGroup, SetCurrentGroupId, AssignToPermission } from '../state/admin-groups/admin.groups.action';
+import { GetGroups, EnableGroup, DisableGroup, SetCurrentGroupId, AssignToPermission } from '../state/admin-groups/admin-groups.action';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GridColumn } from "../../core/models/grid.column";
 import { ListComponent } from "../../shared/list/list.component";

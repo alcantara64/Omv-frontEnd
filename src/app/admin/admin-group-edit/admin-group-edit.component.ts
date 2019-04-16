@@ -7,7 +7,7 @@ import {
   EnableGroup,
   GetGroup,
   UpdateGroup
-} from '../state/admin-groups/admin.groups.action';
+} from '../state/admin-groups/admin-groups.action';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
@@ -72,11 +72,8 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     this.groupForm = this.fb.group({
       id: '',
       name: [ '', [ Validators.required ] ],
-      description: '',
-      isSystem: false
+      description: ''
     });
-
-    console.log('testing checkbox', this.checkbox);
 
     // Get the id in the browser url and reach out for the group
     this.activatedRoute.paramMap.subscribe(params => {
@@ -99,8 +96,7 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
         this.groupForm.patchValue({
           id: group.id,
           name: group.name,
-          description: group.description,
-          isSystem: group.isSystem
+          description: group.description
         });
         this.group = group;
         console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);

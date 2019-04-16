@@ -24,7 +24,7 @@ export class MediaUploadService {
 
   upload(directoryId: number, file: File, metadata: string, folderPath: string) {
     const Config: UploadParams = {
-      sas: '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwlacup&st=2019-04-13T17%3A39%3A41Z&se=2019-04-14T17%3A39%3A41Z&sig=8O%2FoUN1Um%2BEKNeEm%2BIPKYM6m165YVqun31ZuGI6niNI%3D',
+      sas: '?st=2019-04-15T15%3A20%3A08Z&se=2019-05-30T15%3A20%3A00Z&sp=rwl&sv=2018-03-28&sr=c&sig=QMg%2F6Ed91i8Rl6%2BRRxvFwm%2BC6gpTF1oXyjARMgo6hlw%3D',
       storageAccount: 'omvclient8946',
       containerName: 'media'
     };

@@ -1,7 +1,7 @@
-import { PaginationInfo } from '../../dtos/output/PaginationInfo';
+import { Pagination } from './pagination';
 
 export class Users {
-  pagination: PaginationInfo;
+  pagination: Pagination;
   data: User[];
 }
 

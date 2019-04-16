@@ -4,20 +4,11 @@ import { AuthService, User } from './core/services/data/appsettings/auth.service
 import {Select, Store} from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import {Title} from "@angular/platform-browser";
-import {ActivatedRoute, ParamMap} from "@angular/router";
-import {
-  ClearNotification,
-  Confirmation,
-  DeviceWidth,
-  messageType,
-  ShowConfirmationBox,
-  ShowLeftNav
-} from "./state/app.actions";
-import { ToastPosition } from '@syncfusion/ej2-notifications';
+import { DeviceWidth} from "./state/app.actions";
 import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
-import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups/src/spinner/spinner';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +25,7 @@ export class AppComponent implements AfterViewInit{
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
   @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
   @Select(AppState.getToastMessage) toastMessage$: Observable<Toast>;
-  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
 
   buttons = [{ model: { content: "Ignore" }, click: this.btnToastClick.bind(this)}, {model: { content: "reply" }}];
 
@@ -43,7 +34,7 @@ export class AppComponent implements AfterViewInit{
     this.confirmBox.hide(toastEle);
   }
 
-  constructor(public authn: AuthService, private title: Title, private activatedRoute: ActivatedRoute, private store:Store) {
+  constructor(public authn: AuthService, private title: Title, store:Store) {
     this.currentPageTitle$.subscribe( (res) => {
       res === 'OMV Client Portal' ? this.title.setTitle(res) : this.title.setTitle(res + ' - OMV Client Portal');
     });
