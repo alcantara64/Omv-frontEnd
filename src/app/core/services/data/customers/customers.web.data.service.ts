@@ -20,10 +20,6 @@ export class CustomersWebDataService implements CustomersDataService {
     };
     options.params = options.params.set('settingkey', setting);
     
-    return this.httpClient.get<any>(requestUri, options).pipe(
-      map(response => {
-          console.log('CustomersWebDataService - getSetting response: ', response);
-      })
-    );
+    return this.httpClient.get<any>(requestUri, options);
   }
 };
