@@ -6,4 +6,5 @@ export class GridColumn {
   textAlign?: string = 'right';
   format?: string;
   showCheckbox? : boolean;
+  template?:string;
 }

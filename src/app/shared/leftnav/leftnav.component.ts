@@ -20,8 +20,9 @@ export class LeftNavComponent implements OnInit {
   isMediaUploadsActive: boolean;
   isMediaFolderStructureActive: boolean;
   isMediaBulkUploaderActive: boolean;
-  isMediaMetadataDetailsActive: boolean;
+  isMediaMetadataFieldsActive: boolean;
   isMediaMetaDataListActive: boolean;
+  mediaMetadataFieldsLink = '/admin/media/metadata/fields';
   mediaMetadataLink = '/admin/media/metadata';
   mediaUploadsLink = '/admin/media/uploads';
   newMediaUploadsLink = '/admin/media/uploads/new';
@@ -83,6 +84,7 @@ export class LeftNavComponent implements OnInit {
       case this.mediaUploadsLink:
         this.isMediaMenuOpen = true;
         this.isMediaUploadsActive = true;
+        break;
       case this.usersLink:
       case this.activeUsersLink:
       case this.unassignedUsersLink:
@@ -97,7 +99,15 @@ export class LeftNavComponent implements OnInit {
         this.isGroupsActive = true;
         break;
       case this.mediaMetadataLink:
+        this.isMediaMenuOpen = true;
         this.isMediaMetaDataListActive = true;
+        this.isMediaMetadataFieldsActive = false;
+        break;
+      case this.mediaMetadataFieldsLink:
+        this.isMediaMenuOpen = true;
+        this.isMediaMetadataFieldsActive = true;
+        this.isMediaMetaDataListActive = false;
+        break;
       default:
         break;
     }

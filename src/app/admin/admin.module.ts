@@ -56,6 +56,7 @@ import { AdminMediaDataService } from '../core/services/data/admin-media/admin-m
 import { AdminMediaWebDataService } from '../core/services/data/admin-media/admin-media.web.data.service';
 import { AdminMediaMockDataService } from '../core/services/data/admin-media/admin-media.mock.data.service';
 import { AdminMetadataListComponent } from './admin-metadata-list/admin-metadata-list.component';
+import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
 // import { AdminMediaMockDataService } from '../core/services/data/admin-media/admin-media.mock.data.service';
 
 @NgModule({
@@ -74,7 +75,8 @@ import { AdminMetadataListComponent } from './admin-metadata-list/admin-metadata
     AdminGroupMediaAccessComponent,
     AdminMediaUploadsListComponent,
     AdminMediaUploadsTabsComponent,
-    AdminMetadataListComponent
+    AdminMetadataListComponent,
+    AdminMetadataFieldsComponent
   ],
   imports: [
     SharedModule,
@@ -103,7 +105,7 @@ import { AdminMetadataListComponent } from './admin-metadata-list/admin-metadata
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
     { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
     { provide: AdminMediaAccessDataService, useClass: environment.useMocks ? AdminMediaAccessMockDataService : AdminMediaAccessWebDataService },
-    { provide: AdminMediaDataService, useClass: environment.useMocks ? AdminMediaMockDataService : AdminMediaWebDataService }
+    { provide: AdminMediaDataService, useClass: environment.useMocks ?AdminMediaWebDataService  : AdminMediaMockDataService }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
