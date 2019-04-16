@@ -89,4 +89,9 @@ export class AllMediaTreeviewComponent implements OnInit {
     var FileSaver = require('file-saver');
     FileSaver.saveAs(data.url, data.name);
   }
+
+  // selectedItemData(data: any[]) {
+  //   console.log('records',this.selectedItemRecords);
+  //   this.store.dispatch(new SetSelectedItems(data));
+  // }
 }
