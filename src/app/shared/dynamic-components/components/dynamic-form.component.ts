@@ -6,9 +6,11 @@ import { FieldConfiguration } from '../field-setting';
   exportAs: "dynamicForm",
   selector: "dynamic-form",
   template: `
-    <form [formGroup]="form" (submit)="handleSubmit($event)">     
-      <ng-container *ngFor="let field of config;" dynamicField (remove)="performRemove($event)" [config]="field" [group]="form" [showDelete]="showDelete">
-      </ng-container>      
+    <form [formGroup]="form" class="row" (submit)="handleSubmit($event)">  
+      <div class="col-md-6" *ngFor="let field of config;">
+        <ng-container dynamicField (remove)="performRemove($event)" [config]="field" [group]="form" [showDelete]="showDelete">
+        </ng-container>      
+      </div>
     </form>
   `,
   styles: []

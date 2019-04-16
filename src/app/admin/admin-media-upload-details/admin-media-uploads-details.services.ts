@@ -12,32 +12,39 @@ export class AdminMediaUploadsDetailsService {
   constructor(private adminMediaDataService: AdminMediaDataService) {}
 
 
-  getUploadRequestFields(id: number): Observable<any> {
-
-    return of(null);
-  }
-
-  async getMetadata(id: any) {
+  async getUploadRequestFields(id: number) {
     let metaArray: FieldConfiguration[] = [];
     let details = await this.adminMediaDataService.getUploadRequest(id).toPromise();
     if (details) {
       // Step 1: Get details keys
+      let detailsFields = Object.keys(details);
+      detailsFields.forEach(name => {
+        if (name !== 'metadata') {
+          let label: FieldConfiguration = {
+            type: 'label',
+            name: name,
+            label: name.charAt(0).toUpperCase() + name.slice(1),
+            value: details[name]
+          }
+          metaArray.push(label);
+        }
+      });
+
+      // Step 2: Get metadata keys
       let itemMetadata = JSON.parse(details.metadata);
-      let itemFieldNames = Object.keys(itemMetadata);
+      let metadataFields = Object.keys(itemMetadata);
 
-      
-
-      // otherFields.forEach(name => {
-      //   let labelControl = new FieldConfiguration();
-      //   labelControl.type = 'label';
-      //   labelControl.name = name;
-      //   labelControl.label = name.charAt(0).toUpperCase() + name.slice(1);
-      //   labelControl.value = mediaItem[name];
-      //   metaArray.push(labelControl);
-      // });
+      metadataFields.forEach(name => {
+        let label: FieldConfiguration = {
+          type: 'label',
+          name: name,
+          label: name.charAt(0).toUpperCase() + name.slice(1),
+          value: itemMetadata[name]
+        }
+        metaArray.push(label);
+      });
     }
-
-    return await metaArray.sort(x => x.order);
+    return await metaArray;
   }
 
   private buildLabel(item: Metadata): FieldConfiguration {

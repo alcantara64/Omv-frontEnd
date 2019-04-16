@@ -22,7 +22,7 @@ export class AdminMediaStateModel {
 
 export class AdminMediaState {
   constructor(private adminMediaService: AdminMediaService, private adminMediaUploadsDetailsService: AdminMediaUploadsDetailsService,
-              private dateService: DateService) { }
+    private dateService: DateService) { }
 
   @Selector()
   static getUploadHistory(state: AdminMediaStateModel) {
@@ -43,7 +43,7 @@ export class AdminMediaState {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
         });
         history.map(item => {
-         item.size =  Math.floor((item.size) / 1000);
+          item.size = Math.floor((item.size) / 1000);
         });
         const state = getState();
         console.log('AdminMediaState - getUploadHistory - history: ', history);
@@ -56,16 +56,16 @@ export class AdminMediaState {
   }
 
   @Action(GetUploadRequest)
-  getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
-    return this.adminMediaUploadsDetailsService.getUploadRequestFields(id).pipe(
-      tap(fields => {
+  async getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
+    return this.adminMediaUploadsDetailsService.getUploadRequestFields(id)
+      .then(fields => {
         console.log('AdminMediaState - getUploadRequest - fields: ', fields);
         const state = getState();
         setState({
           ...state,
           currentUploadRequestFields: fields
         });
-      })
+      }
     );
   }
 }
