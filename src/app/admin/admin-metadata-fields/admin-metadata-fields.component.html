@@ -12,38 +12,41 @@
         [width]="350" [height]="400">
 
         <ng-template #content>
-                <form novalidate (ngSubmit)="saveDlgBtnClick()" [formGroup]="metadataFieldForm">
-            <div class="row pt-3">
-                <div class="col-md-4"><label>
-                        Field Name
-                    </label></div>
-                <div class="col-md-8">
-                    <input class="form-control form-control-lg" id="fieldNameId" type="text" placeholder=""
-                        formControlName="fieldName" [ngClass]="{'is-invalid': (metadataFieldForm.get('fieldName').touched ||
+            <form novalidate (ngSubmit)="saveDlgBtnClick()" [formGroup]="metadataFieldForm">
+                <div class="row pt-3 pb-3">
+                    <div class="col-md-4"><label>
+                            Field Name
+                        </label></div>
+                    <div class="col-md-8">
+
+                        <input class="form-control form-control-lg" id="fieldNameId" type="text" placeholder=""
+                            formControlName="fieldName"
+                            [ngClass]="{'is-invalid': (metadataFieldForm.get('fieldName').touched ||
                                                                                metadataFieldForm.get('fieldName').dirty) &&
                                                                               !metadataFieldForm.get('fieldName').valid }" />
+                    </div>
                 </div>
-            </div>
-            <div class="row pt-3">
-                <div class="col-md-4"><label>
-                        Field Type
-                    </label></div>
-                <div class="col-md-8">
-                        <input class="form-control form-control-lg" id="fieldTypeId" type="text" placeholder=""
-                        formControlName="fieldType" [ngClass]="{'is-invalid': (metadataFieldForm.get('fieldType').touched ||
-                                                                               metadataFieldForm.get('fieldType').dirty) &&
-                                                                              !metadataFieldForm.get('fieldType').valid }" />
+                <div class="row pt-3 pb-3">
+                    <div class="col-md-4"><label>
+                            Field Type
+                        </label></div>
+                    <div class="col-md-8">
+
+                        <ejs-dropdownlist id='ddlelement' #samples formControlName="fieldType"
+                            (change)="addList($event)" [dataSource]='fieldTypeData'
+                            [placeholder]="'Select a Field Type'" [value]='name' [fields]='typeListFields'>
+                        </ejs-dropdownlist>
+                    </div>
                 </div>
-            </div>
-            <div class="row pt-3">
-                <div class="col-md-4"><label>
-                        List
-                    </label></div>
-                <div class="col-md-8">
-                    <ejs-dropdownlist id='ddlelement' #samples (change)="addList($event)" [dataSource]='data'
-                        [placeholder]='placeholder' [value]='id' [fields]='listFields'></ejs-dropdownlist>
+                <div class="row pt-3 pb-3">
+                    <div class="col-md-4"><label>
+                            List
+                        </label></div>
+                    <div class="col-md-8">
+                        <ejs-dropdownlist id='ddlelement' #samplesDropdownlist formControlName="List" (change)="addList($event)" [dataSource]='data'
+                            [placeholder]="'Select a List'" [value]='name' [fields]='listFields'></ejs-dropdownlist>
+                    </div>
                 </div>
-            </div>
             </form>
         </ng-template>
     </ejs-dialog>
