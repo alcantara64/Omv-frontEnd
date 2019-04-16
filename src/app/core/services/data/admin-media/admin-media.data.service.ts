@@ -11,4 +11,5 @@ export abstract class AdminMediaDataService {
     abstract getUploadHistory(): Observable<UploadHistory[]>;
     abstract getMetaDataFields(): Observable<MetadataFields[]>;
     abstract removeMetadataField(id: number);
+    abstract createMetadataField(payload: MetadataFields): Observable<MetadataFields>;
 }

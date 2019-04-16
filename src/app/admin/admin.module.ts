@@ -3,7 +3,8 @@ import { AdminGroupEditComponent } from './admin-group-edit/admin-group-edit.com
 
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminUsersListComponent } from './admin-users-list/admin-users-list.component';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+
 import { SharedModule } from '../shared/shared.module';
 import { AdminRoutingModule } from './admin.routing.module';
 import { environment } from 'src/environments/environment';

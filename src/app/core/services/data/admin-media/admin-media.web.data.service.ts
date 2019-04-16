@@ -16,6 +16,7 @@ import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 export class AdminMediaWebDataService implements AdminMediaDataService {
 
 
+
   private paging_batch_size: number = 25;
   mockUrl = `./assets/mock/`;
 
@@ -63,6 +64,9 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
 
   removeMetadataField(id: number ) {
     throw new Error("Method not implemented.");
+  }
+  createMetadataField(payload: MetadataFields):Observable<MetadataFields> {
+    return null;
   }
 
 }

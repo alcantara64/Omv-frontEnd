@@ -1,0 +1,27 @@
+[
+    {
+        "id": "1",
+        "name": "All Platform",
+        "list": "Rigs,Shell"
+    },
+    {
+        "id": "2",
+        "name": "All Systems",
+        "list": "Shell,Rigs  "
+    },
+    {
+        "id": "3",
+        "name": "All Register Types",
+        "list": "Rigs,Register"
+    },
+    {
+        "id": "4",
+        "name": "All Platform",
+        "list": "Shell, Platform"
+    },
+    {
+        "id": "5",
+        "name": "All Systems",
+        "list": "Rigs, Systems"
+    }
+ ]

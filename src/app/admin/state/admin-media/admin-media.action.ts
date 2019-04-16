@@ -12,3 +12,8 @@ export class RemoveMetaDataFields {
   static readonly type = '[Admin media] RemoveMetaDataFields';
   constructor(public id: number) { }
 }
+
+export class CreateMetaDataField {
+  static readonly type = '[Admin media] CreateMetaDataField';
+  constructor(public payload: MetadataFields) { }
+}

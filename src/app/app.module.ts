@@ -25,6 +25,7 @@ import { GridModule } from '@syncfusion/ej2-angular-grids/src/grid/grid.module';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars/src/datepicker/datepicker.module';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.module';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -39,11 +40,12 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
     HttpModule,
     HttpClientModule,
     
+    FormsModule,
     AdminModule,
     MediaModule,
     SharedModule,
     ToastModule,
-
+      
     BlobModule.forRoot(),
     NgxsModule.forRoot([ AppState ]),
     NgxsReduxDevtoolsPluginModule.forRoot(),

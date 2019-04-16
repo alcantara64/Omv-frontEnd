@@ -20,4 +20,7 @@ export class AdminMediaService {
   removeMetadataField(id: number): Observable<MetadataFields[]> {
     return this.AdminMediaDataService.removeMetadataField(id);
   }
+  createMetaDataField(payload: MetadataFields){
+    return this.AdminMediaDataService.createMetadataField(payload);
+  }
 }

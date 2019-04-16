@@ -30,12 +30,18 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
   removeMetadataField(id: number) {
     var url = `./assets/mock/admin-metadata-fields.json`;
 
-    return this.httpClient.get<MetadataFields[]>(url).pipe(map(fields => {
-      fields.filter(x => x.id !== id);
-      var x = fields.filter(x => x.id !== id);
-      console.log('fields, ', x);
-    }));
+    return this.httpClient.get<MetadataFields[]>(url);
     // return data;
   }
 
+  createMetadataField(payload: MetadataFields): Observable<MetadataFields> {
+    var url = `./assets/mock/admin-metadata-fields.json`;
+    var data = this.httpClient.get<MetadataFields[]>(url).pipe(map(field => {
+      var _field = new MetadataFields();
+
+      return _field;
+    }));
+    return data;
+  }
 }
+
