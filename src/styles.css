@@ -734,3 +734,6 @@ background: none !important;
   color: #033B5C;
 }
 /* end of tool bar styles */
+.remove-cls{
+  text-decoration: underline !important;
+}

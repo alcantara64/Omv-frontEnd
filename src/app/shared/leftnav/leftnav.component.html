@@ -20,9 +20,12 @@
             </li>
             <li class="media-child-text cursor">
               Bulk Uploader
-            </li>
-            <li class="media-child-text cursor">
-              MetaData Details
+            </li> 
+            <li class="media-child-text cursor" (click)="setActiveTab(mediaMetadataFieldsLink)" [ngClass]="{ 'selected-background': isMediaMetadataFieldsActive }" >
+                MetaData Fields
+              </li>
+            <li class="media-child-text cursor" (click)="setActiveTab(mediaMetadataLink)" [ngClass]="{ 'selected-background': isMediaMetaDataListActive }">
+              MetaData List
             </li>
           </ul>
         </div>

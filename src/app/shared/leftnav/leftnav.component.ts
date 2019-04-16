@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import {Select} from "@ngxs/store";
-import {AppState} from "../../state/app.state";
-import {Observable} from "rxjs";
+import { Select } from "@ngxs/store";
+import { AppState } from "../../state/app.state";
+import { Observable } from "rxjs";
 
 
 @Component({
@@ -20,7 +20,10 @@ export class LeftNavComponent implements OnInit {
   isMediaUploadsActive: boolean;
   isMediaFolderStructureActive: boolean;
   isMediaBulkUploaderActive: boolean;
-  isMediaMetadataDetailsActive: boolean;
+  isMediaMetadataFieldsActive: boolean;
+  isMediaMetaDataListActive: boolean;
+  mediaMetadataFieldsLink = '/admin/media/metadata/fields';
+  mediaMetadataLink = '/admin/media/metadata';
   mediaUploadsLink = '/admin/media/uploads';
   newMediaUploadsLink = '/admin/media/uploads/new';
   inProgressMediaUploadsLink = '/admin/media/uploads/in-progress';
@@ -74,13 +77,18 @@ export class LeftNavComponent implements OnInit {
     this.clearActiveSelections();
     this.router.navigate([url]);
     this.showAdminNav();
-    switch(url) {
+    switch (url) {
       case this.dashboardLink:
         this.isDashboardActive = true;
         break;
       case this.mediaUploadsLink:
+      case this.historyMediaUploadsLink:
+      case this.newMediaUploadsLink:
         this.isMediaMenuOpen = true;
-        this.isMediaUploadsActive = true;     
+        this.isMediaUploadsActive = true;
+        this.isMediaMetaDataListActive = false;
+        this.isMediaMetadataFieldsActive = false;
+        break;
       case this.usersLink:
       case this.activeUsersLink:
       case this.unassignedUsersLink:
@@ -93,8 +101,17 @@ export class LeftNavComponent implements OnInit {
       case this.disabledGroupsLink:
         this.isUsersMenuOpen = true;
         this.isGroupsActive = true;
-        break;      
-      
+        break;
+      case this.mediaMetadataLink:
+        this.isMediaMenuOpen = true;
+        this.isMediaMetaDataListActive = true;
+        this.isMediaMetadataFieldsActive = false;
+        break;
+      case this.mediaMetadataFieldsLink:
+        this.isMediaMenuOpen = true;
+        this.isMediaMetadataFieldsActive = true;
+        this.isMediaMetaDataListActive = false;
+        break;
       default:
         break;
     }

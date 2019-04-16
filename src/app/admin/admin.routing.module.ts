@@ -16,6 +16,8 @@ import {AdminGroupEditComponent} from "./admin-group-edit/admin-group-edit.compo
 import { AdminGroupEditGuard } from './admin-group-edit/admin-group-edit.guard';
 import { AdminUserEditGuard } from './admin-user-edit/admin-user-edit.guard';
 import { AuthGuardService } from '../core/guards/auth-guard.service';
+import { AdminMetadataListComponent } from './admin-metadata-list/admin-metadata-list.component';
+import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
 
 const adminRoutes: Routes = [
   {
@@ -65,7 +67,17 @@ const adminRoutes: Routes = [
     canDeactivate: [AdminGroupEditGuard],
     component: AdminGroupEditComponent,
     canActivate: [AuthGuardService]
-  }
+  },
+  {
+    path: 'admin/media/metadata',
+    component: AdminMetadataListComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'admin/media/metadata/fields',
+    component: AdminMetadataFieldsComponent,
+    canActivate: [AuthGuardService]
+  },
 ];
 
 @NgModule({

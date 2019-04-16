@@ -1,0 +1,25 @@
+<div>
+    <div class="row">
+        <div class="pb-3 col-md-12">
+            <span class="pt-3">
+                <button ejs-button class="omv-primary-plus float-right" (click)="add()">
+                    Add New Fields
+                </button>
+            </span>
+        </div>
+    </div>
+    <ejs-dialog #fieldDialog [visible]="false" [buttons]="addDlgButtons" [header]="'New Fields'"
+        [showCloseIcon]="true" [width]="300" [height]="500">
+        <ng-template #content>
+            <ejs-listview #listviewgroup id="metadata-list" [dataSource]="permissions" [showCheckBox]="true"
+                [fields]="permissionFields">
+            </ejs-listview>
+        </ng-template>
+    </ejs-dialog>
+    <div class="">
+        <app-list [listData]="metadataFields" [columns]="columns" [selectedRecords]="selectedGroups"
+            [toolbarActionOne]="statusChange" (firstAction)="remove($event)"  (firstNavigateAction)="remove($event)"
+            (secondNavigateAction)="navigate($event)" [showFirstAction]="true" [firstActionText]="editLink"
+            [showSecondAction]="true" [secondActionText]="removeLink" [totalCountText]="'Total '"></app-list>
+    </div>
+</div>
