@@ -82,8 +82,12 @@ export class LeftNavComponent implements OnInit {
         this.isDashboardActive = true;
         break;
       case this.mediaUploadsLink:
+      case this.historyMediaUploadsLink:
+      case this.newMediaUploadsLink:
         this.isMediaMenuOpen = true;
         this.isMediaUploadsActive = true;
+        this.isMediaMetaDataListActive = false;
+        this.isMediaMetadataFieldsActive = false;
         break;
       case this.usersLink:
       case this.activeUsersLink:

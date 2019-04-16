@@ -54,6 +54,8 @@ import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns/src/multi-s
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations/src/treeview/treeview.module';
 import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
+import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/listview.module';
+
 
 @NgModule({
   declarations: [
@@ -94,7 +96,8 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
       AdminGroupState,
       AdminPermissionState,
       AdminMediaState
-    ])
+    ]),
+    ListViewModule
   ],
   providers: [
     { provide: AdminUsersDataService, useClass: environment.useMocks ? AdminUsersMockDataService : AdminUsersWebDataService },

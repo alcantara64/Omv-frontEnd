@@ -14,6 +14,7 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
 import { AdminPermissionState } from '../state/admin-permissions/admin-permissions.state';
 import { GetPermissions } from '../state/admin-permissions/admin-permissions.action';
+import { ListViewComponent } from '@syncfusion/ej2-angular-lists';
 
 @Component({
   selector: 'app-admin-groups-list',
@@ -48,7 +49,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
   statusChange: string;
   @ViewChild('groupDialog') public permissionDialog: DialogComponent;
 
-  @ViewChild('listviewgroup')
+  @ViewChild('listviewpermissions')
   public groupDialogList: any;
 
   public target: string = '.control-section';
@@ -59,6 +60,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     var permissionData = this.groupDialogList.getSelectedItems().data;
     let permissionidArray: any[] = [];
 
+    console.log('dataSource',this.groupDialogList.dataSource);
     permissionData.forEach(permission => {
       permissionidArray.push(permission.id);
     });
@@ -124,6 +126,7 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
     });
   }
   assignGroupsToPermissions(groups: Group[]) {
+    console.log('groups', groups);
     this.permissionDialog.show();
     this.selectedGroups = groups;
   }
