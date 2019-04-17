@@ -12,7 +12,6 @@ import { map } from 'rxjs/operators';
 
 export class AdminMediaMockDataService implements AdminMediaDataService {
 
-
   constructor(private httpClient: HttpClient) { }
 
   getUploadHistory(): Observable<UploadHistory[]> {
@@ -51,5 +50,7 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     return data;
   }
 
+  getUploadRequest(id: number): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
 }
-

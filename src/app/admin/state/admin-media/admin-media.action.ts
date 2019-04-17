@@ -21,3 +21,8 @@ export class CreateMetaDataField {
 export class GetNewUploads{
   static readonly type = '[Admin media] GetNewUploads';
 }
+export class GetUploadRequest {
+  static readonly type = '[Admin media] GetUploadRequest';
+
+  constructor(public id: number) { }
+}

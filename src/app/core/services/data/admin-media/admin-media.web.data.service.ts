@@ -74,4 +74,10 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   }
 
 
+  
+  getUploadRequest(id: number): Observable<any> {
+    var url = `./assets/mock/upload-request-item.json`;
+    let data = this.httpClient.get<any>(url);
+    return data;
+  }
 }

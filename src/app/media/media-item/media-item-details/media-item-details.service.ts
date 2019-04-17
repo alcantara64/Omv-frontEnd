@@ -63,7 +63,7 @@ export class MediaItemDetailsService {
         labelControl.label = name.charAt(0).toUpperCase() + name.slice(1);
         labelControl.value = mediaItem[name];
         metaArray.push(labelControl);
-      });      
+      });
     }
 
     return await metaArray.sort(x => x.order);
@@ -80,7 +80,6 @@ export class MediaItemDetailsService {
       validations: this.getValidations(item)
     };
   }
-
 
   private buildDropdown(item: Metadata): FieldConfiguration {
     return {
