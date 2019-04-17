@@ -101,6 +101,7 @@ export class MediaUploadService {
   private buildTextBox(item: Metadata): FieldConfiguration {
     return {
       type: "input",
+      cssClass: 'col-md-6',
       label: item.fieldName,
       inputType: "text",
       name: item.fieldName,
@@ -114,6 +115,7 @@ export class MediaUploadService {
   private buildDropdown(item: Metadata): FieldConfiguration {
     return {
       type: "select",
+      cssClass: 'col-md-6',
       label: item.fieldName,
       name: item.fieldName,
       order: item.order,
@@ -128,6 +130,7 @@ export class MediaUploadService {
   private buildDate(item: Metadata): FieldConfiguration {
     return {
       type: "date",
+      cssClass: 'col-md-6',
       label: item.fieldName,
       name: item.fieldName,
       order: item.order,

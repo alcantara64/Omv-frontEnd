@@ -149,7 +149,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  performRemove(item: any) {
+  deleteControlEvent(item: any) {
     this.dynamicForm.removeControl(item.name);
     this.store.dispatch(new RemoveMediaItemField(item.name));
   }

@@ -465,6 +465,31 @@ button{
   color: #033b5c;
 }
 
+.title-20 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.1px;
+  color: #033b5c;
+}
+
+.title {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.1px;
+  color: #033b5c;
+}
+
+.title-16 {
+  font-size: 16px;
+}
+
 
 /*#region L A B E L S */
 
@@ -477,12 +502,12 @@ button{
   background-color: #ffffff;
 }
 
-.form-delete {
-  margin: 7px 10px;
+.o-delete {
+  margin-top: 7px;
   color: #0097a9;
 }
 
-.form-delete > span {
+.o-delete > span {
   font-size: 1.2em;
 }
 

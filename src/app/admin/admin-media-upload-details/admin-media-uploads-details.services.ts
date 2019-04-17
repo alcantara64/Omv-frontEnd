@@ -22,6 +22,7 @@ export class AdminMediaUploadsDetailsService {
         if (name !== 'metadata') {
           let label: FieldConfiguration = {
             type: 'label',
+            cssClass: 'col-md-6',
             name: name,
             label: name.charAt(0).toUpperCase() + name.slice(1),
             value: details[name]
@@ -37,6 +38,7 @@ export class AdminMediaUploadsDetailsService {
       metadataFields.forEach(name => {
         let label: FieldConfiguration = {
           type: 'label',
+          cssClass: 'col-md-6',
           name: name,
           label: name.charAt(0).toUpperCase() + name.slice(1),
           value: itemMetadata[name]
