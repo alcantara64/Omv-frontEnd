@@ -61,7 +61,7 @@
           <br />
                 <form novalidate (ngSubmit)="saveDlgBtnClick()" [formGroup]="metadataListForm">
                     <div class="row pt-3">
-                        <div class="col-md-3"><label class="media-label">
+                        <div class="col-md-3"><label class="media-label" style="padding-top: 11px;">
                                 List Name:
                             </label></div>
                         <div class="col-md-8">
@@ -73,29 +73,33 @@
                         </div>
                     </div>
                     <div class="row pt-3">
-                        <div class="col-md-3"><label class="media-label">
+                        <div class="col-md-3"><label class="media-label" style="padding-top: 11px;">
                                 List Type:
                             </label></div>
                         <div class="col-md-8">
-                            <input class="form-control form-control-lg" id="fieldTypeId" type="text" placeholder=""
+                                <ejs-dropdownlist id='ddlelement' #samples formControlName="fieldType"
+                                (change)="addList($event)" [dataSource]='listTypeData'
+                                [placeholder]="'Select a List Type'" [value]='id' [fields]='typeListFields'>
+                            </ejs-dropdownlist>
+                             <!-- <input class="form-control form-control-lg" id="fieldTypeId" type="text" placeholder=""
                                 formControlName="fieldType"
                                 [ngClass]="{'is-invalid': (metadataListForm.get('fieldType').touched ||
                                                                                    metadataListForm.get('fieldType').dirty) &&
-                                                                                  !metadataListForm.get('fieldType').valid }" />
+                                                                                  !metadataListForm.get('fieldType').valid }" /> -->
                         </div>
                     </div>
                     <div class="row pt-3">
-                        <div class="col-md-3"><label class="media-label">
+                        <div class="col-md-3"><label class="media-label" style="padding-top: 11px;">
                                 List:
                             </label></div>
                         <div class="col-md-8">
-                            <ejs-dropdownlist id='ddlelement' #samples (change)="addList($event)" [dataSource]='data'
-                                [placeholder]='placeholder' [value]='id' [fields]='listFields'></ejs-dropdownlist>
+                            <ejs-dropdownlist id='ddlelement' #samples (change)="addList($event)" [dataSource]='dataList'
+                                [placeholder]="'Select a List'" [value]='id' [fields]='listFields'></ejs-dropdownlist>
                         </div>
                     </div>
                 </form> <br/>
-    
-                   <br />
+                <!-- <ejs-listview [showCheckBox]='true'></ejs-listview> -->
+                  
           <button class="btn btn-lg omv-primary" (click)="saveDlgBtnClick()"> Save Changes </button>
           <button class="media-button-small" (click)="closeDialog()" style="margin-left: 25px;"> Cancel </button>
         </ng-template>

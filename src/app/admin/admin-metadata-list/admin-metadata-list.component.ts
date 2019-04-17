@@ -20,10 +20,14 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     { headerText: 'Name', field: 'fieldName', width: '70' },
     { headerText: 'Type', field: 'fieldType', width: '80' },
     { headerText: 'List', width: '150', field: 'List' },];
-  public data: { [key: string]: Object }[] = [{ id: 1, name: 'All Platforms' },
+  public dataList: { [key: string]: Object }[] = [{ id: 1, name: 'All Platforms' },
   { id: 2, name: 'All Register Types' }, { id: 3, name: 'All Systems' }];
   public listFields: Object = { text: 'name', value: 'id' };
-  public placeholder: string = 'Select a List';
+
+  public listTypeData: { [key: string]: Object }[] = [{ id: 1, name: 'Text' },
+ { id: 2, name: 'Dropdown' }];
+ public typeListFields: Object = { text: 'name', value: 'id' };
+
   editLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
   removeLink = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
   fieldName: string = '';
@@ -85,7 +89,6 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     this.listDialogList.show();
   }
   closeDialog() {
-    // this.clearSelectedFields();
     this.listDialogList.hide();
   }
   remove(data) {
