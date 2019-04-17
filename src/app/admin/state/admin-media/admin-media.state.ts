@@ -86,16 +86,16 @@ export class AdminMediaState {
       ));
   }
   @Action(GetUploadRequest)
-  getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
-    return this.adminMediaUploadsDetailsService.getUploadRequestFields(id).pipe(
-      tap(fields => {
+  async getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
+    return this.adminMediaUploadsDetailsService.getUploadRequestFields(id)
+      .then(fields => {
         console.log('AdminMediaState - getUploadRequest - fields: ', fields);
         const state = getState();
         setState({
           ...state,
           currentUploadRequestFields: fields
         });
-      })
+      }
     );
   }
 
