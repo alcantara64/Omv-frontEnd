@@ -19,7 +19,7 @@ export class CreateMetaDataField {
   constructor(public payload: MetadataFields) { }
 }
 
-export class GetNewUploads{
+export class GetNewUploads {
   static readonly type = '[Admin media] GetNewUploads';
 }
 export class GetUploadRequest {
@@ -38,4 +38,9 @@ export class RejectUploads {
   static readonly type = '[Admin Groups] RejectUploads';
 
   constructor(public id: number, public payload: UploadHistory, public refreshList?: boolean) { }
+}
+
+export class UpdateMetaDataField {
+  static readonly type = '[Admin media] UpdateMetaDataField';
+  constructor(public id: number, public payload: MetadataFields) { }
 }

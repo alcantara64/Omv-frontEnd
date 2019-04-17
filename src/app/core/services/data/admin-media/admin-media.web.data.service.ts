@@ -15,8 +15,6 @@ import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 
 export class AdminMediaWebDataService implements AdminMediaDataService {
 
-
-
   private paging_batch_size: number = 25;
   mockUrl = `./assets/mock/`;
 
@@ -60,7 +58,35 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     );
   }
   getMetaDataFields(): Observable<MetadataFields[]> {
-    return null;
+    var requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
+
+    return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
+      response => {
+        automapper
+          .createMap(UploadRequest_GetAllOutputDTO, UploadHistory)
+          .forMember('uploadRequestType', function (opts) { opts.mapFrom('uploadRequestType'); })
+          .forMember('requester', function (opts) { opts.mapFrom('requester'); })
+          .forMember('directoryId', function (opts) { opts.mapFrom('directoryId'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
+          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
+          .forMember('size', function (opts) { opts.mapFrom('size'); })
+          .forMember('metadata', function (opts) { opts.mapFrom('metadata'); })
+          .forMember('containerId', function (opts) { opts.mapFrom('containerId'); })
+          .forMember('documentName', function (opts) { opts.mapFrom('documentName'); })
+          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); })
+          .forMember('files', function (opts) { opts.mapFrom('files'); });
+
+        let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
+        console.log('AdminMediaWebDataService - getUploadHistory: ', _response);
+        _response.map(x => x.files = 100);
+
+        return _response;
+      }),
+      catchError(e => {
+        console.log("AdminMediaWebDataService - getUploadHistory error: ", e);
+        return of(null);
+      })
+    );
   }
 
   removeMetadataField(id: number ) {
@@ -82,5 +108,9 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   updateUploadStatus(id: number, payload: UploadHistory) {
     throw new Error("Method not implemented.");
   }
+  updateMetaDataField(id: number, payload: MetadataFields) {
+    throw new Error("Method not implemented.");
+  }
+
 
 }

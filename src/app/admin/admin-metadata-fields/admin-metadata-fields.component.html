@@ -8,11 +8,15 @@
             </span>
         </div>
     </div>
-    <ejs-dialog #fieldDialog [visible]="false" [buttons]="addDlgButtons" [header]="'New Fields'" [showCloseIcon]="true"
-        [width]="350" [height]="400">
+    <ejs-dialog #fieldDialog [visible]="false" [width]="350" [height]="400">
 
         <ng-template #content>
-            <form novalidate (ngSubmit)="saveDlgBtnClick()" [formGroup]="metadataFieldForm">
+
+            <form novalidate [formGroup]="metadataFieldForm">
+                <button class="dialog-close" (click)="closeDialog()">
+                    <img src="../../../../assets/images/dialog-close.svg" />
+                </button>
+                <br />
                 <div class="row pt-3 pb-3">
                     <div class="col-md-4"><label>
                             Field Name
@@ -42,16 +46,18 @@
                             List
                         </label></div>
                     <div class="col-md-8">
-                        <ejs-dropdownlist id='ddlelement' #samplesDropdownlist formControlName="List" (change)="addList($event)" [dataSource]='data'
-                            [placeholder]="'Select a List'" [value]='name' [fields]='listFields'></ejs-dropdownlist>
+                        <ejs-dropdownlist id='ddlelement' #samplesDropdownlist formControlName="List"
+                            (change)="addList($event)" [dataSource]='data' [placeholder]="'Select a List'"
+                            [value]='name' [fields]='listFields'></ejs-dropdownlist>
                     </div>
                 </div>
+                <button class="btn btn-lg omv-primary" (click)=" save() "> Done </button>
             </form>
         </ng-template>
     </ejs-dialog>
     <div class="">
         <app-list [listData]="metadataFields" [columns]="columns" (firstNavigateAction)="remove($event)"
-            (secondNavigateAction)="navigate($event)" [showFirstAction]="true" [firstActionText]="editLink"
+            (secondNavigateAction)="edit($event)" [showFirstAction]="true" [firstActionText]="editLink"
             [showSecondAction]="true" [secondActionText]="removeLink"></app-list>
     </div>
 </div>

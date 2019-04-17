@@ -5,10 +5,10 @@ import { GridColumn } from 'src/app/core/models/grid.column';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { Observable } from 'rxjs';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
-import { GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField } from '../state/admin-media/admin-media.action';
+import { GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, UpdateMetaDataField } from '../state/admin-media/admin-media.action';
 import { EmitType } from '@syncfusion/ej2-base';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({
@@ -27,7 +27,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   public listFields: Object = { text: 'name', value: 'id' };
 
   public fieldTypeData: { [key: string]: Object }[] = [{ id: 1, name: 'Text' },
-  { id: 2, name: 'Dropdown' }, { id: 3, name: 'Combobox' }];
+  { id: 2, name: 'Dropdown' }];
   public typeListFields: Object = { text: 'name', value: 'id' };
 
 
@@ -50,7 +50,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
 
   public saveDlgBtnClick: EmitType<object> = () => {
     this.ShowSpinner(true);
-    console.log('saveDlgBtnClick', this.fieldName, this.fieldType);
+    console.log('saveDlgBtnClick', this.metadataFieldForm.controls, this.fieldType);
 
     if (this.metadataFieldForm.valid) {
       if (this.metadataFieldForm.dirty) {
@@ -61,6 +61,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       }
     }
   }
+  isEdit: boolean;
 
 
 
@@ -85,13 +86,22 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       this.metadataFields = fields;
     });
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.componentActive = false;
   }
   navigate(action) {
     console.log('action', action);
   }
+  clearForm() {
+    this.metadataFieldForm.reset({
+      id: null,
+      fieldName: '',
+      fieldTypeId: null,
+      ListId: null,
+    });
+  }
   add() {
+    this.clearForm();
     this.fieldDialogList.show();
   }
 
@@ -102,7 +112,42 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       this.metadataFields = fields;
     });
   }
-  addDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true } }];
 
+  save() {
+    // this.ShowSpinner(true);
+    console.log('saveDlgBtnClick', this.metadataFieldForm.controls, this.fieldType);
 
+    if (this.metadataFieldForm.valid) {
+      if (this.metadataFieldForm.dirty ) {
+        const metadataField: MetadataFields = { ...this.metadataField, ...this.metadataFieldForm.value };
+        if (!this.isEdit) {
+          console.log('testing create user - ', metadataField);
+          this.store.dispatch(new CreateMetaDataField(metadataField));
+        }
+        else {
+          console.log('AdminMetadataFieldsComponent - edit', metadataField);
+          this.store.dispatch(new UpdateMetaDataField(metadataField.id, metadataField));
+        }
+        this.fieldDialogList.hide();
+      }
+    }
+  }
+
+  closeDialog() {
+    this.fieldDialogList.hide();
+  }
+
+  edit(action: MetadataFields) {
+    this.isEdit = true;
+    console.log(action);
+    this.fieldDialogList.show();
+    this.metadataFieldForm.setValue({
+      id: action.id,
+      fieldName: action.fieldName,
+      fieldType: action.fieldTypeId,
+      List: action.ListId,
+    });
+    console.log('AdminMetadataFieldsComponent - edit', this.metadataFieldForm);
+  }
+ 
 }

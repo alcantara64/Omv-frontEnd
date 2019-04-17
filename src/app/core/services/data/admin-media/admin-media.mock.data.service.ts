@@ -58,4 +58,15 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     var mockUrl = `./assets/mock/media-new-uploads.json`;
     return this.httpClient.get<UploadHistory[]>(mockUrl);
   }
+
+  updateMetaDataField(id: number, payload: MetadataFields) {
+    var url = `./assets/mock/admin-metadata-fields.json`;
+    let data = this.httpClient.get<MetadataFields[]>(url).pipe(map(fields => {
+      fields.find(field => field.id === id);
+    }));
+    console.log('AdminMediaMockDataService - updateMetaDataField', data);
+    return data;
+  }
 }
+
+

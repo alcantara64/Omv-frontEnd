@@ -15,4 +15,5 @@ export abstract class AdminMediaDataService {
     abstract getNewUploads(): Observable<UploadHistory[]>;
     abstract getUploadRequest(id: number): Observable<any>;
     abstract updateUploadStatus(id:number, payload:UploadHistory);
+    abstract updateMetaDataField(id:number, payload: MetadataFields);
 }

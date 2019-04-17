@@ -32,4 +32,7 @@ export class AdminMediaService {
   updateUploadStatus(id: number, payload: UploadHistory){
     return this.AdminMediaDataService.updateUploadStatus(id, payload);
   }
+  updateMetaDataField(id:number, payload: MetadataFields){
+    return this.AdminMediaDataService.updateMetaDataField(id, payload);
+  }
 }

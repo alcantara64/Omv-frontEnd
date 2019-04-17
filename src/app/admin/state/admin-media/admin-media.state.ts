@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, GetNewUploads, ApproveUploads, RejectUploads } from './admin-media.action';
+import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, GetNewUploads, ApproveUploads, RejectUploads, UpdateMetaDataField } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { DisplayToastMessage } from 'src/app/state/app.actions';
@@ -48,7 +48,7 @@ export class AdminMediaState {
   static getNewUploads(state: AdminMediaStateModel) {
     return state.newUploads;
   }
-  
+
   static getCurrentUploadRequestFields(state: AdminMediaStateModel) {
     return state.currentUploadRequestFields;
   }
@@ -96,7 +96,7 @@ export class AdminMediaState {
           currentUploadRequestFields: fields
         });
       }
-    );
+      );
   }
 
   @Action(RemoveMetaDataFields)
@@ -172,6 +172,16 @@ export class AdminMediaState {
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
+  }
+
+  @Action(UpdateMetaDataField)
+  updateMetaDataField(ctx: StateContext<AdminMediaStateModel>, { id, payload }: UpdateMetaDataField) {
+    return this.adminMediaService.updateMetaDataField(id, payload).pipe(
+      tap(field => {
+        ctx.dispatch(new DisplayToastMessage("Field updated successfully"));
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      }));
   }
 }
 
