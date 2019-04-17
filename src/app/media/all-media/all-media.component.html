@@ -2,8 +2,3 @@
 <app-all-media-listview *ngIf="viewType === 'list'"></app-all-media-listview>
 <app-all-media-treeview *ngIf="viewType === 'tree'"></app-all-media-treeview>
 <app-all-media-mapview *ngIf="viewType === 'map'"></app-all-media-mapview>
-
-<div *ngIf="viewType === 'tile'">
-        <ejs-pager [pageSize]='totalMedia' (click)="performClick($event)" [pageCount]='pageCount' [totalRecordsCount]='totalMedia'>
-        </ejs-pager>
-</div>

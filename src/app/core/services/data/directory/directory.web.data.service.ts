@@ -36,7 +36,7 @@ export class DirectoryWebDataService implements DirectoryDataService {
         var _response = automapper.map(response, Directory, response);
 
         _response.forEach(item => {
-          if (item.parentId == 0) {
+          if (item.parentId === 0) {
             item.parentId = null;
           }
         })

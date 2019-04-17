@@ -1,4 +1,4 @@
-<app-list [listData]="media$ | async"
+<app-list [listData]="media"
           [columns]="columns"
           [showFavoriteIcon]="true"
           [favoriteIconPosition]="1"
@@ -10,3 +10,5 @@
           (firstNavigateAction)="download($event)"
           (selectedItemData)="selectedItemData($event)">
 </app-list>
+
+<ejs-pager [pageSize]='pageSize' [pageCount]='pageCount' [totalRecordsCount]='totalMedia' (click)="changePage($event)"></ejs-pager>

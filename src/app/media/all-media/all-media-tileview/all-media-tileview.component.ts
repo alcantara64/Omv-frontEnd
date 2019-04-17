@@ -5,9 +5,8 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
-import { GetMedia, ToggleFavorite } from '../../state/media/media.action';
-import {AppState} from "../../../state/app.state";
-import {DeviceWidth, GridData} from "../../../state/app.actions";
+import { GetMedia, ToggleFavorite, SetSelectedItems } from '../../state/media/media.action';
+import { EmitType } from '@syncfusion/ej2-base';
 
 @Component({
   selector: 'app-all-media-tileview',
@@ -17,26 +16,43 @@ import {DeviceWidth, GridData} from "../../../state/app.actions";
 export class AllMediaTileviewComponent implements OnInit {
 
   media: MediaItem[];
-  mediaType: string;
-  pageCount;
+  currentPage = 1;
+  pageSize = 20;
+  totalMedia: number;
+  pageCount: number;
+
   @Select(MediaState.getMedia) media$: Observable<MediaItem[]>;
+  @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
 
   constructor(private store: Store, private router: Router, private mediaService: MediaService) { }
 
   ngOnInit() {
-    this.store.dispatch(new GetMedia(1, 5));
+    this.store.dispatch(new GetMedia(this.currentPage, this.pageSize));
+
+    this.totalMedia$.subscribe(totalMedia => {
+      this.totalMedia = totalMedia;
+      this.pageCount = Math.ceil(this.totalMedia / this.pageSize);
+    });
   }
 
   navigate(data: MediaItem) {
     this.router.navigate([`media/${data.documentId}/details`]);
   }
 
-  selectedItemData(data: any) {
-    this.store.dispatch(new GridData(data));
-    console.log(data);
+  selectedItemData(data: any[]) {
+    this.store.dispatch(new SetSelectedItems(data));
   }
 
   toggleFavorite(data: any) {
     this.store.dispatch(new ToggleFavorite(data.id, data));
+  }
+
+  changePage(event): EmitType<object> {
+    if (event.currentPage) {
+      this.currentPage = event.currentPage;
+      this.store.dispatch(new GetMedia(this.currentPage, this.pageSize));
+      console.log(event);
+    }
+    return event;
   }
 }

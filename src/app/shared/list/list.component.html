@@ -18,7 +18,7 @@
 </div>
 
 <section style="display: flex; width: 100%; overflow-x: auto; margin: 0 5px 0 0">
-  <ejs-grid #grid [dataSource]="listData" (rowDataBound)='rowDataBound($event)' (dataBound)='dataBound($event)' [allowPaging]="true"
+  <ejs-grid #grid [dataSource]="listData" (rowDataBound)='rowDataBound($event)' (dataBound)='dataBound($event)'
             (rowSelected)="rowSelected($event)" (rowDeselected)="rowDeselected($event)" [allowSorting]='true'
             (created)='gridCreated()' id="Grid">
     <e-columns>

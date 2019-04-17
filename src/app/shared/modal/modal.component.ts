@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild,Input, Output, EventEmitter } from '@angular/core';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { CheckBoxComponent } from '@syncfusion/ej2-angular-buttons';
-import { EmitType } from '@syncfusion/ej2-base';
+import { DialogComponent } from '@syncfusion/ej2-angular-popups/src/dialog/dialog.component';
+import { EmitType } from '@syncfusion/ej2-base/src/base';
+
 
 @Component({
   selector: 'modal',

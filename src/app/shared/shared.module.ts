@@ -33,7 +33,7 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {ToolbarModule, TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 import { ImagePreloadDirective } from '../core/directives/image-preload/image-preload.directive';
-import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
+import { TreeGridModule, PageService, SortService, ContextMenuService } from '@syncfusion/ej2-angular-treegrid';
 import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
@@ -109,6 +109,11 @@ import { FiltersComponent } from './filters/filters.component';
     ImagePreloadDirective,
     
     FileSizePipe,
+  ],
+  providers: [
+    PageService,
+    SortService,
+    ContextMenuService
   ],
   entryComponents: [
     FormDateComponent,

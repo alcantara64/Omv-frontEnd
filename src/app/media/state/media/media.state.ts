@@ -2,7 +2,7 @@ import { MediaUploadService } from './../../media-upload/media-upload.service';
 import {
   GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
   AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, 
-  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata
+  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems
 } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
@@ -33,6 +33,7 @@ export class MediaStateModel {
   directoryMetadata: any[];
   documents: any[]
   uploadComplete: boolean;
+  selectedItems: any[];
 }
 
 const initialMediaItem: MediaItem = {
@@ -73,7 +74,8 @@ const initialMediaItem: MediaItem = {
     itemFields: [],
     documents: [],
     directoryMetadata: [],
-    uploadComplete: false
+    uploadComplete: false,
+    selectedItems: []
   }
 })
 
@@ -122,7 +124,7 @@ export class MediaState {
   }
 
   @Selector()
-  static setMediaItemId(state: MediaStateModel) {
+  static getMediaItemId(state: MediaStateModel) {
     return state.currentMediaItemId;
   }
 
@@ -161,6 +163,11 @@ export class MediaState {
     return state.documents;
   }
 
+  @Selector()
+  static getSelectedItems(state: MediaStateModel) {
+    return state.selectedItems;
+  }
+
   //#endregion
 
   constructor(private mediaService: MediaService,
@@ -173,23 +180,19 @@ export class MediaState {
 
   @Action(GetMedia)
   getMedia(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
-    pageSize = 100;    
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(response => {
         if (!response) return;
-
         let media = response.data;
         media.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
           item.isFavorite = false; //
         });
-        const allMedia: MediaItem[] = media.filter(x => x.documentId);
         const state = ctx.getState();
         ctx.setState({
           ...state,
-          media: allMedia,
-          treeviewMedia: media,
-          totalMedia: response.pagination.Total
+          media: media,
+          totalMedia: response.pagination.total
         });
         ctx.dispatch(new HideSpinner());
       }, err => {
@@ -200,18 +203,25 @@ export class MediaState {
   }
 
   @Action(GetTreeViewMedia)
-  getTreeViewMedia({ getState, setState }: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
-    return this.directoryService.getDocuments().pipe(
-      tap(documents => {
-        documents.map(item => {
+  getTreeViewMedia(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetTreeViewMedia) {
+    return this.mediaService.getMedia(1, 100, true).pipe(
+      tap(response => {
+        if (!response) return;
+
+        let media = response.data;
+        media.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
         });
-        const state = getState();
-        setState({
+        const state = ctx.getState();
+        ctx.setState({
           ...state,
-          documents: documents,
-          totalMedia: documents ? documents.filter(x => x.documentId).length : 0
+          treeviewMedia: media,
+          totalMedia: response.pagination.total
         });
+        ctx.dispatch(new HideSpinner());
+      }, err => {
+        ctx.dispatch(new HideSpinner());
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
   }
@@ -431,6 +441,15 @@ export class MediaState {
       ...state,
       itemFields: itemFields
     })
+  }
+
+  @Action(SetSelectedItems)
+  addSelectedItem({getState, setState}: StateContext<MediaStateModel>, { selectedItems }: SetSelectedItems) {
+    const state = getState();
+    setState({
+      ...state,
+      selectedItems: selectedItems,
+    });
   }
 
   //#endregion

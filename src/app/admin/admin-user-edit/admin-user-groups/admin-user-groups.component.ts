@@ -1,11 +1,9 @@
 import { ClearUserGroups } from './../../state/admin-users/admin-users.actions';
-import { GetGroup } from '../../state/admin-groups/admin.groups.action';
-import { Tab } from './../../../core/models/tab';
 import { GridColumn } from './../../../core/models/grid.column';
 import { Group } from '../../../core/models/entity/group';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { GetGroups } from '../../state/admin-groups/admin.groups.action';
+import { GetGroups } from '../../state/admin-groups/admin-groups.action';
 import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
 import { GetUserGroups, UpdateUserGroups } from '../../state/admin-users/admin-users.actions';

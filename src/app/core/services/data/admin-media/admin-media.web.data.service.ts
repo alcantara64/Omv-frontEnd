@@ -7,12 +7,14 @@ import { catchError, map } from 'rxjs/operators';
 import { UploadRequestHistory_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequestHistory_GetAllOutputDTO';
 import { environment } from 'src/environments/environment';
 import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequest_GetAllOutputDTO';
+import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AdminMediaWebDataService implements AdminMediaDataService {
+
 
   private paging_batch_size: number = 25;
   mockUrl = `./assets/mock/`;
@@ -62,4 +64,13 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     let data = this.httpClient.get<any>(url);
     return data;
   }
+
+  getMetaDataFields(): Observable<MetadataFields[]> {
+    return null;
+  }
+
+  removeMetadataField(id: number ) {
+    throw new Error("Method not implemented.");
+  }
+
 }

@@ -20,6 +20,7 @@ import {AdminMediaNewUploadsComponent} from "./admin-media-uploads-list/admin-me
 import {AdminMediaUploadsHistoryComponent} from "./admin-media-uploads-list/admin-media-uploads-history/admin-media-uploads-history.component";
 import {AdminMetadataListComponent} from "./admin-metadata-list/admin-metadata-list.component";
 import { AdminMediaUploadDetailsComponent } from './admin-media-upload-details/admin-media-upload-details.component';
+import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
 
 const adminRoutes: Routes = [
   {
@@ -78,10 +79,12 @@ const adminRoutes: Routes = [
   {
     path: 'admin/media/metadata',
     component: AdminMetadataListComponent,
-    children: [
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-      { path: '', component: AdminMetadataListComponent }
-    ]
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'admin/media/metadata/fields',
+    component: AdminMetadataFieldsComponent,
+    canActivate: [AuthGuardService]
   },
 ];
 

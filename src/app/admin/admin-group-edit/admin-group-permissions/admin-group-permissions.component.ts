@@ -1,4 +1,4 @@
-import { UpdateGroupPermissions } from '../../state/admin-groups/admin.groups.action';
+import { UpdateGroupPermissions } from '../../state/admin-groups/admin-groups.action';
 import { Component, OnInit } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
 import { Select, Store } from '@ngxs/store';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Permission } from 'src/app/core/enum/permission';
 import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { ActivatedRoute } from '@angular/router';
-import { GetGroupPermissions } from '../../state/admin-groups/admin.groups.action';
+import { GetGroupPermissions } from '../../state/admin-groups/admin-groups.action';
 import { takeWhile } from 'rxjs/operators';
 import { AdminPermissionState } from '../../state/admin-permissions/admin-permissions.state';
 import { GetPermissions } from '../../state/admin-permissions/admin-permissions.action';

@@ -10,7 +10,7 @@ import {Observable} from "rxjs";
   styleUrls: ['./admin-media-new-uploads.component.css']
 })
 export class AdminMediaNewUploadsComponent implements OnInit {
-  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
   public deviceWidth: number;
 
   newUpload =

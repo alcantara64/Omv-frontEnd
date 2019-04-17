@@ -11,7 +11,7 @@
   <ejs-dialog #groupDialog [visible]="false" [buttons]="saveDlgButtons" [header]="'Assign Groups to Permissions'"
     [showCloseIcon]="true" [width]="300" [height]="500">
     <ng-template #content>
-      <ejs-listview #listviewgroup id="group-list" [dataSource]="permissions" [showCheckBox]="true"
+      <ejs-listview #listviewpermissions id="group-list" [dataSource]="permissions" [showCheckBox]="true"
         [fields]="permissionFields">
       </ejs-listview>
     </ng-template>
@@ -20,6 +20,8 @@
     <app-list [listData]="groups" [columns]="columns" [selectedRecords]="selectedGroups" [isToolBarVisible]="true"
               [toolbarActionOne]="statusChange" (firstAction)="changeGroupStatus($event)"
               (secondNavigateAction)="edit($event)"
+              [toolbarActionTwo]="'Assign To Permissions'"
+              (secondAction)="assignGroupsToPermissions($event)"
               [showSecondAction]="true"
               [secondActionText]="editIcon" 
               [totalCountText]="'Total Groups'">

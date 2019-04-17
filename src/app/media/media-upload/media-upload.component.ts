@@ -10,10 +10,9 @@ import { BaseComponent } from 'src/app/shared/base/base.component';
 import { takeUntil } from 'rxjs/operators';
 import { Directory } from 'src/app/core/models/entity/directory';
 import { AppState } from 'src/app/state/app.state';
-import { ShowSpinner, HideSpinner, DisplayToastMessage } from 'src/app/state/app.actions';
+import { ShowSpinner } from 'src/app/state/app.actions';
 import { MediaUploadService } from './media-upload.service';
 import { Router } from '@angular/router';
-import { ToastType } from 'src/app/core/enum/toast';
 import { GridColumn } from 'src/app/core/models/grid.column';
 
 const BROWSE = 'Browse';
@@ -41,7 +40,7 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
   ];
 
   @ViewChild('file') file;
-  selectionOptions: SelectionSettingsModel;
+  selectionOptions: Object;
 
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
   metadata: FieldConfiguration[] = [];
@@ -59,13 +58,17 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
   }
 
   ngOnInit() {
-    this.selectionOptions = { mode: 'Row', type: 'Single' };
-
     this.store.dispatch(new GetDirectories());
     this.directories$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
+        console.log('MediaUploadComponent - directories: ', data);
         this.directories = data;
+        this.selectionOptions = {
+          mode: 'Row', cellSelectionMode: 'Flow', type: 'Single', checkboxOnly: false,
+          persistSelection: false, checkboxMode: 'ResetOnRowClick', enableSimpleMultiRowSelection: true,
+          enableToggle: false
+        };
       });
     
     this.directoryMetadata$
@@ -125,10 +128,10 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
       if (!this.dynamicForm.valid) return;
     }
     console.log('submit form: ', this.dynamicForm);
-    // let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "{}";
+    let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "{}";
 
-    // this.store.dispatch(new ShowSpinner());
-    // this.mediaUploadService.upload(this.currentDirectoryId, this.selectedFile, metadata, this.folderPath);
+    this.store.dispatch(new ShowSpinner());
+    this.mediaUploadService.upload(this.currentDirectoryId, this.selectedFile, metadata, this.folderPath);
   }
 
   private buildFolderPath(directoryId: number) {

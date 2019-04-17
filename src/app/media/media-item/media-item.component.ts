@@ -17,7 +17,8 @@ export class MediaItemComponent extends BaseComponent implements OnInit, OnDestr
 
   mediaItemTabs: Tab[] = [];
   componentActive = true;
-  @Select(MediaState.setMediaItemId) id$: Observable<number>;
+  @Select(MediaState.getMediaItemId) id$: Observable<number>;
+  
   id: string;
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
     super(store);

@@ -10,6 +10,8 @@ import { Store } from '@ngxs/store';
 import { CreateMediaItem } from '../state/media/media.action';
 import { HideSpinner, DisplayToastMessage } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
+import { CustomersDataService } from 'src/app/core/services/data/customers/customers.data.service';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Injectable({
   providedIn: "root"
@@ -18,60 +20,80 @@ export class MediaUploadService {
 
   config: any;
   percent: any;
+  sasToken: any;
+  storageAccount: any;
+  containerName: any;
 
-  constructor(private directoryDataService: DirectoryDataService, private store: Store, private blob: BlobService) { }
+  constructor(private directoryDataService: DirectoryDataService, private customersDataService: CustomersDataService, private store: Store, private blob: BlobService) { }
 
 
   upload(directoryId: number, file: File, metadata: string, folderPath: string) {
-    const Config: UploadParams = {
-      sas: '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwlacup&st=2019-04-13T17%3A39%3A41Z&se=2019-04-14T17%3A39%3A41Z&sig=8O%2FoUN1Um%2BEKNeEm%2BIPKYM6m165YVqun31ZuGI6niNI%3D',
-      storageAccount: 'omvclient8946',
-      containerName: 'media'
-    };
-    
-    let splitByLastDot = function (text) {
-      var index = text.lastIndexOf('.');
-      return [text.slice(0, index), text.slice(index + 1)]
-    }
+    this.customersDataService.getSetting(1, 'SASToken').subscribe(
+      response => {
+        this.sasToken = response.value;
+        this.customersDataService.getSetting(1, 'storageAccount').subscribe(
+          account => {
+            this.storageAccount = account.value;
 
-    if (file !== null) {
-      const baseUrl = this.blob.generateBlobUrl(Config, file.name);
-      this.config = {
-        baseUrl: baseUrl,
-        sasToken: Config.sas,
-        blockSize: 1024 * 64, // OPTIONAL, default value is 1024 * 32
-        file: file,
-        complete: () => {
-
-          let thumbnail = `https://${Config.storageAccount}.blob.core.windows.net/thumbs/${file.name}`;
-          let _folderPath = folderPath.replace('>', '/');
-          
-          console.log('MediaUploadService compelete folder-path: ', _folderPath);
-          
-          let item = new MediaItem();
-          item.metadata = metadata;
-          item.size = file.size;
-          item.name = file.name;
-          item.contentType = file.type;
-          item.directoryId = directoryId;
-          item.url = this.config.baseUrl;
-          item.documentTypeCode = splitByLastDot(file.name).pop().toUpperCase();
-          item.requester = 1;
-          item.thumbnail = thumbnail;
-          this.store.dispatch(new CreateMediaItem(item));
-        },
-        error: (err) => {
-          console.log('MediaUploadService upload Error: ', err);
-          this.store.dispatch(new HideSpinner());
-          this.store.dispatch(new DisplayToastMessage(err.statusText, ToastType.error));
-        },
-        progress: (percent) => {
-          console.log('MediaUploadService upload progress: ', percent);
-          this.percent = percent;
-        }
-      };
-      this.blob.upload(this.config);
-    }
+            const Config: UploadParams = {
+              sas: this.sasToken,
+              storageAccount: this.storageAccount,
+              containerName: 'media'
+            };
+            
+            let splitByLastDot = function (text) {
+              var index = text.lastIndexOf('.');
+              return [text.slice(0, index), text.slice(index + 1)]
+            }
+        
+            if (file !== null) {
+              const baseUrl = this.blob.generateBlobUrl(Config, file.name);
+              this.config = {
+                baseUrl: baseUrl,
+                sasToken: Config.sas,
+                blockSize: 1024 * 64, // OPTIONAL, default value is 1024 * 32
+                file: file,
+                complete: () => {
+        
+                  let thumbnail = `https://${Config.storageAccount}.blob.core.windows.net/thumbs/${file.name}`;
+                  let _folderPath = folderPath.replace('>', '/');
+                  
+                  console.log('MediaUploadService compelete folder-path: ', _folderPath);
+                  
+                  let item = new MediaItem();
+                  item.metadata = metadata;
+                  item.size = file.size;
+                  item.name = file.name;
+                  item.contentType = file.type;
+                  item.directoryId = directoryId;
+                  item.url = this.config.baseUrl;
+                  item.documentTypeCode = splitByLastDot(file.name).pop().toUpperCase();
+                  item.requester = 1;
+                  item.thumbnail = thumbnail;
+                  this.store.dispatch(new CreateMediaItem(item));
+                },
+                error: (err) => {
+                  console.log('MediaUploadService upload Error: ', err);
+                  this.store.dispatch(new HideSpinner());
+                  this.store.dispatch(new DisplayToastMessage(err.statusText, ToastType.error));
+                },
+                progress: (percent) => {
+                  console.log('MediaUploadService upload progress: ', percent);
+                  this.percent = percent;
+                }
+              };
+              this.blob.upload(this.config);
+            }
+          }, err => {
+            this.store.dispatch(new HideSpinner());
+            this.store.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+          }
+        )
+      }, err => {
+        this.store.dispatch(new HideSpinner());
+        this.store.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      }
+    );
   }
 
   async getDirectoryMetadata(directoryId: number) {

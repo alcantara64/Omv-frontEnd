@@ -5,7 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { MediaState } from './state/media/media.state';
-import { MediaItem } from '../core/models/entity/media';
 import { AppState } from "../state/app.state";
 declare var require: any
 
@@ -29,8 +28,8 @@ export class MediaComponent extends BaseComponent implements OnInit {
   currentRoute: any;
 
   @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
-  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
-  @Select(AppState.setGridData) gridData$: Observable<any[]>;
+  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(MediaState.getSelectedItems) gridData$: Observable<any[]>;
 
 
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
