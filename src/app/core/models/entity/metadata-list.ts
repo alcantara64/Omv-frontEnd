@@ -1,4 +1,4 @@
-export class MetadataLists {
+export class MetadataList {
     id: number;
     fieldName: string;
     fieldType : string;

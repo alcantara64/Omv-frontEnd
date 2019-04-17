@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { AdminMediaDataService } from './admin-media.data.service';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { map } from 'rxjs/operators';
-import { MetadataLists } from 'src/app/core/models/entity/metadata-list';
+import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 
 @Injectable({
   providedIn: 'root'
@@ -45,9 +45,9 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     return data;
   }
 
-  getMetaDataLists(): Observable<MetadataLists[]> {
+  getMetaDataLists(): Observable<MetadataList[]> {
     var url = `./assets/mock/admin-metadata-list.json`;
-    let data = this.httpClient.get<MetadataLists[]>(url);
+    let data = this.httpClient.get<MetadataList[]>(url);
     console.log('data', data);
     return data;
   }
@@ -55,16 +55,16 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
   removeMetadataList(id: number) {
     var url = `./assets/mock/admin-metadata-list.json`;
 
-    return this.httpClient.get<MetadataLists[]>(url);
+    return this.httpClient.get<MetadataList[]>(url);
     // return data;
   }
 
-  createMetadataList(payload: MetadataLists): Observable<MetadataLists> {
+  createMetadataList(payload: MetadataList): Observable<MetadataList> {
     var url = `./assets/mock/admin-metadata-list.json`;
-    var data = this.httpClient.get<MetadataLists[]>(url).pipe(map(list => {
-      var _list = new MetadataLists();
-
-      return _list;
+    var data = this.httpClient.get<MetadataList[]>(url).pipe(map(list => {
+      var _list = new MetadataList();
+      console.log('AdminMediaMockDataService - createMetadataList : ', payload);
+      return payload;
     }));
     return data;
   }

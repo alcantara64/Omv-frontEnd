@@ -1,5 +1,5 @@
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
-import { MetadataLists } from 'src/app/core/models/entity/metadata-list';
+import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 
 export class GetUploadHistory {
   static readonly type = '[Admin media] GetUploadHistory';
@@ -31,5 +31,5 @@ export class RemoveMetaDataList {
 
 export class CreateMetaDataList {
   static readonly type = '[Admin media] CreateMetaDataList';
-  constructor(public payload: MetadataLists) { }
+  constructor(public payload: MetadataList) { }
 }

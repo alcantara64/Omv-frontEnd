@@ -3,7 +3,7 @@ import { ListComponent } from 'src/app/shared/list/list.component';
 import { Store, Select } from '@ngxs/store';
 import { GridColumn } from 'src/app/core/models/grid.column';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MetadataLists } from 'src/app/core/models/entity/metadata-list';
+import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { Observable } from 'rxjs';
@@ -30,13 +30,13 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   fieldType: string  = '';
   fieldId: number;
   metadataListForm: FormGroup;
-  metadataList = new MetadataLists();
+  metadataList = new MetadataList();
 
   @ViewChild('listview') public dialogList: any;
   @ViewChild('listDialog') public listDialogList: DialogComponent;
-  @Select(AdminMediaState.getMetaDataLists) metadataLists$: Observable<MetadataLists[]>;
+  @Select(AdminMediaState.getMetaDataLists) metadataLists$: Observable<MetadataList[]>;
 
-  metadataLists: MetadataLists[];
+  metadataLists: MetadataList[];
 
   public saveDlgBtnClick: EmitType<object> = () => {
     this.ShowSpinner(true);
@@ -44,9 +44,12 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
 
     if (this.metadataListForm.valid) {
       if (this.metadataListForm.dirty) {
-        const metadataList: MetadataLists = { ...this.metadataList, ...this.metadataListForm.value };
+        const metadataList: MetadataList = { ...this.metadataList, ...this.metadataListForm.value };
         console.log('testing create user - ', metadataList);
         this.store.dispatch(new CreateMetaDataList(metadataList));
+        this.ShowSpinner(false);
+        this.closeDialog();
+        this.metadataListForm.reset();
       }
     }
   }
@@ -71,6 +74,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     });
     this.store.dispatch(new GetMetaDataLists());
     this.metadataLists$.subscribe(lists => {
+      console.log('AdminMetadataLIstComponent ngOninit lists: ', lists);
       this.metadataLists = lists;
     });
   }
@@ -80,7 +84,10 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   add() {
     this.listDialogList.show();
   }
-
+  closeDialog() {
+    // this.clearSelectedFields();
+    this.listDialogList.hide();
+  }
   remove(data) {
     console.log(data);
     this.store.dispatch(new RemoveMetaDataList(data.id));

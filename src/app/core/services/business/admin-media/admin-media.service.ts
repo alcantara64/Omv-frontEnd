@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
 import { AdminMediaDataService } from '../../data/admin-media/admin-media.data.service';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
-import { MetadataLists } from 'src/app/core/models/entity/metadata-list';
+import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +24,13 @@ export class AdminMediaService {
   createMetaDataField(payload: MetadataFields){
     return this.AdminMediaDataService.createMetadataField(payload);
   }
-  getMetadataList(): Observable<MetadataLists[]> {
+  getMetadataList(): Observable<MetadataList[]> {
     return this.AdminMediaDataService.getMetaDataLists();
   }
-  removeMetadataList(id: number): Observable<MetadataLists[]> {
+  removeMetadataList(id: number): Observable<MetadataList[]> {
     return this.AdminMediaDataService.removeMetadataList(id);
   }
-  createMetaDataList(payload: MetadataLists){
+  createMetaDataList(payload: MetadataList){
     return this.AdminMediaDataService.createMetadataList(payload);
   }
 }

@@ -7,12 +7,12 @@ import { DateService } from 'src/app/core/services/business/dates/date.service';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { DisplayToastMessage } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
-import { MetadataLists } from 'src/app/core/models/entity/metadata-list';
+import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 
 export class AdminMediaStateModel {
   uploadHistory: UploadHistory[];
   metadataFields: MetadataFields[];
-  metadataLists: MetadataLists[];
+  metadataLists: MetadataList[];
   currentMetadataId: number;
 }
 
@@ -136,9 +136,13 @@ export class AdminMediaState {
       tap(metadataList => {
         ctx.dispatch(new DisplayToastMessage('Create successful.'));
         const state = ctx.getState();
+        console.log(state);
+        let list = state.metadataLists;
+        
+        console.log('AdminMediaState createMetaDataList new List:', list);
         ctx.setState({
           ...state,
-          currentMetadataId: metadataList.id
+          metadataLists: [...list,  metadataList]
         });
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
