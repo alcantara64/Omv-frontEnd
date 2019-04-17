@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {GridColumn} from "../../../core/models/grid.column";
-import {Select, Store} from "@ngxs/store";
-import {AppState} from "../../../state/app.state";
-import {Observable} from "rxjs";
+import { GridColumn } from "../../../core/models/grid.column";
+import { Select, Store } from "@ngxs/store";
+import { AppState } from "../../../state/app.state";
+import { Observable } from "rxjs";
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
 import { AdminMediaState } from '../../state/admin-media/admin-media.state';
 import { ListComponent } from 'src/app/shared/list/list.component';
-import { GetNewUploads } from '../../state/admin-media/admin-media.action';
+import { GetNewUploads, ApproveUploads, RejectUploads } from '../../state/admin-media/admin-media.action';
 
 @Component({
   selector: 'app-admin-media-new-uploads',
@@ -43,4 +43,12 @@ export class AdminMediaNewUploadsComponent extends ListComponent implements OnIn
     });
   }
 
+  approve(payload: UploadHistory) {
+    console.log('AdminMediaNewUploadsComponent - approve', payload);
+    this.store.dispatch(new ApproveUploads(payload.id, payload));
+  }
+  reject(payload: UploadHistory) {
+    console.log('AdminMediaNewUploadsComponent - reject', payload);
+    this.store.dispatch(new RejectUploads(payload.id, payload));
+  }
 }

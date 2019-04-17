@@ -6,7 +6,8 @@
         "modifiedOnString": "0/1/2019",
         "size": 1000,
         "files": "100",
-        "status": "<img src=../../../assets/images/rejected.png>"
+        "status": 20,
+        "statusName": "<img src=../../../assets/images/rejected.png>"
     },
     {
         "id": 2,
@@ -15,7 +16,8 @@
         "modifiedOnString": "0/1/2019",
         "size": 2,
         "files": "60",
-        "status": "<img src=../../../assets/images/attention.png>"
+        "status": 20,
+        "statusName": "<img src=../../../assets/images/attention.png>"
     },
     {
         "id": 3,
@@ -24,7 +26,8 @@
         "modifiedOnString": "0/1/2019",
         "size": 3000,
         "files": "66",
-        "status": "<img src=../../../assets/images/rejected.png>"
+        "status": 20,
+        "statusName": "<img src=../../../assets/images/rejected.png>"
     },
     {
         "id": 4,
@@ -33,7 +36,8 @@
         "modifiedOnString": "0/1/2019",
         "size": 1000,
         "files": "86",
-        "status": "<img src=../../../assets/images/attention.png>"
+        "status": 20,
+        "statusName": "<img src=../../../assets/images/attention.png>"
     },
     {
         "id": 5,
@@ -42,6 +46,7 @@
         "modifiedOnString": "0/1/2019",
         "size": 2000,
         "files": "94",
-        "status": "<img src=../../../assets/images/rejected.png>"
+        "status": 20,
+        "statusName": "<img src=../../../assets/images/rejected.png>"
     }
 ]

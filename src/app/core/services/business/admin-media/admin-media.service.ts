@@ -29,4 +29,7 @@ export class AdminMediaService {
   getUploadRequest(id: number): Observable<any> {
     return this.AdminMediaDataService.getUploadRequest(id);
   }
+  updateUploadStatus(id: number, payload: UploadHistory){
+    return this.AdminMediaDataService.updateUploadStatus(id, payload);
+  }
 }

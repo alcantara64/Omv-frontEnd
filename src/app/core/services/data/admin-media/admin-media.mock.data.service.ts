@@ -53,4 +53,9 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
   getUploadRequest(id: number): Observable<any> {
     throw new Error("Method not implemented.");
   }
+
+  updateUploadStatus(id: number, payload: UploadHistory) {
+    var mockUrl = `./assets/mock/media-new-uploads.json`;
+    return this.httpClient.get<UploadHistory[]>(mockUrl);
+  }
 }

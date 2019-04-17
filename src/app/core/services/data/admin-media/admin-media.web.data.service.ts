@@ -73,11 +73,14 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     throw new Error("Method not implemented.");
   }
 
-
-  
   getUploadRequest(id: number): Observable<any> {
     var url = `./assets/mock/upload-request-item.json`;
     let data = this.httpClient.get<any>(url);
     return data;
   }
+  
+  updateUploadStatus(id: number, payload: UploadHistory) {
+    throw new Error("Method not implemented.");
+  }
+
 }

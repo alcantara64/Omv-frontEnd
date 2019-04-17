@@ -3,10 +3,10 @@
 
 <app-list [listData]="newUploads"
           [totalCountText]="'Total'"
-          (firstAction)="Approve($event)"
+          (firstAction)="approve($event)"
           [toolbarActionOne]="'Approve'"
           [toolbarActionTwo]="'Reject'"
-          (secondAction)="Reject($event)"
+          (secondAction)="reject($event)"
           [statusIconPosition]="0"
           [isToolBarVisible] = "true"
           [selectedRecords]="selectedUploads"

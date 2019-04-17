@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, GetNewUploads } from './admin-media.action';
+import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, GetNewUploads, ApproveUploads, RejectUploads } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { DisplayToastMessage } from 'src/app/state/app.actions';
@@ -46,7 +46,7 @@ export class AdminMediaState {
 
   @Selector()
   static getNewUploads(state: AdminMediaStateModel) {
-    return state.metadataFields;
+    return state.newUploads;
   }
   
   static getCurrentUploadRequestFields(state: AdminMediaStateModel) {
@@ -138,6 +138,38 @@ export class AdminMediaState {
           ...state,
           newUploads: newUploads
         });
+      })
+    );
+  }
+
+  @Action(ApproveUploads)
+  approveUploads(ctx: StateContext<AdminMediaState>, { id, payload, refreshList }: ApproveUploads) {
+    payload.status = 30;
+    ctx.dispatch(new DisplayToastMessage('Status was approved successfully.'));
+    console.log('Action - approveUploads', payload);
+    return this.adminMediaService.updateUploadStatus(id, payload).pipe(
+      tap(status => {
+        if (refreshList) {
+          ctx.dispatch(new GetNewUploads());
+        }
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
+      })
+    );
+  }
+
+  @Action(RejectUploads)
+  rejectUploads(ctx: StateContext<AdminMediaState>, { id, payload, refreshList }: ApproveUploads) {
+    payload.status = 20;
+    ctx.dispatch(new DisplayToastMessage('Status was rejected successfully.'));
+    console.log('Action - rejectUploads', payload);
+    return this.adminMediaService.updateUploadStatus(id, payload).pipe(
+      tap(status => {
+        if (refreshList) {
+          ctx.dispatch(new GetNewUploads());
+        }
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
   }
