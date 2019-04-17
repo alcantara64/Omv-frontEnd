@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { AdminMediaDataService } from './admin-media.data.service';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { map } from 'rxjs/operators';
+import { MetadataLists } from 'src/app/core/models/entity/metadata-list';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,30 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
       var _field = new MetadataFields();
 
       return _field;
+    }));
+    return data;
+  }
+
+  getMetaDataLists(): Observable<MetadataLists[]> {
+    var url = `./assets/mock/admin-metadata-list.json`;
+    let data = this.httpClient.get<MetadataLists[]>(url);
+    console.log('data', data);
+    return data;
+  }
+
+  removeMetadataList(id: number) {
+    var url = `./assets/mock/admin-metadata-list.json`;
+
+    return this.httpClient.get<MetadataLists[]>(url);
+    // return data;
+  }
+
+  createMetadataList(payload: MetadataLists): Observable<MetadataLists> {
+    var url = `./assets/mock/admin-metadata-list.json`;
+    var data = this.httpClient.get<MetadataLists[]>(url).pipe(map(list => {
+      var _list = new MetadataLists();
+
+      return _list;
     }));
     return data;
   }

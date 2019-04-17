@@ -8,6 +8,7 @@ import { UploadRequestHistory_GetAllOutputDTO } from 'src/app/core/dtos/output/u
 import { environment } from 'src/environments/environment';
 import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequest_GetAllOutputDTO';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
+import { MetadataLists } from 'src/app/core/models/entity/metadata-list';
 
 @Injectable({
   providedIn: 'root'
@@ -69,4 +70,14 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     return null;
   }
 
+  getMetaDataLists(): Observable<MetadataLists[]> {
+    return null;
+  }
+
+  removeMetadataList(id: number ) {
+    throw new Error("Method not implemented.");
+  }
+  createMetadataList(payload: MetadataLists):Observable<MetadataLists> {
+    return null;
+  }
 }

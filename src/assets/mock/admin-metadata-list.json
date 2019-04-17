@@ -1,27 +1,51 @@
 [
     {
-        "id": "1",
-        "name": "All Platform",
-        "list": "Rigs,Shell"
+        "id": 1,
+        "fieldName": "File Name",
+        "fieldType": "Text Box",
+        "List": "",
+        "isUnique": false
     },
     {
-        "id": "2",
-        "name": "All Systems",
-        "list": "Shell,Rigs  "
+        "id": 2,
+        "fieldName": "File Name",
+        "fieldType": "Dropdown",
+        "List": "All Platforms",
+        "isUnique": false
     },
     {
-        "id": "3",
-        "name": "All Register Types",
-        "list": "Rigs,Register"
+        "id": 3,
+        "fieldName": "File Name",
+        "fieldType": "Dropdown",
+        "List": "All Systems",
+        "isUnique": false
     },
     {
-        "id": "4",
-        "name": "All Platform",
-        "list": "Shell, Platform"
+        "id": 4,
+        "fieldName": "File Name",
+        "fieldType": "Dropdown",
+        "List": "All Register Types",
+        "isUnique": false
     },
     {
-        "id": "5",
-        "name": "All Systems",
-        "list": "Rigs, Systems"
+        "id": 5,
+        "fieldName": "File Name",
+        "fieldType": "Text ",
+        "List": " ",
+        "isUnique": false
+    },
+    {
+        "id": 6,
+        "fieldName": "File Name",
+        "fieldType": "Text ",
+        "List": " ",
+        "isUnique": false
+    },
+    {
+        "id": 7,
+        "fieldName": "File Name",
+        "fieldType": "Text",
+        "List": " ",
+        "isUnique": false
     }
- ]
+]

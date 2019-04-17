@@ -1,10 +1,55 @@
-<app-list
-[listData]="groups"
-[columns]="columns" 
-[selectedRecords]="selectedGroups" 
-[toolbarActionOne]="statusChange" 
-(firstAction)="changeGroupStatus($event)"
-(secondNavigateAction)="edit($event)"
-[showSecondAction]="true"
-[secondActionText]="editIcon" 
-[totalCountText]="'Total '"></app-list>
+<div>
+    <div class="row">
+        <div class="pb-3 col-md-12">
+            <span class="pt-3">
+                <button ejs-button class="omv-primary-plus float-right" (click)="add()">
+                    Add New Lists
+                </button>
+            </span>
+        </div>
+    </div>
+    <ejs-dialog #listDialog [visible]="false" [buttons]="addDlgButtons" [header]="'New Lists'" [showCloseIcon]="true"
+        [width]="350" [height]="400">
+
+        <ng-template #content>
+                <form novalidate (ngSubmit)="saveDlgBtnClick()" [formGroup]="metadataListForm">
+            <div class="row pt-3">
+                <div class="col-md-4"><label>
+                        List Name
+                    </label></div>
+                <div class="col-md-8">
+                    <input class="form-control form-control-lg" id="fieldNameId" type="text" placeholder=""
+                        formControlName="fieldName" [ngClass]="{'is-invalid': (metadataListForm.get('fieldName').touched ||
+                                                                               metadataListForm.get('fieldName').dirty) &&
+                                                                              !metadataListForm.get('fieldName').valid }" />
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-md-4"><label>
+                        List Type
+                    </label></div>
+                <div class="col-md-8">
+                        <input class="form-control form-control-lg" id="fieldTypeId" type="text" placeholder=""
+                        formControlName="fieldType" [ngClass]="{'is-invalid': (metadataListForm.get('fieldType').touched ||
+                                                                               metadataListForm.get('fieldType').dirty) &&
+                                                                              !metadataListForm.get('fieldType').valid }" />
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-md-4"><label>
+                        List
+                    </label></div>
+                <div class="col-md-8">
+                    <ejs-dropdownlist id='ddlelement' #samples (change)="addList($event)" [dataSource]='data'
+                        [placeholder]='placeholder' [value]='id' [fields]='listFields'></ejs-dropdownlist>
+                </div>
+            </div>
+            </form>
+        </ng-template>
+    </ejs-dialog>
+    <div class="">
+        <app-list [listData]="metadataLists" [columns]="columns" (firstNavigateAction)="remove($event)"
+            (secondNavigateAction)="navigate($event)" [showFirstAction]="true" [firstActionText]="editLink"
+            [showSecondAction]="true" [secondActionText]="removeLink"></app-list>
+    </div>
+</div>
