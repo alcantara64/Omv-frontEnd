@@ -91,16 +91,16 @@ export class AppComponent implements AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    window.onload = () => {
-      const x = document.getElementById('loading');
-      // for IE
-      x.style.display = 'none';
-      x.style.visibility = 'hidden';
-      x.style.zIndex = '-20';
-      console.log('PPPP', window.navigator.appVersion.indexOf("MSIE 1")==-1);
-      // End for IE
-      x.remove();
-    };
+    // window.onload = () => {
+    //   const x = document.getElementById('loading');
+    //   // for IE
+    //   x.style.display = 'none';
+    //   x.style.visibility = 'hidden';
+    //   x.style.zIndex = '-20';
+    //   console.log('PPPP', window.navigator.appVersion.indexOf("MSIE 1")==-1);
+    //   // End for IE
+    //   x.remove();
+    // };
   }
 
   ngOnDestroy() {
