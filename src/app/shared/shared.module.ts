@@ -15,8 +15,6 @@ import { AppHeaderComponent } from './app-header/app-header.component';
 import { LeftNavComponent } from './leftnav/leftnav.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import * as pdfViewerComponent  from './pdf-viewer/pdf-viewer.component';
-import { PdfViewerAltComponent } from './pdf-viewer-alt/pdf-viewer-alt.component';
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';
 import  { PdfViewerModule} from "@syncfusion/ej2-angular-pdfviewer";
 import { ReactiveFormsModule } from '@angular/forms';
@@ -36,33 +34,34 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {ToolbarModule, TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 import { ImagePreloadDirective } from '../core/directives/image-preload/image-preload.directive';
 import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
+import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
   declarations: [
-    PageNotFoundComponent,
     AppHeaderComponent,
     BreadcrumbComponent,
-    LeftNavComponent,
-    TabsComponent, 
-    ListComponent,
-    ModalComponent,
+    DynamicFormComponent,   
     EditComponent,
-    MapViewComponent,
-    TreeViewComponent,
-    TileViewComponent,
-    BreadcrumbComponent,
-    pdfViewerComponent.PdfViewerComponent,
-    PdfViewerComponent,
-    PdfViewerAltComponent,
-    MediaViewerComponent,
-    FileSizePipe,
+    FiltersComponent,
+    FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
     FormSelectComponent,
-    FormDateComponent,
-    DynamicFormComponent,    
+    MapViewComponent,
+    MediaViewerComponent,
+    ModalComponent,
+    PageNotFoundComponent,
+    PdfViewerComponent,
+    LeftNavComponent,
+    ListComponent,
+    TabsComponent, 
+    TileViewComponent,
+    TreeViewComponent,
+
     DynamicFieldDirective, 
-    ImagePreloadDirective,
+    ImagePreloadDirective, 
+
+    FileSizePipe,
   ],
   imports: [
     CommonModule,
@@ -90,24 +89,26 @@ import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
     CommonModule,
     AppHeaderComponent,
     BreadcrumbComponent,
-    LeftNavComponent,
-    PageNotFoundComponent,
-    ListComponent,
-    TabsComponent,
-    ModalComponent,
-    EditComponent,
-    MapViewComponent,
-    TreeViewComponent,
-    TileViewComponent,
     DynamicFormComponent,
-    FileSizePipe,
+    EditComponent,
+    FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
     FormSelectComponent,
-    FormDateComponent,
+    LeftNavComponent,
+    ListComponent,
+    MapViewComponent,
+    ModalComponent,
+    PageNotFoundComponent,
     PdfViewerComponent,
+    TabsComponent,
+    TreeViewComponent,
+    TileViewComponent,
+
     DynamicFieldDirective,
-    ImagePreloadDirective
+    ImagePreloadDirective,
+    
+    FileSizePipe,
   ],
   entryComponents: [
     FormDateComponent,
