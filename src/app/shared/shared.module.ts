@@ -91,6 +91,7 @@ import { FiltersComponent } from './filters/filters.component';
     BreadcrumbComponent,
     DynamicFormComponent,
     EditComponent,
+    FiltersComponent,
     FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
