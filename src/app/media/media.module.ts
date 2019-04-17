@@ -32,7 +32,6 @@ import { MetadataFieldsMockDataService } from '../core/services/data/metadata-fi
 import { MetadataFieldsWebDataService } from '../core/services/data/metadata-fields/metadata-fields.web.data.service';
 import { PagerModule } from '@syncfusion/ej2-angular-grids/src/pager/pager.module';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations/src/treeview/treeview.module';
-import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid/src/treegrid/treegrid.module';
 import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons/src/check-box/checkbox.module';
 import { DialogModule } from '@syncfusion/ej2-angular-popups/src/dialog/dialog.module';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns/src/drop-down-list/dropdownlist.module';
@@ -42,7 +41,10 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.
 import { CustomersDataService } from '../core/services/data/customers/customers.data.service';
 import { CustomersMockDataService } from '../core/services/data/customers/customers.mock.data.service';
 import { CustomersWebDataService } from '../core/services/data/customers/customers.web.data.service';
-import { TreeGridAllModule } from '@syncfusion/ej2-angular-treegrid';
+import { FiltersDataService } from '../core/services/data/filters/filters.data.service';
+import { FiltersMockDataService } from '../core/services/data/filters/filters.mock.data.service';
+import { FiltersWebDataService } from '../core/services/data/filters/filters.web.data.service';
+import { FiltersComponent } from '../filters/filters.component';
 
 @NgModule({
 	declarations: [
@@ -51,6 +53,7 @@ import { TreeGridAllModule } from '@syncfusion/ej2-angular-treegrid';
 		AllMediaMapviewComponent,
 		AllMediaTileviewComponent,
 		AllMediaTreeviewComponent,
+		FiltersComponent,
 		MediaComponent,
 		MediaFavoritesComponent,
 		MediaFavoritesListviewComponent,
@@ -82,6 +85,7 @@ import { TreeGridAllModule } from '@syncfusion/ej2-angular-treegrid';
 	providers: [
 		{ provide: CustomersDataService, useClass: environment.useMocks ? CustomersMockDataService : CustomersWebDataService },
 		{ provide: DirectoryDataService, useClass: environment.useMocks ? DirectoryMockDataService : DirectoryWebDataService },		
+		{ provide: FiltersDataService, useClass: environment.useMocks ? FiltersMockDataService : FiltersWebDataService },
 		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
 		{ provide: MetadataFieldsDataService, useClass: environment.useMocks ? MetadataFieldsMockDataService : MetadataFieldsWebDataService },
   ],

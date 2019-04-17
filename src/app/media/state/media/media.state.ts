@@ -1,8 +1,8 @@
 import { MediaUploadService } from './../../media-upload/media-upload.service';
 import {
   GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
-  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, 
-  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems
+  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem,
+  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems, GetFilterFields
 } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
@@ -16,6 +16,7 @@ import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-sett
 import { DirectoryService } from 'src/app/core/services/business/directory/directory.service';
 import { DisplayToastMessage, ShowSpinner, HideSpinner } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
+import { FiltersComponentService } from 'src/app/filters/filters.service';
 
 export class MediaStateModel {
   media: MediaItem[];
@@ -34,6 +35,8 @@ export class MediaStateModel {
   documents: any[]
   uploadComplete: boolean;
   selectedItems: any[];
+
+  filterFields: any[];
 }
 
 const initialMediaItem: MediaItem = {
@@ -75,7 +78,9 @@ const initialMediaItem: MediaItem = {
     documents: [],
     directoryMetadata: [],
     uploadComplete: false,
-    selectedItems: []
+    selectedItems: [],
+
+    filterFields: []
   }
 })
 
@@ -168,12 +173,18 @@ export class MediaState {
     return state.selectedItems;
   }
 
+  @Selector()
+  static getFilterFields(state: MediaStateModel) {
+    return state.filterFields;
+  }
+
   //#endregion
 
   constructor(private mediaService: MediaService,
     private mediaItemDetailsService: MediaItemDetailsService,
     private mediaUploadService: MediaUploadService,
     private directoryService: DirectoryService,
+    private filtersComponentService: FiltersComponentService,
     private dateService: DateService) { }
 
   //#region A C T I O N S
@@ -444,12 +455,28 @@ export class MediaState {
   }
 
   @Action(SetSelectedItems)
-  addSelectedItem({getState, setState}: StateContext<MediaStateModel>, { selectedItems }: SetSelectedItems) {
+  addSelectedItem({ getState, setState }: StateContext<MediaStateModel>, { selectedItems }: SetSelectedItems) {
     const state = getState();
     setState({
       ...state,
       selectedItems: selectedItems,
     });
+  }
+
+  @Action(GetFilterFields)
+  getFilterFields(ctx: StateContext<MediaStateModel>) {
+    return this.filtersComponentService.getFilterFields()
+      .then(async fields => {
+        console.log('MediaState getFilterFields: ', fields);
+        const state = ctx.getState();
+        ctx.setState({
+          ...state,
+          filterFields: fields
+        });
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      }
+    );
   }
 
   //#endregion

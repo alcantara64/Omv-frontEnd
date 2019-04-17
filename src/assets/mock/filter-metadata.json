@@ -1,0 +1,62 @@
+[
+  {
+    "name": "countries",
+    "label": "Countries",
+    "type": "MultiSelect",
+    "options": [      
+        {
+          "value": "USA",
+          "description": "USA",
+          "sort": "1"
+        },
+        {
+          "value": "Nigeria",
+          "description": "Nigeria",
+          "sort": "2"
+        },
+        {
+          "value": "Canada",
+          "description": "Canada",
+          "sort": "3"
+        },
+        {
+          "value": "Mexico",
+          "description": "Mexico",
+          "sort": "4"
+        }
+    ],
+    "value": "",
+    "isRequired": true,
+    "order": 1
+  },
+  {
+    "name": "platforms",
+    "label": "Platforms",
+    "type": "MultiSelect",
+    "options": [      
+        {
+          "value": "Rigs",
+          "description": "Rigs",
+          "sort": "1"
+        },
+        {
+          "value": "Pipeline",
+          "description": "Pipeline",
+          "sort": "2"
+        },
+        {
+          "value": "Equipment",
+          "description": "Equipment",
+          "sort": "3"
+        },
+        {
+          "value": "Cars",
+          "description": "Cars",
+          "sort": "4"
+        }
+    ],
+    "value": "",
+    "isRequired": true,
+    "order": 1
+  }
+]

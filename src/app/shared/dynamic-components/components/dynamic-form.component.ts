@@ -7,7 +7,7 @@ import { FieldConfiguration } from '../field-setting';
   selector: "dynamic-form",
   template: `
     <form class="row" [formGroup]="form" (submit)="handleSubmit($event)">  
-      <div [className]="field.cssClass ? field.cssClass : 'col-md-12'" *ngFor="let field of config;">
+      <div [className]="field?.cssClass ? field.cssClass : 'col-md-12'" *ngFor="let field of config;">
         <ng-container dynamicField (deleteControl)="deleteControlEvent($event)" [allowDeleting]="allowDeleting" [config]="field" [group]="form">
         </ng-container>      
       </div>

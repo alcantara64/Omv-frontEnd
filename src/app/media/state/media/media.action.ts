@@ -105,3 +105,7 @@ export class SetSelectedItems {
 
   constructor(public selectedItems: any[]) {}
 }
+
+export class GetFilterFields {
+  static readonly type = '[Media] GetFilterFields';
+}

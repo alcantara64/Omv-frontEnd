@@ -1,0 +1,29 @@
+<div class="filter-container">
+
+  <!-- TOP SECTION SECTION -->
+  <div class="container filter-top-section">
+    <div class="row">
+      <div class="col-md-9">
+        <label class="title title-16"> Filter By: | </label>
+      </div>
+      <div class="col-md-3">
+        <div class="float-right">
+          <button class="button-no-outline" style="margin-right: 20px"> Save To "Favorites" </button>
+          <button class="button-no-outline"> Clear All Filters </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+
+  <!-- BOTTOM SECTION -->
+  <div>
+
+    <dynamic-form #dynamicForm="dynamicForm" *ngIf="fields?.length > 0" style="display: inline" [config]="fields"
+      (submit)="submit($event)">
+    </dynamic-form>
+
+    <!-- BUTTON SECTION -->
+    <button class="btn btn-lg button-round" (click)="apply()"> APPLY FILTERS </button>
+  </div>
+</div>

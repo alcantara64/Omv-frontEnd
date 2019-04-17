@@ -19,6 +19,7 @@ import { StartupComponent } from './startup/startup.component';
 import { MediaModule } from './media/media.module';
 import { BlobModule } from 'angular-azure-blob-service';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
+import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
   declarations: [

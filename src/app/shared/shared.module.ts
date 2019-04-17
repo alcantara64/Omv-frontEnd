@@ -25,7 +25,7 @@ import { DynamicFormComponent } from './dynamic-components/components/dynamic-fo
 import { DynamicFieldDirective } from './dynamic-components/directives/dynamic-field.directive';
 import { FormDateComponent } from './dynamic-components/components/form-date.component';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DropDownListModule, MultiSelectAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import {DialogModule, TooltipModule} from '@syncfusion/ej2-angular-popups';
 import { FormLabelComponent } from './dynamic-components/components/form-label.component';
 import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
@@ -34,7 +34,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {ToolbarModule, TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 import { ImagePreloadDirective } from '../core/directives/image-preload/image-preload.directive';
 import { TreeGridModule, PageService, SortService, ContextMenuService } from '@syncfusion/ej2-angular-treegrid';
-import { FiltersComponent } from './filters/filters.component';
+import { FormMultiSelectComponent } from './dynamic-components/components/form-multiselect.component';
 
 @NgModule({
   declarations: [
@@ -42,10 +42,10 @@ import { FiltersComponent } from './filters/filters.component';
     BreadcrumbComponent,
     DynamicFormComponent,   
     EditComponent,
-    FiltersComponent,
     FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
+    FormMultiSelectComponent,
     FormSelectComponent,
     MapViewComponent,
     MediaViewerComponent,
@@ -77,7 +77,8 @@ import { FiltersComponent } from './filters/filters.component';
     DropDownListModule,
     ReactiveFormsModule,
     NgxExtendedPdfViewerModule,
-    ImageViewerModule,
+    ImageViewerModule,    
+    MultiSelectAllModule,
     PdfViewerModule,
     ToolbarModule,
     DialogModule,
@@ -91,10 +92,10 @@ import { FiltersComponent } from './filters/filters.component';
     BreadcrumbComponent,
     DynamicFormComponent,
     EditComponent,
-    FiltersComponent,
     FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
+    FormMultiSelectComponent,
     FormSelectComponent,
     LeftNavComponent,
     ListComponent,
@@ -120,7 +121,8 @@ import { FiltersComponent } from './filters/filters.component';
     FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
-    FormSelectComponent
+    FormMultiSelectComponent,
+    FormSelectComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
