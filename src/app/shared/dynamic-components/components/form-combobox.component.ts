@@ -4,18 +4,22 @@ import { Field } from '../field.interface';
 import { FieldConfiguration } from '../field-setting';
 
 @Component({
-  selector: "form-mulitselect",
+  selector: "form-combobox",
   template: `
     <div [formGroup]="group">
       <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
-        <ejs-multiselect id='localData' #local 
+        <ejs-combobox id='combo' #local 
           class="form-control form-control-lg col-md-11"
-          [dataSource]='config.options' [fields]='fields' 
-          [formControlName]="config.name"
+          [dataSource]='config.options' 
+          [autofill]='true' 
+          [fields]='fields' 
           [placeholder]='config.placeholder'
+          popupHeight='250px'
           [(value)]="config.value">
-        </ejs-multiselect>
+        </ejs-combobox>
+
+        
         <button type="button" class="o-delete col-md-1" (click)="deleteControlEvent(config)" *ngIf="!config.isRequired && allowDeleting">
           <span class="e-icons e-delete"></span>
         </button>
@@ -30,7 +34,7 @@ import { FieldConfiguration } from '../field-setting';
 `,
   styles: []
 })
-export class FormMultiSelectComponent implements Field {
+export class FormComboBoxComponent implements Field {
   config: FieldConfiguration;
   group: FormGroup;
   allowDeleting: boolean;

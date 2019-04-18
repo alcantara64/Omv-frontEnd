@@ -45,6 +45,7 @@ import { FiltersDataService } from '../core/services/data/filters/filters.data.s
 import { FiltersMockDataService } from '../core/services/data/filters/filters.mock.data.service';
 import { FiltersWebDataService } from '../core/services/data/filters/filters.web.data.service';
 import { FiltersComponent } from '../filters/filters.component';
+import { ComboBoxModule, ComboBoxAllModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @NgModule({
 	declarations: [
@@ -79,7 +80,6 @@ import { FiltersComponent } from '../filters/filters.component';
 		NgxsModule.forFeature([ MediaState ]),
 		CheckBoxModule,
 		ButtonModule,
-		MultiSelectModule,
 		DropDownListModule
 	],
 	providers: [

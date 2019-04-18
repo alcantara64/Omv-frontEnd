@@ -16,7 +16,7 @@ import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-sett
 import { DirectoryService } from 'src/app/core/services/business/directory/directory.service';
 import { DisplayToastMessage, ShowSpinner, HideSpinner } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
-import { FiltersComponentService } from 'src/app/filters/filters.service';
+import { FiltersService } from 'src/app/core/services/business/filters/filters.service';
 
 export class MediaStateModel {
   media: MediaItem[];
@@ -184,7 +184,7 @@ export class MediaState {
     private mediaItemDetailsService: MediaItemDetailsService,
     private mediaUploadService: MediaUploadService,
     private directoryService: DirectoryService,
-    private filtersComponentService: FiltersComponentService,
+    private filtersService: FiltersService,
     private dateService: DateService) { }
 
   //#region A C T I O N S
@@ -465,7 +465,7 @@ export class MediaState {
 
   @Action(GetFilterFields)
   getFilterFields(ctx: StateContext<MediaStateModel>) {
-    return this.filtersComponentService.getFilterFields()
+    return this.filtersService.getFilterFields()
       .then(async fields => {
         console.log('MediaState getFilterFields: ', fields);
         const state = ctx.getState();

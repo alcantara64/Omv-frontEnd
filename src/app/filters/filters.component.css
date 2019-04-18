@@ -9,6 +9,10 @@
   
 }
 
+.filter-lower-section {
+  padding: 12px 24px !important;
+}
+
 hr {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
@@ -22,3 +26,41 @@ hr {
   width: 187px;
   height: 40px;
 }
+
+.toggler {
+  background: #5B7F95;
+  margin: 0px auto;
+  display: block;  
+  width: 76px;
+  height: 28px;
+  cursor: pointer;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.toggler > div {
+  text-align: center;
+  padding-top: 6px;
+  display: block;
+}
+
+.toggler > div > span {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  margin-right: 3px;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.toggler-up-icon {
+  filter: invert(1);
+}
+
+.toggler-direction {
+  margin: 0px auto 0px auto;
+  padding-top: 6px;
+  display: block;
+  filter: invert(1);
+}
+

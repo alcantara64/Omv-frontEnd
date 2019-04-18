@@ -57,6 +57,31 @@
     ],
     "value": "",
     "isRequired": true,
+    "order": 2
+  },
+  {
+    "name": "type",
+    "label": "Type",
+    "type": "MultiSelect",
+    "options": [      
+        {
+          "value": "PDF",
+          "description": "PDF",
+          "sort": "1"
+        },
+        {
+          "value": "CSV",
+          "description": "CSV",
+          "sort": "2"
+        },
+        {
+          "value": "Word",
+          "description": "Word",
+          "sort": "3"
+        }
+    ],
+    "value": "",
+    "isRequired": true,
     "order": 1
   }
 ]

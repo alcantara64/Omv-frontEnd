@@ -25,7 +25,7 @@ import { DynamicFormComponent } from './dynamic-components/components/dynamic-fo
 import { DynamicFieldDirective } from './dynamic-components/directives/dynamic-field.directive';
 import { FormDateComponent } from './dynamic-components/components/form-date.component';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-import { DropDownListModule, MultiSelectAllModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DropDownListModule, MultiSelectAllModule, ComboBoxAllModule, ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
 import {DialogModule, TooltipModule} from '@syncfusion/ej2-angular-popups';
 import { FormLabelComponent } from './dynamic-components/components/form-label.component';
 import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
@@ -34,7 +34,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {ToolbarModule, TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 import { ImagePreloadDirective } from '../core/directives/image-preload/image-preload.directive';
 import { TreeGridModule, PageService, SortService, ContextMenuService } from '@syncfusion/ej2-angular-treegrid';
-import { FormMultiSelectComponent } from './dynamic-components/components/form-multiselect.component';
+import { FormComboBoxComponent } from './dynamic-components/components/form-combobox.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,7 @@ import { FormMultiSelectComponent } from './dynamic-components/components/form-m
     FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
-    FormMultiSelectComponent,
+    FormComboBoxComponent,
     FormSelectComponent,
     MapViewComponent,
     MediaViewerComponent,
@@ -77,8 +77,8 @@ import { FormMultiSelectComponent } from './dynamic-components/components/form-m
     DropDownListModule,
     ReactiveFormsModule,
     NgxExtendedPdfViewerModule,
-    ImageViewerModule,    
-    MultiSelectAllModule,
+    ImageViewerModule,
+    ComboBoxModule,
     PdfViewerModule,
     ToolbarModule,
     DialogModule,
@@ -95,7 +95,7 @@ import { FormMultiSelectComponent } from './dynamic-components/components/form-m
     FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
-    FormMultiSelectComponent,
+    FormComboBoxComponent,
     FormSelectComponent,
     LeftNavComponent,
     ListComponent,
@@ -121,7 +121,7 @@ import { FormMultiSelectComponent } from './dynamic-components/components/form-m
     FormDateComponent,
     FormInputComponent,
     FormLabelComponent,
-    FormMultiSelectComponent,
+    FormComboBoxComponent,
     FormSelectComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]

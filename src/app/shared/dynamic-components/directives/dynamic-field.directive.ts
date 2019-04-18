@@ -6,14 +6,14 @@ import { FormDateComponent } from '../components/form-date.component';
 import { Field } from '../field.interface';
 import { FieldConfiguration } from '../field-setting';
 import { FormLabelComponent } from '../components/form-label.component';
-import { FormMultiSelectComponent } from '../components/form-multiselect.component';
+import { FormComboBoxComponent } from '../components/form-combobox.component';
 
 const components: {[type: string]: Type<Field>} = {
   input: FormInputComponent,
   select: FormSelectComponent,
   date: FormDateComponent,
   label: FormLabelComponent,
-  multiselect: FormMultiSelectComponent
+  combobox: FormComboBoxComponent
 };
 
 @Directive({

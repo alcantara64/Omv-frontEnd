@@ -7,6 +7,9 @@ import { FieldConfiguration } from '../shared/dynamic-components/field-setting';
 import { takeUntil } from 'rxjs/operators';
 import { GetFilterFields } from '../media/state/media/media.action';
 
+const ARROW_UP = '../../assets/images/icon-arrow-up.svg';
+const ARROW_DOWN = '../../assets/images/icon-arrow-down.svg';
+
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
@@ -21,6 +24,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
   fields: FieldConfiguration[] = [];
+  showFilters: boolean;
+  toggleDirectionIcon = ARROW_DOWN;
 
   constructor(private store: Store) { }
 
@@ -35,10 +40,24 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    throw new Error("Method not implemented.");
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   apply() {
 
+  }
+
+  toggle() {
+    this.showFilters = !this.showFilters;
+    this.switchToggleArrowIcons(this.showFilters);
+  }
+
+  switchToggleArrowIcons (isOpen: boolean) {
+    if (isOpen) {
+      this.toggleDirectionIcon = ARROW_UP;
+    } else {
+      this.toggleDirectionIcon = ARROW_DOWN;
+    }
   }
 }
