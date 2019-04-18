@@ -19,8 +19,8 @@ import { takeWhile } from 'rxjs/operators';
 export class AdminMetadataFieldsComponent extends ListComponent implements OnInit, OnDestroy {
   columns: GridColumn[] = [
     { headerText: 'Name', field: 'fieldName', width: '70' },
-    { headerText: 'Type', field: 'fieldType', width: '80' },
-    { headerText: 'List', width: '150', field: 'List' }];
+    { headerText: 'Type', field: 'fieldTypeId', width: '80' },
+    { headerText: 'List', width: '150', field: 'metadataListName' }];
 
   public data: { [key: string]: Object }[] = [{ id: 1, name: 'All Platforms' },
   { id: 2, name: 'All Register Types' }, { id: 3, name: 'All Systems' }];
@@ -30,6 +30,8 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   { id: 2, name: 'Dropdown' }];
   public typeListFields: Object = { text: 'name', value: 'id' };
 
+
+  isFieldTypeList: boolean = false;
 
   editLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
   removeLink = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
@@ -47,6 +49,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   @Select(AdminMediaState.getMetaDataFields) metadataFields$: Observable<MetadataFields[]>;
 
   metadataFields: MetadataFields[];
+  isEdit: boolean;
 
   public saveDlgBtnClick: EmitType<object> = () => {
     this.ShowSpinner(true);
@@ -61,8 +64,6 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       }
     }
   }
-  isEdit: boolean;
-
 
 
   constructor(protected store: Store,
@@ -73,6 +74,9 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   }
   addList(action) {
     console.log('action', action.itemData);
+    if(action.itemData === 'Dropdown'){
+      this.isFieldTypeList = true;
+    }
   }
   ngOnInit() {
     this.metadataFieldForm = this.formBuilder.group({
@@ -126,7 +130,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
         }
         else {
           console.log('AdminMetadataFieldsComponent - edit', metadataField);
-          this.store.dispatch(new UpdateMetaDataField(metadataField.id, metadataField));
+          this.store.dispatch(new UpdateMetaDataField(metadataField.metadataFieldId, metadataField));
         }
         this.fieldDialogList.hide();
       }
@@ -142,10 +146,10 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     console.log(action);
     this.fieldDialogList.show();
     this.metadataFieldForm.setValue({
-      id: action.id,
+      id: action.metadataFieldId,
       fieldName: action.fieldName,
       fieldType: action.fieldTypeId,
-      List: action.ListId,
+      List: action.metadataListId,
     });
     console.log('AdminMetadataFieldsComponent - edit', this.metadataFieldForm);
   }

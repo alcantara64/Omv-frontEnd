@@ -1,4 +1,6 @@
-export interface MetadataField_GetByIdOutputDTO {
+import { BaseDTO } from '../../BaseDTO';
+
+export interface MetadataField_GetByIdOutputDTO extends BaseDTO {
     MetadataFieldId: number;
     FieldName: string;
     MetadataListId: number;
@@ -8,8 +10,4 @@ export interface MetadataField_GetByIdOutputDTO {
     RelatedField: number;
     Sort: number;
     Status: number;
-    CreatedOn: Date | string;
-    CreatedBy: string;
-    ModifiedOn: Date | string;
-    ModifiedBy: string;
 }

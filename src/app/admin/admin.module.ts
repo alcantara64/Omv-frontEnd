@@ -112,8 +112,9 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/list
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
     { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
     { provide: AdminMediaAccessDataService, useClass: environment.useMocks ? AdminMediaAccessMockDataService : AdminMediaAccessWebDataService },
-    { provide: AdminMediaDataService, useClass: environment.useMocks ? AdminMediaWebDataService  :   AdminMediaMockDataService}
+    { provide: AdminMediaDataService, useClass: environment.useMocks ? AdminMediaMockDataService  :    AdminMediaWebDataService}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class AdminModule { } 
+  

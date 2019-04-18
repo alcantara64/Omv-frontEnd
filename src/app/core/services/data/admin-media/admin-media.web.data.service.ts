@@ -8,6 +8,8 @@ import { UploadRequestHistory_GetAllOutputDTO } from 'src/app/core/dtos/output/u
 import { environment } from 'src/environments/environment';
 import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequest_GetAllOutputDTO';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
+import { MetadataField_GetAllOutputDTO } from 'src/app/core/dtos/output/metadata/MetadataField_GetAllOutputDTO';
+import { MetadataField_GetByIdOutputDTO } from 'src/app/core/dtos/output/metadata/MetadataField_GetByIdOutputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -58,32 +60,29 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     );
   }
   getMetaDataFields(): Observable<MetadataFields[]> {
-    var requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
+    var requestUri = environment.api.baseUrl + `/v1/metadatafields`;
 
-    return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
+    return this.httpClient.get<MetadataField_GetAllOutputDTO[]>(requestUri).pipe(map(
       response => {
         automapper
-          .createMap(UploadRequest_GetAllOutputDTO, UploadHistory)
-          .forMember('uploadRequestType', function (opts) { opts.mapFrom('uploadRequestType'); })
-          .forMember('requester', function (opts) { opts.mapFrom('requester'); })
-          .forMember('directoryId', function (opts) { opts.mapFrom('directoryId'); })
-          .forMember('status', function (opts) { opts.mapFrom('status'); })
-          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
-          .forMember('size', function (opts) { opts.mapFrom('size'); })
-          .forMember('metadata', function (opts) { opts.mapFrom('metadata'); })
-          .forMember('containerId', function (opts) { opts.mapFrom('containerId'); })
-          .forMember('documentName', function (opts) { opts.mapFrom('documentName'); })
-          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); })
-          .forMember('files', function (opts) { opts.mapFrom('files'); });
+          .createMap(MetadataField_GetAllOutputDTO, MetadataFields)
+          .forMember('metadataFieldId', function (opts) { opts.mapFrom('metadataFieldId'); })
+          .forMember('entityId', function (opts) { opts.mapFrom('entityId'); })
+          .forMember('entityName', function (opts) { opts.mapFrom('entityName'); })
+          .forMember('metadataListId', function (opts) { opts.mapFrom('metadataListId'); })
+          .forMember('metadataListName', function (opts) { opts.mapFrom('metadataListName'); })
+          .forMember('fieldTypeId', function (opts) { opts.mapFrom('fieldTypeId'); })
+          .forMember('fieldName', function (opts) { opts.mapFrom('fieldName'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); });
 
-        let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
-        console.log('AdminMediaWebDataService - getUploadHistory: ', _response);
-        _response.map(x => x.files = 100);
+        let _response = automapper.map(MetadataField_GetAllOutputDTO, MetadataFields, response);
+        console.log('AdminMediaWebDataService - getMetaDataFields: ', _response);
+        
 
         return _response;
       }),
       catchError(e => {
-        console.log("AdminMediaWebDataService - getUploadHistory error: ", e);
+        console.log("AdminMediaWebDataService - getMetaDataFields error: ", e);
         return of(null);
       })
     );
@@ -111,6 +110,30 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   updateMetaDataField(id: number, payload: MetadataFields) {
     throw new Error("Method not implemented.");
   }
+  getMetaDataFieldById(id:number): Observable<MetadataFields[]> {
+    var requestUri = environment.api.baseUrl + `/v1/metadatafields${id}`;
 
+    return this.httpClient.get<MetadataField_GetByIdOutputDTO[]>(requestUri).pipe(map(
+      response => {
+        automapper
+          .createMap(MetadataField_GetAllOutputDTO, MetadataFields)
+          .forMember('metadataFieldId', function (opts) { opts.mapFrom('metadataFieldId'); })
+          .forMember('metadataListId', function (opts) { opts.mapFrom('metadataListId'); })
+          .forMember('fieldTypeId', function (opts) { opts.mapFrom('fieldTypeId'); })
+          .forMember('fieldName', function (opts) { opts.mapFrom('fieldName'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); });
+
+        let _response = automapper.map(MetadataField_GetAllOutputDTO, MetadataFields, response);
+        console.log('AdminMediaWebDataService - getMetaDataFields: ', _response);
+        
+
+        return _response;
+      }),
+      catchError(e => {
+        console.log("AdminMediaWebDataService - getMetaDataFields error: ", e);
+        return of(null);
+      })
+    );
+  }
 
 }

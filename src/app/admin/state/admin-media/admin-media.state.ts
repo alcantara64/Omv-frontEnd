@@ -102,7 +102,7 @@ export class AdminMediaState {
   @Action(RemoveMetaDataFields)
   removeMetaDataFields(ctx: StateContext<AdminMediaStateModel>, { id }: RemoveMetaDataFields) {
     return this.adminMediaService.removeMetadataField(id).pipe(map(fields => {
-      let datas = fields.filter(x => x.id !== id);
+      let datas = fields.filter(x => x.metadataFieldId !== id);
       fields = datas;
       const state = ctx.getState();
       ctx.setState({
@@ -117,11 +117,6 @@ export class AdminMediaState {
     return this.adminMediaService.createMetaDataField(payload).pipe(
       tap(metadataField => {
         ctx.dispatch(new DisplayToastMessage('Create successful.'));
-        const state = ctx.getState();
-        ctx.setState({
-          ...state,
-          currentMetadataId: metadataField.id
-        });
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
