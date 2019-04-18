@@ -22,7 +22,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
 
     { headerText: ' ', type: 'checkbox', width: '50', field: '' },
     { headerText: 'Name', field: 'fieldName', width: '70' },
-    { headerText: 'Status', width: '150', field: 'statusChanged' },];
+    { headerText: 'Status', width: '150', field: 'status' },];
 
   public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
 

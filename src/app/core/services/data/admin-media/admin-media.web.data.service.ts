@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequest_GetAllOutputDTO';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
+import { MetadataList_GetAllOutputDTO } from 'src/app/core/dtos/output/metadata/MetadataList_GetAllOutputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -71,15 +72,37 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   }
 
   getMetaDataLists(): Observable<MetadataList[]> {
+    var requestUri = environment.api.baseUrl + `/v1/metadatalists`;
+
+    return this.httpClient.get<MetadataList_GetAllOutputDTO[]>(requestUri).pipe(map(
+      response => {
+        automapper
+          .createMap(MetadataList_GetAllOutputDTO, MetadataList)
+          .forMember('id', function (opts) { opts.mapFrom('metadataListId'); })
+          .forMember('fieldName', function (opts) { opts.mapFrom('metadataListName'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); });
+
+        let _response = automapper.map(MetadataList_GetAllOutputDTO, MetadataList, response);
+        console.log('AdminMediaWebDataService - getMetaDataLists: ', _response);
+
+
+        return _response;
+      }),
+      catchError(e => {
+        console.log("AdminMediaWebDataService - getMetaDataLists error: ", e);
+        return of(null);
+      })
+    );
+  }
+
+  createMetadataList(payload: MetadataList):Observable<MetadataList> {
     return null;
   }
 
   removeMetadataList(id: number ) {
     throw new Error("Method not implemented.");
   }
-  createMetadataList(payload: MetadataList):Observable<MetadataList> {
-    return null;
-  }
+
   updateMetadataList(id: number, payload: MetadataList){
     return null;
   }
