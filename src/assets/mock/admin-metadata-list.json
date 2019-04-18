@@ -2,36 +2,43 @@
     {
         "id": 1,
         "fieldName": "File Name",
-        "status" : 1
+        "status" : 1,
+        "statusChanged": "Active"
     },
     {
         "id": 2,
         "fieldName": "Datastructure",
-        "status" : 0
+        "status" : 0,
+        "statusChanged": "Inactive"
     },
     {
         "id": 3,
         "fieldName": "Files",
-        "status" : 1
+        "status" : 1,
+        "statusChanged": "Active"
     },
     {
         "id": 4,
         "fieldName": "Race",
-        "status" : 0
+        "status" : 0,
+        "statusChanged": "Inactive"
     },
     {
         "id": 5,
         "fieldName": "State",
-        "status" : 1
+        "status" : 1,
+        "statusChanged": "Active"
     },
     {
         "id": 6,
         "fieldName": "Gender",
-        "status" : 0
+        "status" : 0,
+        "statusChanged": "Inactive"
     },
     {
         "id": 7,
         "fieldName": "Country",  
-        "status": 1
+        "status": 1,
+        "statusChanged": "Active"
     }
 ]

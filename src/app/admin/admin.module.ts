@@ -58,6 +58,7 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/listview.module';
 import { AdminMetadataListTabComponent } from './admin-metadata-list/admin-metadata-list-tab/admin-metadata-list-tab.component';
 import { AdminMetadataListEditComponent } from './admin-metadata-list-edit/admin-metadata-list-edit.component';
+import { AdminMetadataListItemsComponent } from './admin-metadata-list-edit/admin-metadata-list-items/admin-metadata-list-items.component';
 
 
 @NgModule({
@@ -79,7 +80,8 @@ import { AdminMetadataListEditComponent } from './admin-metadata-list-edit/admin
     AdminMetadataListComponent,
     AdminMetadataFieldsComponent,
     AdminMetadataListTabComponent,
-    AdminMetadataListEditComponent
+    AdminMetadataListEditComponent,
+    AdminMetadataListItemsComponent
   ],
   imports: [
     SharedModule,

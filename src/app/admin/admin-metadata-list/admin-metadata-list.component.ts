@@ -22,7 +22,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
 
     { headerText: ' ', type: 'checkbox', width: '50', field: '' },
     { headerText: 'Name', field: 'fieldName', width: '70' },
-    { headerText: 'Status', width: '150', field: 'status' },];
+    { headerText: 'Status', width: '150', field: 'statusChanged' },];
 
   public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
 
@@ -121,16 +121,17 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   }
 
   edit(data?: MetadataList) {
+    console.log('we are in the edit action')
     if (!data) {
-      this.router.navigate([`'admin/media/metadata/0/edit`]);
+      this.router.navigate([`admin/media/metadata/0/edit`]);
     } else {
-      this.router.navigate([`'admin/media/metadata/${data.id}/edit`]);
+      this.router.navigate([`admin/media/metadata/${data.id}/edit`]);
     }
   }
 
-  navigate(action) {
-    console.log('action', action);
-  }
+  // navigate(action) {
+  //   console.log('action', action);
+  // }
   add() {
     this.listDialogList.show();
   }

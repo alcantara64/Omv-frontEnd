@@ -19,6 +19,7 @@ import { AuthGuardService } from '../core/guards/auth-guard.service';
 import { AdminMetadataListComponent } from './admin-metadata-list/admin-metadata-list.component';
 import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
 import { AdminMetadataListTabComponent } from './admin-metadata-list/admin-metadata-list-tab/admin-metadata-list-tab.component';
+import { AdminMetadataListEditComponent } from './admin-metadata-list-edit/admin-metadata-list-edit.component';
 
 const adminRoutes: Routes = [
   {
@@ -69,6 +70,20 @@ const adminRoutes: Routes = [
     component: AdminGroupEditComponent,
     canActivate: [AuthGuardService]
   },
+ 
+  
+ 
+  {
+    path: 'admin/media/metadata/fields',
+    component: AdminMetadataFieldsComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'admin/media/metadata/:id/edit',
+    // canDeactivate: [AdminMetadataListEditGuard],
+    component: AdminMetadataListEditComponent,
+    canActivate: [AuthGuardService]
+  },
   {
     path: 'admin/media/metadata',
     component: AdminMetadataListTabComponent,
@@ -78,17 +93,7 @@ const adminRoutes: Routes = [
       { path: ':type', component: AdminMetadataListComponent}
     ]
   },
-  {
-    path: 'admin/media/metadata/:id/edit',
-    // canDeactivate: [AdminMetadataListEditGuard],
-    component: AdminMetadataListComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'admin/media/metadata/fields',
-    component: AdminMetadataFieldsComponent,
-    canActivate: [AuthGuardService]
-  },
+  
 ];
 
 @NgModule({

@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList } from './admin-media.action';
+import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { AdminMediaService } from 'src/app/core/services/business/admin-media/admin-media.service';
 import { DateService } from 'src/app/core/services/business/dates/date.service';
@@ -15,6 +15,15 @@ export class AdminMediaStateModel {
   metadataFields: MetadataFields[];
   metadataLists: MetadataList[];
   currentMetadataId: number;
+  currentMetadataListId: number;
+  currentMetadataList: MetadataList;
+}
+const initialMetadataList: MetadataList = {
+  id: 0,
+  fieldName: '',
+  statusChanged: '',
+  status: 1,
+  isUnique: false,
 }
 
 @State<AdminMediaStateModel>({
@@ -23,6 +32,8 @@ export class AdminMediaStateModel {
     uploadHistory: [],
     metadataFields: [],
     metadataLists: [],
+    currentMetadataListId: null,
+    currentMetadataList: initialMetadataList,
     currentMetadataId: null
   }
 })
@@ -51,6 +62,15 @@ export class AdminMediaState {
   @Selector()
   static getDisabledMetadataList(state: AdminMediaStateModel) {
     return state.metadataLists.filter(x => x.status === 0);
+  }
+  @Selector()
+  static getCurrentMetadataListId(state: AdminMediaStateModel) {
+    return state.currentMetadataListId;
+  }
+
+  @Selector()
+  static getCurrentMetadataList(state: AdminMediaStateModel) {
+    return state.currentMetadataList;
   }
 
   @Action(GetUploadHistory)
@@ -127,6 +147,16 @@ export class AdminMediaState {
       })
     );
   }
+  
+  @Action(SetCurrentMetadataListId)
+  setCurrentMetadataListId({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: SetCurrentMetadataListId) {
+    var state = getState();
+    return setState({
+      ...state,
+      currentMetadataListId: id,
+    });
+  }
+
   @Action(CreateMetaDataList)
   createMetaDataList(ctx: StateContext<AdminMediaStateModel>, { payload }: CreateMetaDataList) {
     return this.adminMediaService.createMetaDataList(payload).pipe(

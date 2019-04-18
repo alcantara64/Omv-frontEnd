@@ -23,6 +23,10 @@ export class CreateMetaDataField {
 export class GetMetaDataLists {
   static readonly type = '[Admin media] GetMetaDataLists';
 }
+export class GetMetaDataList {
+  static readonly type = '[Admin media] GetMetaDataList';
+  constructor(public id: number) { }
+}
 
 export class RemoveMetaDataList {
   static readonly type = '[Admin media] RemoveMetaDataList';
@@ -44,5 +48,15 @@ export class DisableMetadataList {
 export class EnableMetadataList {
   static readonly type = '[Admin media] EnableMetadataList';
   constructor(public id: number, public payload: MetadataList, public refreshList?: boolean) { }
+}
+
+export class SetCurrentMetadataList {
+  static readonly type = '[Admin media] SetMetadataList';
+  constructor(public payload: MetadataList) { }
+}
+
+export class SetCurrentMetadataListId {
+  static readonly type = '[Admin media] SetMetadataListId';
+  constructor(public id: number) { }
 }
 
