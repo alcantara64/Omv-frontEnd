@@ -33,4 +33,7 @@ export class AdminMediaService {
   createMetaDataList(payload: MetadataList){
     return this.AdminMediaDataService.createMetadataList(payload);
   }
+  updateMetadataList(id: number, payload: MetadataList) {
+    return this.AdminMediaDataService.updateMetadataList(id, payload);
+  }
 }

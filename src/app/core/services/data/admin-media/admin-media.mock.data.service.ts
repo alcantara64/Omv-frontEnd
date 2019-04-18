@@ -54,7 +54,6 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
 
   removeMetadataList(id: number) {
     var url = `./assets/mock/admin-metadata-list.json`;
-
     return this.httpClient.get<MetadataList[]>(url);
     // return data;
   }
@@ -67,6 +66,21 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
       return payload;
     }));
     return data;
+  }
+  updateMetadataList(id: number, payload: MetadataList) {
+    var mockUrl = `./assets/mock/admin-metadata-list.json`;
+    return this.httpClient.get<MetadataList[]>(mockUrl);
+  }
+  disableMetadaList(id: number, payload: MetadataList) {
+    payload.status = 0;
+    var mockUrl = `./assets/mock/admin-metadata-list.json`;
+    return this.httpClient.put<any>(`${mockUrl}`, payload);
+  }
+
+  enableGroup(id: number, payload: MetadataList) {
+    payload.status = 1;
+    var mockUrl = `./assets/mock/admin-metadata-list.json`;
+    return this.httpClient.put<any>(`${mockUrl}`, payload);
   }
 }
 

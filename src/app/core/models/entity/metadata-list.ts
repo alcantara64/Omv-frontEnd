@@ -1,8 +1,7 @@
 export class MetadataList {
     id: number;
     fieldName: string;
-    fieldType : string;
-    List: string;
+    status: number;
     isUnique: boolean;
   }
   

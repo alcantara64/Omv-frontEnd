@@ -28,8 +28,21 @@ export class RemoveMetaDataList {
   static readonly type = '[Admin media] RemoveMetaDataList';
   constructor(public id: number) { }
 }
-
 export class CreateMetaDataList {
   static readonly type = '[Admin media] CreateMetaDataList';
   constructor(public payload: MetadataList) { }
 }
+export class UpdateMetadataList {
+  static readonly type = '[Admin media] UpdateMetadataList';
+  constructor(public id: number, public payload: MetadataList) { }
+}
+export class DisableMetadataList {
+  static readonly type = '[Admin media] DisableMetadataList';
+  constructor(public id: number, public payload: MetadataList, public refreshList?: boolean) { }
+}
+
+export class EnableMetadataList {
+  static readonly type = '[Admin media] EnableMetadataList';
+  constructor(public id: number, public payload: MetadataList, public refreshList?: boolean) { }
+}
+

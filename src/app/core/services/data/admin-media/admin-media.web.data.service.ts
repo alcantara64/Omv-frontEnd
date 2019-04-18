@@ -80,4 +80,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   createMetadataList(payload: MetadataList):Observable<MetadataList> {
     return null;
   }
+  updateMetadataList(id: number, payload: MetadataList){
+    return null;
+  }
 }

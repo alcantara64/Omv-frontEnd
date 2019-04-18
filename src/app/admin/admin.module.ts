@@ -56,6 +56,8 @@ import { TreeViewModule } from '@syncfusion/ej2-angular-navigations/src/treeview
 import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/listview.module';
+import { AdminMetadataListTabComponent } from './admin-metadata-list/admin-metadata-list-tab/admin-metadata-list-tab.component';
+import { AdminMetadataListEditComponent } from './admin-metadata-list-edit/admin-metadata-list-edit.component';
 
 
 @NgModule({
@@ -75,7 +77,9 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/list
     AdminMediaUploadsListComponent,
     AdminMediaUploadsTabsComponent,
     AdminMetadataListComponent,
-    AdminMetadataFieldsComponent
+    AdminMetadataFieldsComponent,
+    AdminMetadataListTabComponent,
+    AdminMetadataListEditComponent
   ],
   imports: [
     SharedModule,

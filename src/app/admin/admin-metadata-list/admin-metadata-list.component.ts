@@ -8,7 +8,9 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { Observable } from 'rxjs';
 import { EmitType } from '@syncfusion/ej2-base';
-import { CreateMetaDataList, GetMetaDataLists, RemoveMetaDataList } from '../state/admin-media/admin-media.action';
+import { CreateMetaDataList, GetMetaDataLists, RemoveMetaDataList, DisableMetadataList, EnableMetadataList } from '../state/admin-media/admin-media.action';
+import { AdminMetadaListType } from 'src/app/core/enum/admin-user-type';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-metadata-list',
@@ -17,28 +19,30 @@ import { CreateMetaDataList, GetMetaDataLists, RemoveMetaDataList } from '../sta
 })
 export class AdminMetadataListComponent extends ListComponent implements OnInit {
   columns: GridColumn[] = [
+
+    { headerText: ' ', type: 'checkbox', width: '50', field: '' },
     { headerText: 'Name', field: 'fieldName', width: '70' },
-    { headerText: 'Type', field: 'fieldType', width: '80' },
-    { headerText: 'List', width: '150', field: 'List' },];
-  public dataList: { [key: string]: Object }[] = [{ id: 1, name: 'All Platforms' },
-  { id: 2, name: 'All Register Types' }, { id: 3, name: 'All Systems' }];
-  public listFields: Object = { text: 'name', value: 'id' };
+    { headerText: 'Status', width: '150', field: 'status' },];
 
-  public listTypeData: { [key: string]: Object }[] = [{ id: 1, name: 'Text' },
- { id: 2, name: 'Dropdown' }];
- public typeListFields: Object = { text: 'name', value: 'id' };
+  public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
 
-  editLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
-  removeLink = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
   fieldName: string = '';
-  fieldType: string  = '';
+  fieldType: string = '';
   fieldId: number;
   metadataListForm: FormGroup;
   metadataList = new MetadataList();
 
+  statusChange: string;
+  urlparam: string;
+  ENABLE: string = "Enable";
+  DISABLE: string = "Disable";
+
   @ViewChild('listview') public dialogList: any;
   @ViewChild('listDialog') public listDialogList: DialogComponent;
+
   @Select(AdminMediaState.getMetaDataLists) metadataLists$: Observable<MetadataList[]>;
+  @Select(AdminMediaState.getActiveMetadataList) activeMetadataList$: Observable<MetadataList[]>;
+  @Select(AdminMediaState.getDisabledMetadataList) disableMetadataList$: Observable<MetadataList[]>;
 
   metadataLists: MetadataList[];
 
@@ -58,30 +62,72 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     }
   }
 
-  componentActive: boolean =false;
+  componentActive: boolean = false;
 
 
   constructor(protected store: Store,
-    private formBuilder: FormBuilder,) {
+    private activatedRoute: ActivatedRoute,
+    protected router: Router,
+    private formBuilder: FormBuilder, ) {
     super(store);
     this.ShowLefNav(true);
     this.componentActive = true;
   }
-  addList(action){
+  addList(action) {
     console.log('action', action.itemData);
   }
   ngOnInit() {
     this.metadataListForm = this.formBuilder.group({
       id: [''],
-      fieldName: [ '', [ Validators.required ] ],
-      fieldType: [ '', [ Validators.required ] ],
+      fieldName: ['', [Validators.required]],
+      fieldType: ['', [Validators.required]],
     });
-    this.store.dispatch(new GetMetaDataLists());
+    this.activatedRoute.params.subscribe(params => {
+      this.store.dispatch(new GetMetaDataLists());
+      this.displayList(params.type);
+    });
     this.metadataLists$.subscribe(lists => {
       console.log('AdminMetadataLIstComponent ngOninit lists: ', lists);
       this.metadataLists = lists;
     });
   }
+  displayList(param: string) {
+    this.urlparam = param;
+    switch (param) {
+      case AdminMetadaListType.Active:
+        this.activeMetadataList$.subscribe(activeMetadataList => (this.metadataLists = activeMetadataList));
+        this.statusChange = this.DISABLE;
+        break;
+      case AdminMetadaListType.Disabled:
+        this.disableMetadataList$.subscribe(DisableMetadataList => (this.metadataLists = DisableMetadataList));
+        this.statusChange = this.ENABLE;
+        break;
+      default:
+        break;
+    }
+  }
+
+  changeMetadataListStatus(metadatlists: MetadataList[]) {
+    this.ShowSpinner(true);
+    const lastMetadataList = metadatlists[metadatlists.length - 1];
+    metadatlists.forEach(metadatlist => {
+      let shouldRefreshList = lastMetadataList.id === metadatlist.id; // Get fresh list of metadatlists only when updating final metadatlist
+      if (this.statusChange === this.ENABLE) {
+        this.store.dispatch(new EnableMetadataList(metadatlist.id, metadatlist, shouldRefreshList));
+      } else {
+        this.store.dispatch(new DisableMetadataList(metadatlist.id, metadatlist, shouldRefreshList));
+      }
+    });
+  }
+
+  edit(data?: MetadataList) {
+    if (!data) {
+      this.router.navigate([`'admin/media/metadata/0/edit`]);
+    } else {
+      this.router.navigate([`'admin/media/metadata/${data.id}/edit`]);
+    }
+  }
+
   navigate(action) {
     console.log('action', action);
   }

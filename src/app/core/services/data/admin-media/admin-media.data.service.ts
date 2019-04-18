@@ -16,4 +16,5 @@ export abstract class AdminMediaDataService {
     abstract getMetaDataLists(): Observable<MetadataList[]>;
     abstract removeMetadataList(id: number);
     abstract createMetadataList(payload: MetadataList): Observable<MetadataList>;
+    abstract updateMetadataList(id: number, payload: MetadataList);
 }

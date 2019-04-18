@@ -18,6 +18,7 @@ import { AdminUserEditGuard } from './admin-user-edit/admin-user-edit.guard';
 import { AuthGuardService } from '../core/guards/auth-guard.service';
 import { AdminMetadataListComponent } from './admin-metadata-list/admin-metadata-list.component';
 import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
+import { AdminMetadataListTabComponent } from './admin-metadata-list/admin-metadata-list-tab/admin-metadata-list-tab.component';
 
 const adminRoutes: Routes = [
   {
@@ -70,6 +71,16 @@ const adminRoutes: Routes = [
   },
   {
     path: 'admin/media/metadata',
+    component: AdminMetadataListTabComponent,
+    canActivate: [AuthGuardService],
+    children: [
+      { path: '', redirectTo: 'active', pathMatch: 'full' },
+      { path: ':type', component: AdminMetadataListComponent}
+    ]
+  },
+  {
+    path: 'admin/media/metadata/:id/edit',
+    // canDeactivate: [AdminMetadataListEditGuard],
     component: AdminMetadataListComponent,
     canActivate: [AuthGuardService]
   },

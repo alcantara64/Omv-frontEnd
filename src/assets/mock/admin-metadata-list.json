@@ -2,50 +2,36 @@
     {
         "id": 1,
         "fieldName": "File Name",
-        "fieldType": "Text Box",
-        "List": "",
-        "isUnique": false
+        "status" : 1
     },
     {
         "id": 2,
-        "fieldName": "File Name",
-        "fieldType": "Dropdown",
-        "List": "All Platforms",
-        "isUnique": false
+        "fieldName": "Datastructure",
+        "status" : 0
     },
     {
         "id": 3,
-        "fieldName": "File Name",
-        "fieldType": "Dropdown",
-        "List": "All Systems",
-        "isUnique": false
+        "fieldName": "Files",
+        "status" : 1
     },
     {
         "id": 4,
-        "fieldName": "File Name",
-        "fieldType": "Dropdown",
-        "List": "All Register Types",
-        "isUnique": false
+        "fieldName": "Race",
+        "status" : 0
     },
     {
         "id": 5,
-        "fieldName": "File Name",
-        "fieldType": "Text ",
-        "List": " ",
-        "isUnique": false
+        "fieldName": "State",
+        "status" : 1
     },
     {
         "id": 6,
-        "fieldName": "File Name",
-        "fieldType": "Text ",
-        "List": " ",
-        "isUnique": false
+        "fieldName": "Gender",
+        "status" : 0
     },
     {
         "id": 7,
-        "fieldName": "File Name",
-        "fieldType": "Text",
-        "List": " ",
-        "isUnique": false
+        "fieldName": "Country",  
+        "status": 1
     }
 ]
