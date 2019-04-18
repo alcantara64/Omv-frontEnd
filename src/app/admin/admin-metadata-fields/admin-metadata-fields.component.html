@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <div class="row">
         <div class="pb-3 col-md-12">
             <span class="pt-3">
@@ -51,5 +51,9 @@
         <app-list [listData]="metadataFields" [columns]="columns" (firstNavigateAction)="remove($event)"
             (secondNavigateAction)="navigate($event)" [showFirstAction]="true" [firstActionText]="editLink"
             [showSecondAction]="true" [secondActionText]="removeLink"></app-list>
+       <app-list [listData]="metadataFields" [columns]="columns" [selectedRecords]="selectedGroups"
+            [toolbarActionOne]="statusChange" (firstAction)="remove($event)"  (firstNavigateAction)="remove($event)"
+            (secondNavigateAction)="navigate($event)" [showFirstAction]="true" [firstActionText]="editLink"
+            [showSecondAction]="true" [secondActionText]="removeLink" [totalCountText]="'Total '"></app-list> 
     </div>
-</div>
+</div> -->

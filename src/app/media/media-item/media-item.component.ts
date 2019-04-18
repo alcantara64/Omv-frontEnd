@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Tab } from 'src/app/core/models/tab';
 import { Store, Select } from '@ngxs/store';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -13,11 +13,12 @@ import { Observable } from 'rxjs';
   templateUrl: './media-item.component.html',
   styleUrls: ['./media-item.component.css']
 })
-export class MediaItemComponent extends BaseComponent implements OnInit {
+export class MediaItemComponent extends BaseComponent implements OnInit, OnDestroy {
 
   mediaItemTabs: Tab[] = [];
-  componentActive: boolean = true;
-  @Select(MediaState.setMediaItemId) id$: Observable<number>;
+  componentActive = true;
+  @Select(MediaState.getMediaItemId) id$: Observable<number>;
+  
   id: string;
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
     super(store);
@@ -37,9 +38,13 @@ export class MediaItemComponent extends BaseComponent implements OnInit {
         { link: `/media/${this.id}/related-items`, name: 'Related Items' },
         { link: `/media/${this.id}/history`, name: 'History' }
       ];
-    }),
-      takeWhile(() => this.componentActive);
+    }), takeWhile(() => this.componentActive);
   }
+
+  ngOnDestroy(): void {
+    this.componentActive = false;
+  }
+
 
   switchTabs(tabLink: string) {
     this.router.navigate([tabLink]);

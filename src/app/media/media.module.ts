@@ -32,13 +32,20 @@ import { MetadataFieldsMockDataService } from '../core/services/data/metadata-fi
 import { MetadataFieldsWebDataService } from '../core/services/data/metadata-fields/metadata-fields.web.data.service';
 import { PagerModule } from '@syncfusion/ej2-angular-grids/src/pager/pager.module';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations/src/treeview/treeview.module';
-import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid/src/treegrid/treegrid.module';
 import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons/src/check-box/checkbox.module';
 import { DialogModule } from '@syncfusion/ej2-angular-popups/src/dialog/dialog.module';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns/src/drop-down-list/dropdownlist.module';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/listview.module';
 import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns/src/multi-select/multiselect.module';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.module';
+import { CustomersDataService } from '../core/services/data/customers/customers.data.service';
+import { CustomersMockDataService } from '../core/services/data/customers/customers.mock.data.service';
+import { CustomersWebDataService } from '../core/services/data/customers/customers.web.data.service';
+import { FiltersDataService } from '../core/services/data/filters/filters.data.service';
+import { FiltersMockDataService } from '../core/services/data/filters/filters.mock.data.service';
+import { FiltersWebDataService } from '../core/services/data/filters/filters.web.data.service';
+import { FiltersComponent } from '../filters/filters.component';
+import { ComboBoxModule, ComboBoxAllModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @NgModule({
 	declarations: [
@@ -47,6 +54,7 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.
 		AllMediaMapviewComponent,
 		AllMediaTileviewComponent,
 		AllMediaTreeviewComponent,
+		FiltersComponent,
 		MediaComponent,
 		MediaFavoritesComponent,
 		MediaFavoritesListviewComponent,
@@ -65,7 +73,6 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.
 		SharedModule,
 		MediaRoutingModule,
 		TreeViewModule,
-		TreeGridModule,
 		CheckBoxModule,
 		DialogModule,
 		DropDownListModule,
@@ -73,13 +80,14 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.
 		NgxsModule.forFeature([ MediaState ]),
 		CheckBoxModule,
 		ButtonModule,
-		MultiSelectModule,
 		DropDownListModule
 	],
 	providers: [
-		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
+		{ provide: CustomersDataService, useClass: environment.useMocks ? CustomersMockDataService : CustomersWebDataService },
 		{ provide: DirectoryDataService, useClass: environment.useMocks ? DirectoryMockDataService : DirectoryWebDataService },		
-    { provide: MetadataFieldsDataService, useClass: environment.useMocks ? MetadataFieldsMockDataService : MetadataFieldsWebDataService },
+		{ provide: FiltersDataService, useClass: environment.useMocks ? FiltersMockDataService : FiltersWebDataService },
+		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
+		{ provide: MetadataFieldsDataService, useClass: environment.useMocks ? MetadataFieldsMockDataService : MetadataFieldsWebDataService },
   ],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

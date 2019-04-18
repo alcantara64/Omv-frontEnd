@@ -1,8 +1,8 @@
 import { MediaUploadService } from './../../media-upload/media-upload.service';
 import {
   GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
-  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem, 
-  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems
+  AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem,
+  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems, GetFilterFields
 } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
@@ -16,6 +16,7 @@ import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-sett
 import { DirectoryService } from 'src/app/core/services/business/directory/directory.service';
 import { DisplayToastMessage, ShowSpinner, HideSpinner } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
+import { FiltersService } from 'src/app/core/services/business/filters/filters.service';
 
 export class MediaStateModel {
   media: MediaItem[];
@@ -34,6 +35,8 @@ export class MediaStateModel {
   documents: any[]
   uploadComplete: boolean;
   selectedItems: any[];
+
+  filterFields: any[];
 }
 
 const initialMediaItem: MediaItem = {
@@ -75,7 +78,9 @@ const initialMediaItem: MediaItem = {
     documents: [],
     directoryMetadata: [],
     uploadComplete: false,
-    selectedItems: []
+    selectedItems: [],
+
+    filterFields: []
   }
 })
 
@@ -124,7 +129,7 @@ export class MediaState {
   }
 
   @Selector()
-  static setMediaItemId(state: MediaStateModel) {
+  static getMediaItemId(state: MediaStateModel) {
     return state.currentMediaItemId;
   }
 
@@ -168,34 +173,36 @@ export class MediaState {
     return state.selectedItems;
   }
 
+  @Selector()
+  static getFilterFields(state: MediaStateModel) {
+    return state.filterFields;
+  }
+
   //#endregion
 
   constructor(private mediaService: MediaService,
     private mediaItemDetailsService: MediaItemDetailsService,
     private mediaUploadService: MediaUploadService,
     private directoryService: DirectoryService,
+    private filtersService: FiltersService,
     private dateService: DateService) { }
 
   //#region A C T I O N S
 
   @Action(GetMedia)
   getMedia(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
-    // pageSize = 100;    
     return this.mediaService.getMedia(pageNumber, pageSize).pipe(
       tap(response => {
         if (!response) return;
-
         let media = response.data;
         media.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
           item.isFavorite = false; //
         });
-        const allMedia: MediaItem[] = media.filter(x => x.documentId);
         const state = ctx.getState();
         ctx.setState({
           ...state,
-          media: allMedia,
-          treeviewMedia: media,
+          media: media,
           totalMedia: response.pagination.total
         });
         ctx.dispatch(new HideSpinner());
@@ -207,18 +214,25 @@ export class MediaState {
   }
 
   @Action(GetTreeViewMedia)
-  getTreeViewMedia({ getState, setState }: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
-    return this.directoryService.getDocuments().pipe(
-      tap(documents => {
-        documents.map(item => {
+  getTreeViewMedia(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetTreeViewMedia) {
+    return this.mediaService.getMedia(1, 100, true).pipe(
+      tap(response => {
+        if (!response) return;
+
+        let media = response.data;
+        media.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
         });
-        const state = getState();
-        setState({
+        const state = ctx.getState();
+        ctx.setState({
           ...state,
-          documents: documents,
-          totalMedia: documents ? documents.filter(x => x.documentId).length : 0
+          treeviewMedia: media,
+          totalMedia: response.pagination.total
         });
+        ctx.dispatch(new HideSpinner());
+      }, err => {
+        ctx.dispatch(new HideSpinner());
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
   }
@@ -240,7 +254,7 @@ export class MediaState {
   getItemDetails(ctx: StateContext<MediaStateModel>, { id }: GetMediaItemDetails) {
     return this.mediaService.getMediaItem(id).pipe(
       tap(async item => {
-        console.log('MediaState item: ', item);
+        console.log('MediaState - getItemDetails item: ', item);
         if (!item) return;
         await this.mediaItemDetailsService.getMetadaFields(item).then(metadata => {
           console.log('MediaState metadata: ', metadata);
@@ -441,12 +455,28 @@ export class MediaState {
   }
 
   @Action(SetSelectedItems)
-  addSelectedItem({getState, setState}: StateContext<MediaStateModel>, { selectedItems }: SetSelectedItems) {
+  addSelectedItem({ getState, setState }: StateContext<MediaStateModel>, { selectedItems }: SetSelectedItems) {
     const state = getState();
     setState({
       ...state,
       selectedItems: selectedItems,
     });
+  }
+
+  @Action(GetFilterFields)
+  getFilterFields(ctx: StateContext<MediaStateModel>) {
+    return this.filtersService.getFilterFields()
+      .then(async fields => {
+        console.log('MediaState getFilterFields: ', fields);
+        const state = ctx.getState();
+        ctx.setState({
+          ...state,
+          filterFields: fields
+        });
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      }
+    );
   }
 
   //#endregion

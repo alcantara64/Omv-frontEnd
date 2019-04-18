@@ -10,6 +10,7 @@ import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 export abstract class AdminMediaDataService {
 
     abstract getUploadHistory(): Observable<UploadHistory[]>;
+    abstract getUploadRequest(id: number): Observable<any>;
     abstract getMetaDataFields(): Observable<MetadataFields[]>;
     abstract removeMetadataField(id: number);
     abstract createMetadataField(payload: MetadataFields): Observable<MetadataFields>;

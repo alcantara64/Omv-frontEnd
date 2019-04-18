@@ -13,14 +13,8 @@ import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 
 export class AdminMediaMockDataService implements AdminMediaDataService {
 
-
   constructor(private httpClient: HttpClient) { }
-
-  getUploadHistory(): Observable<UploadHistory[]> {
-    var url = `./assets/mock/admin-media-uploads-history.json`;
-    let data = this.httpClient.get<UploadHistory[]>(url);
-    return data;
-  }
+  
   getMetaDataFields(): Observable<MetadataFields[]> {
     var url = `./assets/mock/admin-metadata-fields.json`;
     let data = this.httpClient.get<MetadataFields[]>(url);
@@ -81,6 +75,15 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     payload.status = 1;
     var mockUrl = `./assets/mock/admin-metadata-list.json`;
     return this.httpClient.put<any>(`${mockUrl}`, payload);
+  }
+  getUploadHistory(): Observable<UploadHistory[]> {
+    var url = `./assets/mock/admin-media-uploads-history.json`;
+    let data = this.httpClient.get<UploadHistory[]>(url);
+    return data;
+  }
+
+  getUploadRequest(id: number): Observable<any> {
+    throw new Error("Method not implemented.");
   }
 }
 

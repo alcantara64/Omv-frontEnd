@@ -18,10 +18,10 @@
   <br />
   <br *ngIf='!isDestinationSelected' />
 
-  <app-tree-grid *ngIf='!isDestinationSelected' [dataSource]="directories" [columns]="columns" [treeColumnIndex]="0" 
-    [idMapping]="'id'" [parentIdMapping]="'parentId'"
-    (rowSelected)="rowSelected($event)">
+  <app-tree-grid *ngIf='!isDestinationSelected' [dataSource]="directories$ | async" [columns]="columns" [treeColumnIndex]="0" [idMapping]="'id'" [parentIdMapping]="'parentId'"
+    (rowSelected)="rowSelected($event)" [selectionOptions]="selectionOptions">
   </app-tree-grid>
+
 
   <div *ngIf='isDestinationSelected'>
     <button class="file-upload-button" (click)="changeDestination()"> Change </button>
@@ -38,8 +38,7 @@
   <span class="step-title"> Step 3 <i class="step-description-title">Metadata</i></span>
   <br /><br />
 
-  <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="metadata"
-    *ngIf="metadata?.length > 0"></dynamic-form>
+  <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="metadata" *ngIf="metadata?.length > 0"></dynamic-form>
   <br />
   <button type="submit" [disabled]="metadata?.length > 0 ? !dynamicForm?.valid : false"
     [ngClass]="{'button-not-allowed': metadata?.length > 0 ? !dynamicForm?.valid : false}" (click)="upload()"

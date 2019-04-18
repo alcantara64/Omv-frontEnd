@@ -15,6 +15,10 @@ export class AdminMediaService {
   getUploadHistory(): Observable<UploadHistory[]> {
     return this.AdminMediaDataService.getUploadHistory();
   }
+
+  getUploadRequest(id: number): Observable<any> {
+    return this.AdminMediaDataService.getUploadRequest(id);
+  }
   getMetadataField(): Observable<MetadataFields[]> {
     return this.AdminMediaDataService.getMetaDataFields();
   }

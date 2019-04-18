@@ -10,6 +10,7 @@ import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataList_GetAllOutputDTO } from 'src/app/core/dtos/output/metadata/MetadataList_GetAllOutputDTO';
+import { MetadataList_InsertInputDTO } from 'src/app/core/dtos/input/metadata/MetadataList_InsertInputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
       response => {
         automapper
-          .createMap(UploadRequestHistory_GetAllOutputDTO, UploadHistory)
+          .createMap(UploadRequest_GetAllOutputDTO, UploadHistory)
           .forMember('uploadRequestType', function (opts) { opts.mapFrom('uploadRequestType'); })
           .forMember('requester', function (opts) { opts.mapFrom('requester'); })
           .forMember('directoryId', function (opts) { opts.mapFrom('directoryId'); })
@@ -46,11 +47,12 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
           .forMember('metadata', function (opts) { opts.mapFrom('metadata'); })
           .forMember('containerId', function (opts) { opts.mapFrom('containerId'); })
           .forMember('documentName', function (opts) { opts.mapFrom('documentName'); })
-          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); });
+          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); })
+          .forMember('files', function (opts) { opts.mapFrom('files'); });
 
-        let _response = automapper.map(UploadRequestHistory_GetAllOutputDTO, UploadHistory, response);
+        let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
         console.log('AdminMediaWebDataService - getUploadHistory: ', _response);
-
+        _response.map(x => x.files = 100);
 
         return _response;
       }),
@@ -60,6 +62,13 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
       })
     );
   }
+  
+  getUploadRequest(id: number): Observable<any> {
+    var url = `./assets/mock/upload-request-item.json`;
+    let data = this.httpClient.get<any>(url);
+    return data;
+  }
+
   getMetaDataFields(): Observable<MetadataFields[]> {
     return null;
   }
@@ -95,10 +104,37 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     );
   }
 
-  createMetadataList(payload: MetadataList):Observable<MetadataList> {
+
+  // createMetadataList(payload: MetadataList): Observable<MetadataList> {
+  //   const requestUri = environment.api.baseUrl + `/v1/metadatalists/${id}`;
+
+  //   automapper
+  //     .createMap(payload, MetadataList_InsertInputDTO)
+  //     .forMember('metadataListId', function(opts) { opts.mapFrom('id'); })
+  //     .forMember('metadataListName', function(opts) { opts.mapFrom('fieldName'); })
+  //     .forMember('status', function(opts) { opts.mapFrom('status'); });
+
+  //   const request = automapper.map(payload, MetadataList_InsertInputDTO, payload);
+  //   console.log('AdminMediaWebDataService - createMetadataList request: ', request);
+  //   console.log('AdminMediaWebDataService - createMetadataList payload: ', payload);
+
+  //   return this.httpClient.post(requestUri, request).pipe(map(
+  //     response => {
+  //       automapper
+  //         .createMap(MetadataList_InsertInputDTO, MetadataList)
+  //         .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListId'))
+  //         .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListName'))
+  //         .forMember('status', function(opts) { opts.mapFrom('status'); })
+
+  //       let _response = automapper.map(MetadataList_InsertInputDTO, MetadataList, response);
+  //       console.log('AdminMediaWebDataService - createMetadataList: ', _response);
+  //       return _response;
+  //     })
+  //   );
+  // }
+  createMetadataList(){
     return null;
   }
-
   removeMetadataList(id: number ) {
     throw new Error("Method not implemented.");
   }

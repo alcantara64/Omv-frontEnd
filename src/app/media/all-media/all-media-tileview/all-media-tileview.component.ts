@@ -16,7 +16,8 @@ import { EmitType } from '@syncfusion/ej2-base';
 export class AllMediaTileviewComponent implements OnInit {
 
   media: MediaItem[];
-  pageSize = 100;
+  currentPage = 1;
+  pageSize = 20;
   totalMedia: number;
   pageCount: number;
 
@@ -26,7 +27,7 @@ export class AllMediaTileviewComponent implements OnInit {
   constructor(private store: Store, private router: Router, private mediaService: MediaService) { }
 
   ngOnInit() {
-    this.store.dispatch(new GetMedia(1, this.pageSize));
+    this.store.dispatch(new GetMedia(this.currentPage, this.pageSize));
 
     this.totalMedia$.subscribe(totalMedia => {
       this.totalMedia = totalMedia;
@@ -48,7 +49,8 @@ export class AllMediaTileviewComponent implements OnInit {
 
   changePage(event): EmitType<object> {
     if (event.currentPage) {
-      this.store.dispatch(new GetMedia(event.currentPage, this.pageSize));
+      this.currentPage = event.currentPage;
+      this.store.dispatch(new GetMedia(this.currentPage, this.pageSize));
       console.log(event);
     }
     return event;

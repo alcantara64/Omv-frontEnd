@@ -6,7 +6,7 @@ export class UploadHistory {
   requesterName: string;
   status: number;
   statusName?: string;
-  size: number;
+  size: string;
   containerId: number;
   contentType: string;
   documentName: string;

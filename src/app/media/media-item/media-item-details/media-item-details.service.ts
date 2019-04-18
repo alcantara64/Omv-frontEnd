@@ -63,7 +63,7 @@ export class MediaItemDetailsService {
         labelControl.label = name.charAt(0).toUpperCase() + name.slice(1);
         labelControl.value = mediaItem[name];
         metaArray.push(labelControl);
-      });      
+      });
     }
 
     return await metaArray.sort(x => x.order);
@@ -77,10 +77,10 @@ export class MediaItemDetailsService {
       name: item.fieldName,
       order: item.order,
       placeholder: item.fieldName,
+      isRequired: item.isRequired,
       validations: this.getValidations(item)
     };
   }
-
 
   private buildDropdown(item: Metadata): FieldConfiguration {
     return {
@@ -91,6 +91,7 @@ export class MediaItemDetailsService {
       optionsId: item.listId,
       options: item.options,
       placeholder: 'Please select',
+      isRequired: item.isRequired,
       validations: this.getValidations(item)
     };
   }
@@ -101,6 +102,7 @@ export class MediaItemDetailsService {
       label: item.fieldName,
       name: item.fieldName,
       order: item.order,
+      isRequired: item.isRequired,
       validations: this.getValidations(item)
     };
   }

@@ -1,9 +1,12 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId } from './admin-media.action';
+import {CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
+import { GetUploadHistory, GetUploadRequest, RemoveMetaDataFields, GetMetaDataFields } from './admin-media.action';
 import { AdminMediaService } from 'src/app/core/services/business/admin-media/admin-media.service';
 import { DateService } from 'src/app/core/services/business/dates/date.service';
+import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-setting';
+import { AdminMediaUploadsDetailsService } from '../../admin-media-upload-details/admin-media-uploads-details.services';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { DisplayToastMessage } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
@@ -12,6 +15,7 @@ import { MetadataListStatus } from 'src/app/core/enum/metadata-list-status';
 
 export class AdminMediaStateModel {
   uploadHistory: UploadHistory[];
+  currentUploadRequestFields: FieldConfiguration[];
   metadataFields: MetadataFields[];
   metadataLists: MetadataList[];
   currentMetadataId: number;
@@ -34,16 +38,23 @@ const initialMetadataList: MetadataList = {
     metadataLists: [],
     currentMetadataListId: null,
     currentMetadataList: initialMetadataList,
-    currentMetadataId: null
+    currentMetadataId: null,
+    currentUploadRequestFields: null
   }
 })
 
 export class AdminMediaState {
-  constructor(private adminMediaService: AdminMediaService, private dateService: DateService) { }
+  constructor(private adminMediaService: AdminMediaService, private adminMediaUploadsDetailsService: AdminMediaUploadsDetailsService,
+    private dateService: DateService) { }
 
   @Selector()
   static getUploadHistory(state: AdminMediaStateModel) {
     return state.uploadHistory;
+  }
+
+  @Selector()
+  static getCurrentUploadRequestFields(state: AdminMediaStateModel) {
+    return state.currentUploadRequestFields;
   }
 
   @Selector()
@@ -82,7 +93,7 @@ export class AdminMediaState {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
         });
         history.map(item => {
-          item.size = Math.floor((item.size) / 1000);
+          // item.size = Math.floor((item.size) / 1000);
         });
         const state = getState();
         console.log('AdminMediaState - getUploadHistory - history: ', history);
@@ -91,6 +102,20 @@ export class AdminMediaState {
           uploadHistory: history
         });
       })
+    );
+  }
+
+  @Action(GetUploadRequest)
+  async getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
+    return this.adminMediaUploadsDetailsService.getUploadRequestFields(id)
+      .then(fields => {
+        console.log('AdminMediaState - getUploadRequest - fields: ', fields);
+        const state = getState();
+        setState({
+          ...state,
+          currentUploadRequestFields: fields
+        });
+      }
     );
   }
 

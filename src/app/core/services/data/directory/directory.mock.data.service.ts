@@ -25,7 +25,7 @@ export class DirectoryMockDataService implements DirectoryDataService {
     return data;
   }
   getDocuments(): Observable<import("../../../models/entity/document").Document[]> {
-  return null;
+    return null;
   }
   
 }

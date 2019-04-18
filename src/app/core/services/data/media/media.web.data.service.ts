@@ -15,7 +15,7 @@ import { UploadRequest_InsertInputDTO } from 'src/app/core/dtos/input/upload-req
 import { Document_GetAuditOutputDTO } from 'src/app/core/dtos/output/documents/Document_GetAuditOutputDTO';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' 
 })
 export class MediaWebDataService implements MediaDataService {
 
@@ -31,7 +31,7 @@ export class MediaWebDataService implements MediaDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getMedia(pageNumber?: number, pageSize?: number): Observable<Media> {
+  getMedia(pageNumber?: number, pageSize?: number, isTreeView?: boolean): Observable<Media> {
     var requestUri = environment.api.baseUrl + `/v1/documents`;
 
     const options = {
@@ -42,6 +42,9 @@ export class MediaWebDataService implements MediaDataService {
     }
     if (pageSize) {
       options.params = options.params.set('limit', pageSize.toString());
+    }
+    if (isTreeView) {
+      options.params = options.params.set('isTreeView', isTreeView.toString());
     }
 
     return this.httpClient.get<Document_SearchOutputDTO>(requestUri, options).pipe(map(

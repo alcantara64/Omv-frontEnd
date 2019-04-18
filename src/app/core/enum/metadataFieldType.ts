@@ -1,5 +1,6 @@
 export enum MetadataFieldType {
   Text = 'Text',
   Select = 'Select',
-  Date = 'Date'
+  Date = 'Date',
+  MultiSelect = 'MultiSelect'
 }

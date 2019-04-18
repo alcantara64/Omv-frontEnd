@@ -25,14 +25,14 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy {
   public maxDate: Date = new Date("05/27/2017");
   public value: Date = new Date("05/16/2017");
   id: any;
-  @Select(MediaState.setMediaItemId) mediaId$: Observable<number>;
+  @Select(MediaState.getMediaItemId) mediaId$: Observable<number>;
 
   componentActive = true;
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
   @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
   @ViewChild('listview') element: any;
 
-  @Select(MediaState.setMediaItemId) mediaItemId$: Observable<number>;
+  @Select(MediaState.getMediaItemId) mediaItemId$: Observable<number>;
   @Select(MediaState.getCurrentMediaItem) mediaItem$: Observable<MediaItem>;
   @Select(MediaState.getItemFields) itemMetadataFields$: Observable<any[]>;
   @Select(MediaState.getCurrentItemMetadata) metadataFields$: Observable<any[]>;
@@ -149,7 +149,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  performRemove(item: any) {
+  deleteControlEvent(item: any) {
     this.dynamicForm.removeControl(item.name);
     this.store.dispatch(new RemoveMediaItemField(item.name));
   }

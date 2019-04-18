@@ -9,8 +9,8 @@ import { FieldConfiguration } from '../field-setting';
     <div class="" [formGroup]="group">
       <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
-        <ejs-datepicker class="" strictMode='true' placeholder="{{config.label}}" [formControlName]="config.name"></ejs-datepicker>  
-        <button type="button" class="form-delete" (click)="performRemove(config)" *ngIf="showDelete">
+        <ejs-datepicker class="col-md-11" strictMode='true' placeholder="{{ config.label }}" [formControlName]="config.name"></ejs-datepicker>  
+        <button type="button" class="o-delete col-md-1" (click)="deleteControlEvent(config)" *ngIf="!config.isRequired && allowDeleting">
           <span class="e-icons e-delete"></span>
         </button>
       </div>
@@ -27,10 +27,10 @@ import { FieldConfiguration } from '../field-setting';
 export class FormDateComponent implements Field {
   config: FieldConfiguration;
   group: FormGroup;
-  showDelete: boolean;
-  remove = new EventEmitter<any>();
+  allowDeleting: boolean;  
+  deleteControl = new EventEmitter<any>();
 
-  performRemove(config: any) {
-    this.remove.emit(config);
+  deleteControlEvent(config: any) {
+    this.deleteControl.emit(config);
   }
 }
