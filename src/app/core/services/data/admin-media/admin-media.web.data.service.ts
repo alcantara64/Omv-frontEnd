@@ -10,6 +10,8 @@ import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { MetadataField_GetAllOutputDTO } from 'src/app/core/dtos/output/metadata/MetadataField_GetAllOutputDTO';
 import { MetadataField_GetByIdOutputDTO } from 'src/app/core/dtos/output/metadata/MetadataField_GetByIdOutputDTO';
+import { UploadRequest_InsertInputDTO } from 'src/app/core/dtos/input/uploads/UploadRequest_InsertInputDTO';
+import { UploadRequest_UpdateStatusInputDTO } from 'src/app/core/dtos/input/uploads/UploadRequest_UpdateStatusInputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +98,39 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     return null;
   }
   getNewUploads(): Observable<UploadHistory[]> {
-    throw new Error("Method not implemented.");
+    var requestUri = environment.api.baseUrl + `/v1/uploadrequests?isDraft=true`;
+
+    return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
+      response => {
+        automapper
+          .createMap(UploadRequest_GetAllOutputDTO, UploadHistory)
+          .forMember('id', function (opts) { opts.mapFrom('uploadRequestId'); })
+          .forMember('uploadRequestType', function (opts) { opts.mapFrom('uploadRequestType'); })
+          .forMember('requester', function (opts) { opts.mapFrom('requester'); })
+          .forMember('directoryId', function (opts) { opts.mapFrom('directoryId'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
+          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
+          .forMember('size', function (opts) { opts.mapFrom('size'); })
+          .forMember('metadata', function (opts) { opts.mapFrom('metadata'); })
+          .forMember('containerId', function (opts) { opts.mapFrom('containerId'); })
+          .forMember('documentName', function (opts) { opts.mapFrom('documentName'); })
+          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); })
+          .forMember('files', function (opts) { opts.mapFrom('files'); });
+
+        let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
+        console.log('AdminMediaWebDataService - getNewUploads: ', _response);
+        _response.map(x => x.files = 100);
+        _response.forEach( (upload) =>{
+          upload.destination = '';
+        });
+
+        return _response;
+      }),
+      catchError(e => {
+        console.log("AdminMediaWebDataService - getNewUploads error: ", e);
+        return of(null);
+      })
+    );
   }
 
   getUploadRequest(id: number): Observable<any> {
@@ -105,8 +139,17 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     return data;
   }
   
-  updateUploadStatus(id: number, payload: UploadHistory) {
-    throw new Error("Method not implemented.");
+  approveUploads(id: number) {
+    const requestUri = environment.api.baseUrl + `/v1/uploadrequests/${id}/approve`;
+
+    return this.httpClient.put(requestUri, {});
+
+  }
+  rejectUploads(id: number) {
+    const requestUri = environment.api.baseUrl + `/v1/uploadrequests/${id}/reject`;
+
+    return this.httpClient.put(requestUri, {});
+
   }
   updateMetaDataField(id: number, payload: MetadataFields) {
     throw new Error("Method not implemented.");

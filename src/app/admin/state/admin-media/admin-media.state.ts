@@ -130,6 +130,7 @@ export class AdminMediaState {
     return this.adminMediaService.getNewUploads().pipe(
       tap(newUploads => {
         const state = getState();
+
         console.log('AdminMediaState - getNewUploads - history: ', newUploads);
         setState({
           ...state,
@@ -140,12 +141,11 @@ export class AdminMediaState {
   }
 
   @Action(ApproveUploads)
-  approveUploads(ctx: StateContext<AdminMediaState>, { id, payload, refreshList }: ApproveUploads) {
-    payload.status = 30;
-    ctx.dispatch(new DisplayToastMessage('Status was approved successfully.'));
-    console.log('Action - approveUploads', payload);
-    return this.adminMediaService.updateUploadStatus(id, payload).pipe(
+  approveUploads(ctx: StateContext<AdminMediaStateModel>, { id, refreshList }: ApproveUploads) {
+    console.log('Action - approveUploads', id);
+    return this.adminMediaService.approveUploads(id).pipe(
       tap(status => {
+        ctx.dispatch(new DisplayToastMessage('Status was approved successfully.'));
         if (refreshList) {
           ctx.dispatch(new GetNewUploads());
         }
@@ -156,11 +156,10 @@ export class AdminMediaState {
   }
 
   @Action(RejectUploads)
-  rejectUploads(ctx: StateContext<AdminMediaState>, { id, payload, refreshList }: ApproveUploads) {
-    payload.status = 20;
+  rejectUploads(ctx: StateContext<AdminMediaStateModel>, { id, refreshList }: RejectUploads) {
     ctx.dispatch(new DisplayToastMessage('Status was rejected successfully.'));
-    console.log('Action - rejectUploads', payload);
-    return this.adminMediaService.updateUploadStatus(id, payload).pipe(
+    console.log('Action - rejectUploads');
+    return this.adminMediaService.rejectUploads(id).pipe(
       tap(status => {
         if (refreshList) {
           ctx.dispatch(new GetNewUploads());

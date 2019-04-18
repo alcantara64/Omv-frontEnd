@@ -23,7 +23,7 @@ export class AdminMediaNewUploadsComponent extends ListComponent implements OnIn
   columns: GridColumn[] = [
     { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
     { headerText: 'Name', field: 'documentName' },
-    { headerText: 'Destination', field: 'metadata' },
+    { headerText: 'Destination', field: 'destination' },
     { headerText: 'Date', field: 'modifiedOnString' },
     { headerText: 'Size (KB)', field: 'size' }
   ];
@@ -43,12 +43,16 @@ export class AdminMediaNewUploadsComponent extends ListComponent implements OnIn
     });
   }
 
-  approve(payload: UploadHistory) {
-    console.log('AdminMediaNewUploadsComponent - approve', payload);
-    this.store.dispatch(new ApproveUploads(payload.id, payload));
+  approve(payload: UploadHistory[]) {
+    payload.forEach((data) =>{
+    this.store.dispatch(new ApproveUploads(data.id, true ));
+    }
+    );
   }
-  reject(payload: UploadHistory) {
-    console.log('AdminMediaNewUploadsComponent - reject', payload);
-    this.store.dispatch(new RejectUploads(payload.id, payload));
+  reject(payload: UploadHistory[]) {
+     payload.forEach((data) =>{
+      this.store.dispatch(new RejectUploads(data.id, true));
+      }
+      );
   }
 }

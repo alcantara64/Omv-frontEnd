@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 
 export class AdminMediaMockDataService implements AdminMediaDataService {
 
+
   constructor(private httpClient: HttpClient) { }
 
   getUploadHistory(): Observable<UploadHistory[]> {
@@ -56,11 +57,12 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     throw new Error("Method not implemented.");
   }
 
-  updateUploadStatus(id: number, payload: UploadHistory) {
-    var mockUrl = `./assets/mock/media-new-uploads.json`;
-    return this.httpClient.get<UploadHistory[]>(mockUrl);
+  approveUploads(id: number) {
+    throw new Error("Method not implemented.");
   }
-
+  rejectUploads(id: number) {
+    throw new Error("Method not implemented.");
+  }
   updateMetaDataField(id: number, payload: MetadataFields) {
     var url = `./assets/mock/admin-metadata-fields.json`;
     let data = this.httpClient.get<MetadataFields[]>(url).pipe(map(fields => {

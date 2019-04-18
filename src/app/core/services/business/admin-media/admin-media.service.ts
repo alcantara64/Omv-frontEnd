@@ -30,8 +30,11 @@ export class AdminMediaService {
   getUploadRequest(id: number): Observable<any> {
     return this.AdminMediaDataService.getUploadRequest(id);
   }
-  updateUploadStatus(id: number, payload: UploadHistory){
-    return this.AdminMediaDataService.updateUploadStatus(id, payload);
+  rejectUploads(id: number){
+    return this.AdminMediaDataService.rejectUploads(id);
+  }
+ approveUploads(id: number){
+    return this.AdminMediaDataService.approveUploads(id);
   }
   updateMetaDataField(id:number, payload: MetadataFields){
     return this.AdminMediaDataService.updateMetaDataField(id, payload);

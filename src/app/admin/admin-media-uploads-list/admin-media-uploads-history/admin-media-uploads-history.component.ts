@@ -17,7 +17,7 @@ export class AdminMediaUploadsHistoryComponent implements OnInit {
 
   total: number;
   columns: GridColumn[] = [
-    { headerText: 'Status ', field: 'status', width: '50' },
+    { headerText: '  ', field: ' ', width: '10' },
     { headerText: 'Name', field: 'documentName' },
     { headerText: 'Destination', field: 'metadata' },
     { headerText: 'Date', field: 'modifiedOnString' },

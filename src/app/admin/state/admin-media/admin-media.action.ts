@@ -31,13 +31,13 @@ export class GetUploadRequest {
 export class ApproveUploads {
   static readonly type = '[Admin Groups] ApproveUploads';
 
-  constructor(public id: number, public payload: UploadHistory, public refreshList?: boolean) { }
+  constructor(public id: number, public refreshList?: boolean) { }
 }
 
 export class RejectUploads {
   static readonly type = '[Admin Groups] RejectUploads';
 
-  constructor(public id: number, public payload: UploadHistory, public refreshList?: boolean) { }
+  constructor(public id: number, public refreshList?: boolean) { }
 }
 
 export class UpdateMetaDataField {
