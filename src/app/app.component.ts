@@ -1,6 +1,5 @@
 import { AppState } from './state/app.state';
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import { AuthService, User } from './core/services/data/appsettings/auth.service';
 import {Select, Store} from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import {Title} from "@angular/platform-browser";
@@ -9,6 +8,8 @@ import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups/src/spinner/spinner';
+import { User } from './core/models/entity/user';
+import { AuthService } from './core/services/business/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -90,16 +91,16 @@ export class AppComponent implements AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    window.onload = () => {
-      const x = document.getElementById('loading');
-      // for IE
-      x.style.display = 'none';
-      x.style.visibility = 'hidden';
-      x.style.zIndex = '-20';
-      console.log('PPPP', window.navigator.appVersion.indexOf("MSIE 1")==-1);
-      // End for IE
-      x.remove();
-    };
+    // window.onload = () => {
+    //   const x = document.getElementById('loading');
+    //   // for IE
+    //   x.style.display = 'none';
+    //   x.style.visibility = 'hidden';
+    //   x.style.zIndex = '-20';
+    //   console.log('PPPP', window.navigator.appVersion.indexOf("MSIE 1")==-1);
+    //   // End for IE
+    //   x.remove();
+    // };
   }
 
   ngOnDestroy() {
@@ -129,12 +130,12 @@ export class AppComponent implements AfterViewInit{
     this.messages.push("Error: " + msg && msg.message);
   }
 
-  public onLogin() {
-    this.clearMessages();
-    this.authn.login().catch(err => {
-      this.addError(err);
-    });
-  }
+  // public onLogin() {
+  //   this.clearMessages();
+  //   this.authn.login().catch(err => {
+  //     this.addError(err);
+  //   });
+  // }
 
   public onCallAPI() {
     this.clearMessages();
@@ -143,18 +144,18 @@ export class AppComponent implements AfterViewInit{
     // }, err => this.addError(err));
   }
 
-  public onRenewToken() {
-    this.clearMessages();
-    this.authn.renewToken()
-      .then(user=>{
-        this.currentUser = user;
-        this.addMessage("Silent Renew Success");
-      })
-      .catch(err => this.addError(err));
-  }
+  // public onRenewToken() {
+  //   this.clearMessages();
+  //   this.authn.renewToken()
+  //     .then(user=>{
+  //       this.currentUser = user;
+  //       this.addMessage("Silent Renew Success");
+  //     })
+  //     .catch(err => this.addError(err));
+  // }
 
-  public onLogout() {
-    this.clearMessages();
-    this.authn.logout().catch(err => this.addError(err));
-  }
+  // public onLogout() {
+  //   this.clearMessages();
+  //   this.authn.logout().catch(err => this.addError(err));
+  // }
 }

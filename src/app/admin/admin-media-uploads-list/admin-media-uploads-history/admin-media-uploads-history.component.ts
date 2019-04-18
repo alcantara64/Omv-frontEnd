@@ -15,6 +15,7 @@ import {UploadHistory} from "../../../core/models/entity/uploadhistory";
 export class AdminMediaUploadsHistoryComponent implements OnInit {
   @Select(AdminMediaState.getUploadHistory) uploadHistoryMedia$: Observable<UploadHistory[]>;
 
+  total: number;
   columns: GridColumn[] = [
     { headerText: 'Status ', field: 'status', width: '50' },
     { headerText: 'Name', field: 'documentName' },

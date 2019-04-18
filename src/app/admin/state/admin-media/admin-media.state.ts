@@ -11,6 +11,8 @@ import { DateService } from 'src/app/core/services/business/dates/date.service';
 import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-setting';
 import { AdminMediaUploadsDetailsService } from '../../admin-media-upload-details/admin-media-uploads-details.services';
 
+
+
 export class AdminMediaStateModel {
   newUploads: UploadHistory[];
   uploadHistory: UploadHistory[];
@@ -40,6 +42,11 @@ export class AdminMediaState {
   }
 
   @Selector()
+  static getCurrentUploadRequestFields(state: AdminMediaStateModel) {
+    return state.currentUploadRequestFields;
+  }
+
+  @Selector()
   static getMetaDataFields(state: AdminMediaStateModel) {
     return state.metadataFields;
   }
@@ -47,10 +54,6 @@ export class AdminMediaState {
   @Selector()
   static getNewUploads(state: AdminMediaStateModel) {
     return state.newUploads;
-  }
-
-  static getCurrentUploadRequestFields(state: AdminMediaStateModel) {
-    return state.currentUploadRequestFields;
   }
 
   @Action(GetUploadHistory)
@@ -61,7 +64,7 @@ export class AdminMediaState {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
         });
         history.map(item => {
-          item.size = Math.floor((item.size) / 1000);
+          // item.size = Math.floor((item.size) / 1000);
         });
         const state = getState();
         console.log('AdminMediaState - getUploadHistory - history: ', history);
@@ -72,7 +75,6 @@ export class AdminMediaState {
       })
     );
   }
-
   @Action(GetMetaDataFields)
   getMetaDataFields({ getState, setState }: StateContext<AdminMediaStateModel>) {
     return this.adminMediaService.getMetadataField().pipe(
@@ -179,4 +181,3 @@ export class AdminMediaState {
       }));
   }
 }
-

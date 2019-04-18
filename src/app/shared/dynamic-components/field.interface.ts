@@ -5,6 +5,6 @@ import { EventEmitter } from '@angular/core';
 export interface Field {
   config: FieldConfiguration,
   group: FormGroup,
-  showDelete: boolean,
-  remove: EventEmitter<any>
+  allowDeleting: boolean,
+  deleteControl?: EventEmitter<any>
 }

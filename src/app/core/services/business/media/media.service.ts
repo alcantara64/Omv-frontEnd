@@ -14,8 +14,8 @@ export class MediaService {
 
   constructor(private MediaDataService: MediaDataService) { }
 
-  getMedia(pageNumber?: number, pageSize?: number): Observable<Media> {
-    return this.MediaDataService.getMedia(pageNumber, pageSize);
+  getMedia(pageNumber?: number, pageSize?: number, isTreeView?: boolean): Observable<Media> {
+    return this.MediaDataService.getMedia(pageNumber, pageSize, isTreeView);
   }
 
   getMediaItem(id: number): Observable<MediaItem> {

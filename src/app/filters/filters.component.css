@@ -1,0 +1,66 @@
+.filter-container {
+  background: #FFF;
+  border-radius: 4px;
+  border: solid 1px #5b7f95;
+}
+
+.filter-top-section {
+  padding: 12px 16px !important;
+  
+}
+
+.filter-lower-section {
+  padding: 12px 24px !important;
+}
+
+hr {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  border: 0 !important;
+  border: solid .5px #5b7f95 !important;
+}
+
+.button-round {
+  margin: 20px auto;
+  display: block;  
+  width: 187px;
+  height: 40px;
+}
+
+.toggler {
+  background: #5B7F95;
+  margin: 0px auto;
+  display: block;  
+  width: 76px;
+  height: 28px;
+  cursor: pointer;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.toggler > div {
+  text-align: center;
+  padding-top: 6px;
+  display: block;
+}
+
+.toggler > div > span {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  margin-right: 3px;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.toggler-up-icon {
+  filter: invert(1);
+}
+
+.toggler-direction {
+  margin: 0px auto 0px auto;
+  padding-top: 6px;
+  display: block;
+  filter: invert(1);
+}
+

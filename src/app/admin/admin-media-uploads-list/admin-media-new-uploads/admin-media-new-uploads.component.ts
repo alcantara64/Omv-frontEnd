@@ -15,7 +15,7 @@ import { GetNewUploads, ApproveUploads, RejectUploads } from '../../state/admin-
 })
 export class AdminMediaNewUploadsComponent extends ListComponent implements OnInit {
   @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
-  @Select(AdminMediaState.getNewUploads) newUploads$: Observable<UploadHistory[]>
+  @Select(AdminMediaState.getNewUploads) newUploads$: Observable<UploadHistory[]>;
   public deviceWidth: number;
   selectedUploads: UploadHistory[];
   newUploads: UploadHistory[];

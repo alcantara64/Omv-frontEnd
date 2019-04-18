@@ -1,19 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { MediaTreeGrid } from 'src/app/core/models/media-tree-grid';
 import { Observable } from 'rxjs';
 import { MediaState } from '../../state/media/media.state';
 import { Select, Store } from '@ngxs/store';
 import { GridColumn } from 'src/app/core/models/grid.column';
-import { GetMediaTreeData, GetMedia, GetDirectories, GetTreeViewMedia } from '../../state/media/media.action';
-import { QueryCellInfoEventArgs } from '@syncfusion/ej2-grids';
-import { EmitType } from '@syncfusion/ej2-base';
+import { GetTreeViewMedia } from '../../state/media/media.action';
 import { ITreeData } from '@syncfusion/ej2-treegrid';
-import { Document } from 'src/app/core/models/entity/document';
 import { Router } from '@angular/router';
 import { MediaItem } from 'src/app/core/models/entity/media';
 import { ShowSpinner } from 'src/app/state/app.actions';
-declare var require: any;
 import { PageService} from '@syncfusion/ej2-angular-treegrid';
+declare var require: any;
 
 @Component({
   selector: 'app-all-media-treeview',
@@ -38,7 +34,7 @@ export class AllMediaTreeviewComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new ShowSpinner());
-    this.store.dispatch(new GetMedia());
+    this.store.dispatch(new GetTreeViewMedia());
     this.media$.subscribe(data => {
       this.media = data;
       console.log('AllMediaTreeviewComponent ngOnInit - data', data);
@@ -93,4 +89,9 @@ export class AllMediaTreeviewComponent implements OnInit {
     var FileSaver = require('file-saver');
     FileSaver.saveAs(data.url, data.name);
   }
+
+  // selectedItemData(data: any[]) {
+  //   console.log('records',this.selectedItemRecords);
+  //   this.store.dispatch(new SetSelectedItems(data));
+  // }
 }

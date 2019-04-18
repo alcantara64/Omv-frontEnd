@@ -18,14 +18,8 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { StartupComponent } from './startup/startup.component';
 import { MediaModule } from './media/media.module';
 import { BlobModule } from 'angular-azure-blob-service';
-import { TreeViewModule } from '@syncfusion/ej2-angular-navigations/src/treeview/treeview.module';
-import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons/src/check-box/checkbox.module';
-import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/listview.module';
-import { GridModule } from '@syncfusion/ej2-angular-grids/src/grid/grid.module';
-import { DatePickerModule } from '@syncfusion/ej2-angular-calendars/src/datepicker/datepicker.module';
-import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.module';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
-import {FormsModule} from '@angular/forms';
+import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +34,6 @@ import {FormsModule} from '@angular/forms';
     HttpModule,
     HttpClientModule,
     
-    FormsModule,
     AdminModule,
     MediaModule,
     SharedModule,

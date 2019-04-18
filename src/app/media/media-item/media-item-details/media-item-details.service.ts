@@ -77,6 +77,7 @@ export class MediaItemDetailsService {
       name: item.fieldName,
       order: item.order,
       placeholder: item.fieldName,
+      isRequired: item.isRequired,
       validations: this.getValidations(item)
     };
   }
@@ -90,6 +91,7 @@ export class MediaItemDetailsService {
       optionsId: item.listId,
       options: item.options,
       placeholder: 'Please select',
+      isRequired: item.isRequired,
       validations: this.getValidations(item)
     };
   }
@@ -100,6 +102,7 @@ export class MediaItemDetailsService {
       label: item.fieldName,
       name: item.fieldName,
       order: item.order,
+      isRequired: item.isRequired,
       validations: this.getValidations(item)
     };
   }

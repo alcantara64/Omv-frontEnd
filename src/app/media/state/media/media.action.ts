@@ -67,7 +67,7 @@ export class ToggleFavorite {
 export class GetHistory {
   static readonly type = '[Media] GetHistory';
 
-  constructor(public id: string) { }
+  constructor(public id: any) { }
 }
 
 export class GetMediaTreeData {
@@ -104,4 +104,8 @@ export class SetSelectedItems {
   static readonly type = '[Media] SetSelectedItems';
 
   constructor(public selectedItems: any[]) {}
+}
+
+export class GetFilterFields {
+  static readonly type = '[Media] GetFilterFields';
 }

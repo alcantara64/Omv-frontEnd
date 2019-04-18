@@ -14,7 +14,7 @@ export class MediaMockDataService implements MediaDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getMedia(pageNumber?: number, pageSize?: number): Observable<Media> {
+  getMedia(pageNumber?: number, pageSize?: number, isTreeView?: boolean): Observable<Media> {
     var url = `./assets/mock/media.json`;
     let data = this.httpClient.get<Media>(url).pipe(
       map(item => {

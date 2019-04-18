@@ -82,7 +82,11 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/list
     AdminMediaNewUploadsComponent,
     AdminMediaUploadsHistoryComponent,
     AdminMetadataListComponent,
-    AdminMediaUploadDetailsComponent
+    AdminMediaUploadDetailsComponent,
+    AdminMediaUploadsHistoryComponent,
+    AdminMetadataListComponent,
+    AdminMediaUploadDetailsComponent,
+	AdminMetadataFieldsComponent
   ],
   imports: [
     SharedModule,
@@ -117,4 +121,3 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/list
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class AdminModule { } 
-  

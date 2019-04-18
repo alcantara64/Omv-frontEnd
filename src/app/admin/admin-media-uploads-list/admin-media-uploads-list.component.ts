@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ListComponent } from 'src/app/shared/list/list.component';
 import { Store, Select } from '@ngxs/store';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
 import { GridColumn } from 'src/app/core/models/grid.column';
@@ -35,9 +35,7 @@ export class AdminMediaUploadsListComponent extends ListComponent implements OnI
 
   constructor(
     protected store: Store,
-    protected router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {
+    protected router: Router  ) {
     super(store);
     this.ShowLefNav(true);
     this.PageTitle('Admin User');

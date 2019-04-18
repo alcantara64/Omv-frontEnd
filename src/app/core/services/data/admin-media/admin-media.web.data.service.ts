@@ -59,6 +59,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
       })
     );
   }
+
   getMetaDataFields(): Observable<MetadataFields[]> {
     var requestUri = environment.api.baseUrl + `/v1/metadatafields`;
 
