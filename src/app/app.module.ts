@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpModule } from '@angular/http';
 import { SettingsService } from './core/services/data/appsettings/appsettings.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
 import { NgxsModule } from '@ngxs/store';
@@ -20,6 +20,19 @@ import { MediaModule } from './media/media.module';
 import { BlobModule } from 'angular-azure-blob-service';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import { FiltersComponent } from './filters/filters.component';
+import {
+  OKTA_CONFIG,
+  OktaAuthGuard,
+  OktaAuthModule,
+  OktaCallbackComponent,
+} from '@okta/okta-angular';
+import { HttpInterceptorService } from './core/services/httpinterceptor.service';
+
+const config = {
+  issuer: 'https://dev-104918.okta.com/oauth2/default',
+  redirectUri: 'http://localhost:4200/implicit/callback',
+  clientId: '0oahryql8HD45nO6v356'
+}
 
 @NgModule({
   declarations: [
@@ -33,6 +46,7 @@ import { FiltersComponent } from './filters/filters.component';
     BrowserModule,
     HttpModule,
     HttpClientModule,
+    OktaAuthModule.initAuth(config),
     
     AdminModule,
     MediaModule,
@@ -45,7 +59,7 @@ import { FiltersComponent } from './filters/filters.component';
     NgxsLoggerPluginModule.forRoot()
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     SettingsService,
     AdminUsersService
    ],

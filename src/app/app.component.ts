@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups/src/spinner/spinner';
 import { User } from './core/models/entity/user';
 import { AuthService } from './core/services/business/auth.service';
+import { OktaAuthService } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent implements AfterViewInit{
   private unsubscribe: Subject<void> = new Subject();
   public displayWidth: number;
   public browser = window.navigator.userAgent;
+  isAuthenticated: boolean;
   showLeftNav: boolean = false;
   
   @Select(AppState.getSpinnerVisibility) showSpinner$: Observable<boolean>;
@@ -36,7 +38,12 @@ export class AppComponent implements AfterViewInit{
     this.confirmBox.hide(toastEle);
   }
 
-  constructor(public authn: AuthService, private title: Title, store:Store) {
+  constructor(public authn: AuthService, private title: Title, store:Store, public oktaAuth: OktaAuthService) {
+
+    this.oktaAuth.$authenticationState.subscribe(
+      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
+    );
+
     this.currentPageTitle$.subscribe( (res) => {
       res === 'OMV Client Portal' ? this.title.setTitle(res) : this.title.setTitle(res + ' - OMV Client Portal');
     });
@@ -57,24 +64,31 @@ export class AppComponent implements AfterViewInit{
   position = { X: 'Right', Y: 'Top' };
   confirmBoxPosition = { X: 'Center', Y: 'Top' };
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.showSpinner$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(showSpinner => {
         if (showSpinner) this.showSpinner(true);
         else this.showSpinner(false);
       });
-    // this.authn.getUser().then(user => {
-    //   this.currentUser = user;
 
-    //   if (user){
-    //     this.addMessage("User Logged In");
-    //   }
-    //   else {
-    //     this.onLogin();
-    //     this.addMessage("User Not Logged In");
-    //   }
-    // }).catch(err => this.addError(err));
+      // Get the authentication state for immediate use
+      this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+
+      if(this.isAuthenticated)
+      {
+        console.log("User Logged In");
+
+        
+      }
+      else
+      {
+        console.log("User Not Logged In");
+
+        console.log("Attempting to login and redirect back to application");
+        //this.oktaAuth.loginRedirect();
+      }
+   
     this.toastMessage$.subscribe(toast => {
       if (!toast) return;
       switch(toast.type) {

@@ -8,8 +8,13 @@ import { AuthService } from './core/services/business/auth.service';
 import { StartupComponent } from './startup/startup.component';
 import {PdfViewerComponent} from './shared/pdf-viewer/pdf-viewer.component';
 import {MediaViewerComponent} from './shared/media-viewer/media-viewer.component';
+import { OktaCallbackComponent } from '@okta/okta-angular';
 
 const routes: Routes = [
+  {
+    path: 'implicit/callback',
+    component: OktaCallbackComponent
+  },
   {
     path: '',
     redirectTo: 'admin/users/active',
@@ -45,7 +50,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { useHash: true })
+    RouterModule.forRoot(routes, { useHash: false })
   ],
   exports: [ RouterModule ],
   providers: [AuthGuardService, AuthService]
