@@ -13,12 +13,14 @@ import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataList_GetAllOutputDTO } from 'src/app/core/dtos/output/metadata/MetadataList_GetAllOutputDTO';
 import { MetadataList_InsertInputDTO } from 'src/app/core/dtos/input/metadata/MetadataList_InsertInputDTO';
 import { MetadataListInputDTO } from 'src/app/core/dtos/input/metadata/MetadataListInputDTO';
+import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AdminMediaWebDataService implements AdminMediaDataService {
+
 
 
 
@@ -169,6 +171,27 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   }
 
   removeMetadataList(id: number ) {
+    throw new Error("Method not implemented.");
+  }
+  
+  getMetaDataListsItem(): Observable<MetadataListItem[]> {
+    return null;
+  }
+  getMetaDataListItem(id:number): Observable<MetadataListItem[]> {
+    return null;
+  }
+
+  removeMetadataListItem(id: number ) {
+    throw new Error("Method not implemented.");
+  }
+  createMetadataListItem(payload: MetadataListItem):Observable<MetadataListItem> {
+    return null;
+  }
+  updateMetadataListItem(id: number, payload: MetadataListItem){
+    return null;
+  }
+  
+  getMetaDataListById(id: number): Observable<MetadataList> {
     throw new Error("Method not implemented.");
   }
 }

@@ -95,7 +95,7 @@ const adminRoutes: Routes = [
   {
     path: 'admin/media/metadata',
     component: AdminMetadataListTabComponent,
-    canActivate: [AuthGuardService],
+   // canActivate: [AuthGuardService],
     children: [
       { path: '', redirectTo: 'active', pathMatch: 'full' },
       { path: ':type', component: AdminMetadataListComponent}

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
+import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
 
 @Injectable({
     providedIn: 'root'
@@ -14,8 +15,16 @@ export abstract class AdminMediaDataService {
     abstract getMetaDataFields(): Observable<MetadataFields[]>;
     abstract removeMetadataField(id: number);
     abstract createMetadataField(payload: MetadataFields): Observable<MetadataFields>;
+
     abstract getMetaDataLists(): Observable<MetadataList[]>;
     abstract removeMetadataList(id: number);
     abstract createMetadataList(payload: MetadataList): Observable<MetadataList>;
     abstract updateMetadataList(id: number, payload: MetadataList);
+
+    abstract getMetaDataListsItem(): Observable<MetadataListItem[]>;
+    abstract getMetaDataListItem(id:number): Observable<MetadataListItem[]>;
+    abstract removeMetadataListItem(id: number);
+    abstract createMetadataListItem(payload: MetadataListItem): Observable<MetadataListItem>;
+    abstract updateMetadataListItem(id: number, payload: MetadataListItem);
+    abstract getMetaDataListById(id: number): Observable<MetadataList>;
 }
