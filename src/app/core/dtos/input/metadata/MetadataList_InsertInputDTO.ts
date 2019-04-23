@@ -1,6 +1,6 @@
 export class MetadataList_InsertInputDTO
    {
-       MetadataListId?: number;
+       MetadataListId: number;
         MetadataListName: string
         Status: number;
    }

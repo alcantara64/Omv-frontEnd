@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
 import { Observable, of } from 'rxjs';
+import * as automapper from 'automapper-ts';
 import { AdminMediaDataService } from './admin-media.data.service';
 import { catchError, map } from 'rxjs/operators';
 import { UploadRequestHistory_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequestHistory_GetAllOutputDTO';
@@ -11,6 +12,7 @@ import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataList_GetAllOutputDTO } from 'src/app/core/dtos/output/metadata/MetadataList_GetAllOutputDTO';
 import { MetadataList_InsertInputDTO } from 'src/app/core/dtos/input/metadata/MetadataList_InsertInputDTO';
+import { MetadataListInputDTO } from 'src/app/core/dtos/input/metadata/MetadataListInputDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -89,12 +91,11 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
           .createMap(MetadataList_GetAllOutputDTO, MetadataList)
           .forMember('id', function (opts) { opts.mapFrom('metadataListId'); })
           .forMember('fieldName', function (opts) { opts.mapFrom('metadataListName'); })
-          .forMember('status', function (opts) { opts.mapFrom('status'); });
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
+          .forMember('statusName', function (opts) {opts.mapFrom('statusName'); });
 
         let _response = automapper.map(MetadataList_GetAllOutputDTO, MetadataList, response);
         console.log('AdminMediaWebDataService - getMetaDataLists: ', _response);
-
-
         return _response;
       }),
       catchError(e => {
@@ -104,42 +105,70 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     );
   }
 
+  createMetadataList(payload: MetadataList): Observable<MetadataList> {
+    const requestUri = environment.api.baseUrl + `/v1/metadatalists`;
 
-  // createMetadataList(payload: MetadataList): Observable<MetadataList> {
-  //   const requestUri = environment.api.baseUrl + `/v1/metadatalists/${id}`;
+    automapper
+      .createMap(payload, MetadataList_InsertInputDTO)
+      .forMember('metadataListId', function(opts) { opts.mapFrom('id'); })
+      .forMember('metadataListName', function(opts) { opts.mapFrom('fieldName'); })
+      .forMember('status', function(opts) { opts.mapFrom('status'); })
+      .forMember('statusName', function(opts) {opts.mapFrom9('statusName'); });
 
-  //   automapper
-  //     .createMap(payload, MetadataList_InsertInputDTO)
-  //     .forMember('metadataListId', function(opts) { opts.mapFrom('id'); })
-  //     .forMember('metadataListName', function(opts) { opts.mapFrom('fieldName'); })
-  //     .forMember('status', function(opts) { opts.mapFrom('status'); });
+    const request = automapper.map(payload, MetadataList_InsertInputDTO, payload);
+    console.log('AdminMediaWebDataService - createMetadataList request: ', request);
+    console.log('AdminMediaWebDataService - createMetadataList payload: ', payload);
 
-  //   const request = automapper.map(payload, MetadataList_InsertInputDTO, payload);
-  //   console.log('AdminMediaWebDataService - createMetadataList request: ', request);
-  //   console.log('AdminMediaWebDataService - createMetadataList payload: ', payload);
+    return this.httpClient.post(requestUri, request).pipe(map(
+      response => {
+        automapper
+          .createMap(MetadataList_InsertInputDTO, MetadataList)
+          .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListId'))
+          .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListName'))
+          .forMember('status', function(opts) { opts.mapFrom('status'); })
+          .forMember('statusName', function(opts) {opts.mapFrom('statusName'); });
 
-  //   return this.httpClient.post(requestUri, request).pipe(map(
-  //     response => {
-  //       automapper
-  //         .createMap(MetadataList_InsertInputDTO, MetadataList)
-  //         .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListId'))
-  //         .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListName'))
-  //         .forMember('status', function(opts) { opts.mapFrom('status'); })
-
-  //       let _response = automapper.map(MetadataList_InsertInputDTO, MetadataList, response);
-  //       console.log('AdminMediaWebDataService - createMetadataList: ', _response);
-  //       return _response;
-  //     })
-  //   );
-  // }
-  createMetadataList(){
-    return null;
-  }
-  removeMetadataList(id: number ) {
-    throw new Error("Method not implemented.");
+        let _response = automapper.map(MetadataList_InsertInputDTO, MetadataList, response);
+        console.log('AdminMediaWebDataService - createMetadataList: ', _response);
+        return _response;
+      }),
+      catchError(e => {
+        console.log("AdminMediaWebDataService - createMetadataList error: ", e);
+        return of(null);
+      })
+    );
   }
 
   updateMetadataList(id: number, payload: MetadataList){
-    return null;
+    const requestUri = environment.api.baseUrl + `/v1/metadatalists/${id}`;
+
+    automapper
+    .createMap(payload, MetadataListInputDTO)
+    .forMember('MetadataListId', function(opts) {opts.mapFrom('id'); })
+    .forMember('MetadataListName', function(opts) {opts.mapFrom('fieldName'); })
+    .forMember('status', function(opts) {opts.mapFrom('status'); })
+    .forMember('statusName', function(opts){opts.mapFrom('statusName');});
+
+    const request = automapper.map(payload, MetadataListInputDTO, payload );
+    console.log('AdminMediaWebDataService - updateMetadataList: ', request);
+
+    return this.httpClient.put(requestUri, request).pipe(map(
+      response => {
+        automapper
+        .createMap(MetadataListInputDTO, MetadataList )
+        .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('MetadataListId'))
+        .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('MetadataListName'))
+        .forMember('status', function(opts) { opts.mapFrom('status'); })
+        .forMember('statusName', function(opts){opts.mapFrom('statusName');});
+
+        let _response = automapper.map(MetadataListInputDTO, MetadataList, response);
+        console.log('AdminMediaWebDataService - updateMetadataList: ', _response);
+        return _response;
+      }
+    ))
+  }
+
+  removeMetadataList(id: number ) {
+    throw new Error("Method not implemented.");
   }
 }

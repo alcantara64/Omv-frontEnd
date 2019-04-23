@@ -25,9 +25,8 @@ export class AdminMediaStateModel {
 const initialMetadataList: MetadataList = {
   id: 0,
   fieldName: '',
-  statusChanged: '',
+  statusName: '',
   status: 1,
-  isUnique: false,
 }
 
 @State<AdminMediaStateModel>({
