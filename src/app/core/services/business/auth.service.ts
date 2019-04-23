@@ -7,7 +7,10 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private _auth: OktaAuth = null;
-  constructor(private router: Router, ) { }
+
+  isAuthenticating: boolean;
+
+  constructor(private router: Router) { }
 
   async isAuthenticated() {
     console.log('AuthService.isAuthenticated');
@@ -48,6 +51,7 @@ export class AuthService {
   async login() {
     console.log('AuthService.login');
     //ensure auth initialized
+
     if (!this._auth) {
       await this.load();
     }
@@ -60,27 +64,32 @@ export class AuthService {
   }
 
   async handleAuthentication() {
-    console.log('AuthService.handleAuthentication');
     //ensure auth initialized
-
     if (!this._auth) {
       await this.load();
     }
 
-    const tokens = await this._auth.token.parseFromUrl();
-    tokens.forEach(token => {
-      console.log(token);
-      if (token.idToken) {
-        this._auth.tokenManager.add('idToken', token);
-      }
-      if (token.accessToken) {
-        this._auth.tokenManager.add('accessToken', token);
-      }
+    await this._auth.token.parseFromUrl().then(tokens => {
+      tokens.forEach(token => {
+        console.log(token);
+        if (token.idToken) {
+          this._auth.tokenManager.add('idToken', token);
+        }
+        if (token.accessToken) {
+          this._auth.tokenManager.add('accessToken', token);
+        }
+      });
     });
+    
 
     //TODO:
     //redirect to page after login
-    this.router.navigateByUrl('/');
+    await this.isAuthenticated()
+      .then(isAuthenticated => {
+        if (isAuthenticated) {
+          this.router.navigateByUrl('/');
+        }
+      });
   }
 
   async logout() {

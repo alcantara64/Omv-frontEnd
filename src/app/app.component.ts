@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Title } from "@angular/platform-browser";
-import { DeviceWidth, SetUserAuthentication } from "./state/app.actions";
+import { DeviceWidth, AuthenticateUser } from "./state/app.actions";
 import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
@@ -61,7 +61,7 @@ export class AppComponent implements AfterViewInit {
   position = { X: 'Right', Y: 'Top' };
   confirmBoxPosition = { X: 'Center', Y: 'Top' };
 
-  async ngOnInit() {
+  ngOnInit() {
     this.showSpinner$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(showSpinner => {
@@ -69,28 +69,16 @@ export class AppComponent implements AfterViewInit {
         else this.showSpinner(false);
       });
 
-    // Get the authentication state for immediate use
-    this.isAuthenticated = await this.auth.isAuthenticated();
-    this.store.dispatch(new SetUserAuthentication());
+    this.store.dispatch(new AuthenticateUser());
 
+    // Get the authentication state for immediate use
     this.isAuthenticated$
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(isAuthenticated => {
-        if (!isAuthenticated) {
-          // this.auth.login();
+      .subscribe(async isAuthenticated => {
+        if (isAuthenticated === false) {
+          await this.auth.login();
         }
       });
-
-    if (this.isAuthenticated) {
-      console.log("User Logged In");
-    }
-    else {
-      console.log("User Not Logged In");
-
-      console.log("Attempting to login and redirect back to application");
-      //TODO - is this the best approach - just direct them to login?
-      //this.oktaAuth.loginRedirect();
-    }
 
     this.toastMessage$.subscribe(toast => {
       if (!toast) return;
@@ -131,48 +119,11 @@ export class AppComponent implements AfterViewInit {
       // Specify the target for the spinner to show
       target: document.getElementById('spinnerContainer')
     });
-    if (show) showSpinner(document.getElementById('spinnerContainer'));
-    else hideSpinner(document.getElementById('spinnerContainer'));
-  }
-
-  clearMessages() {
-    while (this.messages.length) {
-      this.messages.pop();
+    if (show) {
+      showSpinner(document.getElementById('spinnerContainer'));
+    }
+    else {
+      hideSpinner(document.getElementById('spinnerContainer'));
     }
   }
-  addMessage(msg: string) {
-    this.messages.push(msg);
-  }
-  addError(msg: string | any) {
-    this.messages.push("Error: " + msg && msg.message);
-  }
-
-  // public onLogin() {
-  //   this.clearMessages();
-  //   this.authn.login().catch(err => {
-  //     this.addError(err);
-  //   });
-  // }
-
-  public onCallAPI() {
-    this.clearMessages();
-    // this.apiService.callApi().then(result => {
-    //   this.addMessage("API Result: " + JSON.stringify(result));
-    // }, err => this.addError(err));
-  }
-
-  // public onRenewToken() {
-  //   this.clearMessages();
-  //   this.authn.renewToken()
-  //     .then(user=>{
-  //       this.currentUser = user;
-  //       this.addMessage("Silent Renew Success");
-  //     })
-  //     .catch(err => this.addError(err));
-  // }
-
-  // public onLogout() {
-  //   this.clearMessages();
-  //   this.authn.logout().catch(err => this.addError(err));
-  // }
 }

@@ -6,7 +6,7 @@ import { Observable, Subject } from "rxjs";
 
 import { AppStartupService } from 'src/app/core/services/appstartup.service';
 import { AuthService } from 'src/app/core/services/business/auth.service';
-import { SetUserAuthentication, LogOut } from 'src/app/state/app.actions';
+import { AuthenticateUser, LogOut } from 'src/app/state/app.actions';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({

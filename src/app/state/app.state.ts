@@ -15,7 +15,9 @@ import {
   DeviceWidth,
   ShowSpinner,
   HideSpinner,
-  SetUserAuthentication
+  AuthenticateUser,
+  HandleAuthentication,
+  SetIsAuthenticating
 } from './app.actions';
 import {State, Selector, Action, StateContext} from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
@@ -42,6 +44,7 @@ export class AppStateModel {
   showSpinner: boolean;
 
   isUserAuthenticated: boolean;
+  isAuthenticating: boolean;
 }
 
 @State<AppStateModel>({
@@ -63,7 +66,8 @@ export class AppStateModel {
     gridData: [],
     showSpinner: false,
 
-    isUserAuthenticated: false
+    isUserAuthenticated: null,
+    isAuthenticating: true
   }
 })
 export class AppState {
@@ -133,6 +137,11 @@ export class AppState {
     return state.isUserAuthenticated;
   }
 
+  @Selector()
+  static getIsAuthenticating(state: AppStateModel) {
+    return state.isAuthenticating;
+  }
+
   constructor(private auth: AuthService, private adminUsersService: AdminUsersService) { }
 
   @Action(ShowLeftNav)
@@ -184,8 +193,8 @@ export class AppState {
     );
   }
 
-  @Action(SetUserAuthentication)
-  async setUserAuthentication({getState, setState}: StateContext<AppStateModel>) {
+  @Action(AuthenticateUser)
+  async authenticateUser({getState, setState}: StateContext<AppStateModel>) {
     let isAuthenticated = await this.auth.isAuthenticated();
     const state = getState();
     setState({
@@ -204,14 +213,15 @@ export class AppState {
   }
 
   @Action(LogOut)
-  logOut({getState, setState}: StateContext<AppStateModel>) {
-    const state = getState();
-    setState({
-      ...state,
-      currentUser: null,
-      isUserAuthenticated: false
-    });
-    return this.auth.logout();    
+  async logOut({getState, setState}: StateContext<AppStateModel>) {
+    await this.auth.logout().then(resp => {
+      const state = getState();
+      setState({
+        ...state,
+        currentUser: null,
+        isUserAuthenticated: false
+      });
+    });    
   }
 
   @Action(GetUserPermissions)
