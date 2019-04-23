@@ -192,7 +192,7 @@ export class AppState {
       ...state,
       currentUser: null
     });
-    return this.authService.logOut();    
+    return this.authService.logout();    
   }
 
   @Action(GetUserPermissions)
