@@ -64,6 +64,7 @@ ngOnInit() {
     if (this.metadataId) {
       this.store.dispatch(new GetMetaDataListById(this.metadataId));
       this.createMetaDataButtonText = UPDATE_METADATALIST_ITEMS;
+      console.log(this.metadataId, 'action is dispached')
     }
   }),
   takeWhile(() => this.componentActive);

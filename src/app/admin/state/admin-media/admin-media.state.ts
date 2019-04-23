@@ -164,12 +164,12 @@ export class AdminMediaState {
       tap(lists => {
         const state = getState();   
         // const currentList =  lists.filter(x => x.id === id['id'])
-      
+      console.log(lists, 'the current metadata list Item')
         setState({
           ...state,
           currentMetadataList: lists ? lists : null
         });
-        console.log(getState(), 'current list')
+        console.log(getState(), 'current list state')
       })
     );
   }
