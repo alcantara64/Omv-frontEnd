@@ -5,12 +5,15 @@ import { Observable } from 'rxjs';
 import { AdminMediaDataService } from './admin-media.data.service';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { map } from 'rxjs/operators';
+import { MetadataList } from 'src/app/core/models/entity/metadata-list';
+import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AdminMediaMockDataService implements AdminMediaDataService {
+
 
 
   constructor(private httpClient: HttpClient) { }
@@ -70,6 +73,15 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     }));
     console.log('AdminMediaMockDataService - updateMetaDataField', data);
     return data;
+  }
+  getMetadataListById(id:number): Observable< MetadataList[]>{
+    var url = `./assets/mock/admin-metadata-fields.json`;
+    return this.httpClient.get<MetadataList[]>(url);
+
+  }
+
+  getMetadataFieldTypes(): Observable<MetadataFieldType[]> {
+    throw new Error("Method not implemented.");
   }
 }
 

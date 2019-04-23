@@ -44,3 +44,13 @@ export class UpdateMetaDataField {
   static readonly type = '[Admin media] UpdateMetaDataField';
   constructor(public id: number, public payload: MetadataFields) { }
 }
+
+export class GetMetadataListById{
+  static readonly type= '[Admin media] GetMetadataListById';
+  constructor(public id: number) { }
+}
+
+export class GetFieldTypes{
+  static readonly type = '[Admin media] GetFieldTypes';
+  
+}

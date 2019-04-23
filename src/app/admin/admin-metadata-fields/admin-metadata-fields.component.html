@@ -36,7 +36,7 @@
                     <div class="col-md-8">
 
                         <ejs-dropdownlist id='ddlelement' #samples formControlName="fieldType"
-                            (change)="addList($event)" [dataSource]='fieldTypeData'
+                           [dataSource]='fieldTypeData'
                             [placeholder]="'Select a Field Type'" [value]='name' [fields]='typeListFields'>
                         </ejs-dropdownlist>
                     </div>
@@ -47,8 +47,8 @@
                         </label></div>
                     <div class="col-md-8">
                         <ejs-dropdownlist id='ddlelement' #samplesDropdownlist formControlName="List"
-                            (change)="addList($event)" [dataSource]='data' [placeholder]="'Select a List'"
-                            [value]='name' [fields]='listFields'></ejs-dropdownlist>
+                         [dataSource]='data' [placeholder]="'Select a List'"
+                            [value]='itemDescription' [fields]='listFields'></ejs-dropdownlist>
                     </div>
                 </div>
                 <button class="btn btn-lg omv-primary" (click)=" save() "> Done </button>

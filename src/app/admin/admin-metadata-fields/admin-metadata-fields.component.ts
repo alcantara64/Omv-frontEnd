@@ -5,11 +5,13 @@ import { GridColumn } from 'src/app/core/models/grid.column';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { Observable } from 'rxjs';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
-import { GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, UpdateMetaDataField } from '../state/admin-media/admin-media.action';
+import { GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, UpdateMetaDataField, GetMetadataListById, GetFieldTypes } from '../state/admin-media/admin-media.action';
 import { EmitType } from '@syncfusion/ej2-base';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { takeWhile } from 'rxjs/operators';
+import { MetadataList } from 'src/app/core/models/entity/metadata-list';
+import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
 
 @Component({
   selector: 'app-admin-metadata-fields',
@@ -22,13 +24,10 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     { headerText: 'Type', field: 'fieldTypeId', width: '80' },
     { headerText: 'List', width: '150', field: 'metadataListName' }];
 
-  public data: { [key: string]: Object }[] = [{ id: 1, name: 'All Platforms' },
-  { id: 2, name: 'All Register Types' }, { id: 3, name: 'All Systems' }];
-  public listFields: Object = { text: 'name', value: 'id' };
+  public listFields: Object = { text: 'itemDescription', value: 'itemValue' };
 
-  public fieldTypeData: { [key: string]: Object }[] = [{ id: 1, name: 'Text' },
-  { id: 2, name: 'Dropdown' }];
-  public typeListFields: Object = { text: 'name', value: 'id' };
+  public fieldTypeData: MetadataFieldType[];
+  public typeListFields: Object = { text: 'type', value: 'fieldTypeId' };
 
 
   isFieldTypeList: boolean = false;
@@ -47,24 +46,11 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   @ViewChild('listview') public dialogList: any;
   @ViewChild('fieldDialog') public fieldDialogList: DialogComponent;
   @Select(AdminMediaState.getMetaDataFields) metadataFields$: Observable<MetadataFields[]>;
-
+  @Select(AdminMediaState.getMetadataListById) metadataList$: Observable<MetadataList[]>;
+  @Select(AdminMediaState.getMetadataFieldTypes) fieldTypeList$: Observable<MetadataFieldType[]>;
   metadataFields: MetadataFields[];
+  data: MetadataList[];
   isEdit: boolean;
-
-  public saveDlgBtnClick: EmitType<object> = () => {
-    this.ShowSpinner(true);
-    console.log('saveDlgBtnClick', this.metadataFieldForm.controls, this.fieldType);
-
-    if (this.metadataFieldForm.valid) {
-      if (this.metadataFieldForm.dirty) {
-        const metadataField: MetadataFields = { ...this.metadataField, ...this.metadataFieldForm.value };
-        console.log('testing create user - ', metadataField);
-        this.store.dispatch(new CreateMetaDataField(metadataField));
-        this.fieldDialogList.hide();
-      }
-    }
-  }
-
 
   constructor(protected store: Store,
     private formBuilder: FormBuilder, ) {
@@ -72,46 +58,65 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     this.ShowLefNav(true);
     this.componentActive = true;
   }
-  addList(action) {
-    console.log('action', action.itemData);
-    if(action.itemData === 'Dropdown'){
-      this.isFieldTypeList = true;
-    }
-  }
   ngOnInit() {
     this.metadataFieldForm = this.formBuilder.group({
-      id: [''],
+      metadataFieldId: [''],
       fieldName: ['', [Validators.required]],
       fieldType: ['', [Validators.required]],
-      List: ['', [Validators.required]],
+      list: ['', [Validators.required]],
+      isRequired: ['', [Validators.required]],
+      isDeleted: ['', [Validators.required]],
+      relatedField: ['', [Validators.required]],
+      sort: ['', [Validators.required]],
+      status: ['', [Validators.required]]
     });
     this.store.dispatch(new GetMetaDataFields());
     this.metadataFields$.subscribe(fields => {
       this.metadataFields = fields;
     });
+    this.store.dispatch(new GetFieldTypes())
+    this.fieldTypeList$.subscribe(fieldTypes => {
+      this.fieldTypeData = fieldTypes;
+    })
   }
   ngOnDestroy() {
     this.componentActive = false;
   }
+
+
+  addList(action) {
+    console.log('action', action.itemData);
+    if (action.itemData === 'Dropdown') {
+      this.isFieldTypeList = true;
+    }
+  }
+
+
   navigate(action) {
     console.log('action', action);
   }
   clearForm() {
     this.metadataFieldForm.reset({
-      id: null,
+      metadataFieldId: null,
       fieldName: '',
       fieldTypeId: null,
-      ListId: null,
+      list: null,
+      isRequired: null,
+      isDeleted: null,
+      relatedField: null,
+      sort: null,
+      status: null
     });
   }
   add() {
+    this.isEdit = false;
     this.clearForm();
     this.fieldDialogList.show();
   }
 
   remove(data) {
     console.log(data);
-    this.store.dispatch(new RemoveMetaDataFields(data.id));
+    this.store.dispatch(new RemoveMetaDataFields(data.metadataFieldId));
     this.metadataFields$.subscribe(fields => {
       this.metadataFields = fields;
     });
@@ -121,20 +126,37 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     // this.ShowSpinner(true);
     console.log('saveDlgBtnClick', this.metadataFieldForm.controls, this.fieldType);
 
-    if (this.metadataFieldForm.valid) {
-      if (this.metadataFieldForm.dirty ) {
-        const metadataField: MetadataFields = { ...this.metadataField, ...this.metadataFieldForm.value };
-        if (!this.isEdit) {
-          console.log('testing create user - ', metadataField);
-          this.store.dispatch(new CreateMetaDataField(metadataField));
-        }
-        else {
-          console.log('AdminMetadataFieldsComponent - edit', metadataField);
-          this.store.dispatch(new UpdateMetaDataField(metadataField.metadataFieldId, metadataField));
-        }
-        this.fieldDialogList.hide();
-      }
+    //  if (this.metadataFieldForm.valid && this.metadataFieldForm.controls['fieldType'].valid) {
+
+      const metadataField: MetadataFields = { ...this.metadataField, ...this.metadataFieldForm.value };
+
+    if (!this.isEdit) {
+      console.log('testing create user - ', metadataField);
+      this.metadataFieldForm.setValue({
+        metadataFieldId: '',
+        fieldName: metadataField.fieldName,
+        fieldType: metadataField.fieldTypeId ? metadataField.fieldTypeId : '',
+        list: metadataField.metadataListId ? metadataField.metadataListId : '',
+        isRequired: metadataField.isRequired ? metadataField.isRequired : '',
+        isDeleted: metadataField.isDeleted ? metadataField.isDeleted : '',
+        relatedField: metadataField.relatedField ? metadataField.relatedField : '',
+        sort: metadataField.sort ? metadataField.sort : '',
+        status: metadataField.status ? metadataField.status : '',
+      });
+      this.store.dispatch(new CreateMetaDataField(metadataField));
     }
+    if (this.isEdit) {
+      console.log('AdminMetadataFieldsComponent - edit', metadataField);
+      this.metadataFieldForm.patchValue({
+        fieldName: metadataField.fieldName,
+        fieldTypeId: metadataField.fieldTypeId,
+        //    ListId: metadataField.metadataListId,
+      });
+      this.store.dispatch(new UpdateMetaDataField(metadataField.metadataFieldId, metadataField));
+    }
+    this.fieldDialogList.hide();
+    //}
+
   }
 
   closeDialog() {
@@ -144,14 +166,19 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   edit(action: MetadataFields) {
     this.isEdit = true;
     console.log(action);
-    this.fieldDialogList.show();
     this.metadataFieldForm.setValue({
       id: action.metadataFieldId,
       fieldName: action.fieldName,
       fieldType: action.fieldTypeId,
       List: action.metadataListId,
     });
+    this.store.dispatch(new GetMetadataListById(action.metadataListId));
+    this.metadataList$.subscribe(list => {
+      this.data = list;
+      console.log('AdminMetadataFieldsComponent - edit', this.data);
+      this.fieldDialogList.show();
+    });
     console.log('AdminMetadataFieldsComponent - edit', this.metadataFieldForm);
   }
- 
+
 }

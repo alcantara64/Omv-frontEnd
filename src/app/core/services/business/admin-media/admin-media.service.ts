@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
 import { AdminMediaDataService } from '../../data/admin-media/admin-media.data.service';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
+import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,11 @@ export class AdminMediaService {
   }
   updateMetaDataField(id:number, payload: MetadataFields){
     return this.AdminMediaDataService.updateMetaDataField(id, payload);
+  }
+  getMetadataList(id:number){
+    return this.AdminMediaDataService.getMetadataListById(id);
+  }
+  getFieldTypes(): Observable<MetadataFieldType[]>{
+    return this.AdminMediaDataService.getMetadataFieldTypes();
   }
 }
