@@ -1,45 +1,26 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/business/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
+
   
-  constructor(private authService: AuthService, private router: Router) { }
+  authenticated;
 
-  canActivate1(): boolean {
-    if (this.authService.isLoggedIn()) {
-      return true;
-    }
+  constructor(private auth: AuthService, private router: Router) {
+    this.authenticated = auth.isAuthenticated()
+    
+  }
 
-    this.authService.startAuthentication();
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (this.authenticated) { return true; }
+
+    // Redirect to login flow.
+    this.auth.login();
     return false;
   }
 
-  canActivate() {
-    // const route = location.pathname;
-    // const isLoggedIn = this.authService.isLoggedIn();
-    // isLoggedIn.subscribe(login => {
-    //   if (!login) {
-    //     this.saveReturnUrl(route);
-    //     this.authService.startAuthentication();
-    //   }
-    // });
-    // return isLoggedIn;
-    return true;
-  }
-
-  private saveReturnUrl(route) {
-    const ignored_routes = ['#/startup', '#/dashboard'];
-    if (ignored_routes.includes(route)) {
-      return;
-    }
-    const key = 'return_url';
-    if (localStorage.getItem(key)) {
-      localStorage.removeItem(key);
-    }
-    localStorage.setItem(key, route);
-  }
 }

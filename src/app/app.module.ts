@@ -1,13 +1,13 @@
 import { AppState } from './state/app.state';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app.routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpModule } from '@angular/http';
 import { SettingsService } from './core/services/data/appsettings/appsettings.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { AdminUsersService } from './core/services/business/admin-users/admin-users.service';
 import { NgxsModule } from '@ngxs/store';
@@ -22,6 +22,29 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import {FormsModule} from '@angular/forms';
 import { FiltersComponent } from './filters/filters.component';
 
+import { HttpInterceptorService } from './core/services/httpinterceptor.service';
+import { AppStartupService } from './core/services/appstartup.service';
+import { environment } from 'src/environments/environment';
+
+const appUrl = `${window.location.protocol}//${window.location.host.toLowerCase()}`;
+
+const config = {
+  issuer: 'https://{Provide Okta Issuer Url}',
+  redirectUri: `${appUrl}/implicit/callback`,
+  clientId: '{Provide Okta App Client Id}'
+}
+
+// okta client configuration setting duing application bootstrap
+const runAppInitializer = (appStart: AppStartupService) => {
+  return () => {
+    console.log('runAppInitializer');
+    var oktaConfig =  appStart.load();
+    config.issuer = oktaConfig.issuer;
+    config.clientId = oktaConfig.clientId;
+    return oktaConfig;
+  };
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +57,6 @@ import { FiltersComponent } from './filters/filters.component';
     BrowserModule,
     HttpModule,
     HttpClientModule,
-    
     FormsModule,
     AdminModule,
     MediaModule,
@@ -42,12 +64,13 @@ import { FiltersComponent } from './filters/filters.component';
     ToastModule,
       
     BlobModule.forRoot(),
-    NgxsModule.forRoot([ AppState ]),
+    NgxsModule.forRoot([ AppState ],  { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot()
+    
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     SettingsService,
     AdminUsersService
    ],
