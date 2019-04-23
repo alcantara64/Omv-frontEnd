@@ -25,6 +25,8 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     { headerText: 'Status', width: '150', field: 'statusChanged' },];
 
   public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
+  removeLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
+
 
   fieldName: string = '';
   fieldType: string = '';
@@ -49,11 +51,11 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   public saveDlgBtnClick: EmitType<object> = () => {
     this.ShowSpinner(true);
     console.log('saveDlgBtnClick', this.fieldName, this.fieldType);
-
+ 
     if (this.metadataListForm.valid) {
       if (this.metadataListForm.dirty) {
         const metadataList: MetadataList = { ...this.metadataList, ...this.metadataListForm.value };
-        console.log('testing create user - ', metadataList);
+        console.log('testing create metatadata - ', metadataList);
         this.store.dispatch(new CreateMetaDataList(metadataList));
         this.ShowSpinner(false);
         this.closeDialog();
@@ -78,9 +80,10 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   }
   ngOnInit() {
     this.metadataListForm = this.formBuilder.group({
-      id: [''],
+      id: [new Date()],
       fieldName: ['', [Validators.required]],
-      fieldType: ['', [Validators.required]],
+      statusChanged :['Active']
+      //fieldType: ['', [Validators.required]],
     });
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetMetaDataLists());
@@ -103,6 +106,8 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
         this.statusChange = this.ENABLE;
         break;
       default:
+      this.activeMetadataList$.subscribe(activeMetadataList => (this.metadataLists = activeMetadataList));
+      this.statusChange = this.DISABLE;
         break;
     }
   }
@@ -121,7 +126,6 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   }
 
   edit(data?: MetadataList) {
-    console.log('we are in the edit action')
     if (!data) {
       this.router.navigate([`admin/media/metadata/0/edit`]);
     } else {

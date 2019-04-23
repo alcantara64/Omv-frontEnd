@@ -9,12 +9,14 @@ import { environment } from 'src/environments/environment';
 import { UploadRequest_GetAllOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequest_GetAllOutputDTO';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
+import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AdminMediaWebDataService implements AdminMediaDataService {
+
 
 
 
@@ -82,5 +84,26 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   }
   updateMetadataList(id: number, payload: MetadataList){
     return null;
+  }
+  
+  getMetaDataListsItem(): Observable<MetadataListItem[]> {
+    return null;
+  }
+  getMetaDataListItem(id:number): Observable<MetadataListItem[]> {
+    return null;
+  }
+
+  removeMetadataListItem(id: number ) {
+    throw new Error("Method not implemented.");
+  }
+  createMetadataListItem(payload: MetadataListItem):Observable<MetadataListItem> {
+    return null;
+  }
+  updateMetadataListItem(id: number, payload: MetadataListItem){
+    return null;
+  }
+  
+  getMetaDataListById(id: number): Observable<MetadataList> {
+    throw new Error("Method not implemented.");
   }
 }

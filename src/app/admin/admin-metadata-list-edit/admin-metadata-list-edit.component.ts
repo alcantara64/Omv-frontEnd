@@ -8,14 +8,14 @@ import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { Observable } from 'rxjs';
 import { messageType } from 'src/app/state/app.actions';
-import { CreateMetaDataList, UpdateMetadataList, GetMetaDataList } from '../state/admin-media/admin-media.action';
+import { CreateMetaDataList, UpdateMetadataList, GetMetaDataList, GetMetaDataListsItem, GetMetaDataListItem, GetMetaDataListById } from '../state/admin-media/admin-media.action';
 import { takeWhile } from 'rxjs/operators';
 import { Metadata } from 'src/app/core/models/entity/metadata';
 import { MetadataListStatus } from 'src/app/core/enum/metadata-list-status';
 
 const METADATALIST_TAB =0;
-const UPDATE_METADATALIST_ITEMS = 'Update metadatalist items';
-const CREATE_METADATALIST_ITEMS = 'Create metadatalist items';
+const UPDATE_METADATALIST_ITEMS = 'Update list';
+const CREATE_METADATALIST_ITEMS = 'Create list';
 
 @Component({
   selector: 'app-admin-metadata-list-edit',
@@ -53,16 +53,16 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
       public placeholder: string = 'Change status';
 ngOnInit() {
   this.metadataListForm = this.fb.group({
-    id: '',
+    id: Math.random(),
     name: [ '', [ Validators.required ] ],
     status: ''
   });
 
-  // Get the id in the browser url and reach out for the User
+  // Get the id in the browser url and reach out for the metada list
   this.activatedRoute.paramMap.subscribe(params => {
     this.metadataId = Number(params.get('id'));
     if (this.metadataId) {
-      this.store.dispatch(new GetMetaDataList(this.metadataId));
+      this.store.dispatch(new GetMetaDataListById(this.metadataId));
       this.createMetaDataButtonText = UPDATE_METADATALIST_ITEMS;
     }
   }),
@@ -70,12 +70,14 @@ ngOnInit() {
 
     // Get the current list
     this.currentMetadataList$.subscribe(list => {
+      console.log('list', list)
+     
       if (list) { // 
         this.metaDataActionText = list.status == MetadataListStatus.Active ? UPDATE_METADATALIST_ITEMS: CREATE_METADATALIST_ITEMS;
         this.metadataListForm.setValue({
         
           status: list.status,
-        
+          name: list.fieldName,
         });
         this.listFields = list;
       } else {
@@ -117,8 +119,7 @@ ngOnInit() {
     }
   }
 
-  
-
+ 
 
   
 }

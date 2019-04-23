@@ -26,8 +26,8 @@
         <ejs-dropdownlist id='ddlelement' #samples (change)="addList($event)" [dataSource]='data'
         [placeholder]='placeholder' [value]='id' [fields]='listFields'></ejs-dropdownlist>
       </div><br>
-      <app-edit [firstButtonText]="createGroupButtonText" [isfirstButtonDisabled]="!metadataListForm.valid || !metadataListForm.dirty"
-          [secondButtonText]="groupActionText" [isSecondButtonVisible]="groupId" (secondButtonEvent)="changeStatus()">
+      <app-edit [firstButtonText]="createMetaDataButtonText" [isfirstButtonDisabled]="!metadataListForm.valid || !metadataListForm.dirty"
+          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="groupId" (secondButtonEvent)="changeStatus()">
       </app-edit>
     </form>
   </div>
@@ -36,7 +36,7 @@
       <div class="e-sample-resize-container">
           <app-tabs [tabs]="metadataItemTabs" (navigate)="switchTabs($event)"></app-tabs>
           <app-admin-metadata-list-items></app-admin-metadata-list-items>
-          <!-- <app-admin-group-permissions *ngIf="showPermissions"></app-admin-group-permissions> -->
+        
       </div>
     </div>
   </div>

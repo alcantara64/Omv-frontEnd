@@ -1,23 +1,45 @@
 
-<app-list [listData]="groupMembers" [columns]="columns" [showSecondAction]="false"
+<app-list [listData]="metadataListItems" [columns]="columns" [showSecondAction]="false"
           [isToolBarVisible]="false"
-          [buttonOneText] = "groupId ? 'Add Member(s)' : ''"
-          (buttonOneEvent)="addGroupMembers($event)"
-          [secondButtonText]="groupId ? 'Remove Member(s)': ''"
+          [buttonOneText] = "listId ? 'Add List item' : ''"
+		  (buttonOneEvent)="addListMembers($event)"
+		  (firstNavigateAction)="remove($event)"
+		  [showFirstAction] = "true"
+		  [firstActionText]="removeLink"
+		  [showSecondAction]="true" [firstActionText]="removeLink"
+		  [secondActionText]="removeLink"
           (secondButtonEvent)="show($event)">
 </app-list>
 
-<ejs-dialog #groupDialog
+<ejs-dialog #listItemDialog
 	[visible]='false'
 	[buttons]='dialogButtons'
-	[header]="'Add Member(s) to Group'"
+	[header]="'Add List Item to List'"
 	[showCloseIcon]='true'
 	[width]='500'
 	[height]="300">
 	<ng-template #content>
-		<ejs-multiselect id='users' [dataSource]='users' [mode]="'Box'" [fields]='usersFields' [placeholder]="'Users'"
-			[(value)]="userIds"></ejs-multiselect>
+		
+		<br />
+		<form novalidate (ngSubmit)="saveDlgBtnClick()" [formGroup]="metadataListItemForm">
+			<div class="row pt-3">
+				<div class="col-md-3"><label class="media-label" style="padding-top: 11px;">
+						List Name:
+					</label></div>
+				<div class="col-md-8">
+					<input class="form-control form-control-lg" id="NameId" type="text" placeholder=""
+						formControlName="name"
+						[ngClass]="{'is-invalid': (metadataListItemForm.get('name').touched ||
+						metadataListItemForm.get('name').dirty) &&
+																			  !metadataListItemForm.get('name').valid }" />
+				</div>
+			</div>
+		</form> <br />
+		<!-- <ejs-listview [showCheckBox]='true'></ejs-listview> -->
+
+		
 	</ng-template>
+
 
 
 </ejs-dialog>

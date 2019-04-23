@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId } from './admin-media.action';
+import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId, CreateMetaDataListItem, RemoveMetaDataListItem, GetMetaDataListItem, GetMetaDataListsItem, GetMetaDataList as GetMetaDataListById } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { AdminMediaService } from 'src/app/core/services/business/admin-media/admin-media.service';
 import { DateService } from 'src/app/core/services/business/dates/date.service';
@@ -9,11 +9,13 @@ import { DisplayToastMessage } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataListStatus } from 'src/app/core/enum/metadata-list-status';
+import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
 
 export class AdminMediaStateModel {
   uploadHistory: UploadHistory[];
   metadataFields: MetadataFields[];
   metadataLists: MetadataList[];
+  metadataListsItem: MetadataListItem[];
   currentMetadataId: number;
   currentMetadataListId: number;
   currentMetadataList: MetadataList;
@@ -32,6 +34,7 @@ const initialMetadataList: MetadataList = {
     uploadHistory: [],
     metadataFields: [],
     metadataLists: [],
+    metadataListsItem: [],
     currentMetadataListId: null,
     currentMetadataList: initialMetadataList,
     currentMetadataId: null
@@ -54,11 +57,18 @@ export class AdminMediaState {
   static getMetaDataLists(state: AdminMediaStateModel) {
     return state.metadataLists;
   }
+ 
+  @Selector()
+  static getMetaDataListItem(state: AdminMediaStateModel) {
+    return state.metadataListsItem;
+  }
+
   @Selector()
   static getActiveMetadataList(state: AdminMediaStateModel) {
     return state.metadataLists.filter(x => x.status === MetadataListStatus.Active);
   }
 
+  
   @Selector()
   static getDisabledMetadataList(state: AdminMediaStateModel) {
     return state.metadataLists.filter(x => x.status === 0);
@@ -146,8 +156,55 @@ export class AdminMediaState {
         });
       })
     );
+    
   }
-  
+  @Action( GetMetaDataListById)
+  getMetaDataListById({ getState, setState }: StateContext<AdminMediaStateModel>,{id} : GetMetaDataListById) {
+    return this.adminMediaService.getMetadataListById(id).pipe(
+      tap(lists => {
+        const state = getState();   
+        // const currentList =  lists.filter(x => x.id === id['id'])
+      
+        setState({
+          ...state,
+          currentMetadataList: lists ? lists : null
+        });
+        console.log(getState(), 'current list')
+      })
+    );
+  }
+
+  @Action(GetMetaDataListItem)
+  getMetaDataListItem({ getState, setState }: StateContext<AdminMediaStateModel>) {
+    return this.adminMediaService.getMetadataList().pipe(
+      tap(lists => {
+        const state = getState();
+        setState({
+          ...state,
+          metadataLists: lists
+        });
+      })
+    );
+  }
+
+  @Action(GetMetaDataListsItem)
+  getMetaDataListsItem({ getState, setState }: StateContext<AdminMediaStateModel>,{id}) {
+    console.log(id, 'My Id');
+
+    return this.adminMediaService.getMetadataListsItem().pipe(
+      tap(lists => {
+        const state = getState();
+ console.log(lists, 'this is my list');
+      let filteredlist =  lists.filter(x => x.listId  === id)
+      
+        setState({
+          ...state,
+          metadataListsItem: filteredlist
+        });
+      })
+    );
+  }
+
   @Action(SetCurrentMetadataListId)
   setCurrentMetadataListId({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: SetCurrentMetadataListId) {
     var state = getState();
@@ -163,15 +220,38 @@ export class AdminMediaState {
       tap(metadataList => {
         ctx.dispatch(new DisplayToastMessage('Create successful.'));
         const state = ctx.getState();
-        console.log(state);
+       
         let list = state.metadataLists;
-        
+        const UpdateMetadataList =[...list, metadataList];
         // console.log('AdminMediaState createMetaDataList new List:', list);
         ctx.setState({
           ...state,
-          // metadataLists: [...list,  metadataList],
-          currentMetadataId: metadataList.id
+           metadataLists: UpdateMetadataList,
+        
         });
+        console.log(ctx.getState(), 'check my current state')
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
+      })
+    );
+  }
+
+  @Action(CreateMetaDataListItem)
+  createMetaDataListItem(ctx: StateContext<AdminMediaStateModel>, { payload }: CreateMetaDataListItem) {
+    return this.adminMediaService.createMetaDataListItem(payload).pipe(
+      tap(metadataListItem => {
+        ctx.dispatch(new DisplayToastMessage('Create successful.'));
+        const state = ctx.getState();
+       
+        let list = state.metadataListsItem;
+        const UpdateMetadataList =[...list, metadataListItem];
+        // console.log('AdminMediaState createMetaDataList new List:', list);
+        ctx.setState({
+          ...state,
+          metadataListsItem: UpdateMetadataList,
+        
+        });
+        console.log(ctx.getState(), 'check my current state')
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
@@ -207,11 +287,16 @@ export class AdminMediaState {
   @Action(EnableMetadataList)
   enableMetadataList(ctx: StateContext<AdminMediaStateModel>, { id, payload, refreshList }: EnableMetadataList) {
     payload.status = 1;
-    ctx.dispatch(new DisplayToastMessage('List was enabled successfully.'));
+  
     return this.adminMediaService.updateMetadataList(id, payload).pipe(
       tap(list => {
+      
+
         if (refreshList) {
+          console.log(payload, 'payload')
           ctx.dispatch(new GetMetaDataLists());
+          ctx.dispatch(new DisplayToastMessage('List was enabled successfully.'));
+          
         }
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
@@ -231,5 +316,16 @@ export class AdminMediaState {
       });
     }));
   }
-
+  @Action(RemoveMetaDataListItem)
+  removeMetaDataListsItem(ctx: StateContext<AdminMediaStateModel>, { id }: RemoveMetaDataListItem) {
+    return this.adminMediaService.removeMetadataListItem(id).pipe(map(lists => {
+      let datas = lists.filter(x => x.id !== id);
+      lists = datas;
+      const state = ctx.getState();
+      ctx.setState({
+        ...state,
+        metadataListsItem: lists
+      });
+    }));
+  }
 }
