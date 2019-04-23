@@ -34,7 +34,10 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {ToolbarModule, TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 import { ImagePreloadDirective } from '../core/directives/image-preload/image-preload.directive';
 import { TreeGridModule, PageService, SortService, ContextMenuService } from '@syncfusion/ej2-angular-treegrid';
-import { FormComboBoxComponent } from './dynamic-components/components/form-combobox.component';
+import { FormComboBoxComponent } from './dynamic-components/components/form-combobox.component/form-combobox.component';
+import { TagsComponent } from './tags/tags.component';
+import { FormDateRangePickerComponent } from './dynamic-components/components/form-date-range-picker/form-date-range-picker.component';
+import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 @NgModule({
   declarations: [
@@ -55,13 +58,14 @@ import { FormComboBoxComponent } from './dynamic-components/components/form-comb
     LeftNavComponent,
     ListComponent,
     TabsComponent, 
+    TagsComponent,
     TileViewComponent,
     TreeViewComponent,
 
     DynamicFieldDirective, 
     ImagePreloadDirective, 
 
-    FileSizePipe,
+    FileSizePipe, FormDateRangePickerComponent, 
   ],
   imports: [
     CommonModule,
@@ -74,6 +78,7 @@ import { FormComboBoxComponent } from './dynamic-components/components/form-comb
     GridModule,
     ListViewModule,
     DatePickerModule,
+    DateRangePickerModule,
     DropDownListModule,
     ReactiveFormsModule,
     NgxExtendedPdfViewerModule,
@@ -104,6 +109,7 @@ import { FormComboBoxComponent } from './dynamic-components/components/form-comb
     PageNotFoundComponent,
     PdfViewerComponent,
     TabsComponent,
+    TagsComponent,
     TreeViewComponent,
     TileViewComponent,
 

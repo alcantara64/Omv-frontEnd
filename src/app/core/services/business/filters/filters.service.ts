@@ -39,7 +39,7 @@ export class FiltersService {
       label: item.label.toUpperCase(),
       order: item.order,
       options: item.options,
-      cssClass: 'col-md-4',
+      cssClass: 'col-md-3',
       placeholder: `Search in ${item.label}`,
     };
   }

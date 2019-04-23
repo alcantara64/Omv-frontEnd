@@ -1,5 +1,6 @@
 export class ListItem {
-  itemValue: string;
-  itemDescription: string;
-  itemSort: number;
+  value: string;
+  description: string;
+  sort: number;
+  isSelected: boolean;
 }
