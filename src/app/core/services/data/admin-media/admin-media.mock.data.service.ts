@@ -118,10 +118,14 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
   }  
 
   getMetaDataListById(id: number): Observable<MetadataList> {
-    var url = `./assets/mock/admin-metadata-list-item.json`;
-    let data = this.httpClient.get<MetadataList>(url);
-    console.log('data', data);
+    var url = `./assets/mock/admin-metadata-list.json`;
+    let data = this.httpClient.get<MetadataList[]>(url).pipe(
+      map(resp => {
+        return resp.find( element => element.id === id);
+      })
+    );
     return data;
+    
   }
 
 

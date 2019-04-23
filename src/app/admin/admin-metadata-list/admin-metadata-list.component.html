@@ -89,7 +89,7 @@
             [isToolBarVisible]="true"
             [totalCountText]="'Total Lists'"
             [toolbarActionOne]="statusChange"
-            (firstAction)="remove($event)"
+            (firstAction)="changeMetadataListStatus($event)"
             (secondNavigateAction)="edit($event)"
             [firstActionText]="removeLink"
              (firstNavigateAction)="remove($event)"

@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId, CreateMetaDataListItem, RemoveMetaDataListItem, GetMetaDataListItem, GetMetaDataListsItem, GetMetaDataList as GetMetaDataListById } from './admin-media.action';
+import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId, CreateMetaDataListItem, RemoveMetaDataListItem, GetMetaDataListItem, GetMetaDataListsItem, GetMetaDataList } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { AdminMediaService } from 'src/app/core/services/business/admin-media/admin-media.service';
 import { DateService } from 'src/app/core/services/business/dates/date.service';
@@ -158,18 +158,19 @@ export class AdminMediaState {
     );
     
   }
-  @Action( GetMetaDataListById)
-  getMetaDataListById({ getState, setState }: StateContext<AdminMediaStateModel>,{id} : GetMetaDataListById) {
+
+  @Action(GetMetaDataList)
+  getMetaDataList({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetMetaDataList) {
     return this.adminMediaService.getMetadataListById(id).pipe(
       tap(lists => {
         const state = getState();   
-        // const currentList =  lists.filter(x => x.id === id['id'])
+         
       console.log(lists, 'the current metadata list Item')
         setState({
           ...state,
           currentMetadataList: lists ? lists : null
         });
-        console.log(getState(), 'current list state')
+       console.log(getState(), 'current list')
       })
     );
   }

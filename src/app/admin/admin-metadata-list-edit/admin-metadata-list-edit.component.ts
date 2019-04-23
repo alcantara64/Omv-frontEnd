@@ -8,7 +8,7 @@ import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { Observable } from 'rxjs';
 import { messageType } from 'src/app/state/app.actions';
-import { CreateMetaDataList, UpdateMetadataList, GetMetaDataList, GetMetaDataListsItem, GetMetaDataListItem, GetMetaDataListById } from '../state/admin-media/admin-media.action';
+import { CreateMetaDataList, UpdateMetadataList, GetMetaDataList, GetMetaDataListsItem, GetMetaDataListItem } from '../state/admin-media/admin-media.action';
 import { takeWhile } from 'rxjs/operators';
 import { Metadata } from 'src/app/core/models/entity/metadata';
 import { MetadataListStatus } from 'src/app/core/enum/metadata-list-status';
@@ -62,7 +62,7 @@ ngOnInit() {
   this.activatedRoute.paramMap.subscribe(params => {
     this.metadataId = Number(params.get('id'));
     if (this.metadataId) {
-      this.store.dispatch(new GetMetaDataListById(this.metadataId));
+      this.store.dispatch(new GetMetaDataList(this.metadataId));
       this.createMetaDataButtonText = UPDATE_METADATALIST_ITEMS;
       console.log(this.metadataId, 'action is dispached')
     }
@@ -71,19 +71,21 @@ ngOnInit() {
 
     // Get the current list
     this.currentMetadataList$.subscribe(list => {
-      console.log('list', list)
-     
+      console.log('list the final list; ', list)
+    
       if (list) { // 
         this.metaDataActionText = list.status == MetadataListStatus.Active ? UPDATE_METADATALIST_ITEMS: CREATE_METADATALIST_ITEMS;
-        this.metadataListForm.setValue({
+        this.metadataListForm.patchValue({
         
-          status: list.status,
+          status :['active','inactive'],
           name: list.fieldName,
         });
         this.listFields = list;
-      } else {
+        
+       }   else {
         this.metadataListForm.reset();
-      }
+      
+       }
     }),
     takeWhile(() => this.componentActive);
   }

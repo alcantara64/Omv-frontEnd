@@ -80,7 +80,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   }
   ngOnInit() {
     this.metadataListForm = this.formBuilder.group({
-      id: [new Date()],
+      id: [Math.random()],
       fieldName: ['', [Validators.required]],
       statusChanged :['Active']
       //fieldType: ['', [Validators.required]],
