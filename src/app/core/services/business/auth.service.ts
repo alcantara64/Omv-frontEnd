@@ -7,22 +7,22 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private _auth: OktaAuth = null;
-  constructor(private router: Router) { }
+  constructor(private router: Router, ) { }
 
   async isAuthenticated() {
     console.log('AuthService.isAuthenticated');
     //ensure auth initialized
-    /*
-     if(!this._auth)
-     {
-       await this.load();
-     }
- */
-    if (!this._auth)
-      return false;
+
+    if (!this._auth) {
+      await this.load();
+    }
+
+    // if (!this._auth)
+    //   return false;
 
     // Checks if there is a current accessToken in the TokenManger.
-    return !!(await this._auth.tokenManager.get('accessToken'));
+    let retVal = !!(await this._auth.tokenManager.get('accessToken'));
+    return retVal;
   }
 
   async getAccessToken() {
@@ -37,9 +37,9 @@ export class AuthService {
     if (!this._auth)
       return false;
     // Checks if there is a current accessToken in the TokenManger.
-    let retVal =  await this._auth.tokenManager.get('accessToken');
-    
-    if(retVal)
+    let retVal = await this._auth.tokenManager.get('accessToken');
+
+    if (retVal)
       return retVal.accessToken;
     else
       return null;
@@ -53,8 +53,6 @@ export class AuthService {
     }
 
     // Launches the login redirect.
-
-
     this._auth.token.getWithRedirect({
       responseType: ['id_token', 'token'],
       scopes: ['openid', 'email', 'profile']
@@ -64,9 +62,8 @@ export class AuthService {
   async handleAuthentication() {
     console.log('AuthService.handleAuthentication');
     //ensure auth initialized
-    
-    if(!this._auth)
-    {
+
+    if (!this._auth) {
       await this.load();
     }
 

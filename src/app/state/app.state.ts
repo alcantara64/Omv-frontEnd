@@ -14,14 +14,13 @@ import {
   DisplayToastMessage,
   DeviceWidth,
   ShowSpinner,
-  HideSpinner
+  HideSpinner,
+  SetUserAuthentication
 } from './app.actions';
-import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
+import {State, Selector, Action, StateContext} from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
 import { AuthService } from '../core/services/business/auth.service';
 import { Permission } from '../core/enum/permission';
-import { GetPermissions } from '../admin/state/admin-permissions/admin-permissions.action';
-import { GetUser } from '../admin/state/admin-users/admin-users.actions';
 import { tap } from 'rxjs/operators';
 import { Toast } from '../core/enum/toast';
 
@@ -41,6 +40,8 @@ export class AppStateModel {
   deviceWidth: number;
   gridData: any[];
   showSpinner: boolean;
+
+  isUserAuthenticated: boolean;
 }
 
 @State<AppStateModel>({
@@ -60,7 +61,9 @@ export class AppStateModel {
     error: '',
     deviceWidth: window.innerWidth,
     gridData: [],
-    showSpinner: false
+    showSpinner: false,
+
+    isUserAuthenticated: false
   }
 })
 export class AppState {
@@ -125,7 +128,12 @@ export class AppState {
     return state.deviceWidth;
   }
 
-  constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
+  @Selector()
+  static getIsUserAuthenticated(state: AppStateModel) {
+    return state.isUserAuthenticated;
+  }
+
+  constructor(private auth: AuthService, private adminUsersService: AdminUsersService) { }
 
   @Action(ShowLeftNav)
   setLeftNavToggle({getState, setState}: StateContext<AppStateModel>, { payload }: ShowLeftNav) {
@@ -176,6 +184,16 @@ export class AppState {
     );
   }
 
+  @Action(SetUserAuthentication)
+  async setUserAuthentication({getState, setState}: StateContext<AppStateModel>) {
+    let isAuthenticated = await this.auth.isAuthenticated();
+    const state = getState();
+    setState({
+      ...state,
+      isUserAuthenticated: isAuthenticated
+    });
+  }
+
   @Action(SetLoggedInUser)
   setLoggedInUser({getState, setState}: StateContext<AppStateModel>, { payload }: SetPageTitle) {
     const state = getState();
@@ -186,13 +204,14 @@ export class AppState {
   }
 
   @Action(LogOut)
-  logOut({getState, setState}: StateContext<AppStateModel>, { payload }: SetPageTitle) {
+  logOut({getState, setState}: StateContext<AppStateModel>) {
     const state = getState();
     setState({
       ...state,
-      currentUser: null
+      currentUser: null,
+      isUserAuthenticated: false
     });
-    return this.authService.logout();    
+    return this.auth.logout();    
   }
 
   @Action(GetUserPermissions)

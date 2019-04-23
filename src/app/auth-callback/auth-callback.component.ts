@@ -8,5 +8,4 @@ export class AuthCallbackComponent{
     // Handles the response from Okta and parses tokens
     auth.handleAuthentication();
   }
-
 }

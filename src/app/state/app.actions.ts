@@ -85,3 +85,7 @@ export class DeviceWidth {
 
   constructor(public deviceWidth: number) {}
 }
+
+export class SetUserAuthentication {
+  static readonly type = '[App] SetUserAuthentication';
+}

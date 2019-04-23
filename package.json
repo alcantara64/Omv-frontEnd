@@ -21,9 +21,6 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
-    "@ngrx/effects": "^7.3.0",
-    "@ngrx/store": "^7.3.0",
-    "@ngrx/store-devtools": "^7.3.0",
     "@ngxs/devtools-plugin": "^3.4.3",
     "@ngxs/logger-plugin": "^3.4.3",
     "@ngxs/store": "^3.4.3",
@@ -51,7 +48,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "file-saver": "^2.0.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.0",
     "moment": "^2.24.0",
     "ng2-image-viewer": "^2.0.2",
     "ngx-document-view": "^1.0.1",
@@ -63,7 +60,7 @@
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.13.0",
+    "@angular-devkit/build-angular": "^0.13.8",
     "@angular/cli": "~7.3.0",
     "@angular/compiler-cli": "~7.2.0",
     "@angular/language-service": "~7.2.0",
