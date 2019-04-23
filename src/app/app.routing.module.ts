@@ -9,6 +9,7 @@ import { StartupComponent } from './startup/startup.component';
 import {PdfViewerComponent} from './shared/pdf-viewer/pdf-viewer.component';
 import {MediaViewerComponent} from './shared/media-viewer/media-viewer.component';
 
+
 const routes: Routes = [
   {
     path: '',
@@ -20,13 +21,13 @@ const routes: Routes = [
     component: StartupComponent
   },
   {
+    path: 'implicit/callback',
+    component: AuthCallbackComponent
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
     // canActivate: [AuthGuardService]
-  },
-  {
-    path: 'auth-callback',
-    component: AuthCallbackComponent
   },
   {
     path: 'pdf-viewer',
@@ -45,7 +46,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { useHash: true })
+    RouterModule.forRoot(routes, { useHash: false })
   ],
   exports: [ RouterModule ],
   providers: [AuthGuardService, AuthService]
