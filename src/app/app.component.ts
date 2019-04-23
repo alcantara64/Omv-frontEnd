@@ -10,7 +10,6 @@ import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups/src/spinner/spinner';
 import { User } from './core/models/entity/user';
 import { AuthService } from './core/services/business/auth.service';
-import { OktaAuthService } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-root',
@@ -38,11 +37,7 @@ export class AppComponent implements AfterViewInit{
     this.confirmBox.hide(toastEle);
   }
 
-  constructor(public authn: AuthService, private title: Title, store:Store, public oktaAuth: OktaAuthService) {
-
-    this.oktaAuth.$authenticationState.subscribe(
-      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
-    );
+  constructor(public auth: AuthService, private title: Title, store:Store) {
 
     this.currentPageTitle$.subscribe( (res) => {
       res === 'OMV Client Portal' ? this.title.setTitle(res) : this.title.setTitle(res + ' - OMV Client Portal');
@@ -73,7 +68,7 @@ export class AppComponent implements AfterViewInit{
       });
 
       // Get the authentication state for immediate use
-      this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+      this.isAuthenticated = await this.auth.isAuthenticated();
 
       if(this.isAuthenticated)
       {
@@ -86,6 +81,7 @@ export class AppComponent implements AfterViewInit{
         console.log("User Not Logged In");
 
         console.log("Attempting to login and redirect back to application");
+        //TODO - is this the best approach - just direct them to login?
         //this.oktaAuth.loginRedirect();
       }
    

@@ -1,6 +1,6 @@
 import { AppState } from './state/app.state';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app.routing.module';
 import { AppComponent } from './app.component';
@@ -19,20 +19,29 @@ import { StartupComponent } from './startup/startup.component';
 import { MediaModule } from './media/media.module';
 import { BlobModule } from 'angular-azure-blob-service';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
-import { FiltersComponent } from './filters/filters.component';
-import {
-  OKTA_CONFIG,
-  OktaAuthGuard,
-  OktaAuthModule,
-  OktaCallbackComponent,
-} from '@okta/okta-angular';
+
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
+import { AppStartupService } from './core/services/appstartup.service';
+import { environment } from 'src/environments/environment';
+
+const appUrl = `${window.location.protocol}//${window.location.host.toLowerCase()}`;
 
 const config = {
-  issuer: 'https://dev-104918.okta.com/oauth2/default',
-  redirectUri: 'http://localhost:4200/implicit/callback',
-  clientId: '0oahryql8HD45nO6v356'
+  issuer: 'https://{Provide Okta Issuer Url}',
+  redirectUri: `${appUrl}/implicit/callback`,
+  clientId: '{Provide Okta App Client Id}'
 }
+
+// okta client configuration setting duing application bootstrap
+const runAppInitializer = (appStart: AppStartupService) => {
+  return () => {
+    console.log('runAppInitializer');
+    var oktaConfig =  appStart.load();
+    config.issuer = oktaConfig.issuer;
+    config.clientId = oktaConfig.clientId;
+    return oktaConfig;
+  };
+};
 
 @NgModule({
   declarations: [
@@ -46,17 +55,16 @@ const config = {
     BrowserModule,
     HttpModule,
     HttpClientModule,
-    OktaAuthModule.initAuth(config),
-    
     AdminModule,
     MediaModule,
     SharedModule,
     ToastModule,
 
     BlobModule.forRoot(),
-    NgxsModule.forRoot([ AppState ]),
+    NgxsModule.forRoot([ AppState ],  { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot()
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },

@@ -1,16 +1,15 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Observable, from, observable } from 'rxjs';
-import { tap, mergeMap } from 'rxjs/operators';
-import { OktaAuthService } from '@okta/okta-angular';
+import { AuthService } from './business/auth.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpInterceptorService implements HttpInterceptor {
 
-  constructor(private router: Router, private injector: Injector, private oktaAuth: OktaAuthService) { }
+  constructor( private auth: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -19,13 +18,22 @@ export class HttpInterceptorService implements HttpInterceptor {
   }
 
   private async processInterceptor(req: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
-    const token = await this.oktaAuth.getAccessToken();
-    console.log ('processinterceptor', token);
-    let changedRequest = req.clone({
-      headers: req.headers.set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${token}`)
-    });
+    
+  
+    const token = await this.auth.getAccessToken();
 
+    console.log ('processinterceptor', token);
+    let changedRequest: HttpRequest<any> = req;
+    
+    if(token)
+    {
+      changedRequest = req.clone({
+        headers: req.headers.set('Content-Type', 'application/json')
+          .set('Authorization', `Bearer ${token}`)
+      });
+  
+    }
+    
     return next.handle(changedRequest).toPromise();
   }
 }

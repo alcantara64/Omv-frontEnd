@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { AppState } from "../../state/app.state";
 import { Observable } from "rxjs";
-import { OktaAuthService } from '@okta/okta-angular';
+
+import { AppStartupService } from 'src/app/core/services/appstartup.service';
+import { AuthService } from 'src/app/core/services/business/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -19,15 +21,11 @@ export class AppHeaderComponent implements OnInit {
 
   @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
 
-  constructor(private activatedRoute: ActivatedRoute, public oktaAuth: OktaAuthService) {
+  constructor(private appStartup: AppStartupService,private activatedRoute: ActivatedRoute, private auth: AuthService) {
     this.deviceWidth$.subscribe(width => {
       this.displayWidth = width;
     });
 
-    // Subscribe to authentication state changes
-    this.oktaAuth.$authenticationState.subscribe(
-      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
-    );
   }
 
   async ngOnInit() {
@@ -37,26 +35,26 @@ export class AppHeaderComponent implements OnInit {
     })
 
     // Get the authentication state for immediate use
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+    //TODO - this needs to be reactive - ie NGXS so we know when state isauthenticated has changed
+    //this way menu will change to logout
+    this.isAuthenticated = await this.auth.isAuthenticated();
   }
 
-  // ngDoCheck(): void {
-  //   this.currentRoute= window.location.pathname;
-  // }
+  
 
   activateMenu(status: boolean) {
     status === true ? this.activated = true : this.activated = false;
   }
 
   login() {
-    this.oktaAuth.loginRedirect('/profile');
+    this.auth.login();
   }
 
   logout() {
     // this.store.dispatch(new LogOut());
 
     //TODO - ngxs-ify
-    this.oktaAuth.logout('/');
+    this.auth.logout();
 
   }
 }

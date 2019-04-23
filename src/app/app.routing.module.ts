@@ -8,13 +8,9 @@ import { AuthService } from './core/services/business/auth.service';
 import { StartupComponent } from './startup/startup.component';
 import {PdfViewerComponent} from './shared/pdf-viewer/pdf-viewer.component';
 import {MediaViewerComponent} from './shared/media-viewer/media-viewer.component';
-import { OktaCallbackComponent } from '@okta/okta-angular';
+
 
 const routes: Routes = [
-  {
-    path: 'implicit/callback',
-    component: OktaCallbackComponent
-  },
   {
     path: '',
     redirectTo: 'admin/users/active',
@@ -25,13 +21,13 @@ const routes: Routes = [
     component: StartupComponent
   },
   {
+    path: 'implicit/callback',
+    component: AuthCallbackComponent
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
     // canActivate: [AuthGuardService]
-  },
-  {
-    path: 'auth-callback',
-    component: AuthCallbackComponent
   },
   {
     path: 'pdf-viewer',
