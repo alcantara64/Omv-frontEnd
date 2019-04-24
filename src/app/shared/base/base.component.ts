@@ -1,10 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { permission, Permission } from "src/app/core/enum/permission";
+import { OnInit } from "@angular/core";
+import { Permission } from "src/app/core/enum/permission";
 import {Select, Store} from "@ngxs/store";
 import {
-  Confirmation,
-  messageType,
-  SetNotification,
   SetPageTitle,
   ShowConfirmationBox,
   ShowLeftNav,
@@ -92,10 +89,6 @@ export class BaseComponent implements OnInit {
 
   protected PageTitle(pageTitle: string) {
     this.store.dispatch(new SetPageTitle(pageTitle));
-  }
-
-  protected setNotification(message: string, messageType?: messageType) {
-    this.store.dispatch(new SetNotification(message, messageType));
   }
 
   protected confirm(show: boolean) {

@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Title } from "@angular/platform-browser";
-import { DeviceWidth, AuthenticateUser } from "./state/app.actions";
+import { DeviceWidth, AuthenticateUser, GetLoggedInUser } from "./state/app.actions";
 import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
@@ -77,6 +77,8 @@ export class AppComponent implements AfterViewInit {
       .subscribe(async isAuthenticated => {
         if (isAuthenticated === false) {
           await this.auth.login();
+        } else if (isAuthenticated === true) {
+          this.store.dispatch(new GetLoggedInUser());
         }
       });
 

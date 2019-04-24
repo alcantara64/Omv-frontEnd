@@ -138,12 +138,19 @@ hr {
   display: block;
 }
 
-.arrowDown:before {
+.arrow-down {
+  cursor: pointer;
+}
+
+.arrow-down:after {
   margin: 10px;
   content: '\e83d';
   color: white;
   font-size: larger;
-  cursor: pointer;
+}
+
+.arrowDown:after {
+  
 }
 
 .userDropdown {
@@ -272,7 +279,18 @@ hr {
   border-left: solid thick #033b5c;
 }
 
-
+.label-14-offwhite-1 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.3px;
+  color: #eaeaea;
+  margin: 0px 12px 0px 20px;
+  cursor: pointer;
+}
 
 
 

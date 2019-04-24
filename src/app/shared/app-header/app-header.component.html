@@ -6,16 +6,18 @@
           <a class="nav-link" href="#" style="color: #FAC42D; display: inline-block">
             Report Issues
           </a>
-          <span class="e-icons arrowDown"
+
+          <span class="e-icons arrow-down"
                 (click)="userDropdown.style.display === 'block' ?
                 userDropdown.style.display = 'none' :
                 userDropdown.style.display = 'block'">
+            <label class="label-14-offwhite-1"> {{ userDisplayName }} </label>
           </span>
         </div>
         <div class="userDropdown" #userDropdown>
           <ul [ngStyle]="{'right': displayWidth <= 1265 ? '0' : ''}">
-              <li *ngIf="!(isAuthenticated$ | async)"><a style="cursor: pointer" (click)="login()">Login</a></li>
-              <li *ngIf="(isAuthenticated$ | async)"><a style="cursor: pointer" (click)="logout()">Logout</a></li>
+            <li *ngIf="!(isAuthenticated$ | async)"><a style="cursor: pointer" (click)="login()">Login</a></li>
+            <li *ngIf="(isAuthenticated$ | async)"><a style="cursor: pointer" (click)="logout()">Logout</a></li>
           </ul>
         </div>
 
