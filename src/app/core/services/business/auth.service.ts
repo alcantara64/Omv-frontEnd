@@ -7,22 +7,25 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private _auth: OktaAuth = null;
+
+  isAuthenticating: boolean;
+
   constructor(private router: Router) { }
 
   async isAuthenticated() {
     console.log('AuthService.isAuthenticated');
     //ensure auth initialized
-    /*
-     if(!this._auth)
-     {
-       await this.load();
-     }
- */
-    if (!this._auth)
-      return false;
+
+    if (!this._auth) {
+      await this.load();
+    }
+
+    // if (!this._auth)
+    //   return false;
 
     // Checks if there is a current accessToken in the TokenManger.
-    return !!(await this._auth.tokenManager.get('accessToken'));
+    let retVal = !!(await this._auth.tokenManager.get('accessToken'));
+    return retVal;
   }
 
   async getAccessToken() {
@@ -37,9 +40,9 @@ export class AuthService {
     if (!this._auth)
       return false;
     // Checks if there is a current accessToken in the TokenManger.
-    let retVal =  await this._auth.tokenManager.get('accessToken');
-    
-    if(retVal)
+    let retVal = await this._auth.tokenManager.get('accessToken');
+
+    if (retVal)
       return retVal.accessToken;
     else
       return null;
@@ -48,13 +51,12 @@ export class AuthService {
   async login() {
     console.log('AuthService.login');
     //ensure auth initialized
+
     if (!this._auth) {
       await this.load();
     }
 
     // Launches the login redirect.
-
-
     this._auth.token.getWithRedirect({
       responseType: ['id_token', 'token'],
       scopes: ['openid', 'email', 'profile']
@@ -62,28 +64,32 @@ export class AuthService {
   }
 
   async handleAuthentication() {
-    console.log('AuthService.handleAuthentication');
     //ensure auth initialized
-    
-    if(!this._auth)
-    {
+    if (!this._auth) {
       await this.load();
     }
 
-    const tokens = await this._auth.token.parseFromUrl();
-    tokens.forEach(token => {
-      console.log(token);
-      if (token.idToken) {
-        this._auth.tokenManager.add('idToken', token);
-      }
-      if (token.accessToken) {
-        this._auth.tokenManager.add('accessToken', token);
-      }
+    await this._auth.token.parseFromUrl().then(tokens => {
+      tokens.forEach(token => {
+        console.log(token);
+        if (token.idToken) {
+          this._auth.tokenManager.add('idToken', token);
+        }
+        if (token.accessToken) {
+          this._auth.tokenManager.add('accessToken', token);
+        }
+      });
     });
+    
 
     //TODO:
     //redirect to page after login
-    this.router.navigateByUrl('/');
+    await this.isAuthenticated()
+      .then(isAuthenticated => {
+        if (isAuthenticated) {
+          this.router.navigateByUrl('/');
+        }
+      });
   }
 
   async logout() {

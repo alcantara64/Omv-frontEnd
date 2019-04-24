@@ -8,8 +8,13 @@ import { FieldConfiguration } from '../field-setting';
   template: `
     <form class="row" [formGroup]="form" (submit)="handleSubmit($event)">  
       <div [className]="field?.cssClass ? field.cssClass : 'col-md-12'" *ngFor="let field of config;">
-        <ng-container dynamicField (deleteControl)="deleteControlEvent($event)" [allowDeleting]="allowDeleting" [config]="field" [group]="form">
-        </ng-container>      
+        <ng-container dynamicField 
+          (deleteControl)="deleteControlEvent($event)" 
+          (dropdownChange)="dropdownChangeEvent($event)" 
+          [allowDeleting]="allowDeleting" 
+          [config]="field" 
+          [group]="form">
+        </ng-container>
       </div>
     </form>
   `,
@@ -21,6 +26,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   @Output() submit = new EventEmitter<any>();
   @Output() deleteControl = new EventEmitter<any>();
+  @Output() dropdownChange = new EventEmitter<any>();
 
   form = this.fb.group({});
 
@@ -125,5 +131,10 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   deleteControlEvent(config: any) {
     console.log('DynamicFormComponent deleteControlEvent: ', config);
     this.deleteControl.emit(config);
+  }
+
+  dropdownChangeEvent(config: any) {
+    console.log('DynamicFormComponent dropdownChangeEvent: ', config);
+    this.dropdownChange.emit(config);
   }
 }

@@ -2,7 +2,7 @@ import { MediaUploadService } from './../../media-upload/media-upload.service';
 import {
   GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
   AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem,
-  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems, GetFilterFields
+  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems, GetFilterFields, AddFilterTag, RemoveFilterTag, ClearFilterTags
 } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
@@ -17,6 +17,7 @@ import { DirectoryService } from 'src/app/core/services/business/directory/direc
 import { DisplayToastMessage, ShowSpinner, HideSpinner } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
 import { FiltersService } from 'src/app/core/services/business/filters/filters.service';
+import { Tag } from 'src/app/core/models/entity/tag';
 
 export class MediaStateModel {
   media: MediaItem[];
@@ -37,6 +38,7 @@ export class MediaStateModel {
   selectedItems: any[];
 
   filterFields: any[];
+  filterTags: Tag[];
 }
 
 const initialMediaItem: MediaItem = {
@@ -60,6 +62,17 @@ const initialMediaItem: MediaItem = {
   modifiedBy: ''
 };
 
+const initialTags: Tag[] = [
+  {
+    name: 'Platform',
+    value: 'Ursa'
+  },
+  {
+    name: 'Countries',
+    value: 'Canada'
+  }
+]
+
 @State<MediaStateModel>({
   name: 'media',
   defaults: {
@@ -80,7 +93,8 @@ const initialMediaItem: MediaItem = {
     uploadComplete: false,
     selectedItems: [],
 
-    filterFields: []
+    filterFields: [],
+    filterTags: []
   }
 })
 
@@ -176,6 +190,11 @@ export class MediaState {
   @Selector()
   static getFilterFields(state: MediaStateModel) {
     return state.filterFields;
+  }
+
+  @Selector()
+  static getFilterTags(state: MediaStateModel) {
+    return state.filterTags;
   }
 
   //#endregion
@@ -477,6 +496,48 @@ export class MediaState {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       }
     );
+  }
+
+  @Action(AddFilterTag)
+  addFilterTag({ getState, setState }: StateContext<MediaStateModel>, { name, value }: AddFilterTag) {
+    const state = getState();
+    let tag: Tag = {
+      name: name,
+      value: value
+    };
+    let tags = state.filterTags;
+    if (tags.includes(tag)) return;
+    tags.push(tag);
+    setState({
+      ...state,
+      filterTags: tags
+    });
+  }
+
+  @Action(RemoveFilterTag)
+  removeFilterTag({ getState, setState }: StateContext<MediaStateModel>, { name, value }: RemoveFilterTag) {
+    const state = getState();
+    let tags = state.filterTags;
+    let tag: Tag = {
+      name: name,
+      value: value
+    };
+    console.log('MediaState removeFilterTag: ', tag);
+    tags = tags.filter(x => (x.name !== name || x.value !== value));
+    console.log('MediaState removeFilterTag: ', tags);
+    setState({
+      ...state,
+      filterTags: tags
+    });
+  }
+
+  @Action(ClearFilterTags)
+  clearFilterTag({ getState, setState }: StateContext<MediaStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      filterTags: []
+    });
   }
 
   //#endregion
