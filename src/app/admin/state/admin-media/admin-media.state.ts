@@ -333,13 +333,15 @@ export class AdminMediaState {
   @Action(RemoveMetaDataList)
   removeMetaDataLists(ctx: StateContext<AdminMediaStateModel>, { id }: RemoveMetaDataList) {
     return this.adminMediaService.removeMetadataList(id).pipe(map(lists => {
-      let datas = lists.filter(x => x.id !== id);
-      lists = datas;
       const state = ctx.getState();
+      ctx.dispatch(new DisplayToastMessage('Delete Successful'));
       ctx.setState({
         ...state,
         metadataLists: lists
       });
+    },
+    (err)=>{
+      ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error))
     }));
   }
   @Action(RemoveMetaDataListItem)

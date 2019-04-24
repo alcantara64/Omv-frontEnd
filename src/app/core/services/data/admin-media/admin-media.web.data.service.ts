@@ -171,7 +171,11 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   }
 
   removeMetadataList(id: number) {
-    throw new Error("Method not implemented.");
+    const requestUri = environment.api.baseUrl + `/v1/metadatalists/${id}`;
+
+    console.log('AdminGroupsWebDataService - removeMembers: ', id);
+
+    return this.httpClient.delete(requestUri);
   }
 
 

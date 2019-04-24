@@ -53,7 +53,7 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
       public placeholder: string = 'Change status';
 ngOnInit() {
   this.metadataListForm = this.fb.group({
-    id: Math.random(),
+    id: '',
     name: [ '', [ Validators.required ] ],
     status: ''
   });
