@@ -128,6 +128,7 @@ export class AdminMediaState {
     return this.adminMediaService.removeMetadataField(id).pipe(map(fields => {
       const state = ctx.getState();
       ctx.dispatch(new DisplayToastMessage('Delete successful.'));
+      ctx.dispatch(new GetMetaDataFields());
       ctx.setState({
         ...state,
         metadataFields: fields
@@ -143,6 +144,7 @@ export class AdminMediaState {
     return this.adminMediaService.createMetaDataField(payload).pipe(
       tap(metadataField => {
         ctx.dispatch(new DisplayToastMessage('Create successful.'));
+        ctx.dispatch(new GetMetaDataFields());
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
@@ -199,6 +201,7 @@ export class AdminMediaState {
     return this.adminMediaService.updateMetaDataField(id, payload).pipe(
       tap(field => {
         ctx.dispatch(new DisplayToastMessage("Field updated successfully"));
+        ctx.dispatch(new GetMetaDataFields());
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       }));
