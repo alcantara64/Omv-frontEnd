@@ -41,10 +41,6 @@ export class GetMetaDataList {
   static readonly type = '[Admin media] GetMetaDataList';
   constructor(public id: number) { }
 }
-export class GetMetaDataListById {
-  static readonly type = '[Admin media] GetMetaDataListById';
-  constructor(public id: number) { }
-}
 
 export class RemoveMetaDataList {
   static readonly type = '[Admin media] RemoveMetaDataList';

@@ -113,12 +113,12 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     const requestUri = environment.api.baseUrl + `/v1/metadatalists`;
 
     automapper
-      .createMap(MetadataList, MetadataList_InsertInputDTO)
+      .createMap(payload, MetadataList_InsertInputDTO)
       .forMember('metadataListId', function (opts) { opts.mapFrom('id'); })
       .forMember('metadataListName', function (opts) { opts.mapFrom('fieldName'); })
       .forMember('status', function (opts) { opts.mapFrom('status'); });
 
-    const request = automapper.map(MetadataList, MetadataList_InsertInputDTO, payload);
+    const request = automapper.map(payload, MetadataList_InsertInputDTO, payload);
     console.log('AdminMediaWebDataService - createMetadataList request: ', request);
     console.log('AdminMediaWebDataService - createMetadataList payload: ', payload);
 
@@ -150,7 +150,6 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
       .forMember('MetadataListId', function (opts) { opts.mapFrom('id'); })
       .forMember('MetadataListName', function (opts) { opts.mapFrom('fieldName'); })
       .forMember('status', function (opts) { opts.mapFrom('status'); })
-      .forMember('statusName', function (opts) { opts.mapFrom('statusName'); });
 
     const request = automapper.map(payload, MetadataListInputDTO, payload);
     console.log('AdminMediaWebDataService - updateMetadataList: ', request);

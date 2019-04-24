@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import {CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId } from './admin-media.action';
+import {CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId, GetMetaDataList } from './admin-media.action';
 import { CreateMetaDataListItem, RemoveMetaDataListItem, GetMetaDataListItem, GetMetaDataListsItem, GetMetaDataList as GetMetaDataListById } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { GetUploadHistory, GetUploadRequest, RemoveMetaDataFields, GetMetaDataFields } from './admin-media.action';
@@ -183,18 +183,19 @@ export class AdminMediaState {
     );
     
   }
-  @Action( GetMetaDataListById)
-  getMetaDataListById({ getState, setState }: StateContext<AdminMediaStateModel>,{id} : GetMetaDataListById) {
+
+  @Action(GetMetaDataList)
+  getMetaDataList({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetMetaDataList) {
     return this.adminMediaService.getMetadataListById(id).pipe(
       tap(lists => {
         const state = getState();   
-        // const currentList =  lists.filter(x => x.id === id['id'])
-      
+         
+      console.log(lists, 'the current metadata list Item')
         setState({
           ...state,
           currentMetadataList: lists ? lists : null
         });
-        console.log(getState(), 'current list')
+       console.log(getState(), 'current list')
       })
     );
   }
@@ -245,7 +246,7 @@ export class AdminMediaState {
       tap(metadataList => {
         ctx.dispatch(new DisplayToastMessage('Create successful.'));
         const state = ctx.getState();
-       
+       ctx.dispatch(new GetMetaDataLists());
         let list = state.metadataLists;
         const UpdateMetadataList =[...list, metadataList];
         // console.log('AdminMediaState createMetaDataList new List:', list);

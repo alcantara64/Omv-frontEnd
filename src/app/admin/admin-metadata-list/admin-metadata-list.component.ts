@@ -82,7 +82,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     this.metadataListForm = this.formBuilder.group({
       id: [],
       fieldName: ['', [Validators.required]],
-      status :['']
+      status :[]
       //fieldType: ['', [Validators.required]],
     });
     this.activatedRoute.params.subscribe(params => {

@@ -27,7 +27,7 @@
         [placeholder]='placeholder' [value]='id' [fields]='listFields'></ejs-dropdownlist>
       </div><br>
       <app-edit [firstButtonText]="createMetaDataButtonText" [isfirstButtonDisabled]="!metadataListForm.valid || !metadataListForm.dirty"
-          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="groupId" (secondButtonEvent)="changeStatus()">
+          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metaDatalisId" (secondButtonEvent)="changeStatus()">
       </app-edit>
     </form>
   </div>
