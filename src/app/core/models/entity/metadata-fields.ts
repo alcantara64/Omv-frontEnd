@@ -1,14 +1,11 @@
 export class MetadataFields {
-  metadataFieldId: number;
+  metadataFieldId?: number;
   entityId?: string;
   entityName?: string;
-  fieldName: string;
+  fieldName?: string;
   metadataListId?: number;
+  type:string;
   metadataListName?: string;
-  fieldTypeId: number;
-  isRequired?: boolean;
-  isDeleted?: boolean;
-  relatedField?: number;
-  sort?: number;
-  status: number;
+  fieldTypeId?: number;
+
 }

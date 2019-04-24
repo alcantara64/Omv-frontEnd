@@ -7,6 +7,7 @@ export class MetadataField_GetAllOutputDTO {
     MetadataListName: string;
     FieldTypeId: number;
     IsRequired: boolean;
+    Type: string;
     IsDeleted: boolean;
     RelatedField: number;
     Sort: number;
