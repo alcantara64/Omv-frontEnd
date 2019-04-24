@@ -21,4 +21,5 @@ export abstract class AdminMediaDataService {
     abstract updateMetaDataField(id:number, payload: MetadataFields);
     abstract getMetadataListById(id:number):Observable< MetadataList[]>;
     abstract getMetadataFieldTypes():Observable<MetadataFieldType[]>
+    abstract getMetaDataLists(): Observable<MetadataList[]>;
 }

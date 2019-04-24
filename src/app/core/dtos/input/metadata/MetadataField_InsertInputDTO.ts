@@ -1,5 +1,4 @@
-export class MetadataField_InsertInputDTO
-{
+export class MetadataField_InsertInputDTO {
     MetadataFieldId: number;
     FieldName: string;
     MetadataListId: number;
@@ -9,6 +8,4 @@ export class MetadataField_InsertInputDTO
     RelatedField: number;
     Sort: number;
     Status: number;
-    
-
 }

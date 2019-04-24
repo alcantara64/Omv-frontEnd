@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, GetNewUploads, ApproveUploads, RejectUploads, UpdateMetaDataField, GetMetadataListById, GetFieldTypes } from './admin-media.action';
+import { GetUploadHistory, GetMetaDataFields, RemoveMetaDataFields, CreateMetaDataField, GetNewUploads, ApproveUploads, RejectUploads, UpdateMetaDataField, GetMetadataListById, GetFieldTypes, GetMetaDataLists } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { DisplayToastMessage } from 'src/app/state/app.actions';
@@ -20,9 +20,10 @@ export class AdminMediaStateModel {
   uploadHistory: UploadHistory[];
   metadataFields: MetadataFields[];
   metadataList: MetadataList[];
+  metadataLists: MetadataList[];
   currentMetadataId: number;
   currentUploadRequestFields: FieldConfiguration[];
-  metadataFieldTypes: MetadataFieldType[]; 
+  metadataFieldTypes: MetadataFieldType[];
 }
 
 @State<AdminMediaStateModel>({
@@ -31,7 +32,8 @@ export class AdminMediaStateModel {
     newUploads: [],
     uploadHistory: [],
     metadataFields: [],
-    metadataList:[],
+    metadataList: [],
+    metadataLists: [],
     currentMetadataId: null,
     currentUploadRequestFields: null,
     metadataFieldTypes: []
@@ -61,7 +63,7 @@ export class AdminMediaState {
   static getNewUploads(state: AdminMediaStateModel) {
     return state.newUploads;
   }
-  
+
   @Selector()
   static getMetadataListById(state: AdminMediaStateModel) {
     return state.metadataList;
@@ -70,6 +72,10 @@ export class AdminMediaState {
   @Selector()
   static getMetadataFieldTypes(state: AdminMediaStateModel) {
     return state.metadataFieldTypes;
+  }
+  @Selector()
+  static getMetaDataLists(state: AdminMediaStateModel) {
+    return state.metadataLists;
   }
 
   @Action(GetUploadHistory)
@@ -120,13 +126,15 @@ export class AdminMediaState {
   @Action(RemoveMetaDataFields)
   removeMetaDataFields(ctx: StateContext<AdminMediaStateModel>, { id }: RemoveMetaDataFields) {
     return this.adminMediaService.removeMetadataField(id).pipe(map(fields => {
-      let datas = fields.filter(x => x.metadataFieldId !== id);
-      fields = datas;
       const state = ctx.getState();
+      ctx.dispatch(new DisplayToastMessage('Delete successful.'));
       ctx.setState({
         ...state,
         metadataFields: fields
       });
+    },
+     (err) => {
+      ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
     }));
   }
 
@@ -195,36 +203,49 @@ export class AdminMediaState {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       }));
   }
-  
 
-  @Action(GetMetadataListById)
-  getMetadataListById(ctx: StateContext<AdminMediaStateModel>, { id }: GetMetadataListById) {
-    console.log('Action - getMetadataListById', id);
-    return this.adminMediaService.getMetadataList(id).pipe(
-      tap(metadataList => {
-        const state = ctx.getState();
-
-        console.log('AdminMediaState - getNewUploads - history: ', metadataList);
-        ctx.setState({
+  @Action(GetMetaDataLists)
+  getMetaDataLists({ getState, setState }: StateContext<AdminMediaStateModel>) {
+    return this.adminMediaService.getMetadataLists().pipe(
+      tap(lists => {
+        const state = getState();
+        setState({
           ...state,
-          metadataList: metadataList
+          metadataLists: lists
         });
-      }));
+      })
+    );
   }
 
-  @Action(GetFieldTypes)
-  getFieldType(ctx: StateContext<AdminMediaStateModel>, {} : GetFieldTypes) {
-    console.log('Action - getFieldType', );
-    return this.adminMediaService.getFieldTypes().pipe(
-      tap(fieldTypes => {
-        const state = ctx.getState();
 
-        console.log('AdminMediaState - GetFieldTypes', fieldTypes);
-        ctx.setState({
-          ...state,
-          metadataFieldTypes: fieldTypes
-        });
-      }));
+    @Action(GetMetadataListById)
+    getMetadataListById(ctx: StateContext < AdminMediaStateModel >, { id }: GetMetadataListById) {
+      console.log('Action - getMetadataListById', id);
+      return this.adminMediaService.getMetadataListById(id).pipe(
+        tap(metadataList => {
+          const state = ctx.getState();
+
+          console.log('AdminMediaState - getNewUploads - history: ', metadataList);
+          ctx.setState({
+            ...state,
+            metadataList: metadataList
+          });
+        }));
+    }
+
+    @Action(GetFieldTypes)
+    getFieldType(ctx: StateContext < AdminMediaStateModel >, {} : GetFieldTypes) {
+      console.log('Action - getFieldType');
+      return this.adminMediaService.getFieldTypes().pipe(
+        tap(fieldTypes => {
+          const state = ctx.getState();
+
+          console.log('AdminMediaState - GetFieldTypes', fieldTypes);
+          ctx.setState({
+            ...state,
+            metadataFieldTypes: fieldTypes
+          });
+        }));
+    }
+
   }
-
-}

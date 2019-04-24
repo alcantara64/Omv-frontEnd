@@ -54,3 +54,6 @@ export class GetFieldTypes{
   static readonly type = '[Admin media] GetFieldTypes';
   
 }
+export class GetMetaDataLists {
+  static readonly type = '[Admin media] GetMetaDataLists';
+}

@@ -83,6 +83,12 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
   getMetadataFieldTypes(): Observable<MetadataFieldType[]> {
     throw new Error("Method not implemented.");
   }
+  getMetaDataLists(): Observable<MetadataList[]> {
+    var url = `./assets/mock/admin-metadata-list.json`;
+    let data = this.httpClient.get<MetadataList[]>(url);
+    console.log('data', data);
+    return data;
+  }
 }
 
 
