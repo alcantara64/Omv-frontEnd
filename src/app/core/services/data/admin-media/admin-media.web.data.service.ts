@@ -113,26 +113,25 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     const requestUri = environment.api.baseUrl + `/v1/metadatalists`;
 
     automapper
-      .createMap(payload, MetadataList_InsertInputDTO)
+      .createMap(MetadataList, MetadataList_InsertInputDTO)
       .forMember('metadataListId', function (opts) { opts.mapFrom('id'); })
       .forMember('metadataListName', function (opts) { opts.mapFrom('fieldName'); })
-      .forMember('status', function (opts) { opts.mapFrom('status'); })
-      .forMember('statusName', function (opts) { opts.mapFrom9('statusName'); });
+      .forMember('status', function (opts) { opts.mapFrom('status'); });
 
-    const request = automapper.map(payload, MetadataList_InsertInputDTO, payload);
+    const request = automapper.map(MetadataList, MetadataList_InsertInputDTO, payload);
     console.log('AdminMediaWebDataService - createMetadataList request: ', request);
     console.log('AdminMediaWebDataService - createMetadataList payload: ', payload);
 
     return this.httpClient.post(requestUri, request).pipe(map(
       response => {
         automapper
-          .createMap(MetadataList_InsertInputDTO, MetadataList)
+          .createMap(MetadataList_GetAllOutputDTO, MetadataList)
           .forMember('id', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListId'))
           .forMember('name', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListName'))
           .forMember('status', function (opts) { opts.mapFrom('status'); })
           .forMember('statusName', function (opts) { opts.mapFrom('statusName'); });
 
-        let _response = automapper.map(MetadataList_InsertInputDTO, MetadataList, response);
+        let _response = automapper.map(MetadataList_GetAllOutputDTO, MetadataList, response);
         console.log('AdminMediaWebDataService - createMetadataList: ', _response);
         return _response;
       }),
