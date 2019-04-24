@@ -1,7 +1,7 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import {CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId, GetMetaDataList } from './admin-media.action';
-import { CreateMetaDataListItem, RemoveMetaDataListItem, GetMetaDataListItem, GetMetaDataListsItem, GetMetaDataList as GetMetaDataListById } from './admin-media.action';
+import {CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId, GetMetaDataList, GetMetaDataListsItemById, GetMetaDataDetailById } from './admin-media.action';
+import { CreateMetaDataListItem, RemoveMetaDataListItem,  GetMetaDataListsItem, GetMetaDataList as GetMetaDataListById } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { GetUploadHistory, GetUploadRequest, RemoveMetaDataFields, GetMetaDataFields } from './admin-media.action';
 import { AdminMediaService } from 'src/app/core/services/business/admin-media/admin-media.service';
@@ -14,6 +14,7 @@ import { ToastType } from 'src/app/core/enum/toast';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataListStatus } from 'src/app/core/enum/metadata-list-status';
 import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
+import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
 
 export class AdminMediaStateModel {
   uploadHistory: UploadHistory[];
@@ -24,6 +25,8 @@ export class AdminMediaStateModel {
   currentMetadataId: number;
   currentMetadataListId: number;
   currentMetadataList: MetadataList;
+  currentMetadataListItem: MetadataListItem[];
+  currentMetadataDetail: MetadataDetail;
 }
 const initialMetadataList: MetadataList = {
   id: 0,
@@ -42,7 +45,9 @@ const initialMetadataList: MetadataList = {
     currentMetadataListId: null,
     currentMetadataList: initialMetadataList,
     currentMetadataId: null,
-    currentUploadRequestFields: null
+    currentUploadRequestFields: null,
+    currentMetadataListItem: [],
+    currentMetadataDetail: null
   }
 })
 
@@ -94,6 +99,15 @@ export class AdminMediaState {
     return state.currentMetadataList;
   }
 
+  @Selector()
+  static getCurrentMetadataListItem(state: AdminMediaStateModel) {
+    return state.currentMetadataListItem;
+  }
+
+  @Selector()
+  static getCurrentMetadataDetail(state: AdminMediaStateModel) {
+    return state.currentMetadataDetail;
+  }
   @Action(GetUploadHistory)
   getUploadHistory({ getState, setState }: StateContext<AdminMediaStateModel>) {
 
@@ -200,7 +214,7 @@ export class AdminMediaState {
     );
   }
 
-  @Action(GetMetaDataListItem)
+  @Action(GetMetaDataListsItem)
   getMetaDataListItem({ getState, setState }: StateContext<AdminMediaStateModel>) {
     return this.adminMediaService.getMetadataList().pipe(
       tap(lists => {
@@ -213,19 +227,16 @@ export class AdminMediaState {
     );
   }
 
-  @Action(GetMetaDataListsItem)
-  getMetaDataListsItem({ getState, setState }: StateContext<AdminMediaStateModel>,{id}) {
+  @Action(GetMetaDataListsItemById)
+  getMetaDataListsItemById({ getState, setState }: StateContext<AdminMediaStateModel>,{id}:GetMetaDataListsItemById) {
     console.log(id, 'My Id');
 
-    return this.adminMediaService.getMetadataListsItem().pipe(
+    return this.adminMediaService.getMetaDataListItemById(id).pipe(
       tap(lists => {
-        const state = getState();
- console.log(lists, 'this is my list');
-      let filteredlist =  lists.filter(x => x.listId  === id)
-      
+        const state = getState();      
         setState({
           ...state,
-          metadataListsItem: filteredlist
+          currentMetadataListItem: lists
         });
       })
     );
@@ -263,12 +274,15 @@ export class AdminMediaState {
   }
 
   @Action(CreateMetaDataListItem)
-  createMetaDataListItem(ctx: StateContext<AdminMediaStateModel>, { payload }: CreateMetaDataListItem) {
-    return this.adminMediaService.createMetaDataListItem(payload).pipe(
+  createMetaDataListItem(ctx: StateContext<AdminMediaStateModel>, { id, payload }: CreateMetaDataListItem) {
+    return this.adminMediaService.createMetaDataListItem(id,payload).pipe(
       tap(metadataListItem => {
-        ctx.dispatch(new DisplayToastMessage('Create successful.'));
+        console.log(metadataListItem, 'this is the response from metadalistItem')
+        if(metadataListItem){
+         ctx.dispatch(new DisplayToastMessage('Create successful.'));
+        }
         const state = ctx.getState();
-       
+        ctx.dispatch(new GetMetaDataListsItemById(id));
         let list = state.metadataListsItem;
         const UpdateMetadataList =[...list, metadataListItem];
         // console.log('AdminMediaState createMetaDataList new List:', list);
@@ -335,6 +349,7 @@ export class AdminMediaState {
     return this.adminMediaService.removeMetadataList(id).pipe(map(lists => {
       const state = ctx.getState();
       ctx.dispatch(new DisplayToastMessage('Delete Successful'));
+      ctx.dispatch(new GetMetaDataLists());
       ctx.setState({
         ...state,
         metadataLists: lists
@@ -347,13 +362,28 @@ export class AdminMediaState {
   @Action(RemoveMetaDataListItem)
   removeMetaDataListsItem(ctx: StateContext<AdminMediaStateModel>, { id }: RemoveMetaDataListItem) {
     return this.adminMediaService.removeMetadataListItem(id).pipe(map(lists => {
-      let datas = lists.filter(x => x.id !== id);
-      lists = datas;
       const state = ctx.getState();
+      ctx.dispatch(new DisplayToastMessage('Delete Successful'));
+      ctx.dispatch(new GetMetaDataListsItem());
       ctx.setState({
         ...state,
         metadataListsItem: lists
       });
+    },
+    (err)=>{
+      ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error))
     }));
+  }
+
+  @Action(GetMetaDataDetailById)
+  getMetaDataDetailById(ctx: StateContext<AdminMediaStateModel> , {id}: GetMetaDataDetailById){
+    return this.adminMediaService.getMetadataDetail(id).pipe(map(details=>{
+      const state = ctx.getState();
+      console.log(details, 'GetMetaDataDetailById - get by id')
+      ctx.setState({
+        ...state,
+        currentMetadataDetail: details
+      });
+    }))
   }
 }

@@ -8,12 +8,13 @@ import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { Observable } from 'rxjs';
 import { messageType } from 'src/app/state/app.actions';
-import { CreateMetaDataList, UpdateMetadataList, GetMetaDataList, GetMetaDataListsItem, GetMetaDataListItem } from '../state/admin-media/admin-media.action';
+import { CreateMetaDataList, UpdateMetadataList, GetMetaDataList, GetMetaDataListsItem, GetMetaDataListsItemById, GetMetaDataDetailById } from '../state/admin-media/admin-media.action';
 import { takeWhile } from 'rxjs/operators';
 import { Metadata } from 'src/app/core/models/entity/metadata';
 import { MetadataListStatus } from 'src/app/core/enum/metadata-list-status';
+import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
 
-const METADATALIST_TAB =0;
+const METADATALIST_TAB = 0;
 const UPDATE_METADATALIST_ITEMS = 'Update list';
 const CREATE_METADATALIST_ITEMS = 'Create list';
 
@@ -27,73 +28,82 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
 
   componentActive = true;
   metadataListForm: FormGroup;
-  metadata = new MetadataList();
-  metadataId: number;
+  metadata = new MetadataDetail();
+  metadataId: number; 
 
-   metadataItemTabs: Tab[] = [
-    { link: METADATALIST_TAB, name: 'List Items', isActive: true} ];
 
-    @Select(AdminMediaState.getCurrentMetadataList) currentMetadataList$: Observable<MetadataList>;
-    @Select(AdminMediaState.getCurrentMetadataListId) currentMetadataListId$: Observable<number>;
-    
-    metaDataActionText: string;
-    createMetaDataButtonText: string;
-    errorMessage: string;
+  metadataItemTabs: Tab[] = [
+    { link: METADATALIST_TAB, name: 'List Items', isActive: true }];
 
-  constructor (protected store: Store,
-    protected router: Router,
-     private fb: FormBuilder,
-     private activatedRoute: ActivatedRoute)
-      {super(store, router);
-        this.ShowLefNav(false);
-      }
-      public data: { [key: string]: Object }[] = [{ id: 1, name: 'active' },
-      { id: 0, name: 'inactive' }];
-      public listFields: Object = { text: 'name', value: 'id' };
-      public placeholder: string = 'Change status';
-ngOnInit() {
-  this.metadataListForm = this.fb.group({
-    id: '',
-    name: [ '', [ Validators.required ] ],
-    status: ''
-  });
+    @Select(AdminMediaState.getCurrentMetadataList) currentList$: Observable<MetadataDetail>;
+  @Select(AdminMediaState.getCurrentMetadataDetail) currentMetadataDetail$: Observable<MetadataDetail>;
+  @Select(AdminMediaState.getCurrentMetadataListId) currentMetadataListId$: Observable<number>;
 
-  // Get the id in the browser url and reach out for the metada list
-  this.activatedRoute.paramMap.subscribe(params => {
-    this.metadataId = Number(params.get('id'));
-    if (this.metadataId) {
-      this.store.dispatch(new GetMetaDataList(this.metadataId));
-      this.createMetaDataButtonText = UPDATE_METADATALIST_ITEMS;
-      console.log(this.metadataId, 'action is dispached')
-    }
-  }),
-  takeWhile(() => this.componentActive);
+  metaDataActionText: string;
+  createMetaDataButtonText: string;
+  errorMessage: string;
 
-    // Get the current list
-    this.currentMetadataList$.subscribe(list => {
-      console.log('list the final list; ', list)
-    
-      if (list) { // 
-        this.metaDataActionText = list.status == MetadataListStatus.Active ? UPDATE_METADATALIST_ITEMS: CREATE_METADATALIST_ITEMS;
-        this.metadataListForm.patchValue({
-        
-          status :['active','inactive'],
-          name: list.fieldName,
-        });
-        this.listFields = list;
-        
-       }   else {
-        this.metadataListForm.reset();
-      
-       }
-    }),
-    takeWhile(() => this.componentActive);
+  constructor(protected store: Store, protected router: Router, private fb: FormBuilder, private activatedRoute: ActivatedRoute) {
+    super(store, router)
+    this.ShowLefNav(false);
+    this.metadataListForm = this.fb.group({
+      id: '',
+      name: ['', [Validators.required]],
+      status: '',
+      statusName: ''
+    });
+
   }
+  public data: { [key: string]: Object }[] = [{ id: 1, name: 'active' },
+  { id: 0, name: 'inactive' }];
+  public listFields: Object = { text: 'name', value: 'id' };
+  public placeholder: string = 'Change status';
+  ngOnInit() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.metadataId = Number(params.get('id'));
+      this.store.dispatch(new GetMetaDataDetailById(this.metadataId));
+      this.currentMetadataDetail$.subscribe(metadataList => {
 
+        if (metadataList) { // Existing 
+          this.metadataListForm.setValue({
+            id: metadataList.metadataListId,
+            name: metadataList.metadataListName,
+            status: metadataList.status,
+            statusName: metadataList.statusName
+          });
+          this.metadata = metadataList;
+          console.log('AdminListEditComponent - ngOnInit: groupForm ', this.metadataListForm.value);
+        } else {
+        }
+      }),
+        takeWhile(() => this.componentActive);
+
+      // Get the current list
+      // this.currentMetadataList$.subscribe(list => {
+      //   console.log('list the final list; ', list)
+
+      //   if (list) { // 
+      //     this.metaDataActionText = list.status == MetadataListStatus.Active ? UPDATE_METADATALIST_ITEMS : CREATE_METADATALIST_ITEMS;
+      //     this.metadataListForm.patchValue({
+
+      //       status: ['active', 'inactive'],
+      //       name: list.fieldName,
+      //     });
+      //     this.listFields = list;
+
+      //   } else {
+      //     this.metadataListForm.reset();
+
+      //   }
+      // }),
+        takeWhile(() => this.componentActive);
+    }
+    )
+  }
   ngOnDestroy() {
     this.componentActive = false;
   }
- 
+
   async save() {
     if (this.metadataListForm.valid) {
       if (this.metadataListForm.dirty) {
@@ -109,7 +119,7 @@ ngOnInit() {
               this.setNotification('List Item Created');
             }
           }),
-          takeWhile(() => this.componentActive);
+            takeWhile(() => this.componentActive);
         } else {
           await this.store.dispatch(new UpdateMetadataList(MetadataList.id, MetadataList));
           this.metadataListForm.reset(this.metadataListForm.value);
@@ -122,10 +132,10 @@ ngOnInit() {
     }
   }
 
- 
 
-  
+
+
 }
-  
+
 
 

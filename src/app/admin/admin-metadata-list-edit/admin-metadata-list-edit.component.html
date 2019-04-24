@@ -11,8 +11,8 @@
     <form novalidate (ngSubmit)="save()" [formGroup]="metadataListForm">
       <div class="form-group">
         <label for="nameId">List Name</label>
-        <input class="form-control form-control-lg" id="nameId" type="text" placeholder=" list name"
-          formControlName="name"
+        <input class="form-control form-control-lg" id="nameId" type="text" placeholder=" "
+          formControlName="name" 
           [ngClass]="{'is-invalid': (metadataListForm.get('name').touched ||
                                      metadataListForm.get('name').dirty) &&
                                      !metadataListForm.get('name').valid }" />
@@ -23,11 +23,11 @@
       <div class="form-group">
         <label for="descriptionId">Status</label>
        
-        <ejs-dropdownlist id='ddlelement' #samples (change)="addList($event)" [dataSource]='data'
-        [placeholder]='placeholder' [value]='id' [fields]='listFields'></ejs-dropdownlist>
+        <ejs-dropdownlist id='ddlelement' #samples [dataSource]='data'
+        [placeholder]='placeholder' [value]='id' [fields]='listFields'  formControlName="status" ></ejs-dropdownlist>
       </div><br>
       <app-edit [firstButtonText]="createMetaDataButtonText" [isfirstButtonDisabled]="!metadataListForm.valid || !metadataListForm.dirty"
-          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metaDatalisId" (secondButtonEvent)="changeStatus()">
+          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metaDatalistId" (secondButtonEvent)="changeStatus()">
       </app-edit>
     </form>
   </div>

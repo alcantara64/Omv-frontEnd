@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base/base.component';
-import { GetMetaDataListsItem, GetMetaDataListItem, CreateMetaDataListItem } from '../../state/admin-media/admin-media.action';
+import { GetMetaDataListsItem, CreateMetaDataListItem, GetMetaDataListsItemById } from '../../state/admin-media/admin-media.action';
 import { takeWhile } from 'rxjs/operators';
 import { ListComponent } from 'src/app/shared/list/list.component';
 import { EmitType } from '@syncfusion/ej2-base';
@@ -24,9 +24,11 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
   listId: number;
   metadataListItems: MetadataListItem[] = [];
   metadataListItemForm: FormGroup;
+
+  metadataList = new MetadataListItem();
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "100", field: "" },
-    { type: "", headerText: "Name", width: "", field: "name" },
+    { type: "", headerText: "Name", width: "", field: "itemDescription" },
     
   ];
   listItemId: number;
@@ -36,7 +38,7 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
   public removeLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
   
   @Select(AdminMediaState.getCurrentMetadataListId) currentListid$: Observable<MetadataList[]>;
-  @Select(AdminMediaState.getMetaDataListItem) metadaListItem$: Observable<MetadataListItem[]>;
+  @Select(AdminMediaState.getCurrentMetadataListItem) metadaListItem$: Observable<MetadataListItem[]>;
   
   @ViewChild('listItemDialog') public listItemDialog: DialogComponent;
   @ViewChild('confirmDialog')
@@ -46,13 +48,14 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
     protected activatedRoute: ActivatedRoute, private formBuilder: FormBuilder,) { super(store) }
 
     ngOnInit() {
-      this.store.dispatch(new GetMetaDataListItem(1));
-      this.metadaListItem$.subscribe(metadatalistItem => this.metadataListItems = metadatalistItem);
-
       this.metadataListItemForm = this.formBuilder.group({
-        id: [new Date()],
-        metaDataListId: [this.listId],
-        name :['', Validators.required]
+        metadataListItemId: [''],
+        metadataListId: [''],
+        itemValue :[''],
+        itemDescription :[''],
+        itemSort :[''],
+        parentItemValue :[''],
+        status :[''],
       
       });
         // Get the id in the browser url and reach out for the User
@@ -60,16 +63,12 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
       this.listId = Number(params.get('id'));
       if (this.listId) {
         console.log(this.listId, 'current metadalist')
-        this.store.dispatch(new GetMetaDataListItem(this.listId));
+        this.store.dispatch(new GetMetaDataListsItemById(this.listId));
+        this.metadaListItem$.subscribe(metadatalistItem => this.metadataListItems = metadatalistItem);
       }
     }),
     takeWhile(() => this.componentActive);
 
-    // this.userGroups$.subscribe(groups => {
-    //   if (groups) {
-    //     this.userGroupIds = groups.map(x => x.id);
-    //   }
-    // });
   }
 
   ngOnDestroy(): void {
@@ -89,15 +88,24 @@ addMembersClick: EmitType < object > = () => {
 
   if (this.metadataListItemForm.valid) {
     if (this.metadataListItemForm.dirty) {
-      const metadataListItem: MetadataListItem = { ...this.metadaListItem$, ...this.metadataListItemForm.value };
+      const metadataListItem: MetadataListItem = { ...this.metadataListItems, ...this.metadataListItemForm.value };
       console.log('testing create metatadata - ', metadataListItem);
-      this.store.dispatch(new CreateMetaDataListItem(metadataListItem));
+      this.metadataListItemForm.setValue({
+        metadataListItemId: metadataListItem.metadataListItemId,
+        metadataListId:this.listId,
+        itemValue :[''],
+        itemDescription :[''],
+        itemSort :[''],
+        parentItemValue :[''],
+        status :[''], 
+      })
+      this.store.dispatch(new CreateMetaDataListItem(this.listId, metadataListItem));
       this.ShowSpinner(false);
       this.closeDialog();
       this.metadataListItemForm.reset();
     }
   }
-  this.listId = null;
+  // this.listId = null;
   this.listItemDialog.hide();
 }
 cancelRemove() {

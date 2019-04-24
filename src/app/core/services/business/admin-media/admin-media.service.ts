@@ -5,6 +5,7 @@ import { AdminMediaDataService } from '../../data/admin-media/admin-media.data.s
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
+import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -45,19 +46,22 @@ export class AdminMediaService {
   getMetadataListsItem(): Observable<MetadataListItem[]> {
     return this.AdminMediaDataService.getMetaDataListsItem();
   }
-  getMetadataListItem(id:number): Observable<MetadataListItem[]> {
-    return this.AdminMediaDataService.getMetaDataListItem(id);
+  getMetaDataListItemById(id:number): Observable<MetadataListItem[]> {
+    return this.AdminMediaDataService.getMetaDataListItemById(id);
   }
-  removeMetadataListItem(id: number): Observable<MetadataListItem[]> {
-    return this.AdminMediaDataService.removeMetadataListItem(id)
+  removeMetadataListItem(id: number, metadataListItemId:number): Observable<MetadataListItem[]> {
+    return this.AdminMediaDataService.removeMetadataListItem(id, metadataListItemId)
   }
-  createMetaDataListItem(payload: MetadataListItem){
-    return this.AdminMediaDataService.createMetadataListItem(payload)
+  createMetaDataListItem(id:number, payload: MetadataListItem){
+    return this.AdminMediaDataService.createMetadataListItem(id,payload)
   }
   updateMetadataListItem(id: number, payload: MetadataListItem) {
     return this.AdminMediaDataService.updateMetadataListItem(id,payload);
   }
   getMetadataListById(id): Observable<MetadataList> {
     return this.AdminMediaDataService.getMetaDataListById(id);
+  }
+  getMetadataDetail(id:number): Observable<MetadataDetail>{
+    return this.AdminMediaDataService.getMetaDataListsDetail(id);
   }
 }

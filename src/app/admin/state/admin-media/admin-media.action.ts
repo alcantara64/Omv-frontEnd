@@ -33,7 +33,7 @@ export class GetMetaDataLists {
 export class GetMetaDataListsItem {
   static readonly type = '[Admin media] GetMetaDataListItem';
 }
-export class GetMetaDataListItem {
+export class GetMetaDataListsItemById {
   static readonly type = '[Admin media] GetMetaDataListItem';
   constructor(public id: number){}
 }
@@ -58,7 +58,7 @@ export class CreateMetaDataList {
 
 export class CreateMetaDataListItem {
   static readonly type = '[Admin media] CreateMetaDataListItem';
-  constructor(public payload: MetadataListItem) { }
+  constructor(public id:number, public payload: MetadataListItem) { }
 }
 export class UpdateMetadataList {
   static readonly type = '[Admin media] UpdateMetadataList';
@@ -87,5 +87,10 @@ export class SetCurrentMetadataList {
 export class SetCurrentMetadataListId {
   static readonly type = '[Admin media] SetMetadataListId';
   constructor(public id: number) { }
+}
+
+export class GetMetaDataDetailById {
+  static readonly type = '[Admin media] GetMetaDataDetailById';
+  constructor(public id: number){}
 }
 

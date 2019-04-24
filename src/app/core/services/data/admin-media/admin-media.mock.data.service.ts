@@ -7,12 +7,14 @@ import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { map } from 'rxjs/operators';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
+import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AdminMediaMockDataService implements AdminMediaDataService {
+
 
   constructor(private httpClient: HttpClient) { }
   
@@ -94,20 +96,20 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     return data;
   }
 
-  getMetaDataListItem(id:number): Observable<MetadataListItem[]> {
+  getMetaDataListItemById(id:number): Observable<MetadataListItem[]> {
     var url = `./assets/mock/admin-metadata-list-item.json`;
     let data = this.httpClient.get<MetadataListItem[]>(url);
     console.log('data', data);
     return data;
   }
 
-  removeMetadataListItem(id: number) {
+  removeMetadataListItem(id: number,  metadataListItemId:number) {
     var url = `./assets/mock/admin-metadata-list-item.json`;
     return this.httpClient.get<MetadataListItem[]>(url);
     // return data;
   }
 
-  createMetadataListItem(payload: MetadataListItem): Observable<MetadataListItem> {
+  createMetadataListItem(id:number, payload: MetadataListItem): Observable<MetadataListItem> {
     var url = `./assets/mock/admin-metadata-list-item.json`;
     var data = this.httpClient.get<MetadataListItem[]>(url).pipe(map(list => {
       var _list = new MetadataListItem();
@@ -131,7 +133,8 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     return data;
     
   }
-
-
+  getMetaDataListsDetail(id: number): Observable<MetadataDetail> {
+    throw new Error("Method not implemented.");
+  }
 }
 

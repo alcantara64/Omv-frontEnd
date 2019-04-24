@@ -6,4 +6,5 @@ export class MetadataListItemInputDTO {
     ItemSort: string;
     ParentItemValue: string;
     status: number;
+    statusName: string;
 }
