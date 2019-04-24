@@ -6,7 +6,7 @@ import { FormDateComponent } from '../components/form-date.component';
 import { Field } from '../field.interface';
 import { FieldConfiguration } from '../field-setting';
 import { FormLabelComponent } from '../components/form-label.component';
-import { FormComboBoxComponent } from '../components/form-combobox.component';
+import { FormComboBoxComponent } from '../components/form-combobox.component/form-combobox.component';
 
 const components: {[type: string]: Type<Field>} = {
   input: FormInputComponent,
@@ -24,6 +24,7 @@ export class DynamicFieldDirective implements Field, OnChanges, OnInit {
   @Input() group: FormGroup;
   @Input() allowDeleting: boolean;
   @Output() deleteControl = new EventEmitter<any>();
+  @Output() dropdownChange = new EventEmitter<any>();
 
   component: ComponentRef<Field>;
 
@@ -35,6 +36,7 @@ export class DynamicFieldDirective implements Field, OnChanges, OnInit {
       this.component.instance.group = this.group;
       this.component.instance.allowDeleting = this.allowDeleting;
       this.component.instance.deleteControl = this.deleteControl;
+      this.component.instance.dropdownChange = this.dropdownChange;
     }
   }
 
@@ -52,5 +54,6 @@ export class DynamicFieldDirective implements Field, OnChanges, OnInit {
     this.component.instance.group = this.group;
     this.component.instance.allowDeleting = this.allowDeleting;
     this.component.instance.deleteControl = this.deleteControl;
+    this.component.instance.dropdownChange = this.dropdownChange;
   }
 }

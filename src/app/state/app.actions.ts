@@ -39,6 +39,20 @@ export class GetLoggedInUser {
   constructor(public userId: number) { }
 }
 
+export class AuthenticateUser {
+  static readonly type = '[App] AuthenticateUser';
+}
+
+export class HandleAuthentication {
+  static readonly type = '[App] HandleAuthentication';
+}
+
+export class SetIsAuthenticating {
+  static readonly type = '[App] SetIsAuthenticating';
+
+  constructor(public isAuthenticating: boolean) { }
+}
+
 export class LogOut {
   static readonly type = '[App] LogOut';
 }

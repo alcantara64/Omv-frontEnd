@@ -13,11 +13,9 @@
           </span>
         </div>
         <div class="userDropdown" #userDropdown>
-          <ul *ngIf="!isAuthenticated"  [ngStyle]="{'right': displayWidth <= 1265 ? '0' : ''}">
-              <li><a style="cursor: pointer" (click)="login()">Login</a></li>
-          </ul>
-          <ul  *ngIf="isAuthenticated"  [ngStyle]="{'right': displayWidth <= 1265 ? '0' : ''}">
-            <li><a style="cursor: pointer" (click)="logout()">Logout</a></li>
+          <ul [ngStyle]="{'right': displayWidth <= 1265 ? '0' : ''}">
+              <li *ngIf="!(isAuthenticated$ | async)"><a style="cursor: pointer" (click)="login()">Login</a></li>
+              <li *ngIf="(isAuthenticated$ | async)"><a style="cursor: pointer" (click)="logout()">Logout</a></li>
           </ul>
         </div>
 

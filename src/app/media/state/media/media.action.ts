@@ -1,4 +1,5 @@
 import { MediaItem } from 'src/app/core/models/entity/media';
+import { Tag } from 'src/app/core/models/entity/tag';
 
 export class GetMedia {
   static readonly type = '[Media] GetMedia';
@@ -108,4 +109,20 @@ export class SetSelectedItems {
 
 export class GetFilterFields {
   static readonly type = '[Media] GetFilterFields';
+}
+
+export class AddFilterTag {
+  static readonly type = '[Media] AddFilterTag';
+
+  constructor(public name: string, public value: any) { }
+}
+
+export class RemoveFilterTag {
+  static readonly type = '[Media] RemoveFilterTag';
+
+  constructor(public name: string, public value: any) { }
+}
+
+export class ClearFilterTags {
+  static readonly type = '[Media] ClearFilterTags';
 }
