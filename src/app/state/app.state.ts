@@ -66,7 +66,7 @@ export class AppStateModel {
     showSpinner: false,
 
     isUserAuthenticated: null,
-    isAuthorized: null
+    isAuthorized: false
   }
 })
 export class AppState {
@@ -191,7 +191,8 @@ export class AppState {
             currentUser: user,
             isAuthorized: true
           });
-          this.router.navigate(['/']);
+          const return_url = localStorage.getItem('return_url')
+          this.router.navigate([return_url]);
         }, err => {
           console.log('App State getLoggedinUser', err);
           const state = ctx.getState();

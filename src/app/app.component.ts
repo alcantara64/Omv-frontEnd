@@ -22,8 +22,8 @@ export class AppComponent implements AfterViewInit {
   public displayWidth: number;
   public browser = window.navigator.userAgent;
   isAuthenticated: boolean;
+  isAuthorized: boolean;
   showLeftNav: boolean = false;
-  notAuthorized: boolean;
 
   @Select(AppState.getSpinnerVisibility) showSpinner$: Observable<boolean>;
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
@@ -78,19 +78,12 @@ export class AppComponent implements AfterViewInit {
     this.isAuthenticated$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(async isAuthenticated => {
-        // if (isAuthenticated === null) return;
+        const route = location.pathname;
         if (isAuthenticated === false) {
+          this.saveReturnUrl(route);
           await this.auth.login();
         } else if (isAuthenticated === true) {
           this.store.dispatch(new GetLoggedInUser());
-        }
-      });
-
-    this.currentUser$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(user => {
-        if (user) {
-          this.notAuthorized = true;
         }
       });
 
@@ -139,5 +132,17 @@ export class AppComponent implements AfterViewInit {
     else {
       hideSpinner(document.getElementById('spinnerContainer'));
     }
+  }
+
+  private saveReturnUrl(route) {
+    const ignored_routes = ['/startup', '/dashboard', '/implicit/callback'];
+    if (ignored_routes.includes(route)) {
+      return;
+    }
+    const key = 'return_url';
+    if (localStorage.getItem(key)) {
+      localStorage.removeItem(key);
+    }
+    localStorage.setItem(key, route);
   }
 }

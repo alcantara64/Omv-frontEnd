@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as OktaAuth from '@okta/okta-auth-js';
 import { Router } from '@angular/router';
+import { CustomersDataService } from '../data/customers/customers.data.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class AuthService {
 
   isAuthenticating: boolean;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private customersDataService: CustomersDataService) { }
 
   async isAuthenticated() {
     console.log('AuthService.isAuthenticated');
@@ -19,9 +21,6 @@ export class AuthService {
     if (!this._auth) {
       await this.load();
     }
-
-    // if (!this._auth)
-    //   return false;
 
     // Checks if there is a current accessToken in the TokenManger.
     let retVal = !!(await this._auth.tokenManager.get('accessToken'));
@@ -80,7 +79,6 @@ export class AuthService {
         }
       });
     });
-    
 
     //TODO:
     //redirect to page after login
@@ -94,6 +92,7 @@ export class AuthService {
 
   async logout() {
     console.log('AuthService.handleAuthentication');
+
     //ensure auth initialized
     if (!this._auth) {
       await this.load();
@@ -105,6 +104,7 @@ export class AuthService {
 
   async load(): Promise<void> {
     console.log('AuthService.load.start');
+
     const host = window.location.host.toLowerCase(); //this includes host and port - eg localhost:4200 or bp.omv.com
     //you can test locally by having different ports go to different tenants in the api - eg localhost:4300 
 
@@ -132,17 +132,29 @@ export class AuthService {
 
     };
 
-    this._auth = new OktaAuth({
-      url: issuerUrl,
-      clientId: clientId,
-      issuer: `${issuerUrl}/oauth2/${authServerId}`,
-      redirectUri: `${window.location.protocol}//${window.location.host.toLowerCase()}/implicit/callback`
-    });
+    this.customersDataService.getHostHeader(host)
+      .subscribe(config => {
+        this._auth = new OktaAuth({
+          url: config.issuerUrl,
+          clientId: config.clientId,
+          issuer: `${config.issuerUrl}/oauth2/${config.authServerId}`,
+          redirectUri: `${window.location.protocol}//${window.location.host.toLowerCase()}/implicit/callback`
+        });
+      });
 
     console.log('AuthService.load.end', this._auth);
+  }
 
-
-
+  private saveReturnUrl(route) {
+    const ignored_routes = ['/startup', '/dashboard', '/implicit/callback'];
+    if (ignored_routes.includes(route)) {
+      return;
+    }
+    const key = 'return_url';
+    if (localStorage.getItem(key)) {
+      localStorage.removeItem(key);
+    }
+    localStorage.setItem(key, route);
   }
 
 }

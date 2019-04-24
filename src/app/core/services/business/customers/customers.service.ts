@@ -12,4 +12,8 @@ export class CustomersService {
   getSetting(id: number, setting: string): Observable<any> {
     return this.customerDataService.getSetting(id, setting);
   }
+
+  getHostHeader(header: string): Observable<any> {
+    return this.customerDataService.getHostHeader(header);
+  }
 }

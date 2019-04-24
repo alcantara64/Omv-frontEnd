@@ -9,4 +9,8 @@ export class CustomersMockDataService implements CustomersDataService {
   getSetting(id: number, setting: string): Observable<any> {
     throw new Error("Method not implemented.");
   }
+  
+  getHostHeader(header: string): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
 }

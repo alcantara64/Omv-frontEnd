@@ -17,7 +17,7 @@ export class AuthGuardService implements CanActivate {
   }
 
   canActivate() {
-    const route = location.hash;
+    const route = location.pathname;
 
     this.isAuthorized$      
       .subscribe(async isAuthenticated => {
@@ -32,7 +32,7 @@ export class AuthGuardService implements CanActivate {
   }
 
   private saveReturnUrl(route) {
-    const ignored_routes = ['/startup', '/dashboard'];
+    const ignored_routes = ['/startup', '/dashboard', '/implicit/callback'];
     if (ignored_routes.includes(route)) {
       return;
     }
@@ -42,5 +42,4 @@ export class AuthGuardService implements CanActivate {
     }
     localStorage.setItem(key, route);
   }
-
 }
