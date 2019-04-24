@@ -24,7 +24,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
   public isAuthenticated: boolean;
   userDisplayName: string;
 
-  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
   @Select(AppState.getIsUserAuthenticated) isAuthenticated$: Observable<boolean>;
   @Select(AppState.getLoggedInUser) currentUser$: Observable<User>;
 

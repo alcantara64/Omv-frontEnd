@@ -62,7 +62,7 @@ const runAppInitializer = (appStart: AppStartupService) => {
     MediaModule,
     SharedModule,
     ToastModule,
-
+      
     BlobModule.forRoot(),
     NgxsModule.forRoot([ AppState ],  { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),

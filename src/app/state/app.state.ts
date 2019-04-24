@@ -125,7 +125,7 @@ export class AppState {
   }
 
   @Selector()
-  static getDeviceWidth(state: AppStateModel) {
+  static setDeviceWidth(state: AppStateModel) {
     return state.deviceWidth;
   }
 

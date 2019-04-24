@@ -22,7 +22,7 @@ export class BaseComponent implements OnInit {
   @Select(AppState.confirmation) confirmation$: Observable<string>;
   @Select(AppState.getUserPermissions) userPermissions$: Observable<Permission[]>;
   @Select(AppState.getCurrentUserId) currentUserId$: Observable<number>;
-  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
 
   constructor(protected store: Store) {
     console.log("BaseComponent - constructor", this._permission);

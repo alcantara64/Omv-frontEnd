@@ -28,7 +28,7 @@ export class AppComponent implements AfterViewInit {
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
   @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
   @Select(AppState.getToastMessage) toastMessage$: Observable<Toast>;
-  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
   @Select(AppState.getIsUserAuthenticated) isAuthenticated$: Observable<boolean>;
 
   buttons = [{ model: { content: "Ignore" }, click: this.btnToastClick.bind(this) }, { model: { content: "reply" } }];

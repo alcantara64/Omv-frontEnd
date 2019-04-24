@@ -1,4 +1,4 @@
-<!-- <div>
+<div>
     <div class="row">
         <div class="pb-3 col-md-12">
             <span class="pt-3">
@@ -8,18 +8,56 @@
             </span>
         </div>
     </div>
-    <ejs-dialog #fieldDialog [visible]="false" [buttons]="addDlgButtons" [header]="'New Fields'"
-        [showCloseIcon]="true" [width]="300" [height]="500">
+    <ejs-dialog #fieldDialog [visible]="false" [width]="350" [height]="400">
+
         <ng-template #content>
-            <ejs-listview #listviewgroup id="metadata-list" [dataSource]="permissions" [showCheckBox]="true"
-                [fields]="permissionFields">
-            </ejs-listview>
+
+            <form novalidate [formGroup]="metadataFieldForm">
+                <button class="dialog-close" (click)="closeDialog()">
+                    <img src="../../../../assets/images/dialog-close.svg" />
+                </button>
+                <br />
+                <div class="row pt-3 pb-3">
+                    <div class="col-md-4"><label>
+                            Field Name
+                        </label></div>
+                    <div class="col-md-8">
+                        <input class="form-control form-control-lg" id="fieldNameId" type="text" placeholder=""
+                            formControlName="fieldName"
+                            [ngClass]="{'is-invalid': (metadataFieldForm.get('fieldName').touched ||
+                                                                               metadataFieldForm.get('fieldName').dirty) &&
+                                                                              !metadataFieldForm.get('fieldName').valid }" />
+                    </div>
+                </div>
+                <div class="row pt-3 pb-3">
+                    <div class="col-md-4"><label>
+                            Field Type
+                        </label></div>
+                    <div class="col-md-8">
+
+                        <ejs-dropdownlist id='ddlelement' #samples formControlName="fieldTypeId"
+                            [dataSource]='fieldTypeData' (change)="checkFieldType()"
+                            [placeholder]="'Select a Field Type'" [value]='name' [fields]='typeListFields'>
+                        </ejs-dropdownlist>
+                    </div>
+                </div>
+                <div [hidden]="!showListDropdown" class="row pt-3 pb-3">
+                    <div class="col-md-4"><label>
+                            List
+                        </label></div>
+                    <div class="col-md-8">
+                        <ejs-dropdownlist id='ddlelement' #samplesDropdownlist formControlName="metadataListId"
+                            [dataSource]='showAllListDropdown ? allMetadataList : data' [placeholder]="'Select a List'" [value]='itemDescription'
+                            [fields]='showAllListDropdown ? createListFields : listFields '></ejs-dropdownlist>
+                    </div>
+                </div>
+                <button class="btn btn-lg omv-primary" (click)=" save() "> Done </button>
+            </form>
         </ng-template>
     </ejs-dialog>
     <div class="">
-       <app-list [listData]="metadataFields" [columns]="columns" [selectedRecords]="selectedGroups"
-            [toolbarActionOne]="statusChange" (firstAction)="remove($event)"  (firstNavigateAction)="remove($event)"
-            (secondNavigateAction)="navigate($event)" [showFirstAction]="true" [firstActionText]="editLink"
-            [showSecondAction]="true" [secondActionText]="removeLink" [totalCountText]="'Total '"></app-list> 
+        <app-list [listData]="metadataFields" [columns]="columns" (firstNavigateAction)="remove($event)"
+            (secondNavigateAction)="edit($event)" [showFirstAction]="true" [firstActionText]="editLink"
+            [showSecondAction]="true" [secondActionText]="removeLink"></app-list>
     </div>
-</div> -->
+</div>
