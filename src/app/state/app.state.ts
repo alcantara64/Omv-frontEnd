@@ -3,7 +3,6 @@ import {
   ClearNotification,
   Confirmation,
   messageType,
-  SetNotification,
   ClearConfirmation,
   SetPageTitle,
   ShowLeftNav,
@@ -24,6 +23,7 @@ import { tap } from 'rxjs/operators';
 import { Toast } from '../core/enum/toast';
 import { UsersDataService } from '../core/services/data/users/users.data.service';
 import { User } from '../core/models/entity/user';
+import { Router } from '@angular/router';
 
 export class AppStateModel {
   showLeftNav: boolean;
@@ -43,6 +43,7 @@ export class AppStateModel {
   showSpinner: boolean;
 
   isUserAuthenticated: boolean;
+  isAuthorized: boolean;
 }
 
 @State<AppStateModel>({
@@ -64,7 +65,8 @@ export class AppStateModel {
     gridData: [],
     showSpinner: false,
 
-    isUserAuthenticated: null
+    isUserAuthenticated: null,
+    isAuthorized: null
   }
 })
 export class AppState {
@@ -134,7 +136,12 @@ export class AppState {
     return state.isUserAuthenticated;
   }
 
-  constructor(private auth: AuthService, private adminUsersService: AdminUsersService, private usersDataService: UsersDataService) { }
+  @Selector()
+  static getIsAuthorized(state: AppStateModel) {
+    return state.isAuthorized;
+  }
+
+  constructor(private auth: AuthService, private adminUsersService: AdminUsersService, private usersDataService: UsersDataService, private router: Router) { }
 
   @Action(ShowLeftNav)
   setLeftNavToggle({ getState, setState }: StateContext<AppStateModel>, { payload }: ShowLeftNav) {
@@ -180,11 +187,21 @@ export class AppState {
           const state = ctx.getState();
           ctx.setState({
             ...state,
-            currentUser: user
+            currentUser: user,
+            isAuthorized: true
           });
         }, err => {
           console.log('App State getLoggedinUser', err);
-          ctx.dispatch(new LogOut());
+          const state = ctx.getState();
+          ctx.setState({
+            ...state,
+            currentUser: null,
+            isAuthorized: false
+          });
+          if (err.status === 404) {
+            this.auth.logout();
+            this.router.navigate(['/unauthorize']);
+          }          
         })
       );
   }
@@ -201,7 +218,7 @@ export class AppState {
 
   @Action(LogOut)
   async logOut({ getState, setState }: StateContext<AppStateModel>) {
-    await this.auth.logout().then(resp => {
+    await this.auth.logout().then(() => {
       const state = getState();
       setState({
         ...state,

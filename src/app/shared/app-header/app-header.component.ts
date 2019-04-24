@@ -46,7 +46,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
         if (user) {
           this.userDisplayName = user.displayName;
         }
-      })
+      });
   }
 
   ngOnDestroy() {

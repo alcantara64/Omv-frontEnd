@@ -8,6 +8,7 @@ import { AuthService } from './core/services/business/auth.service';
 import { StartupComponent } from './startup/startup.component';
 import {PdfViewerComponent} from './shared/pdf-viewer/pdf-viewer.component';
 import {MediaViewerComponent} from './shared/media-viewer/media-viewer.component';
+import { UnAuthorizedComponent } from './unauthorized/unauthorized.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'startup',
     component: StartupComponent
+  },
+  {
+    path: 'unauthorize',
+    component: UnAuthorizedComponent
   },
   {
     path: 'implicit/callback',

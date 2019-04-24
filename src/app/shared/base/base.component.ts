@@ -5,11 +5,14 @@ import {
   SetPageTitle,
   ShowConfirmationBox,
   ShowLeftNav,
-  GetUserPermissions
+  GetUserPermissions,
+  GetLoggedInUser,
+  AuthenticateUser
 } from "src/app/state/app.actions";
 import { AppState } from 'src/app/state/app.state';
 import { Observable } from 'rxjs';
 import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups/src/spinner/spinner';
+import { AuthService } from 'src/app/core/services/business/auth.service';
 
 
 export class BaseComponent implements OnInit {
@@ -23,13 +26,25 @@ export class BaseComponent implements OnInit {
   @Select(AppState.getUserPermissions) userPermissions$: Observable<Permission[]>;
   @Select(AppState.getCurrentUserId) currentUserId$: Observable<number>;
   @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.getIsUserAuthenticated) isAuthenticated$: Observable<boolean>;
+  @Select(AppState.getIsAuthorized) isAuthorized$: Observable<boolean>;
 
-  constructor(protected store: Store) {
+  constructor(protected store: Store, protected auth?: AuthService) {
     console.log("BaseComponent - constructor", this._permission);
 
     this.deviceWidth$.subscribe(width => {
       this.displayWidth = width;
     });
+
+    
+    
+    // this.isAuthenticated$.subscribe(async isAuthenticated => {
+    //   if (isAuthenticated === false) {
+    //     await this.auth.login();
+    //   } else if (isAuthenticated === true) {
+    //     this.store.dispatch(new GetLoggedInUser());
+    //   }
+    // });
 
     this.currentUserId$.subscribe(userId => {
       this.currentUserId = userId;
