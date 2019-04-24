@@ -360,11 +360,11 @@ export class AdminMediaState {
     }));
   }
   @Action(RemoveMetaDataListItem)
-  removeMetaDataListsItem(ctx: StateContext<AdminMediaStateModel>, { id }: RemoveMetaDataListItem) {
-    return this.adminMediaService.removeMetadataListItem(id).pipe(map(lists => {
+  removeMetaDataListsItem(ctx: StateContext<AdminMediaStateModel>, { id,metadataListItemId }: RemoveMetaDataListItem) {
+    return this.adminMediaService.removeMetadataListItem(id,metadataListItemId).pipe(map(lists => {
       const state = ctx.getState();
       ctx.dispatch(new DisplayToastMessage('Delete Successful'));
-      ctx.dispatch(new GetMetaDataListsItem());
+      ctx.dispatch(new GetMetaDataListsItemById(id));
       ctx.setState({
         ...state,
         metadataListsItem: lists

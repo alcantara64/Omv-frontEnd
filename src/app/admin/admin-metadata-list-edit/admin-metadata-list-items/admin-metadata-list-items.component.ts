@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base/base.component';
-import { GetMetaDataListsItem, CreateMetaDataListItem, GetMetaDataListsItemById } from '../../state/admin-media/admin-media.action';
+import { GetMetaDataListsItem, CreateMetaDataListItem, GetMetaDataListsItemById, RemoveMetaDataListItem } from '../../state/admin-media/admin-media.action';
 import { takeWhile } from 'rxjs/operators';
 import { ListComponent } from 'src/app/shared/list/list.component';
-import { EmitType } from '@syncfusion/ej2-base';
+import { EmitType, remove } from '@syncfusion/ej2-base';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -48,25 +48,27 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
     protected activatedRoute: ActivatedRoute, private formBuilder: FormBuilder,) { super(store) }
 
     ngOnInit() {
-      this.metadataListItemForm = this.formBuilder.group({
-        metadataListItemId: [''],
-        metadataListId: [''],
-        itemValue :[''],
-        itemDescription :[''],
-        itemSort :[''],
-        parentItemValue :[''],
-        status :[''],
-      
-      });
+      this.activatedRoute.paramMap.subscribe(params => {
+        this.listId = Number(params.get('id'));
+        if (this.listId) {
+          console.log(this.listId, 'current metadalist')
+          this.store.dispatch(new GetMetaDataListsItemById(this.listId));
+          this.metadaListItem$.subscribe(metadatalistItem => this.metadataListItems = metadatalistItem);
+        }
+        this.metadataListItemForm = this.formBuilder.group({
+          metadataListItemId: null,
+          metadataListId: this.listId,
+          itemValue :[''],
+          itemDescription :[''],
+          itemSort :[''],
+          parentItemValue :[''],
+          status : null,
+          statusName:['']
+        });
+      })
+
         // Get the id in the browser url and reach out for the User
-    this.activatedRoute.paramMap.subscribe(params => {
-      this.listId = Number(params.get('id'));
-      if (this.listId) {
-        console.log(this.listId, 'current metadalist')
-        this.store.dispatch(new GetMetaDataListsItemById(this.listId));
-        this.metadaListItem$.subscribe(metadatalistItem => this.metadataListItems = metadatalistItem);
-      }
-    }),
+,
     takeWhile(() => this.componentActive);
 
   }
@@ -82,23 +84,26 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
 
   
 addMembersClick: EmitType < object > = () => {
-  //this.store.dispatch(new CreateMetaDataListItem(MetadataListItem));
+  // this.store.dispatch(new CreateMetaDataListItem(this.listId, MetadataListItem));
   this.ShowSpinner(true);
   console.log('saveDlgBtnClick',  this.name);
 
   if (this.metadataListItemForm.valid) {
     if (this.metadataListItemForm.dirty) {
       const metadataListItem: MetadataListItem = { ...this.metadataListItems, ...this.metadataListItemForm.value };
+      // this.metadataListItemForm.value
       console.log('testing create metatadata - ', metadataListItem);
-      this.metadataListItemForm.setValue({
-        metadataListItemId: metadataListItem.metadataListItemId,
-        metadataListId:this.listId,
-        itemValue :[''],
-        itemDescription :[''],
-        itemSort :[''],
-        parentItemValue :[''],
-        status :[''], 
-      })
+      this.metadataListItemForm.patchValue({
+        metadataListItemId: null,
+        metadataListId: this.listId,
+        itemValue :'',
+        itemDescription :'',
+        itemSort :'',
+        parentItemValue :'',
+        status:'',
+        statusName:''
+      });
+      console.log('metatadata', this.metadataListItemForm)
       this.store.dispatch(new CreateMetaDataListItem(this.listId, metadataListItem));
       this.ShowSpinner(false);
       this.closeDialog();
@@ -111,7 +116,10 @@ addMembersClick: EmitType < object > = () => {
 cancelRemove() {
   this.confirmDialog.hide();
 }
-
+remove(data){
+  console.log(data)
+   this.store.dispatch(new RemoveMetaDataListItem(this.listId, data.metadataListItemId));
+}
 closeDialog() {
   this.listItemDialog.hide();
 }

@@ -20,14 +20,9 @@
           <h5> Please enter a name </h5>
         </span>
       </div><br>
-      <div class="form-group">
-        <label for="descriptionId">Status</label>
-       
-        <ejs-dropdownlist id='ddlelement' #samples [dataSource]='data'
-        [placeholder]='placeholder' [value]='id' [fields]='listFields'  formControlName="status" ></ejs-dropdownlist>
-      </div><br>
+
       <app-edit [firstButtonText]="createMetaDataButtonText" [isfirstButtonDisabled]="!metadataListForm.valid || !metadataListForm.dirty"
-          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metaDatalistId" (secondButtonEvent)="changeStatus()">
+          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metadataId" (secondButtonEvent)="changeStatus()">
       </app-edit>
     </form>
   </div>

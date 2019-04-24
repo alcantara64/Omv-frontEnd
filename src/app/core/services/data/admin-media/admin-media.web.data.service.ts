@@ -278,7 +278,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   }
 
   removeMetadataListItem(id: number, metadataListItemId:number) {
-    const requestUri = environment.api.baseUrl + `/v1/metadatalistitem/${id}/listitems/${metadataListItemId}`;
+    const requestUri = environment.api.baseUrl + `/v1/metadatalistitem/int:id/listitems/${metadataListItemId}`;
 
     console.log('AdminMediaWebDataService   - removeMetadataListItem: ', id);
     return this.httpClient.delete(requestUri);

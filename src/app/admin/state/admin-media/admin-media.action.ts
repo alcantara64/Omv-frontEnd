@@ -49,7 +49,7 @@ export class RemoveMetaDataList {
 
 export class RemoveMetaDataListItem {
   static readonly type = '[Admin media] RemoveMetaDataListItem';
-  constructor(public id: number) { }
+  constructor(public id: number, public metadataListItemId: number) { }
 }
 export class CreateMetaDataList {
   static readonly type = '[Admin media] CreateMetaDataList';
