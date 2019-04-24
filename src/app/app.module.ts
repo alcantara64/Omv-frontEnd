@@ -69,8 +69,7 @@ const runAppInitializer = (appStart: AppStartupService) => {
     BlobModule.forRoot(),
     NgxsModule.forRoot([ AppState ],  { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
-    
+    NgxsLoggerPluginModule.forRoot()    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
