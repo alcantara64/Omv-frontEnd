@@ -28,7 +28,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
   currentRoute: any;
 
   @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
-  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
   @Select(MediaState.getSelectedItems) gridData$: Observable<any[]>;
 
 

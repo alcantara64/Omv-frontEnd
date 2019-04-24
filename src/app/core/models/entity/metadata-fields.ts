@@ -1,8 +1,14 @@
 export class MetadataFields {
-    id: number;
-    fieldName: string;
-    fieldType : string;
-    List: string;
-    isUnique: boolean;
-  }
-  
+  metadataFieldId: number;
+  entityId?: string;
+  entityName?: string;
+  fieldName: string;
+  metadataListId?: number;
+  metadataListName?: string;
+  fieldTypeId: number;
+  isRequired?: boolean;
+  isDeleted?: boolean;
+  relatedField?: number;
+  sort?: number;
+  status: number;
+}

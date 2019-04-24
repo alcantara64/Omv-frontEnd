@@ -22,7 +22,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
   public activated: boolean;
   public isAuthenticated: boolean;
 
-  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
   @Select(AppState.getIsUserAuthenticated) isAuthenticated$: Observable<boolean>;
 
   constructor(private appStartup: AppStartupService,private activatedRoute: ActivatedRoute, private auth: AuthService, private store: Store) {
