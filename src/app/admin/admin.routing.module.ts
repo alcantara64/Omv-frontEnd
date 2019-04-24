@@ -53,7 +53,7 @@ const adminRoutes: Routes = [
       { path: '', redirectTo: 'active', pathMatch: 'full' },
       { path: ':type', component: AdminUsersListComponent }
     ],
-    // canActivate: [AuthGuardService]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'admin/users/:id/edit',

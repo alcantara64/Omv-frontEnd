@@ -9,12 +9,13 @@ import { StartupComponent } from './startup/startup.component';
 import {PdfViewerComponent} from './shared/pdf-viewer/pdf-viewer.component';
 import {MediaViewerComponent} from './shared/media-viewer/media-viewer.component';
 import { UnAuthorizedComponent } from './unauthorized/unauthorized.component';
+import { AuthorizationCheckComponent } from './authorization-check/authorization-check.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'admin/users/active',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
@@ -26,13 +27,17 @@ const routes: Routes = [
     component: UnAuthorizedComponent
   },
   {
+    path: 'authorize-check',
+    component: AuthorizationCheckComponent
+  },
+  {
     path: 'implicit/callback',
     component: AuthCallbackComponent
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    // canActivate: [AuthGuardService]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'pdf-viewer',

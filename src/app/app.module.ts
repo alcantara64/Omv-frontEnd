@@ -26,6 +26,7 @@ import { UsersDataService } from './core/services/data/users/users.data.service'
 import { UsersMockDataService } from './core/services/data/users/users.mock.data.service';
 import { UsersWebDataService } from './core/services/data/users/users.web.data.service';
 import { UnAuthorizedComponent } from './unauthorized/unauthorized.component';
+import { AuthorizationCheckComponent } from './authorization-check/authorization-check.component';
 
 const appUrl = `${window.location.protocol}//${window.location.host.toLowerCase()}`;
 
@@ -52,7 +53,8 @@ const runAppInitializer = (appStart: AppStartupService) => {
     AuthCallbackComponent,
     DashboardComponent,
     StartupComponent,
-    UnAuthorizedComponent
+    UnAuthorizedComponent,
+    AuthorizationCheckComponent
   ],
   imports: [    
     AppRoutingModule,

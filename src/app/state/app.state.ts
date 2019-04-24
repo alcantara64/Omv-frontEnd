@@ -184,12 +184,14 @@ export class AppState {
     return this.usersDataService.getLoggedInUser()
       .pipe(
         tap(user => {
+
           const state = ctx.getState();
           ctx.setState({
             ...state,
             currentUser: user,
             isAuthorized: true
           });
+          this.router.navigate(['/']);
         }, err => {
           console.log('App State getLoggedinUser', err);
           const state = ctx.getState();
