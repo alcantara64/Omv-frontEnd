@@ -19,10 +19,14 @@ import { StartupComponent } from './startup/startup.component';
 import { MediaModule } from './media/media.module';
 import { BlobModule } from 'angular-azure-blob-service';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
-
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
 import { AppStartupService } from './core/services/appstartup.service';
 import { environment } from 'src/environments/environment';
+import { UsersDataService } from './core/services/data/users/users.data.service';
+import { UsersMockDataService } from './core/services/data/users/users.mock.data.service';
+import { UsersWebDataService } from './core/services/data/users/users.web.data.service';
+import { UnAuthorizedComponent } from './unauthorized/unauthorized.component';
+import { AuthorizationCheckComponent } from './authorization-check/authorization-check.component';
 
 const appUrl = `${window.location.protocol}//${window.location.host.toLowerCase()}`;
 
@@ -48,7 +52,9 @@ const runAppInitializer = (appStart: AppStartupService) => {
     AppComponent,
     AuthCallbackComponent,
     DashboardComponent,
-    StartupComponent
+    StartupComponent,
+    UnAuthorizedComponent,
+    AuthorizationCheckComponent
   ],
   imports: [    
     AppRoutingModule,
@@ -68,6 +74,7 @@ const runAppInitializer = (appStart: AppStartupService) => {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: UsersDataService, useClass: environment.useMocks ? UsersMockDataService : UsersWebDataService },
     SettingsService,
     AdminUsersService
    ],

@@ -26,31 +26,12 @@ export class HideSpinner {
   static readonly type = '[App] HideSpinner';
 }
 
-
-export class SetLoggedInUser {
-  static readonly type = '[App] SetLoggedInUser';
-
-  constructor(public user: any) { }
-}
-
 export class GetLoggedInUser {
   static readonly type = '[App] GetLoggedInUser';
-
-  constructor(public userId: number) { }
 }
 
 export class AuthenticateUser {
   static readonly type = '[App] AuthenticateUser';
-}
-
-export class HandleAuthentication {
-  static readonly type = '[App] HandleAuthentication';
-}
-
-export class SetIsAuthenticating {
-  static readonly type = '[App] SetIsAuthenticating';
-
-  constructor(public isAuthenticating: boolean) { }
 }
 
 export class LogOut {

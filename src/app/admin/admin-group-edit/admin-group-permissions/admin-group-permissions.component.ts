@@ -11,6 +11,7 @@ import { takeWhile } from 'rxjs/operators';
 import { AdminPermissionState } from '../../state/admin-permissions/admin-permissions.state';
 import { GetPermissions } from '../../state/admin-permissions/admin-permissions.action';
 import {BaseComponent} from "../../../shared/base/base.component";
+import { SetNotification } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-admin-group-permissions',
@@ -64,7 +65,7 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
   updatePermissions(permissions: Permission[]) {
     const _permissions = permissions.map(permission => permission.id);
     this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
-      this.setNotification('Permission Updated');
+      this.store.dispatch(new SetNotification('Permission Updated'));
     });
   }
 }

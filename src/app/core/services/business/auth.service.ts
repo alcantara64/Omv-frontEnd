@@ -87,7 +87,7 @@ export class AuthService {
     await this.isAuthenticated()
       .then(isAuthenticated => {
         if (isAuthenticated) {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/authorize-check');
         }
       });
   }

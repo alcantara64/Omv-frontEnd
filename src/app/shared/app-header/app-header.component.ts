@@ -8,6 +8,7 @@ import { AppStartupService } from 'src/app/core/services/appstartup.service';
 import { AuthService } from 'src/app/core/services/business/auth.service';
 import { AuthenticateUser, LogOut } from 'src/app/state/app.actions';
 import { takeUntil } from 'rxjs/operators';
+import { User } from 'src/app/core/models/entity/user';
 
 @Component({
   selector: 'app-header',
@@ -21,9 +22,11 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
   public displayWidth: number;
   public activated: boolean;
   public isAuthenticated: boolean;
+  userDisplayName: string;
 
   @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
   @Select(AppState.getIsUserAuthenticated) isAuthenticated$: Observable<boolean>;
+  @Select(AppState.getLoggedInUser) currentUser$: Observable<User>;
 
   constructor(private appStartup: AppStartupService,private activatedRoute: ActivatedRoute, private auth: AuthService, private store: Store) {
     this.deviceWidth$.subscribe(width => {
@@ -35,10 +38,15 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
 
     // Get the authentication state for immediate use
     //TODO - this needs to be reactive - ie NGXS so we know when state isauthenticated has changed
-    //this way menu will change to logout
-    
-    
-    
+    //this way menu will change to logout    
+
+    this.currentUser$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(user => {
+        if (user) {
+          this.userDisplayName = user.displayName;
+        }
+      });
   }
 
   ngOnDestroy() {

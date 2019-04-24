@@ -7,9 +7,7 @@ import {takeWhile} from 'rxjs/operators';
 import {AdminUserState} from '../state/admin-users/admin-users.state';
 import {User} from '../../core/models/entity/user';
 import {Tab} from './../../core/models/tab';
-import {Group} from '../../core/models/entity/group';
 import {ListComponent} from 'src/app/shared/list/list.component';
-import {AdminGroupState} from '../state/admin-groups/admin-groups.state';
 import {
   InitializeUser,
   CreateUser,
@@ -19,7 +17,6 @@ import {
   UpdateUser
 } from '../state/admin-users/admin-users.actions';
 import {UserStatus} from 'src/app/core/enum/user-status.enum';
-import {messageType} from "../../state/app.actions";
 
 const CREATE_USER = 'Create User';
 const UPDATE_USER = 'Update User';

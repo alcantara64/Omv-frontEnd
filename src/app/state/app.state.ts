@@ -3,11 +3,9 @@ import {
   ClearNotification,
   Confirmation,
   messageType,
-  SetNotification,
   ClearConfirmation,
   SetPageTitle,
   ShowLeftNav,
-  SetLoggedInUser,
   LogOut,
   GetUserPermissions,
   GetLoggedInUser,
@@ -15,21 +13,22 @@ import {
   DeviceWidth,
   ShowSpinner,
   HideSpinner,
-  AuthenticateUser,
-  HandleAuthentication,
-  SetIsAuthenticating
+  AuthenticateUser
 } from './app.actions';
-import {State, Selector, Action, StateContext} from '@ngxs/store';
+import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
 import { AuthService } from '../core/services/business/auth.service';
 import { Permission } from '../core/enum/permission';
 import { tap } from 'rxjs/operators';
 import { Toast } from '../core/enum/toast';
+import { UsersDataService } from '../core/services/data/users/users.data.service';
+import { User } from '../core/models/entity/user';
+import { Router } from '@angular/router';
 
 export class AppStateModel {
   showLeftNav: boolean;
   setPageTitle: string;
-  currentUser: any;
+  currentUser: User;
   currentUserId: number;
   permissions: Permission[];
   message: string;
@@ -44,7 +43,7 @@ export class AppStateModel {
   showSpinner: boolean;
 
   isUserAuthenticated: boolean;
-  isAuthenticating: boolean;
+  isAuthorized: boolean;
 }
 
 @State<AppStateModel>({
@@ -67,7 +66,7 @@ export class AppStateModel {
     showSpinner: false,
 
     isUserAuthenticated: null,
-    isAuthenticating: true
+    isAuthorized: null
   }
 })
 export class AppState {
@@ -86,9 +85,9 @@ export class AppState {
   static getPageTitle(state: AppStateModel) {
     return state.setPageTitle;
   }
- 
+
   @Selector()
-  static getCurrentUser(state: AppStateModel) {
+  static getLoggedInUser(state: AppStateModel) {
     return state.currentUser;
   }
 
@@ -105,11 +104,11 @@ export class AppState {
   @Selector()
   static getToastMessage(state: AppStateModel) {
     return state.toastMessage;
-  }  
+  }
 
   @Selector()
   static setNotification(state: AppStateModel) {
-    return {message: state.message, messageType: state.messageType};
+    return { message: state.message, messageType: state.messageType };
   }
 
   @Selector()
@@ -121,7 +120,7 @@ export class AppState {
   static confirmation(state: AppStateModel) {
     return state.confirmation;
   }
-  
+
   @Selector()
   static getErrorMessage(state: AppStateModel) {
     return state.error;
@@ -138,14 +137,14 @@ export class AppState {
   }
 
   @Selector()
-  static getIsAuthenticating(state: AppStateModel) {
-    return state.isAuthenticating;
+  static getIsAuthorized(state: AppStateModel) {
+    return state.isAuthorized;
   }
 
-  constructor(private auth: AuthService, private adminUsersService: AdminUsersService) { }
+  constructor(private auth: AuthService, private adminUsersService: AdminUsersService, private usersDataService: UsersDataService, private router: Router) { }
 
   @Action(ShowLeftNav)
-  setLeftNavToggle({getState, setState}: StateContext<AppStateModel>, { payload }: ShowLeftNav) {
+  setLeftNavToggle({ getState, setState }: StateContext<AppStateModel>, { payload }: ShowLeftNav) {
     const state = getState();
     setState({
       ...state,
@@ -154,7 +153,7 @@ export class AppState {
   }
 
   @Action(ShowSpinner)
-  showSpinner({getState, setState}: StateContext<AppStateModel>) {
+  showSpinner({ getState, setState }: StateContext<AppStateModel>) {
     const state = getState();
     setState({
       ...state,
@@ -163,7 +162,7 @@ export class AppState {
   }
 
   @Action(HideSpinner)
-  hideSpinner({getState, setState}: StateContext<AppStateModel>) {
+  hideSpinner({ getState, setState }: StateContext<AppStateModel>) {
     const state = getState();
     setState({
       ...state,
@@ -172,7 +171,7 @@ export class AppState {
   }
 
   @Action(SetPageTitle)
-  setPageTitle({getState, setState}: StateContext<AppStateModel>, { payload }: SetPageTitle) {
+  setPageTitle({ getState, setState }: StateContext<AppStateModel>, { payload }: SetPageTitle) {
     const state = getState();
     setState({
       ...state,
@@ -181,20 +180,36 @@ export class AppState {
   }
 
   @Action(GetLoggedInUser)
-  getLoggedinUser({ getState, setState }: StateContext<AppStateModel>, { userId }: GetLoggedInUser) {
-    return this.adminUsersService.getUser(userId).pipe(
-      tap(user => {
-        const state = getState();
-        setState({
-          ...state,
-          currentUser: user
-        });
-      })
-    );
+  getLoggedinUser(ctx: StateContext<AppStateModel>) {
+    return this.usersDataService.getLoggedInUser()
+      .pipe(
+        tap(user => {
+
+          const state = ctx.getState();
+          ctx.setState({
+            ...state,
+            currentUser: user,
+            isAuthorized: true
+          });
+          this.router.navigate(['/']);
+        }, err => {
+          console.log('App State getLoggedinUser', err);
+          const state = ctx.getState();
+          ctx.setState({
+            ...state,
+            currentUser: null,
+            isAuthorized: false
+          });
+          if (err.status === 404) {
+            this.auth.logout();
+            this.router.navigate(['/unauthorize']);
+          }          
+        })
+      );
   }
 
   @Action(AuthenticateUser)
-  async authenticateUser({getState, setState}: StateContext<AppStateModel>) {
+  async authenticateUser({ getState, setState }: StateContext<AppStateModel>) {
     let isAuthenticated = await this.auth.isAuthenticated();
     const state = getState();
     setState({
@@ -203,25 +218,16 @@ export class AppState {
     });
   }
 
-  @Action(SetLoggedInUser)
-  setLoggedInUser({getState, setState}: StateContext<AppStateModel>, { payload }: SetPageTitle) {
-    const state = getState();
-    setState({
-      ...state,
-      currentUser: payload
-    });
-  }
-
   @Action(LogOut)
-  async logOut({getState, setState}: StateContext<AppStateModel>) {
-    await this.auth.logout().then(resp => {
+  async logOut({ getState, setState }: StateContext<AppStateModel>) {
+    await this.auth.logout().then(() => {
       const state = getState();
       setState({
         ...state,
         currentUser: null,
         isUserAuthenticated: false
       });
-    });    
+    });
   }
 
   @Action(GetUserPermissions)
@@ -238,7 +244,7 @@ export class AppState {
   }
 
   @Action(ClearNotification)
-  clearNotification({getState,setState}: StateContext<AppStateModel>) {
+  clearNotification({ getState, setState }: StateContext<AppStateModel>) {
     const state = getState();
     setState({
       ...state,
@@ -247,27 +253,8 @@ export class AppState {
     })
   }
 
-  @Action(SetNotification)
-  setNotification(ctx: StateContext<AppStateModel>, {message, messageType}: SetNotification) {
-    ctx.dispatch(new ClearNotification);
-    const state = ctx.getState();
-
-    setTimeout(()=>{
-      ctx.setState({
-        ...state,
-        message: message,
-        messageType: messageType
-      });
-
-      setTimeout(()=>{
-        ctx.dispatch(new ClearNotification)
-      }, 10000);
-
-    }, 1)
-  }
-
   @Action(ShowConfirmationBox)
-  showConfirmationBox({getState, setState}: StateContext<AppStateModel>, {show}: ShowConfirmationBox) {
+  showConfirmationBox({ getState, setState }: StateContext<AppStateModel>, { show }: ShowConfirmationBox) {
     const state = getState();
 
     setState({
@@ -278,7 +265,7 @@ export class AppState {
   }
 
   @Action(ClearConfirmation)
-  clearConfirmation({getState, setState}: StateContext<AppStateModel>) {
+  clearConfirmation({ getState, setState }: StateContext<AppStateModel>) {
     const state = getState();
 
     setState({
@@ -294,13 +281,13 @@ export class AppState {
       ...state,
       confirmation: true
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       ctx.dispatch(new ClearConfirmation)
     }, 100)
   }
 
   @Action(DisplayToastMessage)
-  displayToastMessage({getState, setState}: StateContext<AppStateModel>, { message, type }: DisplayToastMessage) {
+  displayToastMessage({ getState, setState }: StateContext<AppStateModel>, { message, type }: DisplayToastMessage) {
     const state = getState();
 
     const toast: Toast = { message: message, type: type };
@@ -311,7 +298,7 @@ export class AppState {
   }
 
   @Action(DeviceWidth)
-  DeviceWidth({getState, setState}: StateContext<AppStateModel>, {deviceWidth}: DeviceWidth) {
+  DeviceWidth({ getState, setState }: StateContext<AppStateModel>, { deviceWidth }: DeviceWidth) {
     const state = getState();
 
     setState({
