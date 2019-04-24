@@ -1,5 +1,5 @@
-export class MetadataField_InsertInputDTO {
-    MetadataFieldId?: number;
+export class MetadataField_UpdateInputDTO
+{
     FieldName: string;
     MetadataListId?: number;
     FieldTypeId: number;

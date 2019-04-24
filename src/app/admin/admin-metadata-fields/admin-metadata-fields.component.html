@@ -46,9 +46,12 @@
                             List
                         </label></div>
                     <div class="col-md-8">
-                        <ejs-dropdownlist id='ddlelement' #samplesDropdownlist formControlName="metadataListId"
-                            [dataSource]='showAllListDropdown ? allMetadataList : data' [placeholder]="'Select a List'" [value]='itemDescription'
-                            [fields]='showAllListDropdown ? createListFields : listFields '></ejs-dropdownlist>
+                        <div >
+                                <ejs-dropdownlist id='ddlelement' #samplesDropdownlist formControlName="metadataListId"
+                                    [dataSource]=' allMetadataList  ' [placeholder]="'Select a List'"
+                                    [value]='itemDescription' [fields]=' createListFields '>
+                                </ejs-dropdownlist>
+                        </div>
                     </div>
                 </div>
                 <button class="btn btn-lg omv-primary" (click)=" save() "> Done </button>

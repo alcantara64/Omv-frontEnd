@@ -20,6 +20,7 @@ import { MetadataListItem_UpdateInputDTO } from 'src/app/core/dtos/input/metadat
 import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
 import { FieldType_GetAllOutputDTO } from 'src/app/core/dtos/output/metadata/FieldType_GetAllOutputDTO';
 import {MetadataList_GetAllOutputDTO} from '../../../dtos/output/metadata/MetadataList_GetAllOutputDTO';
+import { MetadataField_UpdateInputDTO } from 'src/app/core/dtos/input/metadata/MetadataField_UpdateInputDTO';
 @Injectable({
   providedIn: 'root'
 })
@@ -85,6 +86,8 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
           .forMember('metadataListName', function (opts) { opts.mapFrom('metadataListName'); })
           .forMember('fieldTypeId', function (opts) { opts.mapFrom('fieldTypeId'); })
           .forMember('fieldName', function (opts) { opts.mapFrom('fieldName'); })
+          .forMember('type', function (opts) { opts.mapFrom('type'); })
+          
           .forMember('status', function (opts) { opts.mapFrom('status'); });
 
         let _response = automapper.map(MetadataField_GetAllOutputDTO, MetadataFields, response);
@@ -113,12 +116,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
       .forMember('metadataFieldId', function (opts) { opts.mapFrom('metadataFieldId'); })
       .forMember('fieldName', function (opts) { opts.mapFrom('fieldName'); })
       .forMember('metadataListId', function (opts) { opts.mapFrom('metadataListId'); })
-      .forMember('fieldTypeId', function (opts) { opts.mapFrom('fieldTypeId'); })
-      .forMember('isDeleted', function (opts) { opts.mapFrom('isDeleted'); })
-      .forMember('relatedField', function (opts) { opts.mapFrom('relatedField'); })
-      .forMember('isRequired', function (opts) { opts.mapFrom('isRequired'); })
-      .forMember('sort', function (opts) { opts.mapFrom('sort'); })
-      .forMember('status', function (opts) { opts.mapFrom('status'); });
+      .forMember('fieldTypeId', function (opts) { opts.mapFrom('fieldTypeId'); });
 
     const request = automapper.map(payload, MetadataField_InsertInputDTO, payload);
     console.log('AdminGroupsWebDataService - createMetadataField request: ', request);
@@ -130,15 +128,10 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
           .createMap(MetadataField_InsertInputDTO, MetadataFields)
           .forMember('metadataFieldId', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataFieldId'))
           .forMember('fieldName', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('fieldName'))
-          .forMember('metadataListId', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListId'))
-          .forMember('fieldTypeId', function (opts) { opts.mapFrom('fieldTypeId'); })
-          .forMember('isDeleted', function (opts) { opts.mapFrom('isDeleted'); })
-          .forMember('relatedField', function (opts) { opts.mapFrom('relatedField'); })
-          .forMember('isRequired', function (opts) { opts.mapFrom('isRequired'); })
-          .forMember('sort', function (opts) { opts.mapFrom('sort'); })
-          .forMember('status', function (opts) { opts.mapFrom('status'); });
+          .forMember('metadataListId', function (opts) { opts.mapFrom('metadataListId'); })
+          .forMember('fieldTypeId', function (opts) { opts.mapFrom('fieldTypeId'); });
 
-        let _response = automapper.map(MetadataField_InsertInputDTO, MetadataField_InsertInputDTO, response);
+        let _response = automapper.map(MetadataField_InsertInputDTO, response);
         console.log('AdminGroupsWebDataService - createMetadataField: ', _response);
         return _response;
       })
@@ -200,36 +193,28 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   }
   updateMetaDataField(id: number, payload: MetadataFields) {
     const requestUri = environment.api.baseUrl + `/v1/metadatafields/${id}`;
-
     automapper
-      .createMap(payload, MetadataListItem_UpdateInputDTO)
+      .createMap(payload, MetadataField_UpdateInputDTO)
       .forMember('metadataFieldId', function(opts) { opts.mapFrom('metadataFieldId'); })
       .forMember('fieldName', function(opts) { opts.mapFrom('fieldName'); })
       .forMember('metadataListId', function(opts) { opts.mapFrom('metadataListId'); })
-      .forMember('fieldTypeId', function(opts) { opts.mapFrom('fieldTypeId'); })
+      .forMember('fieldTypeId', function (opts) { opts.mapFrom('fieldTypeId'); });
 
-    const request = automapper.map(payload, MetadataListItem_UpdateInputDTO, payload);
+    const request = automapper.map(payload, MetadataField_UpdateInputDTO, payload);
 
-    // request.isSystem = request.isSystem.toString();
-    // request.roleName = request.roleName ? request.roleName.toString() : '';
     console.log('AdminGroupsWebDataService - updateMetaDataField: ', request);
 
     return this.httpClient.put(requestUri, request).pipe(map(
       response => {
         automapper
-          .createMap(MetadataListItem_UpdateInputDTO, MetadataFields)
+          .createMap(MetadataField_UpdateInputDTO, MetadataFields)
           .forMember('metadataFieldId', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataFieldId'))
           .forMember('fieldName', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('fieldName'))
-          .forMember('metadataListId', (opts: AutoMapperJs.IMemberConfigurationOptions) => opts.mapFrom('metadataListId'))
-          .forMember('fieldTypeId', function(opts) { opts.mapFrom('fieldTypeId'); })
-          .forMember('isRequired', function(opts) { opts.mapFrom('isRequired'); })
-          .forMember('isDeleted', function(opts) { opts.mapFrom('isDeleted'); })
+          .forMember('metadataListId' , function (opts) { opts.mapFrom('metadataListId')})
+          .forMember('fieldTypeId', function (opts) { opts.mapFrom('fieldTypeId'); });
 
-          .forMember('relatedField', function(opts) { opts.mapFrom('relatedField'); })
-          .forMember('sort', function(opts) { opts.mapFrom('sort'); })
-          .forMember('status', function(opts) { opts.mapFrom('status'); });
 
-        let _response = automapper.map(MetadataListItem_UpdateInputDTO, MetadataFields, response);
+        let _response = automapper.map(MetadataField_UpdateInputDTO, MetadataFields,  response);
         console.log('AdminGroupsWebDataService - updateMetaDataField: ', _response);
         return _response;
 

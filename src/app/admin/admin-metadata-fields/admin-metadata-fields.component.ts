@@ -21,7 +21,7 @@ import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype
 export class AdminMetadataFieldsComponent extends ListComponent implements OnInit, OnDestroy {
   columns: GridColumn[] = [
     { headerText: 'Name', field: 'fieldName', width: '70' },
-    { headerText: 'Type', field: 'fieldTypeId', width: '80' },
+    { headerText: 'Type', field: 'type', width: '80' },
     { headerText: 'List', width: '150', field: 'metadataListName' }];
 
   public listFields: Object = { text: 'itemDescription', value: 'itemValue' };
@@ -69,11 +69,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       fieldName: ['', [Validators.required]],
       fieldTypeId: [null, [Validators.required]],
       metadataListId: [null, [Validators.required]],
-      isRequired: [false, [Validators.required]],
-      isDeleted: [false, [Validators.required]],
-      relatedField: ['', [Validators.required]],
-      sort: [null, [Validators.required]],
-      status: [null, [Validators.required]]
+
     });
     this.store.dispatch(new GetMetaDataFields());
     this.metadataFields$.subscribe(fields => {
@@ -110,11 +106,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       fieldName: '',
       fieldTypeId: null,
       metadataListId: null,
-      isRequired:false,
-      isDeleted: false,
-      relatedField: null,
-      sort: null,
-      status: null
+
     });
   }
   add() {
@@ -147,11 +139,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
         fieldName: metadataField.fieldName ? metadataField.fieldName : '',
         fieldTypeId: metadataField.fieldTypeId ? metadataField.fieldTypeId : null,
         metadataListId: metadataField.metadataListId ? metadataField.metadataListId : null,
-        isRequired: metadataField.isRequired ? metadataField.isRequired : false,
-        isDeleted: metadataField.isDeleted ? metadataField.isDeleted : false,
-        relatedField: metadataField.relatedField ? metadataField.relatedField : null,
-        sort: metadataField.sort ? metadataField.sort : null,
-        status: metadataField.status ? metadataField.status : null,
+
       });
       this.store.dispatch(new CreateMetaDataField(metadataField));
     }
@@ -162,11 +150,6 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
         fieldName: metadataField.fieldName,
         fieldTypeId: metadataField.fieldTypeId,
         metadataListId: metadataField.metadataListId,
-        isRequired: metadataField.isRequired,
-        isDeleted: metadataField.isDeleted,
-        relatedField: metadataField.relatedField,
-        sort: metadataField.sort,
-        status: metadataField.status
       });
       this.store.dispatch(new UpdateMetaDataField(metadataField.metadataFieldId, metadataField));
     }
@@ -188,11 +171,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       fieldName: action.fieldName,
       fieldTypeId: action.fieldTypeId,
       metadataListId: action.metadataListId,
-      isRequired: action.isRequired ? action.isRequired : '',
-      isDeleted: action.isDeleted ? action.isDeleted : '',
-      relatedField: action.relatedField ? action.relatedField : '',
-      sort: action.sort ? action.sort : '',
-      status: action.status ? action.status : ''
+
     });
     this.store.dispatch(new GetMetadataListById(action.metadataListId));
     this.metadataList$.subscribe(list => {
@@ -210,6 +189,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       } else {
         this.showListDropdown = false;
       }
+      console.log('checkfieldType', this.allMetadataList);
     });
   }
 }
