@@ -112,7 +112,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       metadataListId: null,
       isRequired:false,
       isDeleted: false,
-      relatedField: '',
+      relatedField: null,
       sort: null,
       status: null
     });
@@ -149,7 +149,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
         metadataListId: metadataField.metadataListId ? metadataField.metadataListId : null,
         isRequired: metadataField.isRequired ? metadataField.isRequired : false,
         isDeleted: metadataField.isDeleted ? metadataField.isDeleted : false,
-        relatedField: metadataField.relatedField ? metadataField.relatedField : '',
+        relatedField: metadataField.relatedField ? metadataField.relatedField : null,
         sort: metadataField.sort ? metadataField.sort : null,
         status: metadataField.status ? metadataField.status : null,
       });
