@@ -382,10 +382,12 @@ export class AdminMediaState {
 
   @Action(DisableMetadataList)
   disableMetadataList(ctx: StateContext<AdminMediaStateModel>, { id, payload, refreshList }: DisableMetadataList) {
-    payload.status = 0;
-    ctx.dispatch(new DisplayToastMessage('List was disabled successfully.'));
+    let NewPayload =  Object.assign({},payload);
+    console.log('NewPayload',payload)
+    NewPayload.status = 0;
     return this.adminMediaService.updateMetadataList(id, payload).pipe(
       tap(list => {
+        ctx.dispatch(new DisplayToastMessage('List was disabled successfully.'));
         if (refreshList) {
           ctx.dispatch(new GetMetaDataLists());
         }
@@ -397,8 +399,9 @@ export class AdminMediaState {
 
   @Action(EnableMetadataList)
   enableMetadataList(ctx: StateContext<AdminMediaStateModel>, { id, payload, refreshList }: EnableMetadataList) {
-    payload.status = 1;
-
+    let NewPayload =  Object.assign({},payload);
+    console.log('NewPayload',payload)
+    NewPayload.status = 1;
     return this.adminMediaService.updateMetadataList(id, payload).pipe(
       tap(list => {
 

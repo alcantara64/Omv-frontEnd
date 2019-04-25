@@ -83,16 +83,15 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
       id: [],
       fieldName: ['', [Validators.required]],
       status :[]
-      //fieldType: ['', [Validators.required]],
     });
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetMetaDataLists());
-     // this.displayList(params.type);
+      this.displayList(params.type);
     });
-    this.metadataLists$.subscribe(lists => {
-      console.log('AdminMetadataLIstComponent ngOninit lists: ', lists);
-      this.metadataLists = lists;
-    });
+    // this.metadataLists$.subscribe(lists => {
+    //   console.log('AdminMetadataLIstComponent ngOninit lists: ', lists);
+    //   this.metadataLists = lists;
+    // });
   }
   displayList(param: string) {
     this.urlparam = param;

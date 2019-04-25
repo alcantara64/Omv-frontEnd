@@ -44,6 +44,7 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
   metaDataActionText: string;
   createMetaDataButtonText: string;
   errorMessage: string;
+  metadatalist: any;
 
   constructor(protected store: Store, protected router: Router, private fb: FormBuilder, private activatedRoute: ActivatedRoute) {
     super(store, router)
@@ -51,6 +52,7 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
     this.metadataListForm = this.fb.group({
       metadataListId: '',
       metadataListName: ['', [Validators.required]],
+      status: ''
     });
 
   }
@@ -66,6 +68,7 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
           this.metadataListForm.setValue({
             metadataListId: metadataList.metadataListId,
             metadataListName: metadataList.metadataListName,
+            status: metadataList.status,
           });
           this.metaDataActionText = metadataList.status == MetadataListStatus.Active ? DISABLE_METADATALIST_ITEMS : ENABLE_METADATALIST_ITEMS;
           this.metadataListForm.patchValue({
@@ -74,7 +77,13 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
             status: metadataList.status
           });
           this.metadata = metadataList;
-        } 
+
+          this.metadatalist = { ...this.metadata, ...this.metadataListForm.value };
+        }
+        // this.store.dispatch(new GetMetaDataList(this.metadataId));
+        // this.currentMetadataList$.subscribe(list=>{
+        //   this.metadatalist = list;
+        // }) ;
       }),
         takeWhile(() => this.componentActive);
     }
@@ -88,7 +97,7 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
     if (this.metadataListForm.valid) {
       if (this.metadataListForm.dirty) {
         const MetadataList: MetadataList = { ...this.metadata, ...this.metadataListForm.value };
-
+        this.metadatalist = MetadataList;
         if (this.metadataId) {
           console.log('AdminMetadataListEditComponent - save: ', MetadataList);
           this.metadataListForm.setValue({
@@ -97,22 +106,19 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
             status: MetadataList.status
           });
           this.store.dispatch(new UpdateMetadataList(this.metadataId, MetadataList));
-
-          // await this.store.dispatch(new CreateMetaDataListItem(this.metadataId,MetadataList));
           takeWhile(() => this.componentActive);
         }
       }
     } else {
       this.errorMessage = "Please correct the validation errors.";
-      this.setNotification('Please correct the validation errors', messageType.error);
     }
   }
-  changeStatus(payload) {
-    if (ENABLE_METADATALIST_ITEMS) {
-      this.store.dispatch(new DisableMetadataList(this.metadataId, payload));
+  changeStatus() {
+    if (this.metaDataActionText === DISABLE_METADATALIST_ITEMS) {
+      this.store.dispatch(new DisableMetadataList(this.metadataId, this.metadatalist, true));
     }
     else {
-      this.store.dispatch(new EnableMetadataList(this.metadataId, payload));
+      this.store.dispatch(new EnableMetadataList(this.metadataId, this.metadatalist, true));
     }
   }
 }

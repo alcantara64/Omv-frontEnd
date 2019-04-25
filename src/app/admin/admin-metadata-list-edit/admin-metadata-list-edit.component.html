@@ -22,7 +22,7 @@
       </div><br>
 
       <app-edit [firstButtonText]="createMetaDataButtonText" [isfirstButtonDisabled]="!metadataListForm.valid || !metadataListForm.dirty"
-          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metadataId" (secondButtonEvent)="changeStatus()">
+          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metadataId" (secondButtonEvent)="changeStatus($event)">
       </app-edit>
     </form>
   </div>

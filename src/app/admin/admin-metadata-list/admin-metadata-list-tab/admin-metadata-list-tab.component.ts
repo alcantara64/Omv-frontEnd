@@ -11,8 +11,8 @@ export class AdminMetadataListTabComponent implements OnInit {
 
 
   metadataListTabs: Tab[] = [
-    { link: 'admin/media/metadata/active', name: 'Active Lists',   },
-    { link: 'admin/media/metadata/disabled', name: 'Disabled Lists' }
+    { link: '/admin/media/metadata/active', name: 'Active Lists',   },
+    { link: '/admin/media/metadata/disabled', name: 'Disabled Lists' }
   ];
 
   constructor(private router: Router) { }

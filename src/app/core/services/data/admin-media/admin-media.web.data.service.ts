@@ -501,7 +501,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
         automapper
           .createMap(MetadataList_GetAllOutputDTO, MetadataList)
           .forMember('id', function (opts) { opts.mapFrom('metadataListId'); })
-          .forMember('fieldName', function (opts) { opts.mapFrom('metadataListName'); })
+          .forMember('metadataListName', function (opts) { opts.mapFrom('metadataListName'); })
           .forMember('status', function (opts) { opts.mapFrom('status'); })
           .forMember('statusName', function (opts) { opts.mapFrom('statusName'); });
 
