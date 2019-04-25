@@ -34,6 +34,12 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
   url: string;
   trustedUrl: any;
   componentActive = true;
+  docFileTypes = ['DOCX', 'DOC', 'PPT', 'doc', 'docx', 'XLSX', 'XLS', 'xls', 'xlsx'];
+
+  imgFileTypes = ['JPEG' , 'PNG' ,'JPG', 'GIF', 'jpeg' ,'gif', 'png' , 'jpg'];
+  docViewerVisible: boolean;
+  pdfViewerVisible: boolean;
+  imgViewerVisible: boolean;
   constructor(protected store: Store, private activeRoute: ActivatedRoute,
     private sanitizer: DomSanitizer) {
     super(store);
@@ -60,64 +66,54 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
   }
 
   toggleMediaViewer() {
-    // this.mediaOBJ = this.dataSource.find((ids: { id: string; }) => ids.id === this.mediaID);
     this.mediaType = this.dataSource.type;
     this.toggleMediaType(this.mediaType);
   }
 
   toggleMediaType(val) {
-    switch (val) {
-      case 'DOCX': {
-        this.url = `http://docs.google.com/gview?url=${this.dataSource.url}&embedded=true`;
-        this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
-
-        break;
-      }
-      case 'XLS': {
-        this.url = `http://docs.google.com/gview?url=${this.dataSource.url}&embedded=true`;
-        this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
-        break;
-      }
-      case 'PDF': {
+    if (this.docFileTypes.includes(val)) {
+      this.docViewerVisible = true;
+      this.pdfViewerVisible = false;
+      this.imgViewerVisible = false;
+      this.url = `http://docs.google.com/gview?url=${this.dataSource.url}&embedded=true`;
+      this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+    }  else if (val === 'PDF') {
+      this.pdfViewerVisible = true;
+      this.docViewerVisible = false;
+      this.imgViewerVisible = false;
+      this.url = this.dataSource.url;
+    } else {
+      this.pdfViewerVisible = false;
+      this.imgViewerVisible = true;
+      this.docViewerVisible = false;
+      setTimeout(() => {
+        console.log(this.dataSource.url)
         this.url = this.dataSource.url;
-        break;
-      }    
-      case 'PNG':
-      case 'JPG': {
-        setTimeout(() => {
-          console.log(this.dataSource.url)
-          this.url = this.dataSource.url;
-          const imageElement = window.document.querySelector('img.image');
-          console.log('element', imageElement);
-          const viewer = new Viewer(imageElement, {
-            url: 'data-original',
-            toolbar: {
-              oneToOne: true,
-              prev() {
-                viewer.prev(true);
-              },
-              play: true,
-              next() {
-                viewer.next(true);
-              },
-              // download() {
-              //   const a = document.createElement('a');
-              //   a.href = viewer.image.src;
-              //   a.download = viewer.image.alt;
-              //   document.body.appendChild(a);
-              //   a.click();
-              //   document.body.removeChild(a);
-              // },
+        const imageElement = window.document.querySelector('img.image');
+        console.log('element', imageElement);
+        const viewer = new Viewer(imageElement, {
+          url: 'data-original',
+          toolbar: {
+            oneToOne: true,
+            prev() {
+              viewer.prev(true);
             },
-          });
-        }, 20);
-    
-        break;
-      }
-      default:
-        break;
-
+            play: true,
+            next() {
+              viewer.next(true);
+            },
+            // download() {
+            //   const a = document.createElement('a');
+            //   a.href = viewer.image.src;
+            //   a.download = viewer.image.alt;
+            //   document.body.appendChild(a);
+            //   a.click();
+            //   document.body.removeChild(a);
+            // },
+          },
+        });
+      }, 20);
     }
   }
-  
+
 }

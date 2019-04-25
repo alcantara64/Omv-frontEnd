@@ -10,7 +10,7 @@ import { GetGroupPermissions } from '../../state/admin-groups/admin-groups.actio
 import { takeWhile } from 'rxjs/operators';
 import { AdminPermissionState } from '../../state/admin-permissions/admin-permissions.state';
 import { GetPermissions } from '../../state/admin-permissions/admin-permissions.action';
-import {BaseComponent} from "../../../shared/base/base.component";
+import { BaseComponent } from "../../../shared/base/base.component";
 import { SetNotification } from 'src/app/state/app.actions';
 
 @Component({
@@ -24,10 +24,10 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
   componentActive = true;
   permissions: Permission[] = [];
   selectedPermission: any[] = [];
-  groupPermissions: string [] = [];
+  groupPermissions: string[] = [];
   columns: GridColumn[] = [
-    {type: "checkbox", headerText: "Select All", width: "100", field: ""},
-    {type: "", headerText: "Permission Title", width: "", field: "name"}
+    { type: "checkbox", headerText: "Select All", width: "100", field: "" },
+    { type: "", headerText: "Permission Title", width: "", field: "name" }
   ];
 
   @Select(AdminPermissionState.getPermissions) getAllPermissions$: Observable<Permission[]>;
@@ -40,32 +40,34 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
 
   ngOnInit() {
     this.store.dispatch(new GetPermissions());
-
-    this.getAllPermissions$.subscribe(permissions => this.permissions = permissions);
-
-    // Get the id in the browser url and reach out for the Group
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
+    });
+    this.getAllPermissions$.subscribe(permissions => {
+      this.permissions = permissions;
       this.store.dispatch(new GetGroupPermissions(this.groupId))
         .toPromise().then(() => {
-        this.getUserPermissions$.subscribe(permissions => {
-          console.log("AdminGroupPermissionsComponent - ngOnInit permissions: " + permissions);
-          if (permissions) {
-            this.groupPermissions = permissions.map(x => x.id);
-          }
+          this.getUserPermissions$.subscribe(permissions => {
+            console.log("AdminGroupPermissionsComponent - ngOnInit permissions: " + permissions);
+            if (permissions) {
+              this.groupPermissions = permissions.map(x => x.id);
+            }
+          });
         });
-      });
-    }), takeWhile(() => this.componentActive);
+    }) , takeWhile(() => this.componentActive);
+
+    // Get the id in the browser url and reach out for the Group
+ 
   }
 
-  ngOnDestroy(): void {
-    this.componentActive = false;
-  }
+ngOnDestroy(): void {
+  this.componentActive = false;
+}
 
-  updatePermissions(permissions: Permission[]) {
-    const _permissions = permissions.map(permission => permission.id);
-    this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
-      this.store.dispatch(new SetNotification('Permission Updated'));
-    });
-  }
+updatePermissions(permissions: Permission[]) {
+  const _permissions = permissions.map(permission => permission.id);
+  this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
+    this.store.dispatch(new SetNotification('Permission Updated'));
+  });
+}
 }
