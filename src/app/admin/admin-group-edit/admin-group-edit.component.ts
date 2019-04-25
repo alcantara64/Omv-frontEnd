@@ -17,7 +17,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {takeWhile} from 'rxjs/operators';
 import {AdminGroupState} from '../state/admin-groups/admin-groups.state';
 import {EditComponent} from 'src/app/shared/edit/edit.component';
-import {messageType} from "../../state/app.actions";
 import { permission } from 'src/app/core/enum/permission';
 
 const CREATE_GROUP = 'Create Group';
@@ -128,19 +127,16 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
             if (groupId) {
               this.groupForm.reset();
               this.router.navigate([`/admin/groups/${groupId}/edit`]);
-              this.setNotification('Group Created');
             }
           }),
           takeWhile(() => this.componentActive);
         } else {
           await this.store.dispatch(new UpdateGroup(group.id, group));
           this.groupForm.reset(this.groupForm.value);
-          this.setNotification('Group Updated');
         }
       }
     } else {
       this.errorMessage = "Please correct the validation errors.";
-      this.setNotification('Please correct the validation errors', messageType.error);
     }
   }
 

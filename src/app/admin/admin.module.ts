@@ -41,11 +41,11 @@ import { AdminMediaState } from './state/admin-media/admin-media.state';
 import { AdminMediaDataService } from '../core/services/data/admin-media/admin-media.data.service';
 import { AdminMediaWebDataService } from '../core/services/data/admin-media/admin-media.web.data.service';
 import { AdminMediaMockDataService } from '../core/services/data/admin-media/admin-media.mock.data.service';
+import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
 import {AdminMediaNewUploadsComponent} from "./admin-media-uploads-list/admin-media-new-uploads/admin-media-new-uploads.component";
 import {AdminMediaUploadsHistoryComponent} from "./admin-media-uploads-list/admin-media-uploads-history/admin-media-uploads-history.component";
 import {AdminMetadataListComponent} from "./admin-metadata-list/admin-metadata-list.component";
 import { AdminMediaUploadDetailsComponent } from './admin-media-upload-details/admin-media-upload-details.component';
-import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
 // import { AdminMediaMockDataService } from '../core/services/data/admin-media/admin-media.mock.data.service';
 import { DialogModule } from '@syncfusion/ej2-angular-popups/src/dialog/dialog.module';
 import { TabModule } from '@syncfusion/ej2-angular-navigations/src/tab/tab.module';
@@ -80,6 +80,8 @@ import { AdminMetadataListItemsComponent } from './admin-metadata-list-edit/admi
     AdminGroupMediaAccessComponent,
     AdminMediaUploadsListComponent,
     AdminMediaUploadsTabsComponent,
+    AdminMetadataListComponent,
+    AdminMetadataFieldsComponent,
     AdminMediaNewUploadsComponent,
     AdminMediaUploadsHistoryComponent,
     AdminMetadataListComponent,
@@ -87,6 +89,9 @@ import { AdminMetadataListItemsComponent } from './admin-metadata-list-edit/admi
     AdminMetadataListTabComponent,
     AdminMetadataListEditComponent,
     AdminMetadataListItemsComponent,
+    AdminMediaUploadDetailsComponent,
+    AdminMediaUploadsHistoryComponent,
+    AdminMetadataListComponent,
     AdminMediaUploadDetailsComponent,
 	AdminMetadataFieldsComponent
   ],
@@ -118,7 +123,7 @@ import { AdminMetadataListItemsComponent } from './admin-metadata-list-edit/admi
     { provide: AdminGroupsDataService, useClass: environment.useMocks ? AdminGroupsMockDataService : AdminGroupsWebDataService },
     { provide: AdminPermissionsDataService, useClass: environment.useMocks ? AdminPermissionsMockService : AdminPermissionsWebService },
     { provide: AdminMediaAccessDataService, useClass: environment.useMocks ? AdminMediaAccessMockDataService : AdminMediaAccessWebDataService },
-    { provide: AdminMediaDataService, useClass: environment.useMocks ?AdminMediaMockDataService  : AdminMediaWebDataService }
+    { provide: AdminMediaDataService, useClass: environment.useMocks ? AdminMediaMockDataService  :    AdminMediaWebDataService}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

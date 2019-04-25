@@ -16,11 +16,11 @@ import {AdminGroupEditComponent} from "./admin-group-edit/admin-group-edit.compo
 import { AdminGroupEditGuard } from './admin-group-edit/admin-group-edit.guard';
 import { AdminUserEditGuard } from './admin-user-edit/admin-user-edit.guard';
 import { AuthGuardService } from '../core/guards/auth-guard.service';
+import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
 import {AdminMediaNewUploadsComponent} from "./admin-media-uploads-list/admin-media-new-uploads/admin-media-new-uploads.component";
 import {AdminMediaUploadsHistoryComponent} from "./admin-media-uploads-list/admin-media-uploads-history/admin-media-uploads-history.component";
 import {AdminMetadataListComponent} from "./admin-metadata-list/admin-metadata-list.component";
 import { AdminMediaUploadDetailsComponent } from './admin-media-upload-details/admin-media-upload-details.component';
-import { AdminMetadataFieldsComponent } from './admin-metadata-fields/admin-metadata-fields.component';
 import { AdminMetadataListTabComponent } from './admin-metadata-list/admin-metadata-list-tab/admin-metadata-list-tab.component';
 import { AdminMetadataListEditComponent } from './admin-metadata-list-edit/admin-metadata-list-edit.component';
 
@@ -55,7 +55,7 @@ const adminRoutes: Routes = [
       { path: '', redirectTo: 'active', pathMatch: 'full' },
       { path: ':type', component: AdminUsersListComponent }
     ],
-    // canActivate: [AuthGuardService]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'admin/users/:id/edit',

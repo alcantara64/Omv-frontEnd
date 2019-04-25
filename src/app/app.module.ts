@@ -25,6 +25,11 @@ import { FiltersComponent } from './filters/filters.component';
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
 import { AppStartupService } from './core/services/appstartup.service';
 import { environment } from 'src/environments/environment';
+import { UsersDataService } from './core/services/data/users/users.data.service';
+import { UsersMockDataService } from './core/services/data/users/users.mock.data.service';
+import { UsersWebDataService } from './core/services/data/users/users.web.data.service';
+import { UnAuthorizedComponent } from './unauthorized/unauthorized.component';
+import { AuthorizationCheckComponent } from './authorization-check/authorization-check.component';
 
 const appUrl = `${window.location.protocol}//${window.location.host.toLowerCase()}`;
 
@@ -50,7 +55,9 @@ const runAppInitializer = (appStart: AppStartupService) => {
     AppComponent,
     AuthCallbackComponent,
     DashboardComponent,
-    StartupComponent
+    StartupComponent,
+    UnAuthorizedComponent,
+    AuthorizationCheckComponent
   ],
   imports: [    
     AppRoutingModule,
@@ -66,11 +73,11 @@ const runAppInitializer = (appStart: AppStartupService) => {
     BlobModule.forRoot(),
     NgxsModule.forRoot([ AppState ],  { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
-    
+    NgxsLoggerPluginModule.forRoot()    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: UsersDataService, useClass: environment.useMocks ? UsersMockDataService : UsersWebDataService },
     SettingsService,
     AdminUsersService
    ],

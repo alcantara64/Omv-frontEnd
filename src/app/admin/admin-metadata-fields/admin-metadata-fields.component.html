@@ -1,4 +1,4 @@
-<!-- <div>
+<div>
     <div class="row">
         <div class="pb-3 col-md-12">
             <span class="pt-3">
@@ -8,52 +8,59 @@
             </span>
         </div>
     </div>
-    <ejs-dialog #fieldDialog [visible]="false" [buttons]="addDlgButtons" [header]="'New Fields'" [showCloseIcon]="true"
-        [width]="350" [height]="400">
+    <ejs-dialog #fieldDialog [visible]="false" [width]="350" [height]="400">
 
         <ng-template #content>
-                <form novalidate (ngSubmit)="saveDlgBtnClick()" [formGroup]="metadataFieldForm">
-            <div class="row pt-3">
-                <div class="col-md-4"><label>
-                        Field Name
-                    </label></div>
-                <div class="col-md-8">
-                    <input class="form-control form-control-lg" id="fieldNameId" type="text" placeholder=""
-                        formControlName="fieldName" [ngClass]="{'is-invalid': (metadataFieldForm.get('fieldName').touched ||
+
+            <form novalidate [formGroup]="metadataFieldForm">
+                <button class="dialog-close" (click)="closeDialog()">
+                    <img src="../../../../assets/images/dialog-close.svg" />
+                </button>
+                <br />
+                <div class="row pt-3 pb-3">
+                    <div class="col-md-4"><label>
+                            Field Name
+                        </label></div>
+                    <div class="col-md-8">
+                        <input class="form-control form-control-lg" id="fieldNameId" type="text" placeholder=""
+                            formControlName="fieldName"
+                            [ngClass]="{'is-invalid': (metadataFieldForm.get('fieldName').touched ||
                                                                                metadataFieldForm.get('fieldName').dirty) &&
                                                                               !metadataFieldForm.get('fieldName').valid }" />
+                    </div>
                 </div>
-            </div>
-            <div class="row pt-3">
-                <div class="col-md-4"><label>
-                        Field Type
-                    </label></div>
-                <div class="col-md-8">
-                        <input class="form-control form-control-lg" id="fieldTypeId" type="text" placeholder=""
-                        formControlName="fieldType" [ngClass]="{'is-invalid': (metadataFieldForm.get('fieldType').touched ||
-                                                                               metadataFieldForm.get('fieldType').dirty) &&
-                                                                              !metadataFieldForm.get('fieldType').valid }" />
+                <div class="row pt-3 pb-3">
+                    <div class="col-md-4"><label>
+                            Field Type
+                        </label></div>
+                    <div class="col-md-8">
+
+                        <ejs-dropdownlist id='ddlelement' #samples formControlName="fieldTypeId"
+                            [dataSource]='fieldTypeData' (change)="checkFieldType()"
+                            [placeholder]="'Select a Field Type'" [value]='name' [fields]='typeListFields'>
+                        </ejs-dropdownlist>
+                    </div>
                 </div>
-            </div>
-            <div class="row pt-3">
-                <div class="col-md-4"><label>
-                        List
-                    </label></div>
-                <div class="col-md-8">
-                    <ejs-dropdownlist id='ddlelement' #samples (change)="addList($event)" [dataSource]='data'
-                        [placeholder]='placeholder' [value]='id' [fields]='listFields'></ejs-dropdownlist>
+                <div [hidden]="!showListDropdown" class="row pt-3 pb-3">
+                    <div class="col-md-4"><label>
+                            List
+                        </label></div>
+                    <div class="col-md-8">
+                        <div >
+                                <ejs-dropdownlist id='ddlelement' #samplesDropdownlist formControlName="metadataListId"
+                                    [dataSource]=' allMetadataList  ' [placeholder]="'Select a List'"
+                                    [value]='itemDescription' [fields]=' createListFields '>
+                                </ejs-dropdownlist>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <button class="btn btn-lg omv-primary" (click)=" save() "> Done </button>
             </form>
         </ng-template>
     </ejs-dialog>
     <div class="">
         <app-list [listData]="metadataFields" [columns]="columns" (firstNavigateAction)="remove($event)"
-            (secondNavigateAction)="navigate($event)" [showFirstAction]="true" [firstActionText]="editLink"
+            (secondNavigateAction)="edit($event)" [showFirstAction]="true" [firstActionText]="editLink"
             [showSecondAction]="true" [secondActionText]="removeLink"></app-list>
-       <app-list [listData]="metadataFields" [columns]="columns" [selectedRecords]="selectedGroups"
-            [toolbarActionOne]="statusChange" (firstAction)="remove($event)"  (firstNavigateAction)="remove($event)"
-            (secondNavigateAction)="navigate($event)" [showFirstAction]="true" [firstActionText]="editLink"
-            [showSecondAction]="true" [secondActionText]="removeLink" [totalCountText]="'Total '"></app-list> 
     </div>
-</div> -->
+</div>

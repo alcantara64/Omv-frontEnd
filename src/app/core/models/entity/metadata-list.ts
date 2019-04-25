@@ -5,3 +5,11 @@ export class MetadataList {
     statusName: string;
   }
   
+    // metadataListItemId: number;
+    // metadataListId: number;
+    // itemValue: string;
+    // itemDescription: string;
+    // itemSort: string;
+    // parentItemValue: string;
+    // status: number;
+  

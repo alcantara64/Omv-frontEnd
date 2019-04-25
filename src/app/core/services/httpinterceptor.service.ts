@@ -9,7 +9,7 @@ import { AuthService } from './business/auth.service';
 })
 export class HttpInterceptorService implements HttpInterceptor {
 
-  constructor( private auth: AuthService) { }
+  constructor(private auth: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -18,22 +18,21 @@ export class HttpInterceptorService implements HttpInterceptor {
   }
 
   private async processInterceptor(req: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
-    
-  
+
     const token = await this.auth.getAccessToken();
 
-    console.log ('processinterceptor', token);
+    const exlude = 'blob.core.windows.net';
+
     let changedRequest: HttpRequest<any> = req;
-    
-    if(token)
-    {
+
+    if (token && (req.url.search(exlude) === -1)) {
       changedRequest = req.clone({
         headers: req.headers.set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`)
       });
-  
+
     }
-    
+
     return next.handle(changedRequest).toPromise();
   }
 }

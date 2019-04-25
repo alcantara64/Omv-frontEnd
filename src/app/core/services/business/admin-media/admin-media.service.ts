@@ -6,6 +6,7 @@ import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
 import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
+import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,6 @@ export class AdminMediaService {
     return this.AdminMediaDataService.getUploadHistory();
   }
 
-  getUploadRequest(id: number): Observable<any> {
-    return this.AdminMediaDataService.getUploadRequest(id);
-  }
   getMetadataField(): Observable<MetadataFields[]> {
     return this.AdminMediaDataService.getMetaDataFields();
   }
@@ -63,5 +61,26 @@ export class AdminMediaService {
   }
   getMetadataDetail(id:number): Observable<MetadataDetail>{
     return this.AdminMediaDataService.getMetaDataListsDetail(id);
+  }
+  getNewUploads(): Observable<UploadHistory[]>{
+    return this.AdminMediaDataService.getNewUploads();
+  }
+  getUploadRequest(id: number): Observable<any> {
+    return this.AdminMediaDataService.getUploadRequest(id);
+  }
+  rejectUploads(id: number){
+    return this.AdminMediaDataService.rejectUploads(id);
+  }
+ approveUploads(id: number){
+    return this.AdminMediaDataService.approveUploads(id);
+  }
+  updateMetaDataField(id:number, payload: MetadataFields){
+    return this.AdminMediaDataService.updateMetaDataField(id, payload);
+  }
+  getFieldTypes(): Observable<MetadataFieldType[]>{
+    return this.AdminMediaDataService.getMetadataFieldTypes();
+  }
+  getMetadataLists(): Observable<MetadataList[]> {
+    return this.AdminMediaDataService.getMetaDataLists();
   }
 }

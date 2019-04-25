@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Title } from "@angular/platform-browser";
-import { DeviceWidth, AuthenticateUser } from "./state/app.actions";
+import { DeviceWidth, AuthenticateUser, GetLoggedInUser } from "./state/app.actions";
 import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
@@ -22,14 +22,17 @@ export class AppComponent implements AfterViewInit {
   public displayWidth: number;
   public browser = window.navigator.userAgent;
   isAuthenticated: boolean;
+  isAuthorized: boolean;
   showLeftNav: boolean = false;
 
   @Select(AppState.getSpinnerVisibility) showSpinner$: Observable<boolean>;
   @Select(AppState.getLeftNavVisibility) showLeftNav$: Observable<boolean>;
   @Select(AppState.getPageTitle) currentPageTitle$: Observable<string>;
   @Select(AppState.getToastMessage) toastMessage$: Observable<Toast>;
-  @Select(AppState.getDeviceWidth) deviceWidth$: Observable<number>;
-  @Select(AppState.getIsUserAuthenticated) isAuthenticated$: Observable<boolean>;
+  @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
+  @Select(AppState.getIsUserAuthenticated) isAuthenticated$: Observable<boolean>;  
+  @Select(AppState.getIsAuthorized) isAuthorized$: Observable<boolean>;  
+  @Select(AppState.getLoggedInUser) currentUser$: Observable<User>;
 
   buttons = [{ model: { content: "Ignore" }, click: this.btnToastClick.bind(this) }, { model: { content: "reply" } }];
 
@@ -75,8 +78,12 @@ export class AppComponent implements AfterViewInit {
     this.isAuthenticated$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(async isAuthenticated => {
+        const route = location.pathname;
         if (isAuthenticated === false) {
+          this.saveReturnUrl(route);
           await this.auth.login();
+        } else if (isAuthenticated === true) {
+          this.store.dispatch(new GetLoggedInUser());
         }
       });
 
@@ -125,5 +132,17 @@ export class AppComponent implements AfterViewInit {
     else {
       hideSpinner(document.getElementById('spinnerContainer'));
     }
+  }
+
+  private saveReturnUrl(route) {
+    const ignored_routes = ['/startup', '/dashboard', '/implicit/callback'];
+    if (ignored_routes.includes(route)) {
+      return;
+    }
+    const key = 'return_url';
+    if (localStorage.getItem(key)) {
+      localStorage.removeItem(key);
+    }
+    localStorage.setItem(key, route);
   }
 }
