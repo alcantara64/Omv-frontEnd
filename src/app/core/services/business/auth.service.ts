@@ -132,30 +132,24 @@ export class AuthService {
 
     };
 
-    this.customersDataService.getHostHeader(host)
-      .subscribe(config => {
-        this._auth = new OktaAuth({
-          url: config.issuerUrl,
-          clientId: config.clientId,
-          issuer: `${config.issuerUrl}/oauth2/${config.authServerId}`,
-          redirectUri: `${window.location.protocol}//${window.location.host.toLowerCase()}/implicit/callback`
-        });
-      });
+    // this.customersDataService.getHostHeader(host)
+    //   .subscribe(config => {
+    //     this._auth = new OktaAuth({
+    //       url: config.issuerUrl,
+    //       clientId: config.clientId,
+    //       issuer: `${config.issuerUrl}/oauth2/${config.authServerId}`,
+    //       redirectUri: `${window.location.protocol}//${window.location.host.toLowerCase()}/implicit/callback`
+    //     });
+    //   });
+
+    this._auth = new OktaAuth({
+      url: issuerUrl,
+      clientId: clientId,
+      issuer: `${issuerUrl}/oauth2/${authServerId}`,
+      redirectUri: `${window.location.protocol}//${window.location.host.toLowerCase()}/implicit/callback`
+    });
 
     console.log('AuthService.load.end', this._auth);
   }
-
-  private saveReturnUrl(route) {
-    const ignored_routes = ['/startup', '/dashboard', '/implicit/callback'];
-    if (ignored_routes.includes(route)) {
-      return;
-    }
-    const key = 'return_url';
-    if (localStorage.getItem(key)) {
-      localStorage.removeItem(key);
-    }
-    localStorage.setItem(key, route);
-  }
-
 }
 
