@@ -1,6 +1,7 @@
 import { CustomersDataService } from './customers.data.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient } from '@angular/common/http';
+import { Customer } from 'src/app/core/models/entity/customer';
 
 export class CustomersMockDataService implements CustomersDataService {
 
@@ -10,7 +11,7 @@ export class CustomersMockDataService implements CustomersDataService {
     throw new Error("Method not implemented.");
   }
   
-  getHostHeader(header: string): Observable<any> {
+  getByHostHeader(header: string): Observable<Customer> {
     throw new Error("Method not implemented.");
   }
 }

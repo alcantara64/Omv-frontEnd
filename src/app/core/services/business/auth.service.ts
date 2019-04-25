@@ -19,7 +19,11 @@ export class AuthService {
     //ensure auth initialized
 
     if (!this._auth) {
-      await this.load();
+      await this.load().then(async response => {
+        
+        let retVal = !!(await this._auth.tokenManager.get('accessToken'));
+        return retVal;
+      });
     }
 
     // Checks if there is a current accessToken in the TokenManger.
@@ -102,7 +106,7 @@ export class AuthService {
     await this._auth.signOut();
   }
 
-  async load(): Promise<void> {
+  async load(): Promise<OktaAuth> {
     console.log('AuthService.load.start');
 
     const host = window.location.host.toLowerCase(); //this includes host and port - eg localhost:4200 or bp.omv.com
@@ -132,24 +136,28 @@ export class AuthService {
 
     };
 
-    // this.customersDataService.getHostHeader(host)
-    //   .subscribe(config => {
-    //     this._auth = new OktaAuth({
-    //       url: config.issuerUrl,
-    //       clientId: config.clientId,
-    //       issuer: `${config.issuerUrl}/oauth2/${config.authServerId}`,
-    //       redirectUri: `${window.location.protocol}//${window.location.host.toLowerCase()}/implicit/callback`
-    //     });
-    //   });
+    let okta_security_config: any;
+
+    
+    if (!localStorage.getItem(host)) {
+      let customer = await this.customersDataService.getByHostHeader(host).toPromise();
+      okta_security_config = {
+        issuerUrl: customer.issuerUrl,
+        clientId: customer.clientId,
+        authServerId: customer.authServerId
+      }
+      localStorage.setItem(host, JSON.stringify(okta_security_config));
+    } else {
+      okta_security_config = JSON.parse(localStorage.getItem(host));
+    }
 
     this._auth = new OktaAuth({
-      url: issuerUrl,
-      clientId: clientId,
-      issuer: `${issuerUrl}/oauth2/${authServerId}`,
+      url: okta_security_config.issuerUrl,
+      clientId: okta_security_config.clientId,
+      issuer: `${okta_security_config.issuerUrl}/oauth2/${okta_security_config.authServerId}`,
       redirectUri: `${window.location.protocol}//${window.location.host.toLowerCase()}/implicit/callback`
     });
-
-    console.log('AuthService.load.end', this._auth);
+      // return await this._auth;
   }
 }
 

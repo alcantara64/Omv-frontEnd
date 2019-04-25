@@ -32,7 +32,7 @@ export class AuthGuardService implements CanActivate {
   }
 
   private saveReturnUrl(route) {
-    const ignored_routes = ['/startup', '/dashboard', '/implicit/callback'];
+    const ignored_routes = ['/startup', '/dashboard', '/implicit/callback', '/unauthorize'];
     if (ignored_routes.includes(route)) {
       return;
     }

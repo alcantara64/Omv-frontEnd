@@ -192,7 +192,7 @@ export class AppState {
             isAuthorized: true
           });
           const return_url = localStorage.getItem('return_url')
-          this.router.navigate([return_url]);
+          this.router.navigate(['/']);
         }, err => {
           console.log('App State getLoggedinUser', err);
           const state = ctx.getState();
