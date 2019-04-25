@@ -55,7 +55,7 @@ export class AdminMediaService {
   createMetaDataListItem(id:number, payload: MetadataListItem){
     return this.AdminMediaDataService.createMetadataListItem(id,payload)
   }
-  updateMetadataListItem(id: number, payload: MetadataListItem) {
+  updateMetadataListItem(id: number, payload: MetadataDetail) {
     return this.AdminMediaDataService.updateMetadataListItem(id,payload);
   }
   getMetadataListById(id): Observable<MetadataList> {

@@ -21,7 +21,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   columns: GridColumn[] = [
 
     { headerText: ' ', type: 'checkbox', width: '50', field: '' },
-    { headerText: 'Name', field: 'fieldName', width: '70' },
+    { headerText: 'Name', field: 'metadataListName', width: '70' },
     { headerText: 'Status', width: '150', field: 'statusName' },];
 
   public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
@@ -87,7 +87,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     });
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetMetaDataLists());
-      this.displayList(params.type);
+     // this.displayList(params.type);
     });
     this.metadataLists$.subscribe(lists => {
       console.log('AdminMetadataLIstComponent ngOninit lists: ', lists);
@@ -132,10 +132,6 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
       this.router.navigate([`admin/media/metadata/${data.id}/edit`]);
     }
   }
-
-  // navigate(action) {
-  //   console.log('action', action);
-  // }
   add() {
     this.listDialogList.show();
   }

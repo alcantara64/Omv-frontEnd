@@ -118,7 +118,7 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     }));
     return data;
   }
-  updateMetadataListItem(id: number, payload: MetadataListItem) {
+  updateMetadataListItem(id: number, payload: MetadataDetail) {
     var mockUrl = `./assets/mock/admin-metadata-list-item.json`;
     return this.httpClient.get<MetadataListItem[]>(mockUrl);
   }  

@@ -1,6 +1,6 @@
 export class MetadataList {
     id: number;
-    fieldName: string;
+    metadataListName: string;
     status: number;
     statusName: string;
   }

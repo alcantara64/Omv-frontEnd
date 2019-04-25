@@ -8,7 +8,7 @@ import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { Observable } from 'rxjs';
 import { messageType } from 'src/app/state/app.actions';
-import { CreateMetaDataList, UpdateMetadataList, GetMetaDataList, GetMetaDataListsItem, GetMetaDataListsItemById, GetMetaDataDetailById, CreateMetaDataListItem } from '../state/admin-media/admin-media.action';
+import { CreateMetaDataList, UpdateMetadataList, GetMetaDataList, GetMetaDataListsItem, GetMetaDataListsItemById, GetMetaDataDetailById, CreateMetaDataListItem, UpdateMetadataListItem, DisableMetadataList, EnableMetadataList } from '../state/admin-media/admin-media.action';
 import { takeWhile } from 'rxjs/operators';
 import { Metadata } from 'src/app/core/models/entity/metadata';
 import { MetadataListStatus } from 'src/app/core/enum/metadata-list-status';
@@ -17,8 +17,8 @@ import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item'
 
 const METADATALIST_TAB = 0;
 const UPDATE_METADATALIST_ITEMS = 'Update list';
-const CREATE_METADATALIST_ITEMS = 'Create list';
 const DISABLE_METADATALIST_ITEMS = 'Disable list';
+const ENABLE_METADATALIST_ITEMS = 'Enable list';
 
 @Component({
   selector: 'app-admin-metadata-list-edit',
@@ -49,65 +49,36 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
     super(store, router)
     this.ShowLefNav(false);
     this.metadataListForm = this.fb.group({
-      id: '',
-      name: ['', [Validators.required]],
-      status: '',
-      statusName: ''
+      metadataListId: '',
+      metadataListName: ['', [Validators.required]],
     });
 
   }
-  public placeholder: string = 'Change status';
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
       this.metadataId = Number(params.get('id'));
       this.store.dispatch(new GetMetaDataDetailById(this.metadataId));
       this.createMetaDataButtonText = UPDATE_METADATALIST_ITEMS;
-      this.metaDataActionText = DISABLE_METADATALIST_ITEMS
+      // this.metaDataActionText = DISABLE_METADATALIST_ITEMS
       this.currentMetadataDetail$.subscribe(metadataList => {
 
         if (metadataList) { // Existing 
           this.metadataListForm.setValue({
-            id: metadataList.metadataListId,
-            name: metadataList.metadataListName,
-            status: metadataList.status,
-            statusName: metadataList.statusName
+            metadataListId: metadataList.metadataListId,
+            metadataListName: metadataList.metadataListName,
           });
-          // this.metaDataActionText = metadataList.status == MetadataListStatus.Active ? UPDATE_METADATALIST_ITEMS : CREATE_METADATALIST_ITEMS;
+          this.metaDataActionText = metadataList.status == MetadataListStatus.Active ? DISABLE_METADATALIST_ITEMS : ENABLE_METADATALIST_ITEMS;
           this.metadataListForm.patchValue({
             id: metadataList.metadataListId,
-            name: metadataList.metadataListName,
-            status: metadataList.status,
-            statusName: metadataList.statusName
+            metadataListName: metadataList.metadataListName,
+            status: metadataList.status
           });
           this.metadata = metadataList;
-          console.log('AdminListEditComponent - ngOnInit: groupForm ', this.metadataListForm.value);
-        } else {
-        }
+        } 
       }),
         takeWhile(() => this.componentActive);
-
-      // Get the current list
-      // this.currentMetadataList$.subscribe(list => {
-      //   console.log('list the final list; ', list)
-
-      //   if (list) { // 
-      //     this.metaDataActionText = list.status == MetadataListStatus.Active ? UPDATE_METADATALIST_ITEMS : CREATE_METADATALIST_ITEMS;
-      //     this.metadataListForm.patchValue({
-      //       id: list..metadataListId,
-      //       name: metadataList.metadataListName,
-      //       status: metadataList.status,
-      //       statusName: metadataList.statusName
-      //     });
-      //     this.listFields = list;
-
-      //   } else {
-      //     this.metadataListForm.reset();
-
-      //   }
-      // }),
-      takeWhile(() => this.componentActive);
     }
-    )
+    );
   }
   ngOnDestroy() {
     this.componentActive = false;
@@ -116,28 +87,19 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
   async save() {
     if (this.metadataListForm.valid) {
       if (this.metadataListForm.dirty) {
-        const MetadataList: MetadataListItem = { ...this.metadata, ...this.metadataListForm.value };
+        const MetadataList: MetadataList = { ...this.metadata, ...this.metadataListForm.value };
 
         if (this.metadataId) {
           console.log('AdminMetadataListEditComponent - save: ', MetadataList);
           this.metadataListForm.setValue({
-            id: this.metadataId,
-            name: MetadataList.fieldName,
-            status: MetadataList.status,
-            statusName: MetadataList.statusName
+            metadataListId: this.metadataId,
+            metadataListName: MetadataList.metadataListName,
+            status: MetadataList.status
           });
-          await this.store.dispatch(new CreateMetaDataListItem(this.metadataId,MetadataList));
+          this.store.dispatch(new UpdateMetadataList(this.metadataId, MetadataList));
+
+          // await this.store.dispatch(new CreateMetaDataListItem(this.metadataId,MetadataList));
           takeWhile(() => this.componentActive);
-        } else {
-          // this.metadataListForm.patchValue({
-          //   id: MetadataList.id,
-          //   name: MetadataList.fieldName,
-          //   status: MetadataList.status,
-          //   statusName: MetadataList.statusName
-          // });
-          await this.store.dispatch(new UpdateMetadataList(MetadataList.id, MetadataList));
-          this.metadataListForm.reset(this.metadataListForm.value);
-          this.setNotification('List  Updated');
         }
       }
     } else {
@@ -145,10 +107,14 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
       this.setNotification('Please correct the validation errors', messageType.error);
     }
   }
-
-
-
-
+  changeStatus(payload) {
+    if (ENABLE_METADATALIST_ITEMS) {
+      this.store.dispatch(new DisableMetadataList(this.metadataId, payload));
+    }
+    else {
+      this.store.dispatch(new EnableMetadataList(this.metadataId, payload));
+    }
+  }
 }
 
 

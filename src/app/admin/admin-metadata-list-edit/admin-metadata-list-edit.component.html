@@ -12,10 +12,10 @@
       <div class="form-group">
         <label for="nameId">List Name</label>
         <input class="form-control form-control-lg" id="nameId" type="text" placeholder=" "
-          formControlName="name" 
-          [ngClass]="{'is-invalid': (metadataListForm.get('name').touched ||
-                                     metadataListForm.get('name').dirty) &&
-                                     !metadataListForm.get('name').valid }" />
+          formControlName="metadataListName" 
+          [ngClass]="{'is-invalid': (metadataListForm.get('metadataListName').touched ||
+                                     metadataListForm.get('metadataListName').dirty) &&
+                                     !metadataListForm.get('metadataListName').valid }" />
         <span class="invalid-feedback">
           <h5> Please enter a name </h5>
         </span>

@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
-import {CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId, GetMetaDataList, GetMetaDataListsItemById, GetMetaDataDetailById } from './admin-media.action';
+import {CreateMetaDataField, CreateMetaDataList, RemoveMetaDataList, GetMetaDataLists, DisableMetadataList, EnableMetadataList, UpdateMetadataList, SetCurrentMetadataListId, GetMetaDataList, GetMetaDataListsItemById, GetMetaDataDetailById, UpdateMetadataListItem } from './admin-media.action';
 import { CreateMetaDataListItem, RemoveMetaDataListItem,  GetMetaDataListsItem, GetMetaDataList as GetMetaDataListById } from './admin-media.action';
 import { tap, map } from 'rxjs/operators';
 import { GetUploadHistory, GetUploadRequest, RemoveMetaDataFields, GetMetaDataFields } from './admin-media.action';
@@ -30,7 +30,7 @@ export class AdminMediaStateModel {
 }
 const initialMetadataList: MetadataList = {
   id: 0,
-  fieldName: '',
+  metadataListName: '',
   statusName: '',
   status: 1,
 }
@@ -87,7 +87,7 @@ export class AdminMediaState {
   
   @Selector()
   static getDisabledMetadataList(state: AdminMediaStateModel) {
-    return state.metadataLists.filter(x => x.status === 0);
+    return state.metadataLists.filter(x => x.status ===  MetadataListStatus.Disabled);
   }
   @Selector()
   static getCurrentMetadataListId(state: AdminMediaStateModel) {
@@ -202,8 +202,7 @@ export class AdminMediaState {
   getMetaDataList({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetMetaDataList) {
     return this.adminMediaService.getMetadataListById(id).pipe(
       tap(lists => {
-        const state = getState();   
-         
+        const state = getState();
       console.log(lists, 'the current metadata list Item')
         setState({
           ...state,
@@ -303,6 +302,7 @@ export class AdminMediaState {
     return this.adminMediaService.updateMetadataList(id, payload).pipe(
       tap(list => {
         ctx.dispatch(new DisplayToastMessage('List updated successfully.'));
+        ctx.dispatch(new GetMetaDataDetailById(id));
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
@@ -386,4 +386,6 @@ export class AdminMediaState {
       });
     }))
   }
+
+
 }

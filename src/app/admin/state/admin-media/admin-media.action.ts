@@ -1,6 +1,7 @@
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
+import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
 
 export class GetUploadHistory {
   static readonly type = '[Admin media] GetUploadHistory';
@@ -67,7 +68,7 @@ export class UpdateMetadataList {
 
 export class UpdateMetadataListItem {
   static readonly type = '[Admin media] UpdateMetadataList';
-  constructor(public id: number, public payload: MetadataListItem) { }
+  constructor(public id: number, public payload: MetadataDetail) { }
 }
 export class DisableMetadataList {
   static readonly type = '[Admin media] DisableMetadataList';
