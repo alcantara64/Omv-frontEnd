@@ -22,14 +22,14 @@
       </div><br>
 
       <app-edit [firstButtonText]="createMetaDataButtonText" [isfirstButtonDisabled]="!metadataListForm.valid || !metadataListForm.dirty"
-          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metadataId" (secondButtonEvent)="changeStatus($event)">
+          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metadataId" (secondButtonEvent)="changeStatus()">
       </app-edit>
     </form>
   </div>
   <div class="col-sm-6" >
     <div class="control-section e-tab-section">
       <div class="e-sample-resize-container">
-          <app-tabs [tabs]="metadataItemTabs" (navigate)="switchTabs($event)"></app-tabs>
+          <app-tabs [tabs]="metadataItemTabs"></app-tabs>
           <app-admin-metadata-list-items></app-admin-metadata-list-items>
         
       </div>

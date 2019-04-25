@@ -2,7 +2,7 @@
 	[buttonOneText]="listId ? 'Add List item' : ''" (buttonOneEvent)="addListMembers($event)"
 	(firstNavigateAction)="remove($event)" [showFirstAction]="true" [firstActionText]="removeLink"
 	[showSecondAction]="true" [firstActionText]="removeLink" [secondActionText]="removeLink"
-	(secondButtonEvent)="show($event)">
+	>
 </app-list>
 
 <ejs-dialog #listItemDialog [visible]='false' [buttons]='dialogButtons' [header]="'Add List Item to List'"
