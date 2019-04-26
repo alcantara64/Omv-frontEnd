@@ -75,6 +75,13 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
       this.docViewerVisible = true;
       this.pdfViewerVisible = false;
       this.imgViewerVisible = false;
+      // let iframe = document.createElement('iframe');
+      // iframe.app
+      
+    const element = window.document.getElementsByClassName('office iframe');
+    if(!element){
+      console.log('not exists');
+    }
       this.url = `http://docs.google.com/gview?url=${this.dataSource.url}&embedded=true`;
       this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
     }  else if (val === 'PDF') {
@@ -82,7 +89,7 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
       this.docViewerVisible = false;
       this.imgViewerVisible = false;
       this.url = this.dataSource.url;
-    } else {
+    } else if (this.docFileTypes.includes(val)) {
       this.pdfViewerVisible = false;
       this.imgViewerVisible = true;
       this.docViewerVisible = false;

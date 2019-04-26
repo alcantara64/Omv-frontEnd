@@ -8,6 +8,7 @@ import { AdminUserState } from '../state/admin-users/admin-users.state';
 import { GetUploadRequest } from '../state/admin-media/admin-media.action';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-media-upload-details',
@@ -22,20 +23,25 @@ export class AdminMediaUploadDetailsComponent extends BaseComponent implements O
   fields: FieldConfiguration[] = [];
 
   @Select(AdminMediaState.getCurrentUploadRequestFields) currentUploadRequestFields$: Observable<FieldConfiguration[]>;
+  id: number;
 
-  constructor(protected store: Store) {
+  constructor(protected store: Store, private activatedRoute: ActivatedRoute) {
     super(store);
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetUploadRequest(1));
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.id = Number(params.get('id'));
+      this.store.dispatch(new GetUploadRequest(this.id));
+      this.currentUploadRequestFields$
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe(fields => {
+          console.log(this.fields);
+          this.fields = fields;
+        }
+        );
+    });
 
-    this.currentUploadRequestFields$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(fields => {
-        this.fields = fields;
-      }
-    );
   }
 
   ngOnDestroy() {

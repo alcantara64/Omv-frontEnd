@@ -56,7 +56,7 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
 
 
 
-  getUploadRequest(id: number): Observable<any> {
+  getUploadRequestById(id: number): Observable<any> {
     throw new Error("Method not implemented.");
   }
 

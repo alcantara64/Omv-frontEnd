@@ -21,11 +21,14 @@ import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype
 import { FieldType_GetAllOutputDTO } from 'src/app/core/dtos/output/metadata/FieldType_GetAllOutputDTO';
 import {MetadataList_GetAllOutputDTO} from '../../../dtos/output/metadata/MetadataList_GetAllOutputDTO';
 import { MetadataField_UpdateInputDTO } from 'src/app/core/dtos/input/metadata/MetadataField_UpdateInputDTO';
+import { UploadRequest_GetByIdOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequest_GetByIdOutputDTO';
+import { UploadRequest } from 'src/app/core/models/entity/upload-request';
 @Injectable({
   providedIn: 'root'
 })
 
 export class AdminMediaWebDataService implements AdminMediaDataService {
+
 
 
 
@@ -159,11 +162,6 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
 
         let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
         console.log('AdminMediaWebDataService - getNewUploads: ', _response);
-        _response.map(x => x.files = 100);
-        _response.forEach((upload) => {
-          upload.destination = '';
-        });
-
         return _response;
       }),
       catchError(e => {
@@ -173,10 +171,36 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     );
   }
 
-  getUploadRequest(id: number): Observable<any> {
-    var url = `./assets/mock/upload-request-item.json`;
-    let data = this.httpClient.get<any>(url);
-    return data;
+  getUploadRequestById(id: number): Observable<UploadRequest[]> {
+    var requestUri = environment.api.baseUrl + `/v1/uploadrequests/${id}`;
+
+    return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
+      response => {
+        automapper
+          .createMap(UploadRequest_GetByIdOutputDTO, UploadRequest)
+          .forMember('requesterName', function (opts) { opts.mapFrom('requesterName'); })
+          .forMember('source', function (opts) { opts.mapFrom('source'); })
+          .forMember('destination', function (opts) { opts.mapFrom('destination'); })
+          .forMember('ruleId', function (opts) { opts.mapFrom('ruleId'); })
+          .forMember('ruleName', function (opts) { opts.mapFrom('ruleName'); })
+          .forMember('isOCRAllowed', function (opts) { opts.mapFrom('isOCRAllowed'); })
+          .forMember('isSRAllowed', function (opts) { opts.mapFrom('isSRAllowed'); })
+          .forMember('size', function (opts) { opts.mapFrom('size'); })
+          .forMember('files', function (opts) { opts.mapFrom('files'); })
+          .forMember('ip', function (opts) { opts.mapFrom('ip'); })
+          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
+          .forMember('estProcessTime', function (opts) { opts.mapFrom('estProcessTime'); });
+
+        let _response = automapper.map(UploadRequest_GetByIdOutputDTO, UploadRequest, response);
+        console.log('AdminMediaWebDataService - getNewUploads: ', _response);
+
+        return _response;
+      }),
+      catchError(e => {
+        console.log("AdminMediaWebDataService - getNewUploads error: ", e);
+        return of(null);
+      })
+    );
   }
 
   approveUploads(id: number) {

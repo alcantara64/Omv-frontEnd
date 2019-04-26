@@ -12,6 +12,7 @@ import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-sett
 import { AdminMediaUploadsDetailsService } from '../../admin-media-upload-details/admin-media-uploads-details.services';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
+import { UploadRequest } from 'src/app/core/models/entity/upload-request';
 
 
 
@@ -22,7 +23,7 @@ export class AdminMediaStateModel {
   metadataList: MetadataList[];
   metadataLists: MetadataList[];
   currentMetadataId: number;
-  currentUploadRequestFields: FieldConfiguration[];
+  currentUploadRequestFields: UploadRequest[];
   metadataFieldTypes: MetadataFieldType[];
 }
 
@@ -111,16 +112,15 @@ export class AdminMediaState {
   }
   @Action(GetUploadRequest)
   async getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
-    return this.adminMediaUploadsDetailsService.getUploadRequestFields(id)
-      .then(fields => {
+    return this.adminMediaService.getUploadRequestById(id).pipe(map((fields => {
         console.log('AdminMediaState - getUploadRequest - fields: ', fields);
         const state = getState();
         setState({
           ...state,
           currentUploadRequestFields: fields
         });
-      }
-      );
+     
+    })));
   }
 
   @Action(RemoveMetaDataFields)
