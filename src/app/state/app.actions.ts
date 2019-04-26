@@ -30,6 +30,10 @@ export class GetLoggedInUser {
   static readonly type = '[App] GetLoggedInUser';
 }
 
+export class RemoveLoggedInUser {
+  static readonly type = '[App] RemoveLoggedInUser';
+}
+
 export class AuthenticateUser {
   static readonly type = '[App] AuthenticateUser';
 }

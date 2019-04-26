@@ -51,21 +51,24 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
         automapper
           .createMap(UploadRequest_GetAllOutputDTO, UploadHistory)
           .forMember('uploadRequestType', function (opts) { opts.mapFrom('uploadRequestType'); })
+          .forMember('uploadRequestId', function (opts) { opts.mapFrom('uploadRequestId'); })
           .forMember('requester', function (opts) { opts.mapFrom('requester'); })
-          .forMember('directoryId', function (opts) { opts.mapFrom('directoryId'); })
-          .forMember('status', function (opts) { opts.mapFrom('status'); })
-          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
+          .forMember('source', function (opts) { opts.mapFrom('source'); })
+          .forMember('destination', function (opts) { opts.mapFrom('destination'); })
+          .forMember('ruleId', function (opts) { opts.mapFrom('ruleId'); })
+          .forMember('ruleName', function (opts) { opts.mapFrom('ruleName'); })
+          .forMember('isOCRAllowed', function (opts) { opts.mapFrom('isOCRAllowed'); })
+          .forMember('isSRAllowed', function (opts) { opts.mapFrom('isSRAllowed'); })
           .forMember('size', function (opts) { opts.mapFrom('size'); })
-          .forMember('metadata', function (opts) { opts.mapFrom('metadata'); })
-          .forMember('containerId', function (opts) { opts.mapFrom('containerId'); })
-          .forMember('documentName', function (opts) { opts.mapFrom('documentName'); })
-          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); })
-          .forMember('files', function (opts) { opts.mapFrom('files'); });
+          .forMember('files', function (opts) { opts.mapFrom('files'); })
+          .forMember('iP', function (opts) { opts.mapFrom('iP'); })
+          .forMember('requesterName', function (opts) { opts.mapFrom('requesterName'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
+          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); });
 
         let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
         console.log('AdminMediaWebDataService - getUploadHistory: ', _response);
-        _response.map(x => x.files = 100);
-
+  
         return _response;
       }),
       catchError(e => {
@@ -147,18 +150,21 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
       response => {
         automapper
           .createMap(UploadRequest_GetAllOutputDTO, UploadHistory)
-          .forMember('id', function (opts) { opts.mapFrom('uploadRequestId'); })
           .forMember('uploadRequestType', function (opts) { opts.mapFrom('uploadRequestType'); })
+          .forMember('uploadRequestId', function (opts) { opts.mapFrom('uploadRequestId'); })
           .forMember('requester', function (opts) { opts.mapFrom('requester'); })
-          .forMember('directoryId', function (opts) { opts.mapFrom('directoryId'); })
-          .forMember('status', function (opts) { opts.mapFrom('status'); })
-          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
+          .forMember('source', function (opts) { opts.mapFrom('source'); })
+          .forMember('destination', function (opts) { opts.mapFrom('destination'); })
+          .forMember('ruleId', function (opts) { opts.mapFrom('ruleId'); })
+          .forMember('ruleName', function (opts) { opts.mapFrom('ruleName'); })
+          .forMember('isOCRAllowed', function (opts) { opts.mapFrom('isOCRAllowed'); })
+          .forMember('isSRAllowed', function (opts) { opts.mapFrom('isSRAllowed'); })
           .forMember('size', function (opts) { opts.mapFrom('size'); })
-          .forMember('metadata', function (opts) { opts.mapFrom('metadata'); })
-          .forMember('containerId', function (opts) { opts.mapFrom('containerId'); })
-          .forMember('documentName', function (opts) { opts.mapFrom('documentName'); })
-          .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); })
-          .forMember('files', function (opts) { opts.mapFrom('files'); });
+          .forMember('files', function (opts) { opts.mapFrom('files'); })
+          .forMember('iP', function (opts) { opts.mapFrom('iP'); })
+          .forMember('requesterName', function (opts) { opts.mapFrom('requesterName'); })
+          .forMember('status', function (opts) { opts.mapFrom('status'); })
+          .forMember('statusName', function (opts) { opts.mapFrom('statusName'); });
 
         let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
         console.log('AdminMediaWebDataService - getNewUploads: ', _response);

@@ -1,22 +1,25 @@
 export class UploadHistory {
   id: number;
+  uploadRequestId: number;
   uploadRequestType: number;
   requester: number;
-  directoryId: number;
+  directoryId?: number;
+  source: string;
+  destination: string;
+  ruleId: number;
+  ruleName: string;
+  isOCRAllowed: boolean;
+  isSRAllowed: boolean;
+  size: number;
+  files: string;
+  iP: string;
   requesterName: string;
   status: number;
-  statusName?: string;
-  size: string;
-  containerId: number;
-  contentType: string;
-  documentName: string;
-  documentTypeCode: string;
-  documentUrl: string;
-  metadata: string; 
+  statusName?: string;    
   createdOn?: Date;
   createdBy?: string;
-  modifiedOn?: Date;
-  modifiedOnString?: string;
+  modifiedOn?: Date ;
   modifiedBy?: string;
-
+  modifiedOnString?: string;
 }
+

@@ -86,9 +86,6 @@ export class AdminMediaState {
         history.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
         });
-        history.map(item => {
-          // item.size = Math.floor((item.size) / 1000);
-        });
         const state = getState();
         console.log('AdminMediaState - getUploadHistory - history: ', history);
         setState({
@@ -155,6 +152,9 @@ export class AdminMediaState {
   getNewUploads({ getState, setState }: StateContext<AdminMediaStateModel>) {
     return this.adminMediaService.getNewUploads().pipe(
       tap(newUploads => {
+        newUploads.map(item => {
+          item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
+        });
         const state = getState();
 
         console.log('AdminMediaState - getNewUploads - history: ', newUploads);

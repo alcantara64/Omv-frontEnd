@@ -1,6 +1,6 @@
 import { BaseDTO } from '../../BaseDTO';
 
-export class UploadRequest_GetAllOutputDTO
+export class UploadRequest_GetAllOutputDTO extends BaseDTO
 {
     UploadRequestId: number;
     UploadRequestType: number;
@@ -16,10 +16,5 @@ export class UploadRequest_GetAllOutputDTO
     IP: string;
     RequesterName: string;
     Status: number;
-    StatusName: string;    
-    CreatedOn: Date | string;
-    CreatedBy: string;
-    ModifiedOn: Date | string;
-    ModifiedBy: string;
+    StatusName: string; 
 }
-

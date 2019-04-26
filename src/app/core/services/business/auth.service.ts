@@ -3,6 +3,7 @@ import * as OktaAuth from '@okta/okta-auth-js';
 import { Router } from '@angular/router';
 import { CustomersDataService } from '../data/customers/customers.data.service';
 import { map } from 'rxjs/operators';
+import { OktaDataService } from '../data/okta/okta.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
 
   isAuthenticating: boolean;
 
-  constructor(private router: Router, private customersDataService: CustomersDataService) { }
+  constructor(private router: Router, private customersDataService: CustomersDataService, private oktaDataService: OktaDataService) { }
 
   async isAuthenticated() {
     console.log('AuthService.isAuthenticated');
@@ -59,6 +60,10 @@ export class AuthService {
       await this.load();
     }
 
+    if (localStorage.getItem('okta-token-storage')){
+      localStorage.removeItem('okta-token-storage');
+    }
+
     // Launches the login redirect.
     this._auth.token.getWithRedirect({
       responseType: ['id_token', 'token'],
@@ -74,13 +79,16 @@ export class AuthService {
 
     await this._auth.token.parseFromUrl().then(tokens => {
       tokens.forEach(token => {
-        console.log(token);
+        console.log('AuthService - handleAuthentication', token);
         if (token.idToken) {
+          localStorage.setItem('id_Token', token.idToken);
           this._auth.tokenManager.add('idToken', token);
         }
         if (token.accessToken) {
           this._auth.tokenManager.add('accessToken', token);
         }
+
+        console.log('AuthService - handleAuthentication okta-token-storage:', localStorage.getItem('okta-token-storage'));
       });
     });
 
@@ -102,8 +110,16 @@ export class AuthService {
       await this.load();
     }
 
-    this._auth.tokenManager.clear();
-    await this._auth.signOut();
+    if (localStorage.getItem('okta-token-storage')){
+      localStorage.removeItem('okta-token-storage');
+    }
+
+    // this._auth.tokenManager.clear();
+
+
+    return await this.oktaDataService.logout().toPromise();
+
+    // await this._auth.signOut();
   }
 
   async load(): Promise<OktaAuth> {
@@ -137,7 +153,6 @@ export class AuthService {
     };
 
     let okta_security_config: any;
-
     
     if (!localStorage.getItem(host)) {
       let customer = await this.customersDataService.getByHostHeader(host).toPromise();
@@ -157,7 +172,6 @@ export class AuthService {
       issuer: `${okta_security_config.issuerUrl}/oauth2/${okta_security_config.authServerId}`,
       redirectUri: `${window.location.protocol}//${window.location.host.toLowerCase()}/implicit/callback`
     });
-      // return await this._auth;
   }
 }
 
