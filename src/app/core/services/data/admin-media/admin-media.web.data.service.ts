@@ -177,7 +177,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     );
   }
 
-  getUploadRequestById(id: number): Observable<UploadRequest[]> {
+  getUploadRequestById(id: number): Observable<UploadRequest> {
     var requestUri = environment.api.baseUrl + `/v1/uploadrequests/${id}`;
 
     return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(

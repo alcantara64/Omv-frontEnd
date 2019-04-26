@@ -6,6 +6,9 @@
           [toolbarActionOne]="'Approve'"
           [toolbarActionTwo]="'Reject'"
           [statusIconPosition]="0"
+          [secondActionText]="editIcon"
+          [showSecondAction]="true"
+          (secondNavigateAction)="edit($event)" 
           [isToolBarVisible] = "true"
           [selectedRecords]="selectedUploads"
           [columns]="columns">

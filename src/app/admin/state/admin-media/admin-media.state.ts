@@ -23,7 +23,7 @@ export class AdminMediaStateModel {
   metadataList: MetadataList[];
   metadataLists: MetadataList[];
   currentMetadataId: number;
-  currentUploadRequestFields: UploadRequest[];
+  currentUploadRequestFields: UploadRequest;
   metadataFieldTypes: MetadataFieldType[];
 }
 
@@ -108,7 +108,7 @@ export class AdminMediaState {
       ));
   }
   @Action(GetUploadRequest)
-  async getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
+  getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
     return this.adminMediaService.getUploadRequestById(id).pipe(map((fields => {
         console.log('AdminMediaState - getUploadRequest - fields: ', fields);
         const state = getState();

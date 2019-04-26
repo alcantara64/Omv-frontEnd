@@ -1,17 +1,79 @@
 <!-- <span class="e-icons arrowBack"><a routerLink="/admin/users"> Back </a></span> -->
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item" routerLink="admin/media/uploads/new"><a href="#" class="breadcrumbs__element"><ins></ins></a></li>
-    <li class="breadcrumb-item" routerLink="admin/media/uploads/new"><a class="breadcrumbs__element"><ins>BACK</ins></a></li>
-  </ol>
-</nav>
+<div class="page__section" style=" padding-top: 1rem;">
+    <a  routerLink="/admin/media/uploads/new" class="back-button">BACK</a>
+  </div>
 
 <div class="row">
   <div class="col-sm-6">
-    <label class="title title-16"> Upload Number One </label>
-    
+    <label class="title title-16 form-label"> Upload {{id}} </label>
 
-    <br />
+    <div class="row form-label">
+      <div class="col-md-6">
+        
+          <div>
+        <label class="form-label">Destination</label>
+        </div>
+        {{fields.destination}}
+      </div>
+      <div class="col-md-6 form-label">
+        <div>
+            <label>Date</label>
 
+        </div>
+        {{fields.createdOn}}
+      </div>
+    </div>
+    <div class="row form-label">
+      <div class="col-md-6">
+          <div>
+        <label>Size</label></div>
+        {{fields.size}}
+      </div>
+      <div class="col-md-6 form-label">
+        <div>
+            <label># Files</label>
+        </div>
+        {{fields.files}}
+      </div>
+    </div>
+    <div class="row form-label">
+      <div class="col-md-6"><div>
+
+          <label>OCR</label>
+      </div>
+        {{fields.isOCRAllowed ? 'Yes': 'No'}}
+      </div>
+      <div class="col-md-6 form-label">
+        <div>
+            <label>Speech To Text</label>
+
+        </div>
+        {{fields.isSRAllowed  ? 'Yes': 'No'}}
+      </div>
+    </div>
+    <div class="row form-label">
+      <div class="col-md-6"><div>
+          <label>Uploaded By</label>
+      </div>
+        {{fields.requesterName}}
+      </div>
+      <div class="col-md-6 form-label"><div>
+          <label>Estimated Process Time</label>
+      </div>
+        {{fields.estProcessTime}}
+      </div>
+    </div>
+    <div class="row form-label">
+      <div class="col-md-6 form-label">
+        <div>
+            <label>Field Title</label></div>
+        {{fields.files}}
+      </div>
+      <div class="col-md-6 form-label">
+          <div>
+              <label>Field Title</label></div>
+        {{fields.iP}}
+  </div>
+</div>
   </div>
 </div>

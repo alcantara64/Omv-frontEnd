@@ -7,6 +7,8 @@ import { UploadHistory } from 'src/app/core/models/entity/uploadhistory';
 import { AdminMediaState } from '../../state/admin-media/admin-media.state';
 import { ListComponent } from 'src/app/shared/list/list.component';
 import { GetNewUploads, ApproveUploads, RejectUploads } from '../../state/admin-media/admin-media.action';
+import { UploadRequest } from 'src/app/core/models/entity/upload-request';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-media-new-uploads',
@@ -19,6 +21,7 @@ export class AdminMediaNewUploadsComponent extends ListComponent implements OnIn
   public deviceWidth: number;
   selectedUploads: UploadHistory[];
   newUploads: UploadHistory[];
+  public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
 
   columns: GridColumn[] = [
     { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
@@ -28,7 +31,7 @@ export class AdminMediaNewUploadsComponent extends ListComponent implements OnIn
     { headerText: 'Size (KB)', field: 'size' }
   ];
 
-  constructor(protected store: Store) {
+  constructor(protected store: Store, private router: Router) {
     super(store);
   }
 
@@ -54,5 +57,12 @@ export class AdminMediaNewUploadsComponent extends ListComponent implements OnIn
       this.store.dispatch(new RejectUploads(data.id, true));
       }
       );
+  }
+  edit(data?: UploadHistory) {
+    if (!data) {
+      this.router.navigate([`/admin/uploads//details`]);
+    } else {
+      this.router.navigate([`/admin/media/uploads/${data.uploadRequestId}/details`]);
+    }
   }
 }
