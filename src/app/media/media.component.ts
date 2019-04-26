@@ -30,7 +30,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
   @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
   @Select(AppState.setDeviceWidth) deviceWidth$: Observable<number>;
   @Select(MediaState.getSelectedItems) gridData$: Observable<any[]>;
-
+  @Select(MediaState.showFilters) showFilters$: Observable<boolean>;
 
   constructor(protected store: Store, private router: Router, private route: ActivatedRoute) {
     super(store);

@@ -193,7 +193,7 @@ export class AppState {
             isAuthorized: true
           });
           const return_url = localStorage.getItem('return_url')
-          this.router.navigate(['/']);
+          // this.router.navigate(['/media']);
         }, err => {
           console.log('App State getLoggedinUser', err);
           const state = ctx.getState();
@@ -204,7 +204,7 @@ export class AppState {
           });
           if (err.status === 404) {
             this.auth.logout();
-            this.router.navigate(['/unauthorize']);
+            // this.router.navigate(['/unauthorize']);
           }          
         })
       );

@@ -126,3 +126,17 @@ export class RemoveFilterTag {
 export class ClearFilterTags {
   static readonly type = '[Media] ClearFilterTags';
 }
+
+export class ShowFilters {
+  static readonly type = '[Media] ShowFilters';
+}
+
+export class HideFilters {
+  static readonly type = '[Media] HideFilters';
+}
+
+export class ApplyFilters {
+  static readonly type = '[Media] ApplyFilters';
+
+  constructor(public pageNumber: number = 1, public pageSize: number = 25) { }
+}

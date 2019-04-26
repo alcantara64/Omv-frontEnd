@@ -7,13 +7,15 @@ import { Field } from '../field.interface';
 import { FieldConfiguration } from '../field-setting';
 import { FormLabelComponent } from '../components/form-label.component';
 import { FormComboBoxComponent } from '../components/form-combobox.component/form-combobox.component';
+import { FormDateRangePickerComponent } from '../components/form-date-range-picker/form-date-range-picker.component';
 
 const components: {[type: string]: Type<Field>} = {
   input: FormInputComponent,
   select: FormSelectComponent,
   date: FormDateComponent,
   label: FormLabelComponent,
-  combobox: FormComboBoxComponent
+  combobox: FormComboBoxComponent,
+  dateRange: FormDateRangePickerComponent
 };
 
 @Directive({

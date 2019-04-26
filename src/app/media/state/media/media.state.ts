@@ -2,7 +2,7 @@ import { MediaUploadService } from './../../media-upload/media-upload.service';
 import {
   GetHistory, GetMediaItemDetails, GetFavorites, ToggleFavorite, GetMediaTreeData,
   AddMediaItemField, RemoveMediaItemField, GetDirectoryMetadata, SetCurrentMediaItemId, GetMediaItem, GetDirectories, UpdateMediaItem, CreateMediaItem,
-  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems, GetFilterFields, AddFilterTag, RemoveFilterTag, ClearFilterTags
+  ClearMediaItemMetadata, ResetUploadStatus, GetTreeViewMedia, ClearDirectoryMetadata, SetSelectedItems, GetFilterFields, AddFilterTag, RemoveFilterTag, ClearFilterTags, ApplyFilters, ShowFilters, HideFilters
 } from './media.action';
 import { tap, map } from "rxjs/operators";
 import { MediaService } from "../../../core/services/business/media/media.service";
@@ -37,8 +37,11 @@ export class MediaStateModel {
   uploadComplete: boolean;
   selectedItems: any[];
 
+  // filters state
   filterFields: any[];
   filterTags: Tag[];
+  showFilters: boolean;
+  isFilterApplied: boolean;
 }
 
 const initialMediaItem: MediaItem = {
@@ -93,8 +96,11 @@ const initialTags: Tag[] = [
     uploadComplete: false,
     selectedItems: [],
 
+    // filters state
     filterFields: [],
-    filterTags: []
+    filterTags: [],
+    showFilters: false,
+    isFilterApplied: false
   }
 })
 
@@ -187,6 +193,8 @@ export class MediaState {
     return state.selectedItems;
   }
 
+  // filters
+
   @Selector()
   static getFilterFields(state: MediaStateModel) {
     return state.filterFields;
@@ -196,6 +204,17 @@ export class MediaState {
   static getFilterTags(state: MediaStateModel) {
     return state.filterTags;
   }
+
+  @Selector()
+  static showFilters(state: MediaStateModel) {
+    return state.showFilters;
+  }
+
+  @Selector()
+  static isFiltersApplied(state: MediaStateModel) {
+    return state.isFilterApplied;
+  }
+
 
   //#endregion
 
@@ -210,26 +229,31 @@ export class MediaState {
 
   @Action(GetMedia)
   getMedia(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: GetMedia) {
-    return this.mediaService.getMedia(pageNumber, pageSize).pipe(
-      tap(response => {
-        if (!response) return;
-        let media = response.data;
-        media.map(item => {
-          item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
-          item.isFavorite = false; //
-        });
-        const state = ctx.getState();
-        ctx.setState({
-          ...state,
-          media: media,
-          totalMedia: response.pagination.total
-        });
-        ctx.dispatch(new HideSpinner());
-      }, err => {
-        ctx.dispatch(new HideSpinner());
-        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
-      })
-    );
+    const state = ctx.getState();
+    const isFilterApplied = state.isFilterApplied;
+    if (isFilterApplied) {
+      ctx.dispatch(new ApplyFilters(pageNumber, pageSize));
+    } else {
+      return this.mediaService.getMedia(pageNumber, pageSize).pipe(
+        tap(response => {
+          if (!response) return;
+          let media = response.data;
+          media.map(item => {
+            item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
+          });
+          const state = ctx.getState();
+          ctx.setState({
+            ...state,
+            media: media,
+            totalMedia: response.pagination.total
+          });
+          ctx.dispatch(new HideSpinner());
+        }, err => {
+          ctx.dispatch(new HideSpinner());
+          ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        })
+      );
+    }
   }
 
   @Action(GetTreeViewMedia)
@@ -373,18 +397,7 @@ export class MediaState {
   }
 
   @Action(ToggleFavorite)
-  toggleFavorite({ getState, setState }: StateContext<MediaStateModel>, { id, payload }: ToggleFavorite) {
-    return this.mediaService.toggleFavorite(id, payload).pipe(
-      tap(result => {
-        // const state = getState();
-        // let fs = state.
-        // setState({
-        //   ...state,
-        //   favorites: favorites
-        // });
-      })
-    );
-  }
+  toggleFavorite({ getState, setState }: StateContext<MediaStateModel>, { id, payload }: ToggleFavorite) { }
 
   @Action(GetHistory)
   getHistory({ getState, setState }: StateContext<MediaStateModel>, { id }: GetHistory) {
@@ -482,6 +495,24 @@ export class MediaState {
     });
   }
 
+  @Action(ShowFilters)
+  showFilters({ getState, setState }: StateContext<MediaStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      showFilters: true
+    });
+  }
+
+  @Action(HideFilters)
+  hideFilters({ getState, setState }: StateContext<MediaStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      showFilters: false
+    });
+  }
+
   @Action(GetFilterFields)
   getFilterFields(ctx: StateContext<MediaStateModel>) {
     return this.filtersService.getFilterFields()
@@ -495,7 +526,7 @@ export class MediaState {
       }, (err) => {
         ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       }
-    );
+      );
   }
 
   @Action(AddFilterTag)
@@ -507,7 +538,7 @@ export class MediaState {
     };
     let tags = state.filterTags;
     if (tags.includes(tag)) return;
-    tags.push(tag);
+    tags = [...tags, tag];
     setState({
       ...state,
       filterTags: tags
@@ -525,10 +556,18 @@ export class MediaState {
     console.log('MediaState removeFilterTag: ', tag);
     tags = tags.filter(x => (x.name !== name || x.value !== value));
     console.log('MediaState removeFilterTag: ', tags);
-    setState({
-      ...state,
-      filterTags: tags
-    });
+    if (tags.length > 0) {
+      setState({
+        ...state,
+        filterTags: tags
+      });
+    } else {
+      setState({
+        ...state,
+        isFilterApplied: false,
+        filterTags: tags
+      });
+    }
   }
 
   @Action(ClearFilterTags)
@@ -536,8 +575,39 @@ export class MediaState {
     const state = getState();
     setState({
       ...state,
+      isFilterApplied: false,
       filterTags: []
     });
+  }
+
+  @Action(ApplyFilters)
+  applyFilters(ctx: StateContext<MediaStateModel>, { pageNumber, pageSize }: ApplyFilters) {
+    const state = ctx.getState();
+    const tags = state.filterTags;
+    if (tags.length < 1) {
+      ctx.dispatch(new HideSpinner());
+      return;
+    }
+    return this.filtersService.applyFilters(tags, pageNumber, pageSize).pipe(
+      tap(response => {
+        if (!response) return;
+        let media = response.data;
+        media.map(item => {
+          item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
+        });
+        ctx.setState({
+          ...state,
+          isFilterApplied: true,
+          media: media,
+          totalMedia: response.pagination.total
+        });
+        ctx.dispatch(new HideSpinner());
+        ctx.dispatch(new HideFilters());
+      }, (err) => {
+        ctx.dispatch(new HideSpinner());
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      })
+    );
   }
 
   //#endregion

@@ -13,4 +13,7 @@ export class Metadata {
   order: number;
   status: number;
   options: ListItem[];
+
+  name?: string;
+  type?: string;
 }

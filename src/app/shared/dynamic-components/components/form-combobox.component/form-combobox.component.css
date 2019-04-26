@@ -6,3 +6,9 @@
   float: right;
   margin-top: 8px;
 }
+
+.e-ddl.e-input-group.e-control-wrapper .e-ddl-icon::before {
+  content: url("../../../../../assets/images/icon-search.svg");
+  font-size: 8px;
+  font-family: 'e-icons';
+}
