@@ -27,6 +27,8 @@ import { UsersMockDataService } from './core/services/data/users/users.mock.data
 import { UsersWebDataService } from './core/services/data/users/users.web.data.service';
 import { UnAuthorizedComponent } from './unauthorized/unauthorized.component';
 import { AuthorizationCheckComponent } from './authorization-check/authorization-check.component';
+import { OktaDataService } from './core/services/data/okta/okta.service';
+import { OktaWebDataService } from './core/services/data/okta/okta.web.service';
 
 const appUrl = `${window.location.protocol}//${window.location.host.toLowerCase()}`;
 
@@ -74,6 +76,7 @@ const runAppInitializer = (appStart: AppStartupService) => {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     { provide: UsersDataService, useClass: environment.useMocks ? UsersMockDataService : UsersWebDataService },
+    { provide: OktaDataService, useClass: environment.useMocks ? OktaWebDataService : OktaWebDataService },
     SettingsService,
     AdminUsersService
    ],

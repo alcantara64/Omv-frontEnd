@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Title } from "@angular/platform-browser";
-import { DeviceWidth, AuthenticateUser, GetLoggedInUser } from "./state/app.actions";
+import { DeviceWidth, AuthenticateUser, GetLoggedInUser, RemoveLoggedInUser } from "./state/app.actions";
 import { Toast, ToastType } from './core/enum/toast';
 import { closest } from '@syncfusion/ej2-base';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
@@ -77,7 +77,8 @@ export class AppComponent implements AfterViewInit {
     // Get the authentication state for immediate use
     this.isAuthenticated$
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(async isAuthenticated => {
+      .subscribe(async isAuthenticated => {        
+        this.store.dispatch(new RemoveLoggedInUser());
         const route = location.pathname;
         if (isAuthenticated === false) {
           this.saveReturnUrl(route);
