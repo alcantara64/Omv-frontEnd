@@ -13,7 +13,8 @@ import {
   DeviceWidth,
   ShowSpinner,
   HideSpinner,
-  AuthenticateUser
+  AuthenticateUser,
+  RemoveLoggedInUser
 } from './app.actions';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
@@ -207,6 +208,15 @@ export class AppState {
           }          
         })
       );
+  }
+
+  @Action(RemoveLoggedInUser)
+  removeLoggedInUser({ getState, setState }: StateContext<AppStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      currentUser: null
+    });
   }
 
   @Action(AuthenticateUser)
