@@ -7,11 +7,12 @@ import { Permission } from 'src/app/core/enum/permission';
 import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { ActivatedRoute } from '@angular/router';
 import { GetGroupPermissions } from '../../state/admin-groups/admin-groups.action';
-import { takeWhile } from 'rxjs/operators';
+import { takeWhile, isEmpty } from 'rxjs/operators';
 import { AdminPermissionState } from '../../state/admin-permissions/admin-permissions.state';
 import { GetPermissions } from '../../state/admin-permissions/admin-permissions.action';
 import {BaseComponent} from "../../../shared/base/base.component";
-import { SetNotification } from 'src/app/state/app.actions';
+import { SetNotification, DisplayToastMessage } from 'src/app/state/app.actions';
+import { ToastType } from 'src/app/core/enum/toast';
 
 @Component({
   selector: 'app-admin-group-permissions',
@@ -47,14 +48,13 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
     this.activatedRoute.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
       this.store.dispatch(new GetGroupPermissions(this.groupId))
-        .toPromise().then(() => {
         this.getUserPermissions$.subscribe(permissions => {
           console.log("AdminGroupPermissionsComponent - ngOnInit permissions: " + permissions);
           if (permissions) {
             this.groupPermissions = permissions.map(x => x.id);
           }
         });
-      });
+    
     }), takeWhile(() => this.componentActive);
   }
 
@@ -63,9 +63,23 @@ export class AdminGroupPermissionsComponent extends BaseComponent implements OnI
   }
 
   updatePermissions(permissions: Permission[]) {
+    if(this.isEmpty(permissions)){
+      this.store.dispatch(new DisplayToastMessage('please select a permission', ToastType.error))
+      return
+    }
     const _permissions = permissions.map(permission => permission.id);
     this.store.dispatch(new UpdateGroupPermissions(this.groupId, _permissions)).toPromise().then(() => {
-      this.store.dispatch(new SetNotification('Permission Updated'));
+     
+    }).catch((err)=>{
+      this.store.dispatch(new  DisplayToastMessage(err,ToastType.error))
     });
   }
+
+  isEmpty = (obj) => {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
 }

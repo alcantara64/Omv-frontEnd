@@ -106,7 +106,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   rowDataBound(args) {
     if (this.initialRecords) {
       if (this.initialRecords.includes(args.data[this.checkField])) {
-        this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
+       this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
       }
     }
   }

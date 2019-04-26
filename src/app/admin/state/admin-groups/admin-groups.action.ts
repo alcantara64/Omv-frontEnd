@@ -47,7 +47,7 @@ export class SetCurrentGroup {
 export class AssignToPermission {
   static readonly type = '[Admin Groups] AssignToPermission';
 
-  constructor(public groupid: number, public payload: number[]) { }
+  constructor(public groupid: number, public payload: any) { }
 }
 
 export class SetCurrentGroupId {
