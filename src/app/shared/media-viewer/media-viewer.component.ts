@@ -36,7 +36,7 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
   componentActive = true;
   docFileTypes = ['DOCX', 'DOC', 'PPT', 'doc', 'docx', 'XLSX', 'XLS', 'xls', 'xlsx'];
 
-  imgFileTypes = ['JPEG' , 'PNG' ,'JPG', 'GIF', 'jpeg' ,'gif', 'png' , 'jpg'];
+  imgFileTypes = ['JPEG', 'PNG', 'JPG', 'GIF', 'jpeg', 'gif', 'png', 'jpg'];
   docViewerVisible: boolean;
   pdfViewerVisible: boolean;
   imgViewerVisible: boolean;
@@ -67,29 +67,25 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
 
   toggleMediaViewer() {
     this.mediaType = this.dataSource.type;
-    this.toggleMediaType(this.mediaType);
-  }
-
-  toggleMediaType(val) {
-    if (this.docFileTypes.includes(val)) {
+    if (this.docFileTypes.includes(this.mediaType)) {
       this.docViewerVisible = true;
       this.pdfViewerVisible = false;
       this.imgViewerVisible = false;
       // let iframe = document.createElement('iframe');
       // iframe.app
-      
-    const element = window.document.getElementsByClassName('office iframe');
-    if(!element){
-      console.log('not exists');
-    }
+
+      const element = window.document.getElementsByClassName('office iframe');
+      if (!element) {
+        console.log('not exists');
+      }
       this.url = `http://docs.google.com/gview?url=${this.dataSource.url}&embedded=true`;
       this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
-    }  else if (val === 'PDF') {
+    } else if (this.mediaType === 'PDF') {
       this.pdfViewerVisible = true;
       this.docViewerVisible = false;
       this.imgViewerVisible = false;
       this.url = this.dataSource.url;
-    } else if (this.docFileTypes.includes(val)) {
+    } else {
       this.pdfViewerVisible = false;
       this.imgViewerVisible = true;
       this.docViewerVisible = false;
@@ -109,7 +105,7 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
             next() {
               viewer.next(true);
             },
-            
+
             // download() {
             //   const a = document.createElement('a');
             //   a.href = viewer.image.src;
@@ -120,8 +116,9 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
             // },
           },
         });
-      }, 20);
+      }, 200);
     }
-  }
 
+
+  }
 }
