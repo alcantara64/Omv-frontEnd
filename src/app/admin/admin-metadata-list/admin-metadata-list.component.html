@@ -80,21 +80,19 @@
         </ng-template>
     </ejs-dialog>
 
-    <ejs-dialog #confirmDialog [visible]='false' [showCloseIcon]='true' [width]='500'>
-    </ejs-dialog>
-
+    
     <div class="">
-        <app-list [listData]="metadataLists"
-            [columns]="columns" 
-            [isToolBarVisible]="true"
-            [totalCountText]="'Total Lists'"
-            [toolbarActionOne]="statusChange"
-            (firstAction)="changeMetadataListStatus($event)"
-            (secondNavigateAction)="edit($event)"
-            [firstActionText]="removeLink"
-             (firstNavigateAction)="remove($event)"
-            [showFirstAction]="true" 
-            [showSecondAction]="true"
-             [secondActionText]="editIcon"></app-list>
+        <app-list [listData]="metadataLists" [columns]="columns" [isToolBarVisible]="true"
+            [totalCountText]="'Total Lists'" [toolbarActionOne]="statusChange"
+            (firstAction)="changeMetadataListStatus($event)" (secondNavigateAction)="edit($event)"
+            [firstActionText]="removeLink" (firstNavigateAction)="show($event)" [showFirstAction]="true"
+            [showSecondAction]="true" [secondActionText]="editIcon"></app-list>
     </div>
+
 </div>
+<ejs-dialog #confirmDialog [visible]='false' [buttons]='confirmDlgButtons' [header]="'Remove List'"
+[showCloseIcon]='true' [width]='500'>
+<ng-template #content>
+    <span>Are you sure you want to permanently remove this list ?</span>
+</ng-template>
+</ejs-dialog>

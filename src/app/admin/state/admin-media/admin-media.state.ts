@@ -97,7 +97,7 @@ export class AdminMediaState {
 
   @Selector()
   static getDisabledMetadataList(state: AdminMediaStateModel) {
-    return state.metadataLists.filter(x => x.status === MetadataListStatus.Disabled);
+    return state.metadataLists.filter(x => x.status === 3);
   }
   @Selector()
   static getCurrentMetadataListId(state: AdminMediaStateModel) {
@@ -385,7 +385,7 @@ export class AdminMediaState {
     let NewPayload =  Object.assign({},payload);
     console.log('NewPayload',payload)
     NewPayload.status = 0;
-    return this.adminMediaService.updateMetadataList(id, payload).pipe(
+    return this.adminMediaService.updateMetadataList(id, NewPayload).pipe(
       tap(list => {
         ctx.dispatch(new DisplayToastMessage('List was disabled successfully.'));
         if (refreshList) {
@@ -402,7 +402,7 @@ export class AdminMediaState {
     let NewPayload =  Object.assign({},payload);
     console.log('NewPayload',payload)
     NewPayload.status = 1;
-    return this.adminMediaService.updateMetadataList(id, payload).pipe(
+    return this.adminMediaService.updateMetadataList(id, NewPayload).pipe(
       tap(list => {
 
 

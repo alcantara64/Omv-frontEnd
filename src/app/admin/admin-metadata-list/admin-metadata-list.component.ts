@@ -41,6 +41,8 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
 
   @ViewChild('listview') public dialogList: any;
   @ViewChild('listDialog') public listDialogList: DialogComponent;
+  @ViewChild('confirmDialog')
+  public confirmDialog: DialogComponent;
 
   @Select(AdminMediaState.getMetaDataLists) metadataLists$: Observable<MetadataList[]>;
   @Select(AdminMediaState.getActiveMetadataList) activeMetadataList$: Observable<MetadataList[]>;
@@ -65,6 +67,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   }
 
   componentActive: boolean = false;
+  selectedListId: any;
 
 
   constructor(protected store: Store,
@@ -145,6 +148,28 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     });
   }
   addDlgButtons: Object[] = [{ click: this.saveDlgBtnClick.bind(this), buttonModel: { content: 'Save', isPrimary: true } }];
+
+  show(data) {
+    console.log('event', data);
+    this.selectedListId = data.id;
+    this.confirmDialog.show();
+  }
+  cancelRemove() {
+    this.confirmDialog.hide();
+  }
+  public RemoveDlgBtnClick: EmitType<object> = () => {
+    this.store.dispatch(new RemoveMetaDataList(this.selectedListId));
+    this.metadataLists$.subscribe(lists => {
+      this.metadataLists = lists;
+    });
+    this.confirmDialog.hide();
+  }
+  public closeBtnDlgClick: EmitType<object> = () => {
+    this.confirmDialog.hide();
+}
+confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this),  buttonModel: { content: 'Yes', isPrimary: true } }, 
+{ click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
+
 
 
 }

@@ -58,8 +58,19 @@
             </form>
         </ng-template>
     </ejs-dialog>
+    
+<ejs-dialog #confirmDialog
+[visible]='false'
+[buttons]='confirmDlgButtons'
+[header]="'Remove Field'"
+[showCloseIcon]='true'
+[width]='500'>
+	<ng-template #content>
+		<span>Are you sure you want to permanently remove this field ?</span>
+	</ng-template>
+</ejs-dialog>
     <div class="">
-        <app-list [listData]="metadataFields" [columns]="columns" (firstNavigateAction)="remove($event)"
+        <app-list [listData]="metadataFields" [columns]="columns" (firstNavigateAction)="show($event)"
             (secondNavigateAction)="edit($event)" [showFirstAction]="true" [firstActionText]="editLink"
             [showSecondAction]="true" [secondActionText]="removeLink"></app-list>
     </div>

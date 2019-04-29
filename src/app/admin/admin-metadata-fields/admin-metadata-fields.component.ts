@@ -55,7 +55,10 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   isEdit: boolean;
   showListDropdown: boolean = false;
   showAllListDropdown: boolean;
-  allMetadataList: MetadataList[];
+  allMetadataList: MetadataList[];  
+  @ViewChild('confirmDialog')
+  public confirmDialog: DialogComponent;
+  selectedMetadataFieldId: any;
 
   constructor(protected store: Store,
     private formBuilder: FormBuilder, ) {
@@ -89,15 +92,33 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   ngOnDestroy() {
     this.componentActive = false;
   }
+  public closeBtnDlgClick: EmitType<object> = () => {
+    this.confirmDialog.hide();
+}
+show(data) {
+  console.log('event', data);
+  this.selectedMetadataFieldId = data.metadataFieldId;
+  this.confirmDialog.show();
+}
+  public RemoveDlgBtnClick: EmitType<object> = () => {
+    this.store.dispatch(new RemoveMetaDataFields(this.selectedMetadataFieldId));
+    this.metadataFields$.subscribe(fields => {
+      this.metadataFields = fields;
+    });
+    this.confirmDialog.hide();
+  }
+  confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this),  buttonModel: { content: 'Yes', isPrimary: true } }, 
+  { click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
 
-
+  cancelRemove() {
+    this.confirmDialog.hide();
+  }
   addList(action) {
     console.log('action', action.itemData);
     if (action.itemData === 'Dropdown') {
       this.isFieldTypeList = true;
     }
   }
-
 
   navigate(action) {
     console.log('action', action);
@@ -127,26 +148,18 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   }
 
   save() {
-    // this.ShowSpinner(true);
-    console.log('saveDlgBtnClick', this.metadataFieldForm.controls, this.fieldType);
-
     if (this.metadataFieldForm.valid || this.metadataFieldForm.controls['fieldType'].dirty) {
-
       const metadataField: MetadataFields = { ...this.metadataField, ...this.metadataFieldForm.value };
-
       if (!this.isEdit) {
-        console.log('testing create user - ', metadataField);
         this.metadataFieldForm.setValue({
           metadataFieldId: metadataField.metadataFieldId ? metadataField.metadataFieldId : null,
           fieldName: metadataField.fieldName ? metadataField.fieldName : '',
           fieldTypeId: metadataField.fieldTypeId ? metadataField.fieldTypeId : null,
           metadataListId: metadataField.metadataListId ? metadataField.metadataListId : null,
-
         });
         this.store.dispatch(new CreateMetaDataField(metadataField));
       }
       if (this.isEdit) {
-        console.log('AdminMetadataFieldsComponent - edit', metadataField);
         this.metadataFieldForm.patchValue({
           metadataFieldId: metadataField.metadataFieldId,
           fieldName: metadataField.fieldName,
@@ -157,7 +170,6 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       }
       this.fieldDialogList.hide();
     }
-
   }
 
   closeDialog() {
