@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class AdminGroupsTabsComponent implements OnInit {
 
   groupsTabs: Tab[] = [
-    { link: '/admin/groups/active', name: 'Active Groups' },
+    { link: '/admin/groups/active', name: 'Active Groups'},
     { link: '/admin/groups/disabled', name: 'Disabled Groups' }
   ];
 
