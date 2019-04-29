@@ -21,7 +21,7 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "50", field: "" },
     { headerText: "Type", field: "type", width: '95' },
-    { headerText: "Name", field: "name", width: '700' },
+    { headerText: "Name", field: "name", width: '200' },
     { headerText: "Date", field: "modifiedOnString" }
   ];
   media: MediaItem[];
@@ -54,8 +54,10 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
   }
 
   selectedItemData(data: any[]) {
+    console.log('records data',data );
     console.log('records',this.selectedItemRecords);
     this.store.dispatch(new SetSelectedItems(data));
+
   }
 
   download(data: MediaItem) {

@@ -30,7 +30,6 @@ import {DialogModule, TooltipModule} from '@syncfusion/ej2-angular-popups';
 import { FormLabelComponent } from './dynamic-components/components/form-label.component';
 import { FileSizePipe } from '../core/pipes/file-size/file-size.pipe';
 import { ImageViewerModule } from 'ng2-image-viewer';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {ToolbarModule, TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 import { ImagePreloadDirective } from '../core/directives/image-preload/image-preload.directive';
 import { TreeGridModule, PageService, SortService, ContextMenuService } from '@syncfusion/ej2-angular-treegrid';
@@ -71,18 +70,14 @@ import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
   imports: [
     CommonModule,
     ListViewModule,
-    GridModule,
     ButtonModule, 
     CheckBoxModule,
-    DialogModule,
     RouterModule,
     GridModule,
-    ListViewModule,
     DatePickerModule,
     DateRangePickerModule,
     DropDownListModule,
     ReactiveFormsModule,
-    NgxExtendedPdfViewerModule,
     ImageViewerModule,
     ComboBoxModule,
     PdfViewerModule,
