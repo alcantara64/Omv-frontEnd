@@ -1,83 +1,97 @@
 <!-- <span class="e-icons arrowBack"><a routerLink="/admin/users"> Back </a></span> -->
 <div class="page__section" style=" padding-top: 1rem;">
-    <a  routerLink="/admin/media/uploads/new" class="back-button">BACK</a>
-  </div>
+  <a routerLink="/admin/media/uploads/new" class="back-button">BACK</a>
+</div>
 
 <div class="row">
   <div class="col-sm-6">
     <label class="title title-16 form-label"> Upload {{id}} </label>
 
-    <div class="row form-label">
+    <div class="row form-label pb-3">
       <div class="col-md-6">
-        
-          <div>
-        <label class="form-label">Destination</label>
-        </div> 
-        <label class="media-label">
-          
-        {{fields.destination}} 
+
+        <div>
+          <label class="form-label">Destination</label>
+        </div>
+        <label class=" upload-details-label">
+
+          {{fields.destination}}
         </label>
       </div>
       <div class="col-md-6 ">
         <div>
-          
-            <label  class="form-label">Date</label>
 
-        </div>
-        {{fields.createdOn}}
+          <label class="form-label">Date</label>
+
+        </div> <label class=" upload-details-label">
+
+          {{fields.createdOn}}
+        </label>
       </div>
     </div>
-    <div class="row">
+    <div class="row form-label pb-3">
       <div class="col-md-6">
-          <div>
-        <label  class="form-label">Size</label></div>
-        {{fields.size}}
-      </div>
-      <div class="col-md-6 ">
         <div>
-            <label  class="form-label"># Files</label>
-        </div>
-        {{fields.files}}
-      </div>
-    </div>
-    <div class="row form-label">
-      <div class="col-md-6"><div>
+          <label class="form-label">Size</label></div> <label class=" upload-details-label">
 
-          <label  class="form-label">OCR</label>
-      </div>
-        {{fields.isOCRAllowed ? 'Yes': 'No'}}
+          {{fields.size}}</label>
       </div>
       <div class="col-md-6 ">
         <div>
-            <label  class="form-label">Speech To Text</label>
+          <label class="form-label"># Files</label>
+        </div>
+        <label class=" upload-details-label">
+          {{fields.files}}</label>
+      </div>
+    </div>
+    <div class="row form-label pb-3">
+      <div class="col-md-6">
+        <div>
+
+          <label class="form-label">OCR</label>
+        </div>
+        <label class=" upload-details-label">
+          {{fields.isOCRAllowed ? 'Yes': 'No'}} </label>
+      </div>
+      <div class="col-md-6 ">
+        <div>
+          <label class="form-label">Speech To Text</label>
 
         </div>
-        {{fields.isSRAllowed  ? 'Yes': 'No'}}
+        <label class=" upload-details-label">
+
+          {{fields.isSRAllowed  ? 'Yes': 'No'}}</label>
       </div>
     </div>
-    <div class="row form-label">
-      <div class="col-md-6"><div>
-          <label  class="form-label">Uploaded By</label>
+    <div class="row form-label pb-3">
+      <div class="col-md-6">
+        <div>
+          <label class="form-label">Uploaded By</label>
+        </div> <label class=" upload-details-label">
+
+          {{fields.requesterName}}</label>
       </div>
-        {{fields.requesterName}}
-      </div>
-      <div class="col-md-6 "><div>
-          <label  class="form-label">Estimated Process Time</label>
-      </div>
-        {{fields.estProcessTime}}
-      </div>
-    </div>
-    <div class="row form-label">
       <div class="col-md-6 ">
         <div>
-            <label  class="form-label">Field Title</label></div>
-        {{fields.files}}
+          <label class="form-label">Estimated Process Time</label>
+        </div>
+        <label class=" upload-details-label">
+            {{fields.estProcessTime}}</label>
+      </div>
+    </div>
+    <div class="row form-label pb-3">
+      <div class="col-md-6 ">
+        <div>
+          <label class="form-label">Field Title</label></div>
+          <label class=" upload-details-label">
+              {{fields.files}}</label>
       </div>
       <div class="col-md-6 ">
-          <div>
-              <label  class="form-label">Field Title</label></div>
-        {{fields.iP}}
-  </div>
-</div>
+        <div>
+          <label class="form-label">Field Title</label></div>
+          <label class=" upload-details-label">
+              {{fields.iP}}</label>
+      </div>
+    </div>
   </div>
 </div>
