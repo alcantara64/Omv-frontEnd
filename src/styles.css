@@ -805,3 +805,8 @@ background: none !important;
 .remove-cls{
   text-decoration: underline !important;
 }
+.e-btn.e-flat.e-primary:hover, .e-css.e-btn.e-flat.e-primary:hover {
+  background-color: rgba(0, 151, 169, 0.04);
+  border-color: transparent;
+  color: #0097a9 !important;
+}

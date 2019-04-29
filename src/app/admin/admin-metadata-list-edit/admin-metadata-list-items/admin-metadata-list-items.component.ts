@@ -29,47 +29,48 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
   columns: GridColumn[] = [
     { type: "checkbox", headerText: "Select All", width: "20", field: "" },
     { type: "", headerText: "Name", width: "80", field: "itemDescription" },
-    
+
   ];
   listItemId: number;
   componentActive = true;
-  
+
   public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
   public removeLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important; width:10px;'>Remove</a>";
-  
+
   @Select(AdminMediaState.getCurrentMetadataListId) currentListid$: Observable<MetadataList[]>;
   @Select(AdminMediaState.getCurrentMetadataListItem) metadaListItem$: Observable<MetadataListItem[]>;
-  
+
   @ViewChild('listItemDialog') public listItemDialog: DialogComponent;
   @ViewChild('confirmDialog')
   public confirmDialog: DialogComponent;
+  selectedMetadataListItemId: any;
 
   constructor(protected store: Store,
-    protected activatedRoute: ActivatedRoute, private formBuilder: FormBuilder,) { super(store) }
+    protected activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, ) { super(store) }
 
-    ngOnInit() {
-      this.activatedRoute.paramMap.subscribe(params => {
-        this.listId = Number(params.get('id'));
-        if (this.listId) {
-          console.log(this.listId, 'current metadalist')
-          this.store.dispatch(new GetMetaDataListsItemById(this.listId));
-          this.metadaListItem$.subscribe(metadatalistItem => this.metadataListItems = metadatalistItem);
-        }
-        this.metadataListItemForm = this.formBuilder.group({
-          metadataListItemId: null,
-          metadataListId: this.listId,
-          itemValue :[''],
-          itemDescription :[''],
-          itemSort :[''],
-          parentItemValue :[''],
-          status : null,
-          statusName:['']
-        });
-      })
+  ngOnInit() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.listId = Number(params.get('id'));
+      if (this.listId) {
+        console.log(this.listId, 'current metadalist')
+        this.store.dispatch(new GetMetaDataListsItemById(this.listId));
+        this.metadaListItem$.subscribe(metadatalistItem => this.metadataListItems = metadatalistItem);
+      }
+      this.metadataListItemForm = this.formBuilder.group({
+        metadataListItemId: null,
+        metadataListId: this.listId,
+        itemValue: [''],
+        itemDescription: [''],
+        itemSort: [''],
+        parentItemValue: [''],
+        status: null,
+        statusName: ['']
+      });
+    })
 
-        // Get the id in the browser url and reach out for the User
-,
-    takeWhile(() => this.componentActive);
+      // Get the id in the browser url and reach out for the User
+      ,
+      takeWhile(() => this.componentActive);
 
   }
 
@@ -77,56 +78,87 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
     this.componentActive = false;
   }
 
-  addListMembers(metadalist:MetadataListItem){
+  addListMembers(metadalist: MetadataListItem) {
     console.log('users ============: ', metadalist);
     this.listItemDialog.show();
   }
 
-  
-addMembersClick: EmitType < object > = () => {
-  // this.store.dispatch(new CreateMetaDataListItem(this.listId, MetadataListItem));
-  this.ShowSpinner(true);
-  console.log('saveDlgBtnClick',  this.name);
-
-  if (this.metadataListItemForm.valid) {
-    if (this.metadataListItemForm.dirty) {
-      const metadataListItem: MetadataListItem = { ...this.metadataListItems, ...this.metadataListItemForm.value };
-      // this.metadataListItemForm.value
-      console.log('testing create metatadata - ', metadataListItem);
-      this.metadataListItemForm.patchValue({
-        metadataListItemId: null,
-        metadataListId: this.listId,
-        itemValue :'',
-        itemDescription :'',
-        itemSort :'',
-        parentItemValue :'',
-        status:'',
-        statusName:''
-      });
-      console.log('metatadata', this.metadataListItemForm)
-      this.store.dispatch(new CreateMetaDataListItem(this.listId, metadataListItem));
-      this.ShowSpinner(false);
-      this.closeDialog();
-      this.metadataListItemForm.reset();
-    }
+  clearForm() {
+    this.metadataListItemForm.reset({
+      metadataListItemId: null,
+      metadataListId: this.listId,
+      itemValue: '',
+      itemDescription: '',
+      itemSort: '',
+      parentItemValue: '',
+      status: '',
+      statusName: ''
+    });
   }
-  // this.listId = null;
-  this.listItemDialog.hide();
-}
-cancelRemove() {
-  this.confirmDialog.hide();
-}
-remove(data){
-  console.log(data)
-   this.store.dispatch(new RemoveMetaDataListItem(this.listId, data.metadataListItemId));
-}
-closeDialog() {
-  this.listItemDialog.hide();
-}
-dialogButtons: Object[] = [
-  { click: this.addMembersClick.bind(this), buttonModel: { content: 'Add To list', isPrimary: true } }];
+
+  addMembersClick: EmitType<object> = () => {
+    // this.store.dispatch(new CreateMetaDataListItem(this.listId, MetadataListItem));
+    this.ShowSpinner(true);
+    console.log('saveDlgBtnClick', this.name);
+
+    if (this.metadataListItemForm.valid) {
+      if (this.metadataListItemForm.dirty) {
+        const metadataListItem: MetadataListItem = { ...this.metadataListItems, ...this.metadataListItemForm.value };
+        // this.metadataListItemForm.value
+        console.log('testing create metatadata - ', metadataListItem);
+        this.metadataListItemForm.patchValue({
+          metadataListItemId: null,
+          metadataListId: this.listId,
+          itemValue: '',
+          itemDescription: '',
+          itemSort: '',
+          parentItemValue: '',
+          status: '',
+          statusName: ''
+        });
+        console.log('metatadata', this.metadataListItemForm)
+        this.store.dispatch(new CreateMetaDataListItem(this.listId, metadataListItem));
+        this.ShowSpinner(false);
+        this.closeDialog();
+        this.clearForm();
+      }
+    }
+    // this.listId = null;
+    this.listItemDialog.hide();
+  }
+
+  public closeBtnDlgClick: EmitType<object> = () => {
+    this.confirmDialog.hide();
+  }
+  show(data) {
+    console.log('event', data);
+    this.selectedMetadataListItemId = data.metadataListItemId;
+    this.confirmDialog.show();
+  }
+  public RemoveDlgBtnClick: EmitType<object> = () => {
+    this.store.dispatch(new RemoveMetaDataListItem(this.listId, this.selectedMetadataListItemId));
+    this.metadaListItem$.subscribe(items => {
+      this.metadataListItems = items;
+    });
+    this.confirmDialog.hide();
+  }
+  confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this), buttonModel: { content: 'Yes', isPrimary: true } },
+  { click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
+
+  cancelRemove() {
+    this.confirmDialog.hide();
+  }
+  remove(data) {
+    console.log(data)
+    this.store.dispatch(new RemoveMetaDataListItem(this.listId, data.metadataListItemId));
+  }
+  closeDialog() {
+    this.listItemDialog.hide();
+  }
+  dialogButtons: Object[] = [
+    { click: this.addMembersClick.bind(this), buttonModel: { content: 'Add To list', isPrimary: true } }];
 
 }
 
-    
+
 

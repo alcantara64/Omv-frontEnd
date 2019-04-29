@@ -1,6 +1,6 @@
 <app-list [listData]="metadataListItems" [columns]="columns" [showSecondAction]="false" [isToolBarVisible]="false"
 	[buttonOneText]="listId ? 'Add List item' : ''" (buttonOneEvent)="addListMembers($event)"
-	(firstNavigateAction)="remove($event)" [showFirstAction]="true" [firstActionText]="removeLink"
+	(firstNavigateAction)="show($event)" [showFirstAction]="true" [firstActionText]="removeLink"
 	[showSecondAction]="true" [firstActionText]="removeLink" [secondActionText]="removeLink"
 	>
 </app-list>
@@ -30,4 +30,14 @@
 
 
 
+</ejs-dialog>
+<ejs-dialog #confirmDialog
+[visible]='false'
+[buttons]='confirmDlgButtons'
+[header]="'Confirm Remove'"
+[showCloseIcon]='true'
+[width]='200'>
+	<ng-template #content>
+		<span>Are you sure you want to permanently remove this Item ?</span>
+	</ng-template>
 </ejs-dialog>
