@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ListComponent } from 'src/app/shared/list/list.component';
 import { Store, Select } from '@ngxs/store';
 import { GridColumn } from 'src/app/core/models/grid.column';
@@ -6,18 +6,21 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { EmitType } from '@syncfusion/ej2-base';
 import { CreateMetaDataList, GetMetaDataLists, RemoveMetaDataList, DisableMetadataList, EnableMetadataList } from '../state/admin-media/admin-media.action';
 import { AdminMetadaListType } from 'src/app/core/enum/admin-user-type';
 import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-metadata-list',
   templateUrl: './admin-metadata-list.component.html',
   styleUrls: ['./admin-metadata-list.component.css']
 })
-export class AdminMetadataListComponent extends ListComponent implements OnInit {
+export class AdminMetadataListComponent extends ListComponent implements OnInit, OnDestroy {
+  private unsubscribe: Subject<void> = new Subject();
+
   columns: GridColumn[] = [
 
     { headerText: ' ', type: 'checkbox', width: '50', field: '' },
@@ -25,7 +28,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     { headerText: 'Status', width: '150', field: 'statusName' },];
 
   public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
-  removeLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
+  //removeLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
 
 
   fieldName: string = '';
@@ -87,7 +90,9 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
       fieldName: ['', [Validators.required]],
       status :[]
     });
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(params => {
       this.store.dispatch(new GetMetaDataLists());
       this.displayList(params.type);
     });
@@ -95,6 +100,10 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     //   console.log('AdminMetadataLIstComponent ngOninit lists: ', lists);
     //   this.metadataLists = lists;
     // });
+  }
+  ngOnDestroy(){
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
   displayList(param: string) {
     this.urlparam = param;
