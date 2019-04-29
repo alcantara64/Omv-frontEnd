@@ -8,47 +8,7 @@
             </span>
         </div>
     </div>
-    <!-- <ejs-dialog #listDialog [visible]="false" [buttons]="addDlgButtons" [header]="'New Lists'" [showCloseIcon]="true"
-        [width]="350" [height]="400">
-
-        <ng-template #content>
-            <form novalidate (ngSubmit)="saveDlgBtnClick()" [formGroup]="metadataListForm">
-                <div class="row pt-3">
-                    <div class="col-md-4"><label>
-                            List Name
-                        </label></div>
-                    <div class="col-md-8">
-                        <input class="form-control form-control-lg" id="fieldNameId" type="text" placeholder=""
-                            formControlName="fieldName"
-                            [ngClass]="{'is-invalid': (metadataListForm.get('fieldName').touched ||
-                                                                               metadataListForm.get('fieldName').dirty) &&
-                                                                              !metadataListForm.get('fieldName').valid }" />
-                    </div>
-                </div>
-                <div class="row pt-3">
-                    <div class="col-md-4"><label>
-                            List Type
-                        </label></div>
-                    <div class="col-md-8">
-                        <input class="form-control form-control-lg" id="fieldTypeId" type="text" placeholder=""
-                            formControlName="fieldType"
-                            [ngClass]="{'is-invalid': (metadataListForm.get('fieldType').touched ||
-                                                                               metadataListForm.get('fieldType').dirty) &&
-                                                                              !metadataListForm.get('fieldType').valid }" />
-                    </div>
-                </div>
-                <div class="row pt-3">
-                    <div class="col-md-4"><label>
-                            List
-                        </label></div>
-                    <div class="col-md-8">
-                        <ejs-dropdownlist id='ddlelement' #samples (change)="addList($event)" [dataSource]='data'
-                            [placeholder]='placeholder' [value]='id' [fields]='listFields'></ejs-dropdownlist>
-                    </div>
-                </div>
-            </form>
-        </ng-template>
-    </ejs-dialog>-->
+   
     <ejs-dialog #listDialog [visible]='false' [width]='500'>
         <ng-template #content>
             <button class="dialog-close" (click)="closeDialog()">
@@ -74,9 +34,11 @@
                 </div>
             </form> <br />
             <!-- <ejs-listview [showCheckBox]='true'></ejs-listview> -->
-
+            <div class="text-center form-group" >
+            
             <button class="btn btn-lg omv-primary" style="width: 13rem;" (click)="saveDlgBtnClick()"> Save Changes </button>
             <button class="media-button-small" (click)="closeDialog()" style="margin-left: 25px;"> Cancel </button>
+      </div>
         </ng-template>
     </ejs-dialog>
 

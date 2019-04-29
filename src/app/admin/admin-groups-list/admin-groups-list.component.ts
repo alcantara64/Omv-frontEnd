@@ -138,4 +138,6 @@ export class AdminGroupsListComponent extends ListComponent implements OnInit {
       this.router.navigate([`/admin/groups/${data.id}/edit`]);
     }
   }
+
+  
 }

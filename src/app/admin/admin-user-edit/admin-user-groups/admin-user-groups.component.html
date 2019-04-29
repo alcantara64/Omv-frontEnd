@@ -3,6 +3,7 @@
           [columns]="columns"
           [isToolBarVisible]="false"
           [initialRecords]="userGroupIds"
+          (selectedItemData)="selectedItemData($event)"
           [checkField]="'id'"
           [buttonOneText] = "userId ? 'Update Groups' : ''"
           (buttonOneEvent)="updateGroups($event)">

@@ -180,9 +180,11 @@ export class AdminGroupState {
 
   @Action(DisableGroup)
   disableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload, refreshList }: DisableGroup) {
-    payload.status = 0;
+    //payload.status = 0;
+    let newPayload = {...payload}
+    newPayload.status = 0;
     ctx.dispatch(new DisplayToastMessage('Group was disabled successfully.'));
-    return this.adminGroupService.updateGroup(id, payload).pipe(
+    return this.adminGroupService.updateGroup(id, newPayload).pipe(
       tap(group => {
         if (refreshList) {
           ctx.dispatch(new GetGroups());
@@ -205,9 +207,11 @@ export class AdminGroupState {
   }
   @Action(EnableGroup)
   enableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload, refreshList }: EnableGroup) {
-    payload.status = 1;
+  //  payload.status = 1;
+    let newPayload = {...payload}
+    newPayload.status = 1;
     ctx.dispatch(new DisplayToastMessage('Group was enabled successfully.'));
-    return this.adminGroupService.updateGroup(id, payload).pipe(
+    return this.adminGroupService.updateGroup(id, newPayload).pipe(
       tap(group => {
         if (refreshList) {
           ctx.dispatch(new GetGroups());

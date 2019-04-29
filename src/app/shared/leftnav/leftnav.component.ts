@@ -23,7 +23,9 @@ export class LeftNavComponent implements OnInit {
   isMediaMetadataFieldsActive: boolean;
   isMediaMetaDataListActive: boolean;
   mediaMetadataFieldsLink = '/admin/media/metadata/fields';
-  mediaMetadataLink = '/admin/media/metadata/active';
+  mediaMetadataLink = '/admin/media/metadata';
+  activeMetadaLink =  '/admin/media/metadata/active';
+  dissableMetadaLink =  '/admin/media/metadata/disable';
   mediaUploadsLink = '/admin/media/uploads';
   newMediaUploadsLink = '/admin/media/uploads/new';
   inProgressMediaUploadsLink = '/admin/media/uploads/in-progress';
@@ -103,6 +105,8 @@ export class LeftNavComponent implements OnInit {
         this.isGroupsActive = true;
         break;
       case this.mediaMetadataLink:
+      case this.activeMetadaLink:
+      case this.dissableMetadaLink:
         this.isMediaMenuOpen = true;
         this.isMediaMetaDataListActive = true;
         this.isMediaMetadataFieldsActive = false;

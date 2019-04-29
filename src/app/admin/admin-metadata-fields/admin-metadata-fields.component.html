@@ -8,7 +8,7 @@
             </span>
         </div>
     </div>
-    <ejs-dialog #fieldDialog [visible]="false" [width]="350" [height]="350">
+    <ejs-dialog #fieldDialog [visible]="false" [width]='500' >
 
         <ng-template #content>
 
@@ -20,8 +20,8 @@
                 <label class="dialog-title">Add Metadata Field </label>
                 <hr />
                 <br/>
-                <div class="row pt-3 pb-3">
-                    <div class="col-md-4"><label class="media-label"  style="padding-top: 11px;">
+                <div class="row pt-3 ">
+                    <div class="col-md-3"><label class="media-label"  style="padding-top: 11px;">
                             Field Name
                         </label></div>
                     <div class="col-md-8">
@@ -33,19 +33,19 @@
                     </div>
                 </div>
                 <div class="row pt-3 pb-3">
-                    <div class="col-md-4"><label class="media-label" style="padding-top: 11px;">
+                    <div class="col-md-3"><label class="media-label" style="padding-top: 11px;">
                             Field Type
                         </label></div>
                     <div class="col-md-8">
 
                         <ejs-dropdownlist id='ddlelement' #samples formControlName="fieldTypeId"
                             [dataSource]='fieldTypeData' (change)="checkFieldType()"
-                            [placeholder]="'Select a Field Type'" [value]='name' [fields]='typeListFields'>
+                            [placeholder]="'Select a Field Type'" [value]='name' [fields]='typeListFields' class="">
                         </ejs-dropdownlist>
                     </div>
                 </div>
                 <div [hidden]="!showListDropdown" class="row pt-3 pb-3">
-                    <div class="col-md-4"><label class="media-label"  style="padding-top: 11px;">
+                    <div class="col-md-3"><label class="media-label"  style="padding-top: 11px;">
                             List
                         </label></div>
                     <div class="col-md-8">
@@ -57,8 +57,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="text-center form-group" style="margin-top:20px">
                 <button class="btn btn-lg omv-primary" style="width: 13rem;" [disabled]='!metadataFieldForm.valid || !metadataFieldForm.dirty'  (click)=" save() "> Save Changes </button>
                 <button class="media-button-small" (click)="closeDialog()" style="margin-left: 25px;"> Cancel </button>
+                </div>
             </form>
         </ng-template>
     </ejs-dialog>
