@@ -6,6 +6,8 @@ import { AdminMediaDataService } from './admin-media.data.service';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
 import { map } from 'rxjs/operators';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
+import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
+import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
 import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
 
 @Injectable({
@@ -13,7 +15,6 @@ import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype
 })
 
 export class AdminMediaMockDataService implements AdminMediaDataService {
-
 
 
   constructor(private httpClient: HttpClient) { }
@@ -47,6 +48,44 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
     return data;
   }
 
+  getMetaDataLists(): Observable<MetadataList[]> {
+    var url = `./assets/mock/admin-metadata-list.json`;
+    let data = this.httpClient.get<MetadataList[]>(url);
+    console.log('data', data);
+    return data;
+  }
+
+  removeMetadataList(id: number) {
+    var url = `./assets/mock/admin-metadata-list.json`;
+    return this.httpClient.get<MetadataList[]>(url);
+    // return data;
+  }
+
+  createMetadataList(payload: MetadataList): Observable<MetadataList> {
+    var url = `./assets/mock/admin-metadata-list.json`;
+    var data = this.httpClient.get<MetadataList[]>(url).pipe(map(list => {
+      var _list = new MetadataList();
+      console.log('AdminMediaMockDataService - createMetadataList : ', payload);
+      return payload;
+    }));
+    return data;
+  }
+  updateMetadataList(id: number, payload: MetadataList) {
+    var mockUrl = `./assets/mock/admin-metadata-list.json`;
+    return this.httpClient.get<MetadataList[]>(mockUrl);
+  }
+  disableMetadaList(id: number, payload: MetadataList) {
+    payload.status = 0;
+    var mockUrl = `./assets/mock/admin-metadata-list.json`;
+    return this.httpClient.put<any>(`${mockUrl}`, payload);
+  }
+
+  enableGroup(id: number, payload: MetadataList) {
+    payload.status = 1;
+    var mockUrl = `./assets/mock/admin-metadata-list.json`;
+    return this.httpClient.put<any>(`${mockUrl}`, payload);
+  }
+
   getNewUploads(): Observable<UploadHistory[]> {
     var url = `./assets/mock/media-new-uploads.json`;
     let data = this.httpClient.get<UploadHistory[]>(url);
@@ -59,6 +98,55 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
   getUploadRequestById(id: number): Observable<any> {
     throw new Error("Method not implemented.");
   }
+
+  getMetaDataListsItem(): Observable<MetadataListItem[]> {
+    var url = `./assets/mock/admin-metadata-list-item.json`;
+    let data = this.httpClient.get<MetadataListItem[]>(url);
+    console.log('data', data);
+    return data;
+  }
+
+  getMetaDataListItemById(id:number): Observable<MetadataListItem[]> {
+    var url = `./assets/mock/admin-metadata-list-item.json`;
+    let data = this.httpClient.get<MetadataListItem[]>(url);
+    console.log('data', data);
+    return data;
+  }
+
+  removeMetadataListItem(id: number,  metadataListItemId:number) {
+    var url = `./assets/mock/admin-metadata-list-item.json`;
+    return this.httpClient.get<MetadataListItem[]>(url);
+    // return data;
+  }
+
+  createMetadataListItem(id:number, payload: MetadataListItem): Observable<MetadataListItem> {
+    var url = `./assets/mock/admin-metadata-list-item.json`;
+    var data = this.httpClient.get<MetadataListItem[]>(url).pipe(map(list => {
+      var _list = new MetadataListItem();
+      console.log('AdminMediaMockDataService - createMetadataListItem : ', payload);
+      return payload;
+    }));
+    return data;
+  }
+  updateMetadataListItem(id: number, payload: MetadataDetail) {
+    var mockUrl = `./assets/mock/admin-metadata-list-item.json`;
+    return this.httpClient.get<MetadataListItem[]>(mockUrl);
+  }  
+
+  getMetaDataListById(id: number): Observable<MetadataList> {
+    var url = `./assets/mock/admin-metadata-list.json`;
+    let data = this.httpClient.get<MetadataList[]>(url).pipe(
+      map(resp => {
+        return resp.find( element => element.id === id);
+      })
+    );
+    return data;
+    
+  }
+  getMetaDataListsDetail(id: number): Observable<MetadataDetail> {
+    throw new Error("Method not implemented.");
+  }
+
 
   approveUploads(id: number) {
     throw new Error("Method not implemented.");
@@ -83,12 +171,7 @@ export class AdminMediaMockDataService implements AdminMediaDataService {
   getMetadataFieldTypes(): Observable<MetadataFieldType[]> {
     throw new Error("Method not implemented.");
   }
-  getMetaDataLists(): Observable<MetadataList[]> {
-    var url = `./assets/mock/admin-metadata-list.json`;
-    let data = this.httpClient.get<MetadataList[]>(url);
-    console.log('data', data);
-    return data;
-  }
+
 }
 
 

@@ -21,6 +21,8 @@ import {AdminMediaNewUploadsComponent} from "./admin-media-uploads-list/admin-me
 import {AdminMediaUploadsHistoryComponent} from "./admin-media-uploads-list/admin-media-uploads-history/admin-media-uploads-history.component";
 import {AdminMetadataListComponent} from "./admin-metadata-list/admin-metadata-list.component";
 import { AdminMediaUploadDetailsComponent } from './admin-media-upload-details/admin-media-upload-details.component';
+import { AdminMetadataListTabComponent } from './admin-metadata-list/admin-metadata-list-tab/admin-metadata-list-tab.component';
+import { AdminMetadataListEditComponent } from './admin-metadata-list-edit/admin-metadata-list-edit.component';
 
 const adminRoutes: Routes = [
   {
@@ -76,16 +78,30 @@ const adminRoutes: Routes = [
     component: AdminGroupEditComponent,
     canActivate: [AuthGuardService]
   },
-  {
-    path: 'admin/media/metadata',
-    component: AdminMetadataListComponent,
-    canActivate: [AuthGuardService]
-  },
+ 
+  
+ 
   {
     path: 'admin/media/metadata/fields',
     component: AdminMetadataFieldsComponent,
     canActivate: [AuthGuardService]
   },
+  {
+    path: 'admin/media/metadata/:id/edit',
+    // canDeactivate: [AdminMetadataListEditGuard],
+    component: AdminMetadataListEditComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'admin/media/metadata',
+    component: AdminMetadataListTabComponent,
+   // canActivate: [AuthGuardService],
+    children: [
+      { path: '', redirectTo: 'active', pathMatch: 'full' },
+      { path: ':type', component: AdminMetadataListComponent}
+    ]
+  },
+  
 ];
 
 @NgModule({

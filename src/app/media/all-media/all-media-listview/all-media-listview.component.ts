@@ -39,9 +39,9 @@ export class AllMediaListviewComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private router: Router, private mediaService: MediaService) { }
 
   ngOnInit() {
-    this.mediaService.getMedia(1, this.pageSize).subscribe(medias=>{
-      this.media = medias.data;
-    })
+    // this.mediaService.getMedia(1, this.pageSize).subscribe(medias=>{
+    //   this.media = medias.data;
+    // })
     this.store.dispatch(new GetMedia(1, this.pageSize));
     this.totalMedia$.subscribe(totalMedia => {
       this.totalMedia = totalMedia;

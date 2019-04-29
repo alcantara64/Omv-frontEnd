@@ -1,4 +1,4 @@
-<app-list [listData]="media"
+<app-list [listData]="media$ | async"
           [columns]="columns"
           [showFavoriteIcon]="true"
           [favoriteIconPosition]="1"

@@ -22,7 +22,7 @@ import { FieldConfiguration } from '../../field-setting';
           <ng-template #itemTemplate let-data>
             <div class="combobox-item-row" style="cursor: pointer;">          
               <span [ngClass]="{'label-14-bold-source-sans-pro': data.isSelected, 'label-14-source-sans-pro': !data.isSelected}"> 
-                {{ data.description }}
+                {{ data.description }} 
               </span>
               <img *ngIf="data.isSelected" 
                     src="../../../../assets/images/checkmark.svg" 
@@ -56,10 +56,12 @@ export class FormComboBoxComponent implements Field {
 
   dropdownChangeEvent(event: any) {
     const name = this.config.label.toLowerCase();
-    const data = event.itemData;
+    const data = event.itemData as any;
     if (data.isSelected) return;
-    data.fieldName = name.charAt(0).toUpperCase() + name.slice(1);
-    this.dropdownChange.emit(data);
+    let someData = formData(data, name.charAt(0).toUpperCase() + name.slice(1));
+
+    // data.fieldName = ;
+    this.dropdownChange.emit(someData);
   }
 
   hidePopup(event: any) {
@@ -70,3 +72,12 @@ export class FormComboBoxComponent implements Field {
     this.deleteControl.emit(config);
   }
 }
+
+export const formData = (data, name) => {
+  return ({
+      ...data,
+      fieldName: name,
+  });
+ }
+
+

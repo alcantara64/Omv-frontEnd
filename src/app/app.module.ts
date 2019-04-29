@@ -19,6 +19,9 @@ import { StartupComponent } from './startup/startup.component';
 import { MediaModule } from './media/media.module';
 import { BlobModule } from 'angular-azure-blob-service';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
+import {FormsModule} from '@angular/forms';
+import { FiltersComponent } from './filters/filters.component';
+
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
 import { AppStartupService } from './core/services/appstartup.service';
 import { environment } from 'src/environments/environment';
@@ -63,6 +66,7 @@ const runAppInitializer = (appStart: AppStartupService) => {
     BrowserModule,
     HttpModule,
     HttpClientModule,
+    FormsModule,
     AdminModule,
     MediaModule,
     SharedModule,

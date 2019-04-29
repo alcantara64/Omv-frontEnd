@@ -5,8 +5,9 @@ import { MediaState } from '../media/state/media/media.state';
 import { Observable, Subject } from 'rxjs';
 import { FieldConfiguration } from '../shared/dynamic-components/field-setting';
 import { takeUntil } from 'rxjs/operators';
-import { GetFilterFields, AddFilterTag, RemoveFilterTag, ClearFilterTags } from '../media/state/media/media.action';
+import { GetFilterFields, AddFilterTag, RemoveFilterTag, ClearFilterTags, ApplyFilters, ShowFilters, HideFilters } from '../media/state/media/media.action';
 import { Tag } from '../core/models/entity/tag';
+import { ShowSpinner } from '../state/app.actions';
 
 const ARROW_UP = '../../assets/images/icon-arrow-up.svg';
 const ARROW_DOWN = '../../assets/images/icon-arrow-down.svg';
@@ -22,6 +23,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   @Select(MediaState.getFilterFields) filterFields$: Observable<FieldConfiguration[]>;
   @Select(MediaState.getFilterTags) filterTags$: Observable<Tag[]>;
+  @Select(MediaState.showFilters) showFilters$: Observable<boolean>;
 
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
@@ -38,6 +40,13 @@ export class FiltersComponent implements OnInit, OnDestroy {
       .subscribe(fields => {
         this.fields = fields;
         console.log('FiltersComponent ngOnInit ', fields);
+      });
+
+    this.showFilters$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(showFilters => {
+        this.showFilters = showFilters;
+        this.changeArrow();
       });
   }
 
@@ -81,17 +90,25 @@ export class FiltersComponent implements OnInit, OnDestroy {
     });
   }
 
-  apply() {
-
+  applyFilters() {
+    this.store.dispatch(new ShowSpinner());
+    this.store.dispatch(new ApplyFilters());
   }
 
   toggle() {
-    this.showFilters = !this.showFilters;
-    this.switchToggleArrowIcons(this.showFilters);
+    if (this.showFilters) {
+      this.store.dispatch(new HideFilters());      
+    } else {
+      this.store.dispatch(new ShowFilters());      
+    }
   }
 
   switchToggleArrowIcons (isOpen: boolean) {
-    if (isOpen) {
+    
+  }
+
+  changeArrow() {
+    if (this.showFilters) {
       this.toggleDirectionIcon = ARROW_UP;
     } else {
       this.toggleDirectionIcon = ARROW_DOWN;

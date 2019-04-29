@@ -1,27 +1,44 @@
 [
     {
-        "id": "1",
-        "name": "All Platform",
-        "list": "Rigs,Shell"
+        "id": 1,
+        "fieldName": "File Name",
+        "status" : 1,
+        "statusChanged": "Active"
     },
     {
-        "id": "2",
-        "name": "All Systems",
-        "list": "Shell,Rigs  "
+        "id": 2,
+        "fieldName": "Datastructure",
+        "status" : 0,
+        "statusChanged": "Inactive"
     },
     {
-        "id": "3",
-        "name": "All Register Types",
-        "list": "Rigs,Register"
+        "id": 3,
+        "fieldName": "Files",
+        "status" : 1,
+        "statusChanged": "Active"
     },
     {
-        "id": "4",
-        "name": "All Platform",
-        "list": "Shell, Platform"
+        "id": 4,
+        "fieldName": "Race",
+        "status" : 0,
+        "statusChanged": "Inactive"
     },
     {
-        "id": "5",
-        "name": "All Systems",
-        "list": "Rigs, Systems"
+        "id": 5,
+        "fieldName": "State",
+        "status" : 1,
+        "statusChanged": "Active"
+    },
+    {
+        "id": 6,
+        "fieldName": "Gender",
+        "status" : 0,
+        "statusChanged": "Inactive"
+    },
+    {
+        "id": 7,
+        "fieldName": "Country",  
+        "status": 1,
+        "statusChanged": "Active"
     }
- ]
+]

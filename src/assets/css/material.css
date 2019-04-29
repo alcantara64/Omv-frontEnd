@@ -15797,7 +15797,7 @@ body.e-colorpicker-overflow {
 }
 
 .e-ddl.e-input-group.e-control-wrapper .e-ddl-icon::before {
-  content: url("../images/icon-search.svg");
+  content: "";
   font-size: 8px;
   font-family: 'e-icons';
 }

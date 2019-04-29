@@ -167,7 +167,7 @@ export class AdminUserState {
           currentUserId: user.userId
         });
       }, (err) => {
-        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
   }

@@ -9,7 +9,7 @@ import { FieldConfiguration } from '../field-setting';
     <div class="" [formGroup]="group">
       <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
-        <ejs-datepicker class="col-md-11" strictMode='true' placeholder="{{ config.label }}" [formControlName]="config.name"></ejs-datepicker>  
+        <ejs-datepicker class="col-md-11" placeholder="{{ config.label }}" [formControlName]="config.name"></ejs-datepicker>  
         <button type="button" class="o-delete col-md-1" (click)="deleteControlEvent(config)" *ngIf="!config.isRequired && allowDeleting">
           <span class="e-icons e-delete"></span>
         </button>

@@ -47,14 +47,14 @@ export class AdminUserGroupsComponent extends BaseComponent implements OnInit, O
       } else {
         this.store.dispatch(new ClearUserGroups());
       }
+      this.userGroups$.subscribe(groups => {
+        if (groups) {
+          this.userGroupIds = groups.map(x => x.id);
+        }
+      });
     }),
     takeWhile(() => this.componentActive);
 
-    this.userGroups$.subscribe(groups => {
-      if (groups) {
-        this.userGroupIds = groups.map(x => x.id);
-      }
-    });
   }
 
   ngOnDestroy(): void {

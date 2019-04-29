@@ -1,0 +1,33 @@
+<app-list [listData]="metadataListItems" [columns]="columns" [showSecondAction]="false" [isToolBarVisible]="false"
+	[buttonOneText]="listId ? 'Add List item' : ''" (buttonOneEvent)="addListMembers($event)"
+	(firstNavigateAction)="remove($event)" [showFirstAction]="true" [firstActionText]="removeLink"
+	[showSecondAction]="true" [firstActionText]="removeLink" [secondActionText]="removeLink"
+	>
+</app-list>
+
+<ejs-dialog #listItemDialog [visible]='false' [buttons]='dialogButtons' [header]="'Add List Item to List'"
+	[showCloseIcon]='true' [width]='500' [height]="300">
+	<ng-template #content>
+
+		<br />
+		<form novalidate (ngSubmit)="saveDlgBtnClick()" [formGroup]="metadataListItemForm">
+			<div class="row pt-3">
+				<div class="col-md-3"><label class="media-label" style="padding-top: 11px;">
+						List Name:
+					</label></div>
+				<div class="col-md-8">
+					<input class="form-control form-control-lg" id="NameId" type="text" placeholder=""
+						formControlName="itemDescription" [ngClass]="{'is-invalid': (metadataListItemForm.get('itemDescription').touched ||
+						metadataListItemForm.get('itemDescription').dirty) &&
+																			  !metadataListItemForm.get('itemDescription').valid }" />
+				</div>
+			</div>
+		</form> <br />
+		<!-- <ejs-listview [showCheckBox]='true'></ejs-listview> -->
+
+
+	</ng-template>
+
+
+
+</ejs-dialog>

@@ -46,6 +46,7 @@ import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
     DynamicFormComponent,   
     EditComponent,
     FormDateComponent,
+    FormDateRangePickerComponent,
     FormInputComponent,
     FormLabelComponent,
     FormComboBoxComponent,
@@ -98,6 +99,7 @@ import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
     DynamicFormComponent,
     EditComponent,
     FormDateComponent,
+    FormDateRangePickerComponent,
     FormInputComponent,
     FormLabelComponent,
     FormComboBoxComponent,
@@ -125,6 +127,7 @@ import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
   ],
   entryComponents: [
     FormDateComponent,
+    FormDateRangePickerComponent,
     FormInputComponent,
     FormLabelComponent,
     FormComboBoxComponent,
