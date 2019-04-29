@@ -11,6 +11,7 @@ import { AdminUserState } from '../../state/admin-users/admin-users.state';
 import { ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import {BaseComponent} from "../../../shared/base/base.component";
+import { SetSelectedItems } from 'src/app/media/state/media/media.action';
 
 @Component({
   selector: 'app-admin-user-groups',
@@ -67,5 +68,10 @@ export class AdminUserGroupsComponent extends BaseComponent implements OnInit, O
       console.log('AdminUserGroupsComponent - updateGroups');
       this.store.dispatch(new GetUserGroups(this.userId));
     });
+  }
+
+  selectedItemData(data: any[]) {
+    console.log('selectedItemData',data);
+    this.store.dispatch(new SetSelectedItems(data));
   }
 }

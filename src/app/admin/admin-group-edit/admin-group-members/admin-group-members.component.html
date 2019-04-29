@@ -2,6 +2,7 @@
           [isToolBarVisible]="false"
           [buttonOneText] = "groupId ? 'Add Member(s)' : ''"
           (buttonOneEvent)="addGroupMembers($event)"
+         
           [secondButtonText]="groupId ? 'Remove Member(s)': ''"
           (secondButtonEvent)="show($event)">
 </app-list>

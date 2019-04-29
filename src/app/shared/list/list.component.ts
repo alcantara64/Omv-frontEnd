@@ -5,6 +5,7 @@ import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectE
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Request_Status } from 'src/app/core/enum/request-status';
+import { inputs } from '@syncfusion/ej2-angular-inputs/src/slider/slider.component';
 
 @Component({
   selector: 'app-list',
@@ -34,6 +35,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Input() showStatusIcon: boolean;
   @Input() statusIconPosition: number = 0;
   @Input() requestStatusEnum = Request_Status;
+  @Input() isfirstButtonDisabled:boolean;
 
   @Output() firstAction = new EventEmitter<Object[]>();
   @Output() secondAction = new EventEmitter<Object[]>();
@@ -95,15 +97,18 @@ export class ListComponent extends BaseComponent implements OnInit {
       this.selectedRecords.splice( this.selectedRecords.indexOf(args.data), 1 );
       this.selectedItemData.emit(this.selectedRecords);
     }
+    console.log('rowSelected', this.selectedRecords);
   
   }
 
   rowDeselected(args: RowDeselectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
     this.selectedItemData.emit(this.selectedRecords);
+    console.log('rowSelected', this.selectedRecords);
   }
 
   rowDataBound(args) {
+    console.log('rowDataBound', this.initialRecords);
     if (this.initialRecords) {
       if (this.initialRecords.includes(args.data[this.checkField])) {
        this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
