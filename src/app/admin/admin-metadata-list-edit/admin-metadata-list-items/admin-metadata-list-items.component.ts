@@ -3,7 +3,7 @@ import { GridColumn } from 'src/app/core/models/grid.column';
 import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
 import { AdminMediaState } from '../../state/admin-media/admin-media.state';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base/base.component';
@@ -20,6 +20,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./admin-metadata-list-items.component.css']
 })
 export class AdminMetadataListItemsComponent extends ListComponent implements OnInit {
+  private unsubscribe: Subject<void> = new Subject();
   name: string = '';
   listId: number;
   metadataListItems: MetadataListItem[] = [];
@@ -76,6 +77,8 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
 
   ngOnDestroy(): void {
     this.componentActive = false;
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   addListMembers(metadalist: MetadataListItem) {
