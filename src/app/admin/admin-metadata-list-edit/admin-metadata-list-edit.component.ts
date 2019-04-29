@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EditComponent } from 'src/app/shared/edit/edit.component';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,6 +14,8 @@ import { Metadata } from 'src/app/core/models/entity/metadata';
 import { MetadataListStatus } from 'src/app/core/enum/metadata-list-status';
 import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
 import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
+import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { EmitType } from '@syncfusion/ej2-base';
 
 const METADATALIST_TAB = 0;
 const UPDATE_METADATALIST_ITEMS = 'Update list';
@@ -45,7 +47,10 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
   createMetaDataButtonText: string;
   errorMessage: string;
   metadatalist: any;
+  @ViewChild('confirmDialog')
+  public confirmDialog: DialogComponent;
 
+  metadataStatus = MetadataListStatus;
   constructor(protected store: Store, protected router: Router, private fb: FormBuilder, private activatedRoute: ActivatedRoute) {
     super(store, router)
     this.ShowLefNav(false);
@@ -116,10 +121,30 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
   changeStatus() {
     if (this.metaDataActionText === DISABLE_METADATALIST_ITEMS) {
       this.store.dispatch(new DisableMetadataList(this.metadataId, this.metadatalist, true));
+      this.metaDataActionText = ENABLE_METADATALIST_ITEMS;
     }
     else {
       this.store.dispatch(new EnableMetadataList(this.metadataId, this.metadatalist, true));
+      this.metaDataActionText = DISABLE_METADATALIST_ITEMS;
     }
+  }
+  public closeBtnDlgClick: EmitType<object> = () => {
+    this.confirmDialog.hide();
+  }
+  show(data) {
+    console.log('event', data);
+    // this.selectedMetadataFieldId = data.metadataFieldId;
+    this.confirmDialog.show();
+  }
+  public RemoveDlgBtnClick: EmitType<object> = () => {
+this.changeStatus()
+    this.confirmDialog.hide();
+  }
+  confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this), buttonModel: { content: 'Yes', isPrimary: true } },
+  { click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
+
+  cancelRemove() {
+    this.confirmDialog.hide();
   }
 }
 

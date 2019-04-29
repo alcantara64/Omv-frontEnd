@@ -22,8 +22,18 @@
       </div><br>
 
       <app-edit [firstButtonText]="createMetaDataButtonText" [isfirstButtonDisabled]="!metadataListForm.valid || !metadataListForm.dirty"
-          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metadataId" (secondButtonEvent)="changeStatus()">
+          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metadataId" (secondButtonEvent)="show($event)">
       </app-edit>
+      <ejs-dialog #confirmDialog
+[visible]='false'
+[buttons]='confirmDlgButtons'
+[header]="'Confirm Action'"
+[showCloseIcon]='true'
+[width]='200'>
+	<ng-template #content>
+		<span>Are you sure you want to {{metaDataActionText }} ?</span>
+	</ng-template>
+</ejs-dialog>
     </form>
   </div>
   <div class="col-sm-6" >
