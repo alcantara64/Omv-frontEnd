@@ -26,6 +26,10 @@ export class HideSpinner {
   static readonly type = '[App] HideSpinner';
 }
 
+export class GetAzureUploadConfiguration {
+  static readonly type = '[App] GetAzureUploadConfiguration';
+}
+
 export class GetLoggedInUser {
   static readonly type = '[App] GetLoggedInUser';
 }

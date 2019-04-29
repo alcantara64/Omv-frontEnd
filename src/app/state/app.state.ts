@@ -14,17 +14,19 @@ import {
   ShowSpinner,
   HideSpinner,
   AuthenticateUser,
-  RemoveLoggedInUser
+  RemoveLoggedInUser,
+  GetAzureUploadConfiguration
 } from './app.actions';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
 import { AuthService } from '../core/services/business/auth.service';
 import { Permission } from '../core/enum/permission';
 import { tap } from 'rxjs/operators';
-import { Toast } from '../core/enum/toast';
+import { Toast, ToastType } from '../core/enum/toast';
 import { UsersDataService } from '../core/services/data/users/users.data.service';
 import { User } from '../core/models/entity/user';
 import { Router } from '@angular/router';
+import { CustomersDataService } from '../core/services/data/customers/customers.data.service';
 
 export class AppStateModel {
   showLeftNav: boolean;
@@ -45,6 +47,10 @@ export class AppStateModel {
 
   isUserAuthenticated: boolean;
   isAuthorized: boolean;
+
+  azureSASToken: string;
+  azureContainer: string;
+  azureStorageAccount: string;
 }
 
 @State<AppStateModel>({
@@ -67,7 +73,11 @@ export class AppStateModel {
     showSpinner: false,
 
     isUserAuthenticated: null,
-    isAuthorized: false
+    isAuthorized: false,
+
+    azureContainer: '',
+    azureSASToken: '',
+    azureStorageAccount: ''
   }
 })
 export class AppState {
@@ -142,7 +152,23 @@ export class AppState {
     return state.isAuthorized;
   }
 
-  constructor(private auth: AuthService, private adminUsersService: AdminUsersService, private usersDataService: UsersDataService, private router: Router) { }
+  @Selector()
+  static getAzureSASToken(state: AppStateModel) {
+    return state.azureSASToken;
+  }
+
+  @Selector()
+  static getAzureContainer(state: AppStateModel) {
+    return state.azureContainer;
+  }
+
+  @Selector()
+  static getAzureStorageAccount(state: AppStateModel) {
+    return state.azureStorageAccount;
+  }
+
+  constructor(private auth: AuthService, private adminUsersService: AdminUsersService, private usersDataService: UsersDataService, private router: Router,
+    private customersDataService: CustomersDataService) { }
 
   @Action(ShowLeftNav)
   setLeftNavToggle({ getState, setState }: StateContext<AppStateModel>, { payload }: ShowLeftNav) {
@@ -192,8 +218,9 @@ export class AppState {
             currentUser: user,
             isAuthorized: true
           });
-          const return_url = localStorage.getItem('return_url')
-          // this.router.navigate(['/media']);
+          ctx.dispatch(new GetAzureUploadConfiguration());
+          const return_url = localStorage.getItem('return_url');
+          this.router.navigate(['/']);
         }, err => {
           console.log('App State getLoggedinUser', err);
           const state = ctx.getState();
@@ -205,7 +232,7 @@ export class AppState {
           if (err.status === 404) {
             this.auth.logout();
             // this.router.navigate(['/unauthorize']);
-          }          
+          }
         })
       );
   }
@@ -239,6 +266,32 @@ export class AppState {
         isUserAuthenticated: false
       });
     });
+  }
+
+  @Action(GetAzureUploadConfiguration)
+  getAzureUploadConfiguration(ctx: StateContext<AppStateModel>) {
+    this.customersDataService.getSetting('container').subscribe(container => {
+      this.customersDataService.getSetting('SASToken').subscribe(SASToken => {
+        this.customersDataService.getSetting('StorageAccount').subscribe(StorageAccount => {
+          const state = ctx.getState();
+          ctx.setState({
+            ...state,
+            azureContainer: container.value,
+            azureSASToken: SASToken.value,
+            azureStorageAccount: StorageAccount.value
+          });
+        }, err => {
+          ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        }
+        );
+      }, err => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      }
+      );
+    }, err => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+    }
+    );
   }
 
   @Action(GetUserPermissions)

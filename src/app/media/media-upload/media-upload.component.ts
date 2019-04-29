@@ -38,6 +38,9 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
   columns: GridColumn[] = [
     { headerText: 'Name', field: 'name' }
   ];
+  sasToken: any;
+  storageAccount: any;
+  containerName: any;
 
   @ViewChild('file') file;
   selectionOptions: Object;
@@ -46,6 +49,9 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
   metadata: FieldConfiguration[] = [];
 
   @Select(AppState.getSpinnerVisibility) showSpinner$: Observable<boolean>;
+  @Select(AppState.getAzureSASToken) SASToken$: Observable<string>;
+  @Select(AppState.getAzureContainer) container$: Observable<string>;
+  @Select(AppState.getAzureStorageAccount) storageAccount$: Observable<string>;
   @Select(MediaState.getUploadCompleteStatus) uploadComplete$: Observable<boolean>;
   @Select(MediaState.getDirectories) directories$: Observable<Directory[]>;
   @Select(MediaState.getDirectoryMetadata) directoryMetadata$: Observable<any[]>;
@@ -82,6 +88,10 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
       .subscribe(complete => {
         if (complete) this.router.navigate(['/media/all'], { queryParams: { view: 'tile' } } );
       });
+
+    this.SASToken$.subscribe(SASToken => this.sasToken = SASToken);
+    this.container$.subscribe(container => this.containerName = container);
+    this.storageAccount$.subscribe(storageAccount => this.storageAccount = storageAccount);
   }
 
   ngOnDestroy() {    
@@ -131,7 +141,7 @@ export class MediaUploadComponent extends BaseComponent implements OnInit, OnDes
     let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : "{}";
 
     this.store.dispatch(new ShowSpinner());
-    this.mediaUploadService.upload(this.currentDirectoryId, this.selectedFile, metadata, this.folderPath);
+    this.mediaUploadService.upload(this.currentDirectoryId, this.selectedFile, metadata, this.folderPath, this.containerName, this.sasToken, this.storageAccount);
   }
 
   private buildFolderPath(directoryId: number) {

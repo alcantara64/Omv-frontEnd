@@ -10,8 +10,8 @@ export class CustomersService {
 
   constructor(private customerDataService: CustomersDataService) { }
 
-  getSetting(id: number, setting: string): Observable<any> {
-    return this.customerDataService.getSetting(id, setting);
+  getSetting(setting: string): Observable<any> {
+    return this.customerDataService.getSetting(setting);
   }
 
   getByHostHeader(header: string): Observable<Customer> {

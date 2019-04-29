@@ -13,6 +13,7 @@ import { Document_GetByIdOutputDTO } from 'src/app/core/dtos/output/documents/Do
 import { Document_UpdateInputDTO } from 'src/app/core/dtos/input/documents/Document_UpdateInputDTO';
 import { UploadRequest_InsertInputDTO } from 'src/app/core/dtos/input/upload-request/UploadRequest_InsertInputDTO';
 import { Document_GetAuditOutputDTO } from 'src/app/core/dtos/output/documents/Document_GetAuditOutputDTO';
+import { Document_InsertInputDTO } from 'src/app/core/dtos/input/documents/Document_InsertInputDTO';
 
 @Injectable({
   providedIn: 'root' 
@@ -179,14 +180,12 @@ export class MediaWebDataService implements MediaDataService {
   }
 
   createMediaItem(payload: MediaItem): Observable<any> {
-    const requestUri = environment.api.baseUrl + `/v1/uploadrequests`;
+    const requestUri = environment.api.baseUrl + `/v1/documents`;
 
     payload.id = this.newGuid();
 
     automapper
-      .createMap(payload, UploadRequest_InsertInputDTO)
-      .forMember('UploadRequestId', function (opts) { opts.mapFrom('requestId'); })
-      .forMember('Requester', function (opts) { opts.mapFrom('requester'); })
+      .createMap(MediaItem, Document_InsertInputDTO)
       .forMember('documentId', function (opts) { opts.mapFrom('id'); })
       .forMember('directoryId', function (opts) { opts.mapFrom('directoryId'); })
       .forMember('documentTypeCode', function (opts) { opts.mapFrom('documentTypeCode'); })
@@ -196,9 +195,14 @@ export class MediaWebDataService implements MediaDataService {
       .forMember('contentType', function (opts) { opts.mapFrom('contentType'); })
       .forMember('containerId', function (opts) { opts.mapFrom('containerId'); })
       .forMember('size', function (opts) { opts.mapFrom('size'); })
+      .forMember('storageType', function (opts) { return ''; })
+      .forMember('entityType', function (opts) { return ''; })
+      .forMember('entityId', function (opts) { return ''; })
+      .forMember('isDeleted', function (opts) { return false; })
+      .forMember('status', function (opts) { return 1; })
       .forMember('thumbnailContainerUrl', function (opts) { opts.mapFrom('thumbnail'); })
 
-    const request = automapper.map(payload, UploadRequest_InsertInputDTO, payload);
+    const request = automapper.map(MediaItem, Document_InsertInputDTO, payload);
 
     console.log('MediaWebDataService - createMediaItem: ', request);
 
