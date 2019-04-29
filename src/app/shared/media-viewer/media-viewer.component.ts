@@ -109,6 +109,7 @@ export class MediaViewerComponent extends BaseComponent implements OnInit, OnDes
             next() {
               viewer.next(true);
             },
+            
             // download() {
             //   const a = document.createElement('a');
             //   a.href = viewer.image.src;
