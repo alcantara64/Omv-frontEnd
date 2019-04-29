@@ -173,7 +173,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     );
   }
   getNewUploads(): Observable<UploadHistory[]> {
-    var requestUri = environment.api.baseUrl + `/v1/uploadrequests?isDraft=true`;
+    var requestUri = environment.api.baseUrl + `/v1/uploadrequests?isDraft`;
 
     return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
       response => {

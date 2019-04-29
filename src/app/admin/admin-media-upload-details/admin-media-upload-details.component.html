@@ -12,26 +12,30 @@
         
           <div>
         <label class="form-label">Destination</label>
-        </div>
-        {{fields.destination}}
+        </div> 
+        <label class="media-label">
+          
+        {{fields.destination}} 
+        </label>
       </div>
-      <div class="col-md-6 form-label">
+      <div class="col-md-6 ">
         <div>
-            <label>Date</label>
+          
+            <label  class="form-label">Date</label>
 
         </div>
         {{fields.createdOn}}
       </div>
     </div>
-    <div class="row form-label">
+    <div class="row">
       <div class="col-md-6">
           <div>
-        <label>Size</label></div>
+        <label  class="form-label">Size</label></div>
         {{fields.size}}
       </div>
-      <div class="col-md-6 form-label">
+      <div class="col-md-6 ">
         <div>
-            <label># Files</label>
+            <label  class="form-label"># Files</label>
         </div>
         {{fields.files}}
       </div>
@@ -39,13 +43,13 @@
     <div class="row form-label">
       <div class="col-md-6"><div>
 
-          <label>OCR</label>
+          <label  class="form-label">OCR</label>
       </div>
         {{fields.isOCRAllowed ? 'Yes': 'No'}}
       </div>
-      <div class="col-md-6 form-label">
+      <div class="col-md-6 ">
         <div>
-            <label>Speech To Text</label>
+            <label  class="form-label">Speech To Text</label>
 
         </div>
         {{fields.isSRAllowed  ? 'Yes': 'No'}}
@@ -53,25 +57,25 @@
     </div>
     <div class="row form-label">
       <div class="col-md-6"><div>
-          <label>Uploaded By</label>
+          <label  class="form-label">Uploaded By</label>
       </div>
         {{fields.requesterName}}
       </div>
-      <div class="col-md-6 form-label"><div>
-          <label>Estimated Process Time</label>
+      <div class="col-md-6 "><div>
+          <label  class="form-label">Estimated Process Time</label>
       </div>
         {{fields.estProcessTime}}
       </div>
     </div>
     <div class="row form-label">
-      <div class="col-md-6 form-label">
+      <div class="col-md-6 ">
         <div>
-            <label>Field Title</label></div>
+            <label  class="form-label">Field Title</label></div>
         {{fields.files}}
       </div>
-      <div class="col-md-6 form-label">
+      <div class="col-md-6 ">
           <div>
-              <label>Field Title</label></div>
+              <label  class="form-label">Field Title</label></div>
         {{fields.iP}}
   </div>
 </div>

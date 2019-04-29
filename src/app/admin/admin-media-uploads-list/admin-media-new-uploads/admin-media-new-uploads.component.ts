@@ -36,7 +36,7 @@ export class AdminMediaNewUploadsComponent extends ListComponent implements OnIn
   }
 
   ngOnInit() {
-    // this.store.dispatch(new GetNewUploads());
+    this.store.dispatch(new GetNewUploads());
     this.newUploads$.subscribe(newUploads => {
       this.newUploads = newUploads;
       console.log('ngOnInit newUploads ', this.newUploads);

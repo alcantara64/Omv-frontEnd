@@ -23,7 +23,7 @@ export class AdminMediaUploadDetailsComponent extends BaseComponent implements O
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
   fields: UploadRequest;
 
-  @Select(AdminMediaState.getCurrentUploadRequestFields) currentUploadRequestFields$: Observable<UploadRequest>;
+  @Select(AdminMediaState.getCurrentUploadRequestFields) currentUploadRequestFields$: Observable<any>;
   id: number;
 
   constructor(protected store: Store, private activatedRoute: ActivatedRoute) {
@@ -39,7 +39,9 @@ export class AdminMediaUploadDetailsComponent extends BaseComponent implements O
         // .pipe(takeUntil(this.unsubscribe))
         .subscribe(fields => {
           console.log(this.fields);
-          this.fields = fields;
+          if(fields){
+            this.fields = fields;
+          }
         }
         );
     });
