@@ -22,7 +22,7 @@ export class AdminMediaNewUploadsComponent extends ListComponent implements OnIn
 
   columns: GridColumn[] = [
     { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
-    { headerText: 'Name', field: 'documentName' },
+    { headerText: 'Upload #', field: 'uploadRequestId' },
     { headerText: 'Destination', field: 'destination' },
     { headerText: 'Date', field: 'modifiedOnString' },
     { headerText: 'Size (KB)', field: 'size' }

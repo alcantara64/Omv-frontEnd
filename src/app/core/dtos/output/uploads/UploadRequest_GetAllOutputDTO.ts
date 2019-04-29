@@ -1,20 +1,20 @@
 import { BaseDTO } from '../../BaseDTO';
 
-export class UploadRequest_GetAllOutputDTO extends BaseDTO{
+export class UploadRequest_GetAllOutputDTO extends BaseDTO
+{
     UploadRequestId: number;
     UploadRequestType: number;
     Requester: number;
-    DirectoryId: number;
-    RequesterName: string;
+    Source: string;
+    Destination: string;
+    RuleId: number;
+    RuleName: string;
+    IsOCRAllowed: boolean;
+    IsSRAllowed: boolean;
     Size: number;
-    ContainerId: string;
-    ContentType: string;
-    DocumentName: string;
-    DocumentTypeCode: string;
-    DocumentUrl: string;
-    Metadata: string;
+    Files: string;
+    IP: string;
+    RequesterName: string;
     Status: number;
-    StatusName: string;
-    Files: number;
+    StatusName: string; 
 }
-
