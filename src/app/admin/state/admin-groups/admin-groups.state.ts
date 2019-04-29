@@ -168,7 +168,7 @@ export class AdminGroupState {
   }
 
   @Action(UpdateGroup)
-  updateGroup(ctx: StateContext<AdminGroupStateModel>, { payload, id }: UpdateGroup) {    
+  updateGroup(ctx: StateContext<AdminGroupStateModel>, { payload, id }: UpdateGroup) {
     return this.adminGroupService.updateGroup(id, payload).pipe(
       tap(group => {
         ctx.dispatch(new DisplayToastMessage('Group updated successfully.'));
@@ -192,7 +192,17 @@ export class AdminGroupState {
       })
     );
   }
-
+  @Action(AssignToPermission)
+  assignToPermission(ctx: StateContext<AdminGroupStateModel>, { groupid, payload }: AssignToPermission) {
+    return this.adminGroupService.updatePermissions(groupid, payload).pipe(
+      tap(group => {
+        ctx.dispatch(new DisplayToastMessage('Group permission updated successfully.'));
+        ctx.dispatch(new GetGroups());
+      }, (err) => {
+        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
+      })
+    );
+  }
   @Action(EnableGroup)
   enableGroup(ctx: StateContext<AdminGroupStateModel>, { id, payload, refreshList }: EnableGroup) {
     payload.status = 1;
@@ -263,6 +273,7 @@ export class AdminGroupState {
     return this.adminGroupService.updateGroupPermissions(groupId, payload).pipe(tap(() => {
       ctx.dispatch(new GetGroupPermissions(groupId));
       ctx.dispatch(new DisplayToastMessage('Group permissions updated.'));
+      console.log(payload,'this is the selected item')
     }, (err) => {
       ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
     }));

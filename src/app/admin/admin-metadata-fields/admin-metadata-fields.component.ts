@@ -66,9 +66,9 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   ngOnInit() {
     this.metadataFieldForm = this.formBuilder.group({
       metadataFieldId: [null],
-      fieldName: ['', [Validators.required]],
-      fieldTypeId: [null, [Validators.required]],
-      metadataListId: [null, [Validators.required]],
+      fieldName: ['', [Validators.required, Validators.minLength(3)]],
+      fieldTypeId: ['', [Validators.required]],
+      metadataListId: [''],
 
     });
     this.store.dispatch(new GetMetaDataFields());
@@ -83,6 +83,8 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     this.metadataLists$.subscribe(list =>{
       this.allMetadataList = list;
     });
+  
+    console.log(this.metadataFieldForm,'this is the metalist form')
   }
   ngOnDestroy() {
     this.componentActive = false;
