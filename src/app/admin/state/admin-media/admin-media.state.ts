@@ -16,6 +16,7 @@ import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item'
 import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
+import { UploadRequest } from 'src/app/core/models/entity/upload-request';
 
 
 
@@ -162,17 +163,16 @@ export class AdminMediaState {
       ));
   }
   @Action(GetUploadRequest)
-  async getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
-    return this.adminMediaUploadsDetailsService.getUploadRequestFields(id)
-      .then(fields => {
+  getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
+    return this.adminMediaService.getUploadRequestById(id).pipe(map((fields => {
         console.log('AdminMediaState - getUploadRequest - fields: ', fields);
         const state = getState();
         setState({
           ...state,
           currentUploadRequestFields: fields
         });
-      }
-      );
+     
+    })));
   }
 
   @Action(RemoveMetaDataFields)

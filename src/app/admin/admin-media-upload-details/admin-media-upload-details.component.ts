@@ -8,6 +8,8 @@ import { AdminUserState } from '../state/admin-users/admin-users.state';
 import { GetUploadRequest } from '../state/admin-media/admin-media.action';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { UploadRequest } from 'src/app/core/models/entity/upload-request';
 
 @Component({
   selector: 'app-admin-media-upload-details',
@@ -19,23 +21,29 @@ export class AdminMediaUploadDetailsComponent extends BaseComponent implements O
   private unsubscribe: Subject<void> = new Subject();
 
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
-  fields: FieldConfiguration[] = [];
+  fields: UploadRequest;
 
-  @Select(AdminMediaState.getCurrentUploadRequestFields) currentUploadRequestFields$: Observable<FieldConfiguration[]>;
+  @Select(AdminMediaState.getCurrentUploadRequestFields) currentUploadRequestFields$: Observable<UploadRequest>;
+  id: number;
 
-  constructor(protected store: Store) {
+  constructor(protected store: Store, private activatedRoute: ActivatedRoute) {
     super(store);
+    this.ShowLefNav(false);
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetUploadRequest(1));
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.id = Number(params.get('id'));
+      this.store.dispatch(new GetUploadRequest(this.id));
+      this.currentUploadRequestFields$
+        // .pipe(takeUntil(this.unsubscribe))
+        .subscribe(fields => {
+          console.log(this.fields);
+          this.fields = fields;
+        }
+        );
+    });
 
-    this.currentUploadRequestFields$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(fields => {
-        this.fields = fields;
-      }
-    );
   }
 
   ngOnDestroy() {

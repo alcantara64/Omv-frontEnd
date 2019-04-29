@@ -65,8 +65,8 @@ export class AdminMediaService {
   getNewUploads(): Observable<UploadHistory[]>{
     return this.AdminMediaDataService.getNewUploads();
   }
-  getUploadRequest(id: number): Observable<any> {
-    return this.AdminMediaDataService.getUploadRequest(id);
+  getUploadRequestById(id: number): Observable<any> {
+    return this.AdminMediaDataService.getUploadRequestById(id);
   }
   rejectUploads(id: number){
     return this.AdminMediaDataService.rejectUploads(id);

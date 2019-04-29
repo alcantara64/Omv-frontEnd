@@ -25,7 +25,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     { headerText: 'List', width: '150', field: 'metadataListName' }];
 
   public listFields: Object = { text: 'itemDescription', value: 'itemValue' };
-  public createListFields: Object = { text: 'fieldName', value: 'id' };
+  public createListFields: Object = { text: 'metadataListName', value: 'id' };
 
   public fieldTypeData: MetadataFieldType[];
   public typeListFields: Object = { text: 'type', value: 'fieldTypeId' };
@@ -80,7 +80,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
       this.fieldTypeData = fieldTypes;
     });
     this.store.dispatch(new GetMetaDataLists())
-    this.metadataLists$.subscribe(list =>{
+    this.metadataLists$.subscribe(list => {
       this.allMetadataList = list;
     });
   
@@ -130,33 +130,33 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     // this.ShowSpinner(true);
     console.log('saveDlgBtnClick', this.metadataFieldForm.controls, this.fieldType);
 
-    //  if (this.metadataFieldForm.valid && this.metadataFieldForm.controls['fieldType'].valid) {
+    if (this.metadataFieldForm.valid || this.metadataFieldForm.controls['fieldType'].dirty) {
 
-    const metadataField: MetadataFields = { ...this.metadataField, ...this.metadataFieldForm.value };
+      const metadataField: MetadataFields = { ...this.metadataField, ...this.metadataFieldForm.value };
 
-    if (!this.isEdit) {
-      console.log('testing create user - ', metadataField);
-      this.metadataFieldForm.setValue({
-        metadataFieldId: metadataField.metadataFieldId ? metadataField.metadataFieldId  : null,
-        fieldName: metadataField.fieldName ? metadataField.fieldName : '',
-        fieldTypeId: metadataField.fieldTypeId ? metadataField.fieldTypeId : null,
-        metadataListId: metadataField.metadataListId ? metadataField.metadataListId : null,
+      if (!this.isEdit) {
+        console.log('testing create user - ', metadataField);
+        this.metadataFieldForm.setValue({
+          metadataFieldId: metadataField.metadataFieldId ? metadataField.metadataFieldId : null,
+          fieldName: metadataField.fieldName ? metadataField.fieldName : '',
+          fieldTypeId: metadataField.fieldTypeId ? metadataField.fieldTypeId : null,
+          metadataListId: metadataField.metadataListId ? metadataField.metadataListId : null,
 
-      });
-      this.store.dispatch(new CreateMetaDataField(metadataField));
+        });
+        this.store.dispatch(new CreateMetaDataField(metadataField));
+      }
+      if (this.isEdit) {
+        console.log('AdminMetadataFieldsComponent - edit', metadataField);
+        this.metadataFieldForm.patchValue({
+          metadataFieldId: metadataField.metadataFieldId,
+          fieldName: metadataField.fieldName,
+          fieldTypeId: metadataField.fieldTypeId,
+          metadataListId: metadataField.metadataListId,
+        });
+        this.store.dispatch(new UpdateMetaDataField(metadataField.metadataFieldId, metadataField));
+      }
+      this.fieldDialogList.hide();
     }
-    if (this.isEdit) {
-      console.log('AdminMetadataFieldsComponent - edit', metadataField);
-      this.metadataFieldForm.patchValue({
-        metadataFieldId: metadataField.metadataFieldId,
-        fieldName: metadataField.fieldName,
-        fieldTypeId: metadataField.fieldTypeId,
-        metadataListId: metadataField.metadataListId,
-      });
-      this.store.dispatch(new UpdateMetaDataField(metadataField.metadataFieldId, metadataField));
-    }
-    this.fieldDialogList.hide();
-    //}
 
   }
 

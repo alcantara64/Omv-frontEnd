@@ -6,6 +6,7 @@ import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
 import { MetadataDetail } from 'src/app/core/models/entity/metadata-detail';
 import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
+import { UploadRequest } from 'src/app/core/models/entity/upload-request';
 
 @Injectable({
     providedIn: 'root'
@@ -29,11 +30,13 @@ export abstract class AdminMediaDataService {
     abstract getMetaDataListById(id: number): Observable<MetadataList>;
     abstract getMetaDataListsDetail(id: number): Observable<MetadataDetail>
     abstract getNewUploads(): Observable<UploadHistory[]>;
-    abstract getUploadRequest(id: number): Observable<any>;
+    abstract getUploadRequestById(id: number): Observable<UploadRequest>;
     abstract approveUploads(id:number);
     abstract rejectUploads(id:number);
+
     abstract updateMetaDataField(id:number, payload: MetadataFields);
     abstract getMetadataListById(id:number):Observable< MetadataList[]>;
     abstract getMetadataFieldTypes():Observable<MetadataFieldType[]>
     abstract getMetaDataLists(): Observable<MetadataList[]>;
+
 }
