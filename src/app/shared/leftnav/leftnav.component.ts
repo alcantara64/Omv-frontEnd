@@ -23,7 +23,7 @@ export class LeftNavComponent implements OnInit {
   isMediaMetadataFieldsActive: boolean;
   isMediaMetaDataListActive: boolean;
   mediaMetadataFieldsLink = '/admin/media/metadata/fields';
-  mediaMetadataLink = '/admin/media/metadata';
+  mediaMetadataLink = '/admin/media/metadata/active';
   mediaUploadsLink = '/admin/media/uploads';
   newMediaUploadsLink = '/admin/media/uploads/new';
   inProgressMediaUploadsLink = '/admin/media/uploads/in-progress';
