@@ -14,12 +14,10 @@ export class CustomersWebDataService implements CustomersDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getSetting(id: number, setting: string): Observable<any> {
-    var requestUri = environment.api.baseUrl + `/v1/customers/${id}/setting`;
+  getSetting(setting: string): Observable<any> {
+    var requestUri = environment.api.baseUrl + `/v1/customers/setting`;
 
-    const options = {
-      params: new HttpParams()
-    };
+    const options = { params: new HttpParams() };
     options.params = options.params.set('settingkey', setting);
     
     return this.httpClient.get<any>(requestUri, options);
@@ -28,9 +26,7 @@ export class CustomersWebDataService implements CustomersDataService {
   getByHostHeader(header: string): Observable<Customer> {
     var requestUri = environment.api.baseUrl + `/v1/customers`;
 
-    const options = {
-      params: new HttpParams()
-    };
+    const options = { params: new HttpParams() };
     options.params = options.params.set('header', header);
 
     return this.httpClient.get<CustomerHostHeaderDTO>(requestUri, options).pipe(

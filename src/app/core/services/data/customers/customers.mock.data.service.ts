@@ -7,7 +7,7 @@ export class CustomersMockDataService implements CustomersDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getSetting(id: number, setting: string): Observable<any> {
+  getSetting(setting: string): Observable<any> {
     throw new Error("Method not implemented.");
   }
   
