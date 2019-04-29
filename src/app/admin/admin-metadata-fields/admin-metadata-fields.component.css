@@ -1,3 +1,10 @@
 .remove-cls{
     text-decoration: underline !important;
 }
+.form-control-lg{
+    border: solid 1px #5b7f95;
+    margin-bottom: 8px;
+}
+#ddlelement{
+    padding-top: 9px;
+}

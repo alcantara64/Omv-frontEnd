@@ -138,7 +138,6 @@ show(data) {
     this.clearForm();
     this.fieldDialogList.show();
   }
-
   remove(data) {
     console.log(data);
     this.store.dispatch(new RemoveMetaDataFields(data.metadataFieldId));

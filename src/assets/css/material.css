@@ -15797,10 +15797,10 @@ body.e-colorpicker-overflow {
 }
 
 .e-ddl.e-input-group.e-control-wrapper .e-ddl-icon::before {
-  content: "";
-  font-size: 8px;
+  content: "";
   font-family: 'e-icons';
 }
+
 
 .e-bigger .e-input-group.e-ddl .e-input-filter, .e-bigger .e-input-group.e-ddl .e-input-filter:focus {
   margin-left: -20px;
