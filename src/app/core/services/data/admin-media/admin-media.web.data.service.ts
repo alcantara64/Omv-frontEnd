@@ -452,7 +452,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
     return null;
   }
   getMetaDataListItemById(id: number): Observable<MetadataListItem[]> {
-    const requestUri = environment.api.baseUrl + `/v1/metadatalistitem/${id}/listitems`;
+    const requestUri = environment.api.baseUrl + `/v1/metadatalists/${id}/listitems`;
 
     return this.httpClient.get<MetadataListItem_GetByIdOutputDTO[]>(requestUri).pipe(map(
       response => {
@@ -482,7 +482,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   }
 
   createMetadataListItem(id: number, payload: MetadataListItem): Observable<MetadataListItem> {
-    var requestUri = environment.api.baseUrl + `/v1/metadatalistitem/${id}/listitems`;
+    var requestUri = environment.api.baseUrl + `/v1/metadatalists/${id}/listitems`;
 
     automapper
       .createMap(payload, MetadataListItemInputDTO)
