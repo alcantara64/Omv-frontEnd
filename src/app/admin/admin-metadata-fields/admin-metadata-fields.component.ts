@@ -25,7 +25,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     { headerText: 'List', width: '150', field: 'metadataListName' }];
 
   public listFields: Object = { text: 'itemDescription', value: 'itemValue' };
-  public createListFields: Object = { text: 'fieldName', value: 'id' };
+  public createListFields: Object = { text: 'metadataListName', value: 'id' };
 
   public fieldTypeData: MetadataFieldType[];
   public typeListFields: Object = { text: 'type', value: 'fieldTypeId' };
