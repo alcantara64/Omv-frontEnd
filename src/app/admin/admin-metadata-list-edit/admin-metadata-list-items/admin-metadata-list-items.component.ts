@@ -27,15 +27,15 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
 
   metadataList = new MetadataListItem();
   columns: GridColumn[] = [
-    { type: "checkbox", headerText: "Select All", width: "100", field: "" },
-    { type: "", headerText: "Name", width: "", field: "itemDescription" },
+    { type: "checkbox", headerText: "Select All", width: "20", field: "" },
+    { type: "", headerText: "Name", width: "80", field: "itemDescription" },
     
   ];
   listItemId: number;
   componentActive = true;
   
   public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
-  public removeLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
+  public removeLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important; width:10px;'>Remove</a>";
   
   @Select(AdminMediaState.getCurrentMetadataListId) currentListid$: Observable<MetadataList[]>;
   @Select(AdminMediaState.getCurrentMetadataListItem) metadaListItem$: Observable<MetadataListItem[]>;
