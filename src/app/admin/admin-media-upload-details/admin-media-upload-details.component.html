@@ -15,7 +15,7 @@
         </div>
         <label class=" upload-details-label">
 
-          {{fields.destination}}
+          {{fields?.destination}}
         </label>
       </div>
       <div class="col-md-6 ">
@@ -25,7 +25,7 @@
 
         </div> <label class=" upload-details-label">
 
-          {{fields.createdOn}}
+          {{fields?.createdOn | date}}
         </label>
       </div>
     </div>
@@ -34,14 +34,14 @@
         <div>
           <label class="form-label">Size</label></div> <label class=" upload-details-label">
 
-          {{fields.size}}</label>
+          {{fields?.size | filesize}}</label>
       </div>
       <div class="col-md-6 ">
         <div>
           <label class="form-label"># Files</label>
         </div>
         <label class=" upload-details-label">
-          {{fields.files}}</label>
+          {{fields?.files}}</label>
       </div>
     </div>
     <div class="row form-label pb-3">
@@ -51,7 +51,7 @@
           <label class="form-label">OCR</label>
         </div>
         <label class=" upload-details-label">
-          {{fields.isOCRAllowed ? 'Yes': 'No'}} </label>
+          {{fields?.isOCRAllowed ? 'Yes': 'No'}} </label>
       </div>
       <div class="col-md-6 ">
         <div>
@@ -60,7 +60,7 @@
         </div>
         <label class=" upload-details-label">
 
-          {{fields.isSRAllowed  ? 'Yes': 'No'}}</label>
+          {{fields?.isSRAllowed  ? 'Yes': 'No'}}</label>
       </div>
     </div>
     <div class="row form-label pb-3">
@@ -69,28 +69,14 @@
           <label class="form-label">Uploaded By</label>
         </div> <label class=" upload-details-label">
 
-          {{fields.requesterName}}</label>
+          {{fields?.requesterName}}</label>
       </div>
       <div class="col-md-6 ">
         <div>
           <label class="form-label">Estimated Process Time</label>
         </div>
         <label class=" upload-details-label">
-            {{fields.estProcessTime}}</label>
-      </div>
-    </div>
-    <div class="row form-label pb-3">
-      <div class="col-md-6 ">
-        <div>
-          <label class="form-label">Field Title</label></div>
-          <label class=" upload-details-label">
-              {{fields.files}}</label>
-      </div>
-      <div class="col-md-6 ">
-        <div>
-          <label class="form-label">Field Title</label></div>
-          <label class=" upload-details-label">
-              {{fields.iP}}</label>
+          {{fields?.estProcessTime}}</label>
       </div>
     </div>
   </div>

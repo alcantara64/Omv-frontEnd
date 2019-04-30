@@ -24,11 +24,11 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit,
   columns: GridColumn[] = [
 
     { headerText: ' ', type: 'checkbox', width: '50', field: '' },
-    { headerText: 'Name', field: 'metadataListName', width: '70' },
-    { headerText: 'Status', width: '150', field: 'statusName' },];
+    { headerText: 'Name', field: 'metadataListName', width: '' },
+    { headerText: 'Status', width: '', field: 'statusName' },];
 
   public editIcon = "<span class='e-icons e-pencil' style='color: #0097A9 !important'></span>";
-  removeLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
+  //removeLink = "<a class='remove-cls ' style='color: #0097A9 !important; text-decoration: underline !important;'>Remove</a>";
 
 
   fieldName: string = '';

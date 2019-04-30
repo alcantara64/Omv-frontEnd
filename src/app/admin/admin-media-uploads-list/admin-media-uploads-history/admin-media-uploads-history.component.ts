@@ -21,7 +21,7 @@ export class AdminMediaUploadsHistoryComponent implements OnInit {
     { headerText: 'Source', field: 'source' },
     { headerText: 'Destination', field: 'destination' },
     { headerText: 'Date', field: 'modifiedOnString' },
-    { headerText: 'Size (KB)', field: 'size' },
+    { headerText: 'Size', field: 'sizeDisplay' },
     { headerText: '#Files', field: 'files' },
   ];
   historyMedia: UploadHistory[];

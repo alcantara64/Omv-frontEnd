@@ -28,7 +28,7 @@ export class AdminMediaNewUploadsComponent extends ListComponent implements OnIn
     { headerText: 'Source', field: 'source' },
     { headerText: 'Destination', field: 'destination' },
     { headerText: 'Date', field: 'modifiedOnString' },
-    { headerText: 'Size (KB)', field: 'size' }
+    { headerText: 'Size', field: 'sizeDisplay' }
   ];
 
   constructor(protected store: Store, private router: Router) {
