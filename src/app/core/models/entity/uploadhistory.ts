@@ -11,6 +11,7 @@ export class UploadHistory {
   isOCRAllowed: boolean;
   isSRAllowed: boolean;
   size: number;
+  sizeDisplay?: string;
   files: string;
   iP: string;
   requesterName: string;

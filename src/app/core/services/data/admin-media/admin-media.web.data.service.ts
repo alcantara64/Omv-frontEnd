@@ -31,6 +31,7 @@ import { MetadataList_GetAllOutputDTO } from '../../../dtos/output/metadata/Meta
 import { MetadataField_UpdateInputDTO } from 'src/app/core/dtos/input/metadata/MetadataField_UpdateInputDTO';
 import { UploadRequest_GetByIdOutputDTO } from 'src/app/core/dtos/output/uploads/UploadRequest_GetByIdOutputDTO';
 import { UploadRequest } from 'src/app/core/models/entity/upload-request';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -95,16 +96,32 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
           .forMember('status', function (opts) { opts.mapFrom('status'); })
           .forMember('statusName', function (opts) { opts.mapFrom('statusName'); });
 
-        let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
-        console.log('AdminMediaWebDataService - getUploadHistory: ', _response);
-  
-        return _response;
+        let histories: UploadHistory[] = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
+        console.log('AdminMediaWebDataService - getUploadHistory: ', histories);
+
+        histories.forEach(history => {
+          if (!history.size) history.size = 0;
+          history.sizeDisplay = this.convertSize(history.size);
+        });  
+        return histories;
       }),
       catchError(e => {
         console.log("AdminMediaWebDataService - getUploadHistory error: ", e);
         return of(null);
       })
     );
+  }
+
+  private convertSize(size: number, decimals: number = 2): any {
+    if (!size) return '0 KB';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(size) / Math.log(k));
+
+    return parseFloat((size / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
   getMetaDataFields(): Observable<MetadataFields[]> {
@@ -172,8 +189,10 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
       })
     );
   }
+
+  // TODO: rename UploadHistory
   getNewUploads(): Observable<UploadHistory[]> {
-    var requestUri = environment.api.baseUrl + `/v1/uploadrequests?isDraft`;
+    var requestUri = environment.api.baseUrl + `/v1/uploadrequests?isDraft=true`;
 
     return this.httpClient.get<UploadRequest_GetAllOutputDTO[]>(requestUri).pipe(map(
       response => {
@@ -195,9 +214,14 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
           .forMember('status', function (opts) { opts.mapFrom('status'); })
           .forMember('statusName', function (opts) { opts.mapFrom('statusName'); });
 
-        let _response = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
-        console.log('AdminMediaWebDataService - getNewUploads: ', _response);
-        return _response;
+        let uploads = automapper.map(UploadRequest_GetAllOutputDTO, UploadHistory, response);
+        console.log('AdminMediaWebDataService - getNewUploads: ', uploads);
+        uploads.forEach(upload => {
+          if (!upload.size) upload.size = 0;
+          upload.sizeDisplay = this.convertSize(upload.size);
+        });  
+
+        return uploads;
       }),
       catchError(e => {
         console.log("AdminMediaWebDataService - getNewUploads error: ", e);
@@ -224,6 +248,7 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
           .forMember('files', function (opts) { opts.mapFrom('files'); })
           .forMember('ip', function (opts) { opts.mapFrom('ip'); })
           .forMember('statusName', function (opts) { opts.mapFrom('statusName'); })
+          .forMember('createdOn', function (opts) { opts.mapFrom('createdOn'); })
           .forMember('estProcessTime', function (opts) { opts.mapFrom('estProcessTime'); });
 
         let _response = automapper.map(UploadRequest_GetByIdOutputDTO, UploadRequest, response);
