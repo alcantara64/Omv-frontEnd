@@ -411,7 +411,7 @@ export class AdminMediaState {
 
         }
       }, (err) => {
-        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        ctx.dispatch(new DisplayToastMessage(err.err, ToastType.error));
       })
     );
   }

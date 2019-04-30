@@ -56,7 +56,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit,
   public saveDlgBtnClick: EmitType<object> = () => {
     this.ShowSpinner(true);
     console.log('saveDlgBtnClick', this.fieldName, this.fieldType);
- 
+
     if (this.metadataListForm.valid) {
       if (this.metadataListForm.dirty) {
         const metadataList: MetadataList = { ...this.metadataList, ...this.metadataListForm.value };
@@ -88,20 +88,20 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit,
     this.metadataListForm = this.formBuilder.group({
       id: [],
       fieldName: ['', [Validators.required]],
-      status :[]
+      status: []
     });
     this.activatedRoute.params
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
-      this.store.dispatch(new GetMetaDataLists());
-      this.displayList(params.type);
-    });
+        this.store.dispatch(new GetMetaDataLists());
+        this.displayList(params.type);
+      });
     // this.metadataLists$.subscribe(lists => {
     //   console.log('AdminMetadataLIstComponent ngOninit lists: ', lists);
     //   this.metadataLists = lists;
     // });
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
@@ -117,8 +117,8 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit,
         this.statusChange = this.ENABLE;
         break;
       default:
-      this.activeMetadataList$.subscribe(activeMetadataList => (this.metadataLists = activeMetadataList));
-      this.statusChange = this.DISABLE;
+        this.activeMetadataList$.subscribe(activeMetadataList => (this.metadataLists = activeMetadataList));
+        this.statusChange = this.DISABLE;
         break;
     }
   }
@@ -168,16 +168,22 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit,
   }
   public RemoveDlgBtnClick: EmitType<object> = () => {
     this.store.dispatch(new RemoveMetaDataList(this.selectedListId));
-    this.metadataLists$.subscribe(lists => {
-      this.metadataLists = lists;
-    });
+    if (this.urlparam  === AdminMetadaListType.Active) {
+      this.activeMetadataList$.subscribe(lists => {
+        this.metadataLists = lists;
+      });
+    } else {
+      this.disableMetadataList$.subscribe(lists => {
+        this.metadataLists = lists;
+      });
+    }
     this.confirmDialog.hide();
   }
   public closeBtnDlgClick: EmitType<object> = () => {
     this.confirmDialog.hide();
-}
-confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this),  buttonModel: { content: 'Yes', isPrimary: true } }, 
-{ click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
+  }
+  confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this), buttonModel: { content: 'Yes', isPrimary: true } },
+  { click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
 
 
 
