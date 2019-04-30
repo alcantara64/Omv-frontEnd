@@ -49,16 +49,17 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   @Select(AdminMediaState.getMetaDataFields) metadataFields$: Observable<MetadataFields[]>;
   @Select(AdminMediaState.getMetadataListById) metadataList$: Observable<MetadataList[]>;
   @Select(AdminMediaState.getMetadataFieldTypes) fieldTypeList$: Observable<MetadataFieldType[]>;
-  @Select(AdminMediaState.getMetaDataLists) metadataLists$: Observable<MetadataList[]>;
+  @Select(AdminMediaState.getActiveMetadataList) metadataLists$: Observable<MetadataList[]>;
   metadataFields: MetadataFields[];
   data: MetadataList[];
   isEdit: boolean;
   showListDropdown: boolean = false;
   showAllListDropdown: boolean;
-  allMetadataList: MetadataList[];  
+  allMetadataList: MetadataList[];
   @ViewChild('confirmDialog')
   public confirmDialog: DialogComponent;
   selectedMetadataFieldId: any;
+  hideListName: boolean;
 
   constructor(protected store: Store,
     private formBuilder: FormBuilder, ) {
@@ -86,20 +87,20 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     this.metadataLists$.subscribe(list => {
       this.allMetadataList = list;
     });
-  
-    console.log(this.metadataFieldForm,'this is the metalist form')
+
+    console.log(this.metadataFieldForm, 'this is the metalist form')
   }
   ngOnDestroy() {
     this.componentActive = false;
   }
   public closeBtnDlgClick: EmitType<object> = () => {
     this.confirmDialog.hide();
-}
-show(data) {
-  console.log('event', data);
-  this.selectedMetadataFieldId = data.metadataFieldId;
-  this.confirmDialog.show();
-}
+  }
+  show(data) {
+    console.log('event', data);
+    this.selectedMetadataFieldId = data.metadataFieldId;
+    this.confirmDialog.show();
+  }
   public RemoveDlgBtnClick: EmitType<object> = () => {
     this.store.dispatch(new RemoveMetaDataFields(this.selectedMetadataFieldId));
     this.metadataFields$.subscribe(fields => {
@@ -107,7 +108,7 @@ show(data) {
     });
     this.confirmDialog.hide();
   }
-  confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this),  buttonModel: { content: 'Yes', isPrimary: true } }, 
+  confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this), buttonModel: { content: 'Yes', isPrimary: true } },
   { click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
 
   cancelRemove() {
@@ -165,6 +166,12 @@ show(data) {
           fieldTypeId: metadataField.fieldTypeId,
           metadataListId: metadataField.metadataListId,
         });
+        if(metadataField.fieldTypeId !== 4){
+       this.hideListName = true;
+      }
+      else{
+        this.hideListName = false;
+      }
         this.store.dispatch(new UpdateMetaDataField(metadataField.metadataFieldId, metadataField));
       }
       this.fieldDialogList.hide();
@@ -200,7 +207,10 @@ show(data) {
       if (newForm.fieldTypeId === 4) {
         this.showListDropdown = true;
       } else {
+        newForm.metadataListId = null;
+        newForm.metadataListName = null;
         this.showListDropdown = false;
+     
       }
       console.log('checkfieldType', this.allMetadataList);
     });

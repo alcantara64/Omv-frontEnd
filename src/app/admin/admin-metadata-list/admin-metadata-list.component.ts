@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ListComponent } from 'src/app/shared/list/list.component';
 import { Store, Select } from '@ngxs/store';
 import { GridColumn } from 'src/app/core/models/grid.column';
@@ -6,18 +6,21 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { EmitType } from '@syncfusion/ej2-base';
 import { CreateMetaDataList, GetMetaDataLists, RemoveMetaDataList, DisableMetadataList, EnableMetadataList } from '../state/admin-media/admin-media.action';
 import { AdminMetadaListType } from 'src/app/core/enum/admin-user-type';
 import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-metadata-list',
   templateUrl: './admin-metadata-list.component.html',
   styleUrls: ['./admin-metadata-list.component.css']
 })
-export class AdminMetadataListComponent extends ListComponent implements OnInit {
+export class AdminMetadataListComponent extends ListComponent implements OnInit, OnDestroy {
+  private unsubscribe: Subject<void> = new Subject();
+
   columns: GridColumn[] = [
 
     { headerText: ' ', type: 'checkbox', width: '50', field: '' },
@@ -53,7 +56,7 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   public saveDlgBtnClick: EmitType<object> = () => {
     this.ShowSpinner(true);
     console.log('saveDlgBtnClick', this.fieldName, this.fieldType);
- 
+
     if (this.metadataListForm.valid) {
       if (this.metadataListForm.dirty) {
         const metadataList: MetadataList = { ...this.metadataList, ...this.metadataListForm.value };
@@ -85,16 +88,22 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
     this.metadataListForm = this.formBuilder.group({
       id: [],
       fieldName: ['', [Validators.required]],
-      status :[]
+      status: []
     });
-    this.activatedRoute.params.subscribe(params => {
-      this.store.dispatch(new GetMetaDataLists());
-      this.displayList(params.type);
-    });
+    this.activatedRoute.params
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(params => {
+        this.store.dispatch(new GetMetaDataLists());
+        this.displayList(params.type);
+      });
     // this.metadataLists$.subscribe(lists => {
     //   console.log('AdminMetadataLIstComponent ngOninit lists: ', lists);
     //   this.metadataLists = lists;
     // });
+  }
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
   displayList(param: string) {
     this.urlparam = param;
@@ -108,8 +117,8 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
         this.statusChange = this.ENABLE;
         break;
       default:
-      this.activeMetadataList$.subscribe(activeMetadataList => (this.metadataLists = activeMetadataList));
-      this.statusChange = this.DISABLE;
+        this.activeMetadataList$.subscribe(activeMetadataList => (this.metadataLists = activeMetadataList));
+        this.statusChange = this.DISABLE;
         break;
     }
   }
@@ -159,16 +168,22 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit 
   }
   public RemoveDlgBtnClick: EmitType<object> = () => {
     this.store.dispatch(new RemoveMetaDataList(this.selectedListId));
-    this.metadataLists$.subscribe(lists => {
-      this.metadataLists = lists;
-    });
+    if (this.urlparam  === AdminMetadaListType.Active) {
+      this.activeMetadataList$.subscribe(lists => {
+        this.metadataLists = lists;
+      });
+    } else {
+      this.disableMetadataList$.subscribe(lists => {
+        this.metadataLists = lists;
+      });
+    }
     this.confirmDialog.hide();
   }
   public closeBtnDlgClick: EmitType<object> = () => {
     this.confirmDialog.hide();
-}
-confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this),  buttonModel: { content: 'Yes', isPrimary: true } }, 
-{ click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
+  }
+  confirmDlgButtons = [{ click: this.RemoveDlgBtnClick.bind(this), buttonModel: { content: 'Yes', isPrimary: true } },
+  { click: this.closeBtnDlgClick.bind(this), buttonModel: { content: 'No' } }];
 
 
 

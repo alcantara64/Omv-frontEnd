@@ -72,7 +72,7 @@ export class MediaComponent extends BaseComponent implements OnInit {
   downloadAll() {
     this.ShowSpinner(true);
     var FileSaver = require('file-saver');
-    this.selectedItems .forEach((x) => {
+    this.selectedItems.forEach((x) => {
         FileSaver.saveAs(x.url, x.name);
         this.ShowSpinner(false);
       });

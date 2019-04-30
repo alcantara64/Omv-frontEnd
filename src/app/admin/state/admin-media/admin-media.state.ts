@@ -275,7 +275,7 @@ export class AdminMediaState {
   }
 
   @Action(UpdateMetaDataField)
-  updateMetaDataField(ctx: StateContext<AdminMediaStateModel>, { id, payload }: UpdateMetaDataField) {
+  updateMetaDataField(ctx: StateContext<AdminMediaStateModel>, { id, payload, hideMetadalistName }: UpdateMetaDataField) {
     return this.adminMediaService.updateMetaDataField(id, payload).pipe(
       tap(field => {
         ctx.dispatch(new DisplayToastMessage("Field updated successfully"));
@@ -412,7 +412,7 @@ export class AdminMediaState {
 
         }
       }, (err) => {
-        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        ctx.dispatch(new DisplayToastMessage(err.err, ToastType.error));
       })
     );
   }

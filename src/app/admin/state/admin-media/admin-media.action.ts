@@ -113,7 +113,7 @@ export class RejectUploads {
 
 export class UpdateMetaDataField {
   static readonly type = '[Admin media] UpdateMetaDataField';
-  constructor(public id: number, public payload: MetadataFields) { }
+  constructor(public id: number, public payload: MetadataFields, public hideMetadalistName? : boolean) { }
 }
 
 export class GetMetadataListById{
