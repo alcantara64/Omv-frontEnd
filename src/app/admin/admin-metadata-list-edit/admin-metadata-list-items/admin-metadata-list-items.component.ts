@@ -28,7 +28,6 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
 
   metadataList = new MetadataListItem();
   columns: GridColumn[] = [
-    { type: "checkbox", headerText: "Select All", width: "20", field: "" },
     { type: "", headerText: "Name", width: "80", field: "itemDescription" },
 
   ];

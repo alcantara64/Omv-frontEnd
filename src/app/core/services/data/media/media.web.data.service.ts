@@ -88,12 +88,14 @@ export class MediaWebDataService implements MediaDataService {
         
         mediaItems.forEach(resp => {
           if (!resp.thumbnail) {
-            switch (resp.documentTypeCode) {
+            switch (resp.documentTypeCode.toUpperCase()) {
               case 'PDF':
                 resp.thumbnail = 'https://haywardgordon.com/wp-content/themes/HaywardGordon/assets/pdf-icon.jpg';
                 break;
               case 'DOCX':
               case 'DOC':
+              case 'XLS':
+              case 'XLSX':
                 resp.thumbnail = 'https://vacanegra.com/wp-content/plugins/widgetkit/assets/images/file.svg';
                 break;
               case 'JPG':
@@ -101,6 +103,18 @@ export class MediaWebDataService implements MediaDataService {
               case 'JPEG':
               case 'GIF':
                 resp.thumbnail = 'https://i1.wp.com/thefrontline.org.uk/wp-content/uploads/2018/10/placeholder.jpg?ssl=1';
+                break;
+            }
+          } else {
+            switch (resp.documentTypeCode.toUpperCase()) {
+              case 'PDF':
+                resp.thumbnail = 'https://haywardgordon.com/wp-content/themes/HaywardGordon/assets/pdf-icon.jpg';
+                break;
+              case 'DOCX':
+              case 'DOC':
+              case 'XLS':
+              case 'XLSX':
+                resp.thumbnail = 'https://vacanegra.com/wp-content/plugins/widgetkit/assets/images/file.svg';
                 break;
             }
           }
@@ -157,6 +171,8 @@ export class MediaWebDataService implements MediaDataService {
                 break;
               case 'DOCX':
               case 'DOC':
+              case 'XLS':
+              case 'XLSX':
                 _response.thumbnail = 'https://vacanegra.com/wp-content/plugins/widgetkit/assets/images/file.svg';
                 break;
               case 'JPG':
@@ -164,6 +180,18 @@ export class MediaWebDataService implements MediaDataService {
               case 'JPEG':
               case 'GIF':
                 _response.thumbnail = 'https://i1.wp.com/thefrontline.org.uk/wp-content/uploads/2018/10/placeholder.jpg?ssl=1';
+                break;
+            }
+          } else {
+            switch (_response.documentTypeCode.toUpperCase()) {
+              case 'PDF':
+              _response.thumbnail = 'https://haywardgordon.com/wp-content/themes/HaywardGordon/assets/pdf-icon.jpg';
+                break;
+              case 'DOCX':
+              case 'DOC':
+              case 'XLS':
+              case 'XLSX':
+              _response.thumbnail = 'https://vacanegra.com/wp-content/plugins/widgetkit/assets/images/file.svg';
                 break;
             }
           }
