@@ -204,19 +204,20 @@ export class AdminMediaState {
   }
 
   @Action(GetNewUploads)
-  getNewUploads({ getState, setState }: StateContext<AdminMediaStateModel>) {
+  getNewUploads(ctx: StateContext<AdminMediaStateModel>) {
     return this.adminMediaService.getNewUploads().pipe(
       tap(newUploads => {
         newUploads.map(item => {
           item.modifiedOnString = this.dateService.formatToString(item.modifiedOn, 'MMM DD, YYYY');
         });
-        const state = getState();
-
+        const state = ctx.getState();
         console.log('AdminMediaState - getNewUploads - history: ', newUploads);
-        setState({
+        ctx.setState({
           ...state,
           newUploads: newUploads
         });
+      }, err => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
       })
     );
   }
