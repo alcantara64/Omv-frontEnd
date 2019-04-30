@@ -12,6 +12,7 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { takeWhile } from 'rxjs/operators';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { MetadataFieldType } from 'src/app/core/models/entity/metadata-fieldtype';
+import { ShowSpinner } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-admin-metadata-fields',
@@ -87,8 +88,6 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     this.metadataLists$.subscribe(list => {
       this.allMetadataList = list;
     });
-
-    console.log(this.metadataFieldForm, 'this is the metalist form')
   }
   ngOnDestroy() {
     this.componentActive = false;
@@ -115,14 +114,12 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     this.confirmDialog.hide();
   }
   addList(action) {
-    console.log('action', action.itemData);
     if (action.itemData === 'Dropdown') {
       this.isFieldTypeList = true;
     }
   }
 
   navigate(action) {
-    console.log('action', action);
   }
   clearForm() {
     this.metadataFieldForm.reset({
@@ -141,6 +138,7 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   }
   remove(data) {
     console.log(data);
+    this.store.dispatch(new ShowSpinner());
     this.store.dispatch(new RemoveMetaDataFields(data.metadataFieldId));
     this.metadataFields$.subscribe(fields => {
       this.metadataFields = fields;
@@ -185,7 +183,6 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
   edit(action: MetadataFields) {
     this.isEdit = true;
     this.showAllListDropdown = false;
-    console.log(action);
     this.metadataFieldForm.setValue({
       metadataFieldId: action.metadataFieldId,
       fieldName: action.fieldName,
@@ -196,10 +193,8 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
     this.store.dispatch(new GetMetadataListById(action.metadataListId));
     this.metadataList$.subscribe(list => {
       this.data = list;
-      console.log('AdminMetadataFieldsComponent - edit', this.data);
       this.fieldDialogList.show();
     });
-    console.log('AdminMetadataFieldsComponent - edit', this.metadataFieldForm);
   }
 
   checkFieldType() {
@@ -212,7 +207,6 @@ export class AdminMetadataFieldsComponent extends ListComponent implements OnIni
         this.showListDropdown = false;
      
       }
-      console.log('checkfieldType', this.allMetadataList);
     });
   }
 }

@@ -91,14 +91,12 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     this.currentGroup$.subscribe(group => {
       if (group) { // Existing Group
         this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
-        console.log('AdminGroupEditComponent - ngOnInit: groupDetails ', group);
         this.groupForm.patchValue({
           id: group.id,
           name: group.name,
           description: group.description
         });
         this.group = group;
-        console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);
       } else {
       }
     }),

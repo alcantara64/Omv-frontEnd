@@ -607,7 +607,7 @@ updateMetadataListItem(id: number, payload: MetadataDetail) {
   );
   }
   getMetaDataListById(id: number): Observable < MetadataList > {
-    throw new Error("Method not implemented.");
+    return null;
   }
 
 }

@@ -79,7 +79,7 @@ export class AuthService {
 
     await this._auth.token.parseFromUrl().then(tokens => {
       tokens.forEach(token => {
-        console.log('AuthService - handleAuthentication', token);
+        // console.log('AuthService - handleAuthentication', token);
         if (token.idToken) {
           localStorage.setItem('id_Token', token.idToken);
           this._auth.tokenManager.add('idToken', token);
@@ -88,7 +88,7 @@ export class AuthService {
           this._auth.tokenManager.add('accessToken', token);
         }
 
-        console.log('AuthService - handleAuthentication okta-token-storage:', localStorage.getItem('okta-token-storage'));
+        // console.log('AuthService - handleAuthentication okta-token-storage:', localStorage.getItem('okta-token-storage'));
       });
     });
 

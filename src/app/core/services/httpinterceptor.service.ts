@@ -21,8 +21,8 @@ export class HttpInterceptorService implements HttpInterceptor {
 
 
     const token = await this.auth.getAccessToken();
-    console.log('HttpInterceptorService processInterceptor token: ', token);
-    console.log('HttpInterceptorService processInterceptor localstorage: ', localStorage.getItem('okta-token-storage'));
+    // console.log('HttpInterceptorService processInterceptor token: ', token);
+    // console.log('HttpInterceptorService processInterceptor localstorage: ', localStorage.getItem('okta-token-storage'));
 
     const exlude = 'blob.core.windows.net';
 

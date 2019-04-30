@@ -9,7 +9,7 @@ import { DateService } from 'src/app/core/services/business/dates/date.service';
 import { FieldConfiguration } from 'src/app/shared/dynamic-components/field-setting';
 import { AdminMediaUploadsDetailsService } from '../../admin-media-upload-details/admin-media-uploads-details.services';
 import { MetadataFields } from 'src/app/core/models/entity/metadata-fields';
-import { DisplayToastMessage } from 'src/app/state/app.actions';
+import { DisplayToastMessage, HideSpinner } from 'src/app/state/app.actions';
 import { ToastType } from 'src/app/core/enum/toast';
 import { MetadataListStatus } from 'src/app/core/enum/metadata-list-status';
 import { MetadataListItem } from 'src/app/core/models/entity/metadata-list-item';
@@ -165,13 +165,13 @@ export class AdminMediaState {
   @Action(GetUploadRequest)
   getUploadRequest({ getState, setState }: StateContext<AdminMediaStateModel>, { id }: GetUploadRequest) {
     return this.adminMediaService.getUploadRequestById(id).pipe(map((fields => {
-        console.log('AdminMediaState - getUploadRequest - fields: ', fields);
-        const state = getState();
-        setState({
-          ...state,
-          currentUploadRequestFields: fields
-        });
-     
+      console.log('AdminMediaState - getUploadRequest - fields: ', fields);
+      const state = getState();
+      setState({
+        ...state,
+        currentUploadRequestFields: fields
+      });
+
     })));
   }
 
@@ -185,8 +185,10 @@ export class AdminMediaState {
         ...state,
         metadataFields: fields
       });
+      ctx.dispatch(new HideSpinner());
     },
       (err) => {
+        ctx.dispatch(new HideSpinner());
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       }));
   }
@@ -331,14 +333,13 @@ export class AdminMediaState {
         ctx.dispatch(new GetMetaDataLists());
         let list = state.metadataLists;
         const UpdateMetadataList = [...list, metadataList];
-        // console.log('AdminMediaState createMetaDataList new List:', list);
         ctx.setState({
           ...state,
-          metadataLists: UpdateMetadataList,
-
+          metadataLists: UpdateMetadataList
         });
-        console.log(ctx.getState(), 'check my current state')
+        ctx.dispatch(new HideSpinner());
       }, (err) => {
+        ctx.dispatch(new HideSpinner());
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
@@ -359,11 +360,11 @@ export class AdminMediaState {
         // console.log('AdminMediaState createMetaDataList new List:', list);
         ctx.setState({
           ...state,
-          metadataListsItem: UpdateMetadataList,
-
+          metadataListsItem: UpdateMetadataList
         });
-        console.log(ctx.getState(), 'check my current state')
+        ctx.dispatch(new HideSpinner());
       }, (err) => {
+        ctx.dispatch(new HideSpinner());
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
@@ -375,7 +376,9 @@ export class AdminMediaState {
       tap(list => {
         ctx.dispatch(new DisplayToastMessage('List updated successfully.'));
         ctx.dispatch(new GetMetaDataDetailById(id));
+        ctx.dispatch(new HideSpinner());
       }, (err) => {
+        ctx.dispatch(new HideSpinner());
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
@@ -383,16 +386,18 @@ export class AdminMediaState {
 
   @Action(DisableMetadataList)
   disableMetadataList(ctx: StateContext<AdminMediaStateModel>, { id, payload, refreshList }: DisableMetadataList) {
-    let NewPayload =  Object.assign({},payload);
+    let NewPayload = Object.assign({}, payload);
     NewPayload.status = 0;
-    console.log('NewPayload',NewPayload)
+    console.log('NewPayload', NewPayload)
     return this.adminMediaService.updateMetadataList(id, NewPayload).pipe(
       tap(list => {
         ctx.dispatch(new DisplayToastMessage('List was disabled successfully.'));
         if (refreshList) {
           ctx.dispatch(new GetMetaDataLists());
         }
+        ctx.dispatch(new HideSpinner());
       }, (err) => {
+        ctx.dispatch(new HideSpinner());
         ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
@@ -400,18 +405,19 @@ export class AdminMediaState {
 
   @Action(EnableMetadataList)
   enableMetadataList(ctx: StateContext<AdminMediaStateModel>, { id, payload, refreshList }: EnableMetadataList) {
-    let NewPayload =  Object.assign({},payload);
+    let NewPayload = Object.assign({}, payload);
     NewPayload.status = 1;
-    console.log('NewPayload',NewPayload)
+    console.log('NewPayload', NewPayload)
     return this.adminMediaService.updateMetadataList(id, NewPayload).pipe(
       tap(list => {
         if (refreshList) {
           console.log(payload, 'payload')
           ctx.dispatch(new GetMetaDataLists());
           ctx.dispatch(new DisplayToastMessage('List was enabled successfully.'));
-
         }
+        ctx.dispatch(new HideSpinner());
       }, (err) => {
+        ctx.dispatch(new HideSpinner());
         ctx.dispatch(new DisplayToastMessage(err.err, ToastType.error));
       })
     );
@@ -442,10 +448,11 @@ export class AdminMediaState {
         ...state,
         metadataListsItem: lists
       });
-    },
-      (err) => {
-        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error))
-      }));
+      ctx.dispatch(new HideSpinner());
+    }, (err) => {
+      ctx.dispatch(new HideSpinner());
+      ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error))
+    }));
   }
 
   @Action(GetMetaDataDetailById)

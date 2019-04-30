@@ -12,6 +12,7 @@ import { CreateMetaDataList, GetMetaDataLists, RemoveMetaDataList, DisableMetada
 import { AdminMetadaListType } from 'src/app/core/enum/admin-user-type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
+import { ShowSpinner } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-admin-metadata-list',
@@ -61,8 +62,9 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit,
       if (this.metadataListForm.dirty) {
         const metadataList: MetadataList = { ...this.metadataList, ...this.metadataListForm.value };
         console.log('testing create metatadata - ', metadataList);
+        this.store.dispatch(new ShowSpinner());
         this.store.dispatch(new CreateMetaDataList(metadataList));
-        this.ShowSpinner(false);
+        // this.ShowSpinner(false);
         this.closeDialog();
         this.metadataListForm.reset();
       }

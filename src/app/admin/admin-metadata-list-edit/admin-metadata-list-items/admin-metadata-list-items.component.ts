@@ -13,6 +13,7 @@ import { ListComponent } from 'src/app/shared/list/list.component';
 import { EmitType, remove } from '@syncfusion/ej2-base';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ShowSpinner } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-admin-metadata-list-items',
@@ -119,8 +120,9 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
           statusName: ''
         });
         console.log('metatadata', this.metadataListItemForm)
+        this.store.dispatch(new ShowSpinner());
         this.store.dispatch(new CreateMetaDataListItem(this.listId, metadataListItem));
-        this.ShowSpinner(false);
+        // this.ShowSpinner(false);
         this.closeDialog();
         this.clearForm();
       }
@@ -138,6 +140,7 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
     this.confirmDialog.show();
   }
   public RemoveDlgBtnClick: EmitType<object> = () => {
+    this.store.dispatch(new ShowSpinner());
     this.store.dispatch(new RemoveMetaDataListItem(this.listId, this.selectedMetadataListItemId));
     this.metadaListItem$.subscribe(items => {
       this.metadataListItems = items;
@@ -151,7 +154,8 @@ export class AdminMetadataListItemsComponent extends ListComponent implements On
     this.confirmDialog.hide();
   }
   remove(data) {
-    console.log(data)
+    // console.log(data);    
+    this.store.dispatch(new ShowSpinner());
     this.store.dispatch(new RemoveMetaDataListItem(this.listId, data.metadataListItemId));
   }
   closeDialog() {

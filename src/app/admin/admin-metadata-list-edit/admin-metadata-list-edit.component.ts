@@ -7,7 +7,7 @@ import { Tab } from 'src/app/core/models/tab';
 import { AdminMediaState } from '../state/admin-media/admin-media.state';
 import { MetadataList } from 'src/app/core/models/entity/metadata-list';
 import { Observable } from 'rxjs';
-import { messageType } from 'src/app/state/app.actions';
+import { messageType, ShowSpinner } from 'src/app/state/app.actions';
 import { CreateMetaDataList, UpdateMetadataList, GetMetaDataList, GetMetaDataListsItem, GetMetaDataListsItemById, GetMetaDataDetailById, CreateMetaDataListItem, UpdateMetadataListItem, DisableMetadataList, EnableMetadataList } from '../state/admin-media/admin-media.action';
 import { takeWhile } from 'rxjs/operators';
 import { Metadata } from 'src/app/core/models/entity/metadata';
@@ -110,6 +110,7 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
             metadataListName: MetadataList.metadataListName,
             status: MetadataList.status
           });
+          this.store.dispatch(new ShowSpinner());
           this.store.dispatch(new UpdateMetadataList(this.metadataId, MetadataList));
           takeWhile(() => this.componentActive);
         }
@@ -119,6 +120,7 @@ export class AdminMetadataListEditComponent extends EditComponent implements OnI
     }
   }
   changeStatus() {
+    this.store.dispatch(new ShowSpinner());
     if (this.metaDataActionText === DISABLE_METADATALIST_ITEMS) {
       this.store.dispatch(new DisableMetadataList(this.metadataId, this.metadatalist, true));
       this.metaDataActionText = ENABLE_METADATALIST_ITEMS;
