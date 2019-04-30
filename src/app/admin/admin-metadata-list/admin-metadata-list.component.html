@@ -47,7 +47,7 @@
         <app-list [listData]="metadataLists" [columns]="columns" [isToolBarVisible]="true"
             [totalCountText]="'Total Lists'" [toolbarActionOne]="statusChange"
             (firstAction)="changeMetadataListStatus($event)" (secondNavigateAction)="edit($event)"
-            [firstActionText]="removeLink" (firstNavigateAction)="show($event)" [showFirstAction]="true"
+           (firstNavigateAction)="show($event)" [showFirstAction]="true"
             [showSecondAction]="true" [secondActionText]="editIcon"></app-list>
     </div>
 
