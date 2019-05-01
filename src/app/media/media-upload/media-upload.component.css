@@ -10,3 +10,18 @@
 .file-upload-button {
   margin: 25px 17px 32px 0px;
 }
+
+.file-upload-path {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  color: #5b7f95;
+  padding-bottom: 25px;
+}
+
+.Step-2-folder{
+  margin-top: -70px;
+  margin-left: 124px;
+  margin-bottom: 30px;
+}

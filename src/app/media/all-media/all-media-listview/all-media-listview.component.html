@@ -6,5 +6,9 @@
           [firstActionText]="'Download'"
           [showSecondAction]="true"
           [secondActionText]="editIcon"
-          (firstNavigateAction)="download($event)">
+          (secondNavigateAction)="navigate($event)"
+          (firstNavigateAction)="download($event)"
+          (selectedItemData)="selectedItemData($event)">
 </app-list>
+
+<ejs-pager [pageSize]='pageSize' [pageCount]='pageCount' [totalRecordsCount]='totalMedia' (click)="changePage($event)"></ejs-pager>

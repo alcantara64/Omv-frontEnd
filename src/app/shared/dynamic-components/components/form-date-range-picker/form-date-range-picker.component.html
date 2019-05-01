@@ -1,0 +1,21 @@
+<div [formGroup]="group">
+  <label class="form-label">{{ config.label }}</label>
+  <div style="display: flex;">
+    <ejs-daterangepicker 
+      class="form-control form-control-lg col-md-11"
+      placeholder='Select a range'
+      (change)="change($event)">
+    </ejs-daterangepicker>
+
+    <button type="button" class="o-delete col-md-1" (click)="deleteControlEvent(config)" *ngIf="!config.isRequired && allowDeleting">
+      <span class="e-icons e-delete"></span>
+    </button>
+  </div>
+  <ng-container *ngFor="let validation of config.validations;">
+    <label class="form-description" *ngIf="group.get(config.name).hasError(validation.name) && (group.get(config.name).touched)">
+      {{validation.message}}
+    </label>
+  </ng-container> 
+</div>
+<br />
+

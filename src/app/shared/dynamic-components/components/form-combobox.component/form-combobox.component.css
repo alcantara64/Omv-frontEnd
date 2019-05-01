@@ -1,0 +1,14 @@
+.combobox-item-row {
+  border-bottom: solid 1px rgba(91, 127, 149, 0.25);
+}
+
+.combobox-item-image {
+  float: right;
+  margin-top: 8px;
+}
+
+.e-ddl.e-input-group.e-control-wrapper .e-ddl-icon::before {
+  content: url("../../../../../assets/images/icon-search.svg");
+  font-size: 8px;
+  font-family: 'e-icons';
+}

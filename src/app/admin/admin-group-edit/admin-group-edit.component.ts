@@ -7,7 +7,7 @@ import {
   EnableGroup,
   GetGroup,
   UpdateGroup
-} from '../state/admin-groups/admin.groups.action';
+} from '../state/admin-groups/admin-groups.action';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
@@ -17,7 +17,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {takeWhile} from 'rxjs/operators';
 import {AdminGroupState} from '../state/admin-groups/admin-groups.state';
 import {EditComponent} from 'src/app/shared/edit/edit.component';
-import {messageType} from "../../state/app.actions";
 import { permission } from 'src/app/core/enum/permission';
 
 const CREATE_GROUP = 'Create Group';
@@ -72,11 +71,8 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     this.groupForm = this.fb.group({
       id: '',
       name: [ '', [ Validators.required ] ],
-      description: '',
-      isSystem: false
+      description: ''
     });
-
-    console.log('testing checkbox', this.checkbox);
 
     // Get the id in the browser url and reach out for the group
     this.activatedRoute.paramMap.subscribe(params => {
@@ -95,15 +91,12 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
     this.currentGroup$.subscribe(group => {
       if (group) { // Existing Group
         this.groupActionText = group.status == GroupStatus.Active ? DISABLE_GROUP : ENABLE_GROUP;
-        console.log('AdminGroupEditComponent - ngOnInit: groupDetails ', group);
         this.groupForm.patchValue({
           id: group.id,
           name: group.name,
-          description: group.description,
-          isSystem: group.isSystem
+          description: group.description
         });
         this.group = group;
-        console.log('AdminGroupEditComponent - ngOnInit: groupForm ', this.groupForm.value);
       } else {
       }
     }),
@@ -132,19 +125,16 @@ export class AdminGroupEditComponent extends EditComponent implements OnInit {
             if (groupId) {
               this.groupForm.reset();
               this.router.navigate([`/admin/groups/${groupId}/edit`]);
-              this.setNotification('Group Created');
             }
           }),
           takeWhile(() => this.componentActive);
         } else {
           await this.store.dispatch(new UpdateGroup(group.id, group));
           this.groupForm.reset(this.groupForm.value);
-          this.setNotification('Group Updated');
         }
       }
     } else {
       this.errorMessage = "Please correct the validation errors.";
-      this.setNotification('Please correct the validation errors', messageType.error);
     }
   }
 

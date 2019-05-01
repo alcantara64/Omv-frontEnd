@@ -2,7 +2,6 @@ import { MediaRoutingModule } from './media.routing.module';
 import { MediaComponent } from "../media/media.component";
 import { AllMediaComponent } from "../media/all-media/all-media.component";
 import { MediaStreamingArchiveComponent } from "../media/media-streaming-archive/media-streaming-archive.component";
-
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgxsModule } from '@ngxs/store';
 import { MediaFavoritesComponent } from './media-favorites/media-favorites.component';
@@ -11,8 +10,6 @@ import { environment } from 'src/environments/environment';
 import { MediaFavoritesListviewComponent } from './media-favorites/media-favorites-listview/media-favorites-listview.component';
 import { MediaState } from './state/media/media.state';
 import { MediaUploadComponent } from './media-upload/media-upload.component';
-import { TreeViewAllModule } from '@syncfusion/ej2-angular-navigations';
-import { TreeGridModule, TreeGridAllModule } from '@syncfusion/ej2-angular-treegrid';
 import { MediaItemHistoryComponent } from './media-item/media-item-history/media-item-history.component';
 import { MediaItemDetailsComponent } from './media-item/media-item-details/media-item-details.component';
 import { MediaDataService } from "../core/services/data/media/media.data.service";
@@ -26,12 +23,6 @@ import { AllMediaMapviewComponent } from './all-media/all-media-mapview/all-medi
 import { MediaFavoritesMapviewComponent } from './media-favorites/media-favorites-mapview/media-favorites-mapview.component';
 import { MediaFavoritesTreeviewComponent } from './media-favorites/media-favorites-treeview/media-favorites-treeview.component';
 import { MediaFavoritesTileviewComponent } from './media-favorites/media-favorites-tileview/media-favorites-tileview.component';
-import { PagerModule } from '@syncfusion/ej2-angular-grids';
-import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
-import {PdfViewerComponent} from "@syncfusion/ej2-angular-pdfviewer";
-import { DialogModule } from '@syncfusion/ej2-angular-popups';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { DirectoryDataService } from '../core/services/data/directory/directory.data.service';
 import { DirectoryMockDataService } from '../core/services/data/directory/directory.mock.data.service';
 import { DirectoryWebDataService } from '../core/services/data/directory/directory.web.data.service';
@@ -39,46 +30,64 @@ import { MediaWebDataService } from '../core/services/data/media/media.web.data.
 import { MetadataFieldsDataService } from '../core/services/data/metadata-fields/metadata-fields.data.service';
 import { MetadataFieldsMockDataService } from '../core/services/data/metadata-fields/metadata-fields.mock.service';
 import { MetadataFieldsWebDataService } from '../core/services/data/metadata-fields/metadata-fields.web.data.service';
+import { PagerModule } from '@syncfusion/ej2-angular-grids/src/pager/pager.module';
+import { TreeViewModule } from '@syncfusion/ej2-angular-navigations/src/treeview/treeview.module';
+import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons/src/check-box/checkbox.module';
+import { DialogModule } from '@syncfusion/ej2-angular-popups/src/dialog/dialog.module';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns/src/drop-down-list/dropdownlist.module';
+import { ListViewModule } from '@syncfusion/ej2-angular-lists/src/list-view/listview.module';
+import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns/src/multi-select/multiselect.module';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons/src/button/button.module';
+import { CustomersDataService } from '../core/services/data/customers/customers.data.service';
+import { CustomersMockDataService } from '../core/services/data/customers/customers.mock.data.service';
+import { CustomersWebDataService } from '../core/services/data/customers/customers.web.data.service';
+import { FiltersDataService } from '../core/services/data/filters/filters.data.service';
+import { FiltersMockDataService } from '../core/services/data/filters/filters.mock.data.service';
+import { FiltersWebDataService } from '../core/services/data/filters/filters.web.data.service';
+import { FiltersComponent } from '../filters/filters.component';
+import { ComboBoxModule, ComboBoxAllModule } from '@syncfusion/ej2-angular-dropdowns';
 
 @NgModule({
 	declarations: [
-		MediaComponent,
 		AllMediaComponent,
-		MediaStreamingArchiveComponent,
+		AllMediaListviewComponent,
+		AllMediaMapviewComponent,
+		AllMediaTileviewComponent,
+		AllMediaTreeviewComponent,
+		FiltersComponent,
+		MediaComponent,
 		MediaFavoritesComponent,
 		MediaFavoritesListviewComponent,
 		MediaFavoritesMapviewComponent,
 		MediaFavoritesTileviewComponent,
 		MediaFavoritesTreeviewComponent,
+		MediaStreamingArchiveComponent,
 		MediaUploadComponent,
-		MediaItemHistoryComponent,
-		MediaItemDetailsComponent,
-		MediaItemRelatedFilesComponent,
 		MediaItemComponent,
-		AllMediaTileviewComponent,
-		AllMediaListviewComponent,
-		AllMediaTreeviewComponent,
-		AllMediaMapviewComponent,
-		MediaFavoritesTileviewComponent
+		MediaItemDetailsComponent,
+		MediaItemHistoryComponent,
+		MediaItemRelatedFilesComponent
 	],
 	imports: [
 		PagerModule,
 		SharedModule,
 		MediaRoutingModule,
-		TreeViewAllModule,
-		TreeGridAllModule,
+		TreeViewModule,
 		CheckBoxModule,
 		DialogModule,
 		DropDownListModule,
 		ListViewModule,
-		NgxsModule.forFeature([
-			MediaState
-		])
+		NgxsModule.forFeature([ MediaState ]),
+		CheckBoxModule,
+		ButtonModule,
+		DropDownListModule
 	],
 	providers: [
-		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
+		{ provide: CustomersDataService, useClass: environment.useMocks ? CustomersMockDataService : CustomersWebDataService },
 		{ provide: DirectoryDataService, useClass: environment.useMocks ? DirectoryMockDataService : DirectoryWebDataService },		
-    { provide: MetadataFieldsDataService, useClass: environment.useMocks ? MetadataFieldsMockDataService : MetadataFieldsWebDataService },
+		{ provide: FiltersDataService, useClass: environment.useMocks ? FiltersMockDataService : FiltersWebDataService },
+		{ provide: MediaDataService, useClass: environment.useMocks ? MediaMockDataService : MediaWebDataService },		
+		{ provide: MetadataFieldsDataService, useClass: environment.useMocks ? MetadataFieldsMockDataService : MetadataFieldsWebDataService },
   ],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

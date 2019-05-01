@@ -1,69 +1,177 @@
 import { Injectable } from '@angular/core';
-
-import { UserManager, UserManagerSettings, User } from 'oidc-client';
-import { of, Observable } from 'rxjs';
+import * as OktaAuth from '@okta/okta-auth-js';
+import { Router } from '@angular/router';
+import { CustomersDataService } from '../data/customers/customers.data.service';
+import { map } from 'rxjs/operators';
+import { OktaDataService } from '../data/okta/okta.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private _auth: OktaAuth = null;
 
-  private manager = new UserManager(getClientSettings());
-  private user: User = null;
+  isAuthenticating: boolean;
 
-  constructor() {
-    this.manager.getUser().then(user => {
-      console.log('AuthService - completeAuthentication : user ', user);
-      this.user = user;
+  constructor(private router: Router, private customersDataService: CustomersDataService, private oktaDataService: OktaDataService) { }
+
+  async isAuthenticated() {
+    console.log('AuthService.isAuthenticated');
+    //ensure auth initialized
+
+    if (!this._auth) {
+      await this.load().then(async response => {
+        
+        let retVal = !!(await this._auth.tokenManager.get('accessToken'));
+        return retVal;
+      });
+    }
+
+    // Checks if there is a current accessToken in the TokenManger.
+    let retVal = !!(await this._auth.tokenManager.get('accessToken'));
+    return retVal;
+  }
+
+  async getAccessToken() {
+    console.log('AuthService.getAccessToken');
+    //ensure auth initialized
+    /*
+    if(!this._auth)
+    {
+      await this.load();
+    }
+*/
+    if (!this._auth)
+      return false;
+    // Checks if there is a current accessToken in the TokenManger.
+    let retVal = await this._auth.tokenManager.get('accessToken');
+
+    if (retVal)
+      return retVal.accessToken;
+    else
+      return null;
+  }
+
+  async login() {
+    console.log('AuthService.login');
+    //ensure auth initialized
+
+    if (!this._auth) {
+      await this.load();
+    }
+
+    if (localStorage.getItem('okta-token-storage')){
+      localStorage.removeItem('okta-token-storage');
+    }
+
+    // Launches the login redirect.
+    this._auth.token.getWithRedirect({
+      responseType: ['id_token', 'token'],
+      scopes: ['openid', 'email', 'profile']
     });
   }
 
-  isLoggedIn(): Observable<boolean> {
-    var result: boolean = this.user != null && !this.user.expired;
-    console.log('AuthService - isLoggedIn: ', result);
-    return of(result);
-  }
+  async handleAuthentication() {
+    //ensure auth initialized
+    if (!this._auth) {
+      await this.load();
+    }
 
-  logOut() {
-    this.manager.signoutRedirect().then(response => {
-      console.log('AuthService - logOut');
+    await this._auth.token.parseFromUrl().then(tokens => {
+      tokens.forEach(token => {
+        // console.log('AuthService - handleAuthentication', token);
+        if (token.idToken) {
+          localStorage.setItem('id_Token', token.idToken);
+          this._auth.tokenManager.add('idToken', token);
+        }
+        if (token.accessToken) {
+          this._auth.tokenManager.add('accessToken', token);
+        }
+
+        // console.log('AuthService - handleAuthentication okta-token-storage:', localStorage.getItem('okta-token-storage'));
+      });
     });
+
+    //TODO:
+    //redirect to page after login
+    await this.isAuthenticated()
+      .then(isAuthenticated => {
+        if (isAuthenticated) {
+          this.router.navigateByUrl('/authorize-check');
+        }
+      });
   }
 
-  getClaims(): any {
-    var profile = this.user.profile;
-    console.log('AuthService - getClaims : profile', profile);
-    return profile;
+  async logout() {
+    console.log('AuthService.handleAuthentication');
+
+    //ensure auth initialized
+    if (!this._auth) {
+      await this.load();
+    }
+
+    if (localStorage.getItem('okta-token-storage')){
+      localStorage.removeItem('okta-token-storage');
+    }
+
+    // this._auth.tokenManager.clear();
+
+
+    return await this.oktaDataService.logout().toPromise();
+
+    // await this._auth.signOut();
   }
 
-  getAuthorizationHeaderValue(): string {
-    var result = `${this.user.token_type} ${this.user.access_token}`;
-    console.log('AuthService - getAuthorizationHeaderValue: ', result);
-    return result;
-  }
+  async load(): Promise<OktaAuth> {
+    console.log('AuthService.load.start');
 
-  startAuthentication(): Promise<void> {
-    return this.manager.signinRedirect();
-  }
+    const host = window.location.host.toLowerCase(); //this includes host and port - eg localhost:4200 or bp.omv.com
+    //you can test locally by having different ports go to different tenants in the api - eg localhost:4300 
 
-  completeAuthentication(): Promise<User> {
-    return this.manager.signinRedirectCallback().then(user => {
-      console.log('AuthService - completeAuthentication : user ', user);
-      this.user = user;
-      return this.user;
+    //use http client to call backend - pass the host to get back the following details from the database
+    //okta issuer - eg https://dev-104918.okta.com/oauth2/default - typically the same for each okta account
+    //okta app client id  - 0oahryql8HD45nO6v356 - will be different for each tenant
+    //authserver - default - will be different for each tenant as I assume each tenant will have their own auth server - for demo using the default one for both tenants
+
+    //following should be removed once connected to backend
+    let issuerUrl: string = null;
+    let clientId: string = null;
+    let authServerId: string = null;
+    switch (host) {
+      case "localhost:4200":
+        issuerUrl = "https://dev-104918.okta.com";
+        clientId = "0oahryql8HD45nO6v356"; //tenant 1
+        authServerId = 'default';
+
+        break;
+      default:
+        issuerUrl = "https://dev-104918.okta.com";
+        clientId = "0oahvjlps1k2dUNXJ356"; //tenant 2
+        authServerId = 'default';
+        break;
+
+    };
+
+    let okta_security_config: any;
+    
+    if (!localStorage.getItem(host)) {
+      let customer = await this.customersDataService.getByHostHeader(host).toPromise();
+      okta_security_config = {
+        issuerUrl: customer.issuerUrl,
+        clientId: customer.clientId,
+        authServerId: customer.authServerId
+      }
+      localStorage.setItem(host, JSON.stringify(okta_security_config));
+    } else {
+      okta_security_config = JSON.parse(localStorage.getItem(host));
+    }
+
+    this._auth = new OktaAuth({
+      url: okta_security_config.issuerUrl,
+      clientId: okta_security_config.clientId,
+      issuer: `${okta_security_config.issuerUrl}/oauth2/${okta_security_config.authServerId}`,
+      redirectUri: `${window.location.protocol}//${window.location.host.toLowerCase()}/implicit/callback`
     });
   }
 }
 
-export function getClientSettings(): UserManagerSettings {
-  return {
-    authority: 'http://localhost:5000/',
-    client_id: 'test',
-    redirect_uri: 'http://localhost:4200/auth-callback',
-    post_logout_redirect_uri: 'http://localhost:4200/',
-    response_type: "id_token token",
-    scope: "openid profile",
-    filterProtocolClaims: true,
-    loadUserInfo: true
-  };
-}

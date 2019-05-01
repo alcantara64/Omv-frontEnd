@@ -1,6 +1,6 @@
 export class Directory {
   id: number;
   name: string;
-  parentId: number;
+  parentId: number | null;
   hasChild: boolean;
 }

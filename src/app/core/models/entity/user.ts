@@ -1,3 +1,10 @@
+import { Pagination } from './pagination';
+
+export class Users {
+  pagination: Pagination;
+  data: User[];
+}
+
 export class User {
   userId: number;
   userName: string;

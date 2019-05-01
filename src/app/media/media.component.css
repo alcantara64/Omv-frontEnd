@@ -8,7 +8,7 @@ i{
     margin-left: 9px;
 }
 .selected-background{
-  filter: brightness(0.5) sepia(1) hue-rotate(140deg) saturate(6);
+  filter: brightness(0.5) sepia(1) hue-rotate(145deg) saturate(6);
 }
  
 .box-sizing{

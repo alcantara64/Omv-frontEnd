@@ -1,7 +1,7 @@
 import { BaseComponent } from './../../shared/base/base.component';
 import { EmitType } from '@syncfusion/ej2-base';
 import { AdminUserType } from './../../core/enum/admin-user-type';
-import { GetGroups } from '../state/admin-groups/admin.groups.action';
+import { GetGroups } from '../state/admin-groups/admin-groups.action';
 import { Group } from '../../core/models/entity/group';
 import { ShowLeftNav } from './../../state/app.actions';
 import { ListComponent } from './../../shared/list/list.component';
@@ -51,7 +51,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
   DISABLE = 'Disable';
   public groupFields = { text: 'name', value: 'id' };
   groupid: number;
-  name: string;
+  searchName = '';
   urlparam: string;
   columns: GridColumn[] = [
     { type: 'checkbox', headerText: 'Select All', width: '50', field: '' },
@@ -73,7 +73,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
 
   @ViewChild('listviewgroup') groupDialogList: any;
 
-  @ViewChild('nameselect') nameSelect: TextBoxComponent;
+
   @ViewChild('groupselect') groupSelect: DropDownListComponent;
 
   target = '.control-section';
@@ -122,8 +122,8 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
     this.activatedRoute.params.subscribe(params => {
       this.store.dispatch(new GetUsers());
       this.displayUsers(params.type);
-      this.nameSelect.value = "";
       this.groupSelect.index = null;
+      this.searchName = '';
     }),
     takeWhile(() => this.componentActive);
 
@@ -159,7 +159,7 @@ export class AdminUsersListComponent extends ListComponent implements OnInit, On
   }
 
   search() {
-    this.store.dispatch(new GetUsers(this.name, this.groupid));
+    this.store.dispatch(new GetUsers(this.searchName, this.groupid));
   }
 
   changeUsersStatus(users: User[]) {

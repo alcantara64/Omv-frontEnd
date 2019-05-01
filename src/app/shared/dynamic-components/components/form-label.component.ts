@@ -17,12 +17,8 @@ import { FieldConfiguration } from '../field-setting';
   styles: []
 })
 export class FormLabelComponent implements Field {
+  deleteControl?: EventEmitter<any>;
   config: FieldConfiguration;
-  group: FormGroup;
-  showDelete: boolean;
-  remove = new EventEmitter<any>();
-
-  performRemove(config: any) {
-    this.remove.emit(config);
-  }
+  group: FormGroup;  
+  allowDeleting: boolean;
 }

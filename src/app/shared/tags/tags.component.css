@@ -1,0 +1,31 @@
+.tag-container {
+  border-radius: 3px;
+  background-color: #033b5c;
+  padding: 7px 10px;
+  text-align: center;
+  display: -webkit-inline-box;
+  height: 36px;
+  margin: 5px 5px !important;
+}
+
+.tag-name {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: #ffffff;
+  margin-right: 4px;
+}
+
+.tag-value {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  color: #ffffff;
+  margin-right: 20px;
+}
+
+.tag-close {
+  margin-top: -2px;
+  width: 12px;
+}

@@ -1,3 +1,4 @@
+
 <div class="row card-layout">
   <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3" style="padding: 0 2rem 2rem 2rem; box-sizing: border-box" *ngFor="let data of dataSource">
     <div tabindex="0" class="e-card card " id="basic">
@@ -13,7 +14,7 @@
                 <span style="padding-right:1rem;">
                   <label class="media-tile-info-bold pr-2">
                     {{ data.type }}
-                  </label>    
+                  </label>
                   <label class="media-tile-info">
                     {{ data.size | filesize:0 }}
                   </label>
@@ -21,14 +22,14 @@
                 <span>
                   <img (click)="performToggleFavorite(data)" class="favorite-cls cursor" 
                     [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">
-                  <ejs-checkbox cssClass="e-small float-right"  [checked]="data.isChecked ? true: false"></ejs-checkbox>
+                  <ejs-checkbox id="checkbox" cssClass="e-small float-right" (change)="getItemData(data)" [(value)]="checkValue"></ejs-checkbox>
                 </span>
               </span>
             </div>
           </div>
         </div>
         <div class="e-card-content cursor pb-0" (click)="performItemClick(data)">
-          <img  [src]="data.thumbnail"  class="center-img cursor" height="150">
+          <img [src]="data.thumbnail" [default]="data.url" class="center-img cursor" height="150" width="100%">
           <span>
             <label class="media-tile-info pt-4">
               {{data.name | uppercase}}

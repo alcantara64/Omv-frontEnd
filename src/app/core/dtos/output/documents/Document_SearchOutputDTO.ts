@@ -1,7 +1,18 @@
+import { BaseDTO } from '../../BaseDTO';
+import { PaginationInfo } from '../PaginationInfo';
 
 export class Document_SearchOutputDTO {
-  DocumentId: any;
-  StorageType: string;
+  Pagination: PaginationInfo;
+  Data: Document_SearchOutputData[];
+}
+
+export class Document_SearchOutputData extends BaseDTO {
+  Id: number;
+  Name: string;
+  ParentId?: number;
+  HasChild?: boolean;
+  DirectoryId?: number;
+  DocumentId?: any;
   EntityType: string;
   EntityId: string;
   DocumentTypeCode: string;
@@ -9,13 +20,8 @@ export class Document_SearchOutputDTO {
   DocumentUrl: string;
   Metadata: string;
   ContentType: string;
-  ContainerId: string;
   Size?: number;
   ThumbnailContainerUrl: string;
-  IsDeleted: boolean;
   Status?: number;
-  CreatedOn: Date;
-  CreatedBy: string;
-  ModifiedOn: Date;
-  ModifiedBy: string;
+  IsFavorite: boolean;
 }

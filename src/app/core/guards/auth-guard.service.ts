@@ -1,38 +1,38 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/business/auth.service';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { AppState } from 'src/app/state/app.state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
-  
-  constructor(private authService: AuthService, private router: Router) { }
 
-  canActivate1(): boolean {
-    if (this.authService.isLoggedIn()) {
-      return true;
-    }
+  @Select(AppState.getIsAuthorized) isAuthorized$: Observable<boolean>;  
+  isAuthenticated: boolean;
 
-    this.authService.startAuthentication();
-    return false;
+  constructor(private auth: AuthService, private router: Router) {    
   }
 
   canActivate() {
-    // const route = location.pathname;
-    // const isLoggedIn = this.authService.isLoggedIn();
-    // isLoggedIn.subscribe(login => {
-    //   if (!login) {
-    //     this.saveReturnUrl(route);
-    //     this.authService.startAuthentication();
-    //   }
-    // });
-    // return isLoggedIn;
-    return true;
+    const route = location.pathname;
+
+    this.isAuthorized$      
+      .subscribe(async isAuthenticated => {
+        console.log('AuthGuardService constructor - isAuthenticated: ', isAuthenticated);
+        if (isAuthenticated === false) {
+          this.saveReturnUrl(route);
+        }
+        this.isAuthenticated = isAuthenticated;
+      });
+
+    return this.isAuthenticated;
   }
 
   private saveReturnUrl(route) {
-    const ignored_routes = ['#/startup', '#/dashboard'];
+    const ignored_routes = ['/startup', '/dashboard', '/implicit/callback', '/unauthorize'];
     if (ignored_routes.includes(route)) {
       return;
     }

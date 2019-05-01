@@ -1,0 +1,15 @@
+<!-- Toolbar -->
+
+
+<app-list [listData]="newUploads"
+          [totalCountText]="'Total'"
+          [toolbarActionOne]="'Approve'"
+          [toolbarActionTwo]="'Reject'"
+          [statusIconPosition]="0"
+          [secondActionText]="editIcon"
+          [showSecondAction]="true"
+          (secondNavigateAction)="edit($event)" 
+          [isToolBarVisible] = "true"
+          [selectedRecords]="selectedUploads"
+          [columns]="columns">
+</app-list>

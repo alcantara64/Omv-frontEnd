@@ -1,4 +1,4 @@
-import { MediaItem } from './../../../models/entity/media';
+import { MediaItem, Media } from './../../../models/entity/media';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
@@ -14,21 +14,22 @@ export class MediaMockDataService implements MediaDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getMedia(pageNumber?: number, pageSize?: number): Observable<MediaItem[]> {
+  getMedia(pageNumber?: number, pageSize?: number, isTreeView?: boolean): Observable<Media> {
     var url = `./assets/mock/media.json`;
-    let data = this.httpClient.get<MediaItem[]>(url).pipe(
+    let data = this.httpClient.get<Media>(url).pipe(
       map(item => {
-        if (pageNumber === 1) {
-          let retVal = item.splice(0,4);          
-          console.log(retVal);
-          return retVal;
-        } else if (pageNumber === 2) {
-          let retVal = item.splice(4, item.length);          
-          console.log(retVal);
-          return retVal;
-        } else{
-          return item;
-        }
+        // if (pageNumber === 1) {
+        //   let retVal = item.splice(0,4);          
+        //   console.log(retVal);
+        //   return retVal;
+        // } else if (pageNumber === 2) {
+        //   let retVal = item.splice(4, item.length);          
+        //   console.log(retVal);
+        //   return retVal;
+        // } else{
+        //   return item;
+        // }
+        return item;
       }));
     return data;
   }
@@ -43,11 +44,15 @@ export class MediaMockDataService implements MediaDataService {
     return data;
   }
 
+  createMediaItem(payload: MediaItem): Observable<any> {
+    return of(1);
+  }
+
   updateMediaItem(id: any, payload: MediaItem): Observable<any> {
     return of(1);
   }
 
-  getHistory(id: number): Observable<History[]> {
+  getHistory(id: string): Observable<History[]> {
     var url = `./assets/mock/media-history.json`;
     let data = this.httpClient.get<History[]>(url);
     return data;

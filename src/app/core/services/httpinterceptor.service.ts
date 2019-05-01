@@ -1,41 +1,54 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, from, observable } from 'rxjs';
 import { AuthService } from './business/auth.service';
-import { tap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpInterceptorService implements HttpInterceptor {
 
-  constructor(private router: Router, private injector: Injector) { }
-  
+  constructor(private auth: AuthService) { }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const authService = this.injector.get(AuthService);
-    const changedReq = req.clone({
-        headers: req.headers.set('Content-Type', 'application/json')
-            .set('Authorization', `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`)
-    });
-    let ok: string;
-    return next.handle(changedReq)
-        .pipe(
-        tap(
-            // Succeeds when there is a response; ignore other events
-            event => ok = event instanceof HttpResponse ? 'succeeded' : '',
-            // Operation failed; error is an HttpErrorResponse
-            error => {
-                if (error instanceof HttpErrorResponse) {
-                    if (error.status === 401 || error.status === 403) {
-                        localStorage.clear();
-                        sessionStorage.clear();
-                        authService.startAuthentication();
-                        this.router.navigate(['/startup']);
-                    }
-                }
-            }
-        ),
-    );
+
+    return from(this.processInterceptor(req, next))
+
+  }
+
+  private async processInterceptor(req: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
+
+
+    const token = await this.auth.getAccessToken();
+    // console.log('HttpInterceptorService processInterceptor token: ', token);
+    // console.log('HttpInterceptorService processInterceptor localstorage: ', localStorage.getItem('okta-token-storage'));
+
+    const exlude = 'blob.core.windows.net';
+
+    let changedRequest: HttpRequest<any> = req;  
+
+    if (token && (req.url.search(exlude) === -1)) {
+      if (req.method === 'GET') { // for IE
+        changedRequest = req.clone({
+          headers: req.headers.set('Cache-Control', 'no-cache')
+            .set('Pragma', 'no-cache')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', `Bearer ${token}`)
+        });
+      } else {
+        changedRequest = req.clone({
+          headers: req.headers.set('Content-Type', 'application/json')
+            .set('Authorization', `Bearer ${token}`)
+        });
+      }
+
+     
+
+    }
+
+    
+
+    return next.handle(changedRequest).toPromise();
   }
 }

@@ -2,8 +2,14 @@
 
   <div class="row">
     <div class="pb-3 col-md-4">
-      <ejs-textbox #nameselect placeholder="Name" [showClearButton]="true" floatLabelType="Auto"   [(value)] ='name' ></ejs-textbox>
+      <div class="e-control e-textbox e-lib">
+        <div class="e-float-input e-control-wrapper e-input-group">
+          <input #nameInput [value]="searchName"  (keyup)='search()' class="e-control e-textbox e-lib searchName" type="text" placeholder="Name">
+          <span *ngIf="nameInput.value !==''" style="display: inline-block; margin-left: -20px" (click)="nameInput.value = ''" class="e-icons e-close"></span>
+        </div>
+      </div>
     </div>
+
     <div class="pb-3 col-md-4">
       <ejs-dropdownlist #groupselect name="group" id="group" [fields]='groupFields'  [(value)] ='groupid' [showClearButton]="true"
         [dataSource]="groups"  [placeholder]="'Select'" floatLabelType='Auto'>
@@ -11,11 +17,11 @@
     </div>
     <div class="pb-3 col-md-4">
       <span class="pt-3">
-    
+
         <button ejs-button class="omv-green" (click)="search()">
           Search
         </button>
-    
+
         <button ejs-button class="omv-primary-plus" (click)="edit()">
           Add New User
         </button>
@@ -32,11 +38,13 @@
 
   <div class="">
     <app-list [listData]="users" [columns]="columns" [selectedRecords]="selectedUsers" [isToolBarVisible]="true"
-              [toolbarActionOne]="statusChange" [toolbarActionTwo]="'Assign to Groups'"
-              (firstAction)="changeUsersStatus($event)" (secondAction)="assignUsersToGroups($event)"
+              [toolbarActionOne]="statusChange"
+              [toolbarActionTwo]="'Assign to Groups'"
+              (firstAction)="changeUsersStatus($event)"
+              (secondAction)="assignUsersToGroups($event)"
               (secondNavigateAction)="edit($event)"
               [showSecondAction]="true"
-              [secondActionText]="editIcon" 
+              [secondActionText]="editIcon"
               [checkField]="'userId'"
               [totalCountText]="'Total Users'">
     </app-list>

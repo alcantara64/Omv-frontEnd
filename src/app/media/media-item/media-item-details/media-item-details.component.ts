@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Select, Store } from '@ngxs/store';
-import { GetMediaItemDetails, AddMediaItemField, RemoveMediaItemField, UpdateMediaItem } from '../../state/media/media.action';
+import { GetMediaItemDetails, AddMediaItemField, RemoveMediaItemField, UpdateMediaItem, ClearMediaItemMetadata } from '../../state/media/media.action';
 import { MediaState } from '../../state/media/media.state';
 import { Observable } from 'rxjs';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-components/components/dynamic-form.component';
@@ -16,7 +16,7 @@ import { MediaItem } from 'src/app/core/models/entity/media';
   templateUrl: './media-item-details.component.html',
   styleUrls: ['./media-item-details.component.css']
 })
-export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MediaItemDetailsComponent implements OnInit, OnDestroy {
   public isPDF = true;
 
   public service: string = 'https://ej2services.syncfusion.com/production/web-services/api/pdfviewer';
@@ -25,44 +25,34 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
   public maxDate: Date = new Date("05/27/2017");
   public value: Date = new Date("05/16/2017");
   id: any;
-  @Select(MediaState.setMediaItemId) mediaId$: Observable<number>;
+  @Select(MediaState.getMediaItemId) mediaId$: Observable<number>;
 
   componentActive = true;
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
+  @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
+  @ViewChild('listview') element: any;
 
-  @Select(MediaState.setMediaItemId) mediaItemId$: Observable<number>;
+  @Select(MediaState.getMediaItemId) mediaItemId$: Observable<number>;
   @Select(MediaState.getCurrentMediaItem) mediaItem$: Observable<MediaItem>;
   @Select(MediaState.getItemFields) itemMetadataFields$: Observable<any[]>;
   @Select(MediaState.getCurrentItemMetadata) metadataFields$: Observable<any[]>;
 
-  @ViewChild('fieldsDialog') fieldsDialog: DialogComponent;
-  @ViewChild('listview') element: any;
-
-  
-  initialFields: FieldConfiguration[] = [{
-    type: 'label',
-    name: '',
-    label: '',
-    value: ''
-  }]
-  itemMetadataFields: FieldConfiguration[] = this.initialFields;
+  itemMetadataFields: FieldConfiguration[] = [];
   mediaItem: MediaItem;
+  mediaItemId: any;
   itemFields: Object = { text: 'label', value: 'name' };
   metadataFields: any[];
   itemDetails: any;
   selectedFields: FieldConfiguration[] = [];
-  isFormValid: boolean;
-  
+  isFormValid: boolean;  
 
-  constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
-  }
+  constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-
-    // this.itemMetadataFields = this.initialFields;
-
     this.mediaItemId$.subscribe(id => {
       if (id) {
+        this.id = id;
+        this.mediaItemId = id;
         this.store.dispatch(new GetMediaItemDetails(id));
       }
     }),
@@ -77,40 +67,34 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     }), takeWhile(() => this.componentActive);
 
     this.itemMetadataFields$.subscribe(fields => {
-      if (fields.length > 0) {
+      this.itemMetadataFields = fields;
+    }), takeWhile(() => this.componentActive);
+
+    this.itemMetadataFields$.subscribe(fields => {
         this.itemMetadataFields = fields;
-      }
     }), takeWhile(() => this.componentActive);
   }
 
   ngOnDestroy(): void {
+    this.dynamicForm = null;
+    this.store.dispatch(new ClearMediaItemMetadata());
     this.componentActive = false;
-  }
-
-  ngAfterViewInit() {
-    if (!this.dynamicForm) return;
-    let previousValid = this.dynamicForm.valid;
-    this.dynamicForm.changes.subscribe(() => {
-      if (this.dynamicForm.valid !== previousValid) {
-        previousValid = this.dynamicForm.valid;
-        this.dynamicForm.setDisabled('submit', !previousValid);
-      }
-    });
   }
 
   onFormFinished(finished: any) {
     console.log('MediaItemDetailsComponent - onFormFinished outside: ', finished);
-    // this.dynamicForm.changes.subscribe(value => {
-    //   console.log('MediaItemDetailsComponent - onFormFinished inside: ', value);
-    // });
+  }
+
+  discardChanges() {
+    this.store.dispatch(new ClearMediaItemMetadata());
+    this.store.dispatch(new GetMediaItemDetails(this.mediaItemId));
   }
 
   submit(value?: any) {
-    console.log('submit form: ', this.dynamicForm.value);
-    console.log('submit is Form valid: ', this.dynamicForm.valid);
+    let metadata = this.dynamicForm ? JSON.stringify(this.dynamicForm.value) : '{}';
+    console.log('submit form: ', metadata);
     const { id }  = this.mediaItem;
-    this.mediaItem.name = "OMV.Core.Tenant.pdf";
-    this.mediaItem.metadata = JSON.stringify(this.dynamicForm.value);
+    this.mediaItem.metadata = metadata;
     this.store.dispatch(new UpdateMediaItem(id, this.mediaItem));
   }
 
@@ -165,7 +149,7 @@ export class MediaItemDetailsComponent implements OnInit, OnDestroy, AfterViewIn
     });
   }
 
-  performRemove(item: any) {
+  deleteControlEvent(item: any) {
     this.dynamicForm.removeControl(item.name);
     this.store.dispatch(new RemoveMediaItemField(item.name));
   }

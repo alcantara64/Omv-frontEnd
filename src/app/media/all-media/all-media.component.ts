@@ -1,17 +1,9 @@
 import { BaseComponent } from './../../shared/base/base.component';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ViewType } from 'src/app/core/constants/view-type';
-import { Store, Select } from '@ngxs/store';
-import { MediaState } from '../state/media/media.state';
-import { Observable } from 'rxjs';
-import { EmitType } from '@syncfusion/ej2-base';
-import { GetMedia } from '../state/media/media.action';
+import { Store } from '@ngxs/store';
 
-const TILE_VIEW = 'tile';
-const LIST_VIEW = 'list';
-const TREE_VIEW = 'tree';
-const MAP_VIEW = 'map';
 
 @Component({
   selector: 'app-all-media',
@@ -21,28 +13,16 @@ const MAP_VIEW = 'map';
 export class AllMediaComponent extends BaseComponent implements OnInit {
 
   viewType: string;
-  @Select(MediaState.getTotalMedia) totalMedia$: Observable<number>;
-  totalMedia: number;
+
   constructor(protected store: Store, private route: ActivatedRoute) {
     super(store);
   }
 
-  ngOnInit() {
-    this.totalMedia$.subscribe(totalMedia => this.totalMedia = totalMedia);
+  ngOnInit() {    
     this.route.queryParams.subscribe(
       params => {
         this.viewType = params['view'] ? params['view'] : ViewType.TILE;
       }
     );
   }
-
-  performClick(event): EmitType<object> {
-    if (event.currentPage) {
-      this.store.dispatch(new GetMedia(event.currentPage));
-      console.log(event);
-    }
-    return event;
-  }
-
-
 }

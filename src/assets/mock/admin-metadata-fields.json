@@ -1,0 +1,65 @@
+[
+    {
+        "id": 1,
+        "fieldName": "File Name",
+        "fieldType": "Text",
+        "fieldTypeId": 1,
+        "List": "",
+        "ListId":null,
+        "isUnique": false
+    },
+    {
+        "id": 2,
+        "fieldName": "File Name",
+        "fieldType": "Dropdown",
+        "fieldTypeId": 2,
+        "List": "All Platforms",
+        "ListId":1,
+        "isUnique": false
+    },
+    {
+        "id": 3,
+        "fieldName": "File Name",
+        "fieldType": "Dropdown",
+        "fieldTypeId": 2,
+        "List": "All Systems",
+        "ListId":null,
+        "isUnique": false
+    },
+    {
+        "id": 4,
+        "fieldName": "File Name",
+        "fieldType": "Dropdown",
+        "fieldTypeId": 2,
+        "List": "All Register Types",
+        "ListId":2,
+        "isUnique": false
+    },
+    {
+        "id": 5,
+        "fieldName": "File Name",
+        "fieldType": "Text ",
+        "fieldTypeId": 1,
+        "List": " ",
+        "ListId": 0 ,
+        "isUnique": false
+    },
+    {
+        "id": 6,
+        "fieldName": "File Name",
+        "fieldType": "Text ",
+        "fieldTypeId": 1,
+        "List": " ",
+        "ListId":null,
+        "isUnique": false
+    },
+    {
+        "id": 7,
+        "fieldName": "File Name",
+        "fieldType": "Text",
+        "fieldTypeId": 1,
+        "List": " ",
+        "ListId":null,
+        "isUnique": false
+    }
+]

@@ -3,30 +3,35 @@ import {
   ClearNotification,
   Confirmation,
   messageType,
-  SetNotification,
   ClearConfirmation,
   SetPageTitle,
   ShowLeftNav,
-  SetLoggedInUser,
   LogOut,
   GetUserPermissions,
   GetLoggedInUser,
   DisplayToastMessage,
-  DeviceWidth
+  DeviceWidth,
+  ShowSpinner,
+  HideSpinner,
+  AuthenticateUser,
+  RemoveLoggedInUser,
+  GetAzureUploadConfiguration
 } from './app.actions';
-import {State, Selector, Action, StateContext, Store} from '@ngxs/store';
+import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { AdminUsersService } from './../core/services/business/admin-users/admin-users.service';
 import { AuthService } from '../core/services/business/auth.service';
 import { Permission } from '../core/enum/permission';
-import { GetPermissions } from '../admin/state/admin-permissions/admin-permissions.action';
-import { GetUser } from '../admin/state/admin-users/admin-users.actions';
 import { tap } from 'rxjs/operators';
-import { Toast } from '../core/enum/toast';
+import { Toast, ToastType } from '../core/enum/toast';
+import { UsersDataService } from '../core/services/data/users/users.data.service';
+import { User } from '../core/models/entity/user';
+import { Router } from '@angular/router';
+import { CustomersDataService } from '../core/services/data/customers/customers.data.service';
 
 export class AppStateModel {
   showLeftNav: boolean;
   setPageTitle: string;
-  currentUser: any;
+  currentUser: User;
   currentUserId: number;
   permissions: Permission[];
   message: string;
@@ -37,6 +42,15 @@ export class AppStateModel {
   toastMessage?: Toast;
   error: string;
   deviceWidth: number;
+  gridData: any[];
+  showSpinner: boolean;
+
+  isUserAuthenticated: boolean;
+  isAuthorized: boolean;
+
+  azureSASToken: string;
+  azureContainer: string;
+  azureStorageAccount: string;
 }
 
 @State<AppStateModel>({
@@ -54,7 +68,16 @@ export class AppStateModel {
 
     toastMessage: null,
     error: '',
-    deviceWidth: window.innerWidth
+    deviceWidth: window.innerWidth,
+    gridData: [],
+    showSpinner: false,
+
+    isUserAuthenticated: null,
+    isAuthorized: false,
+
+    azureContainer: '',
+    azureSASToken: '',
+    azureStorageAccount: ''
   }
 })
 export class AppState {
@@ -65,12 +88,17 @@ export class AppState {
   }
 
   @Selector()
+  static getSpinnerVisibility(state: AppStateModel) {
+    return state.showSpinner;
+  }
+
+  @Selector()
   static getPageTitle(state: AppStateModel) {
     return state.setPageTitle;
   }
- 
+
   @Selector()
-  static getCurrentUser(state: AppStateModel) {
+  static getLoggedInUser(state: AppStateModel) {
     return state.currentUser;
   }
 
@@ -87,11 +115,11 @@ export class AppState {
   @Selector()
   static getToastMessage(state: AppStateModel) {
     return state.toastMessage;
-  }  
+  }
 
   @Selector()
   static setNotification(state: AppStateModel) {
-    return {message: state.message, messageType: state.messageType};
+    return { message: state.message, messageType: state.messageType };
   }
 
   @Selector()
@@ -103,7 +131,7 @@ export class AppState {
   static confirmation(state: AppStateModel) {
     return state.confirmation;
   }
-  
+
   @Selector()
   static getErrorMessage(state: AppStateModel) {
     return state.error;
@@ -114,10 +142,36 @@ export class AppState {
     return state.deviceWidth;
   }
 
-  constructor(private authService: AuthService, private adminUsersService: AdminUsersService) { }
+  @Selector()
+  static getIsUserAuthenticated(state: AppStateModel) {
+    return state.isUserAuthenticated;
+  }
+
+  @Selector()
+  static getIsAuthorized(state: AppStateModel) {
+    return state.isAuthorized;
+  }
+
+  @Selector()
+  static getAzureSASToken(state: AppStateModel) {
+    return state.azureSASToken;
+  }
+
+  @Selector()
+  static getAzureContainer(state: AppStateModel) {
+    return state.azureContainer;
+  }
+
+  @Selector()
+  static getAzureStorageAccount(state: AppStateModel) {
+    return state.azureStorageAccount;
+  }
+
+  constructor(private auth: AuthService, private adminUsersService: AdminUsersService, private usersDataService: UsersDataService, private router: Router,
+    private customersDataService: CustomersDataService) { }
 
   @Action(ShowLeftNav)
-  setLeftNavToggle({getState, setState}: StateContext<AppStateModel>, { payload }: ShowLeftNav) {
+  setLeftNavToggle({ getState, setState }: StateContext<AppStateModel>, { payload }: ShowLeftNav) {
     const state = getState();
     setState({
       ...state,
@@ -125,8 +179,26 @@ export class AppState {
     });
   }
 
+  @Action(ShowSpinner)
+  showSpinner({ getState, setState }: StateContext<AppStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      showSpinner: true
+    });
+  }
+
+  @Action(HideSpinner)
+  hideSpinner({ getState, setState }: StateContext<AppStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      showSpinner: false
+    });
+  }
+
   @Action(SetPageTitle)
-  setPageTitle({getState, setState}: StateContext<AppStateModel>, { payload }: SetPageTitle) {
+  setPageTitle({ getState, setState }: StateContext<AppStateModel>, { payload }: SetPageTitle) {
     const state = getState();
     setState({
       ...state,
@@ -135,35 +207,91 @@ export class AppState {
   }
 
   @Action(GetLoggedInUser)
-  getLoggedinUser({ getState, setState }: StateContext<AppStateModel>, { userId }: GetLoggedInUser) {
-    return this.adminUsersService.getUser(userId).pipe(
-      tap(user => {
-        const state = getState();
-        setState({
-          ...state,
-          currentUser: user
-        });
-      })
-    );
+  getLoggedinUser(ctx: StateContext<AppStateModel>) {
+    return this.usersDataService.getLoggedInUser()
+      .pipe(
+        tap(user => {
+
+          const state = ctx.getState();
+          ctx.setState({
+            ...state,
+            currentUser: user,
+            isAuthorized: true
+          });
+          ctx.dispatch(new GetAzureUploadConfiguration());
+          const return_url = localStorage.getItem('return_url');
+          this.router.navigate(['/']);
+        }, err => {
+          console.log('App State getLoggedinUser', err);
+          const state = ctx.getState();
+          ctx.setState({
+            ...state,
+            currentUser: null,
+            isAuthorized: false
+          });
+          if (err.status === 404) {
+            this.auth.logout();
+            // this.router.navigate(['/unauthorize']);
+          }
+        })
+      );
   }
 
-  @Action(SetLoggedInUser)
-  setLoggedInUser({getState, setState}: StateContext<AppStateModel>, { payload }: SetPageTitle) {
-    const state = getState();
-    setState({
-      ...state,
-      currentUser: payload
-    });
-  }
-
-  @Action(LogOut)
-  logOut({getState, setState}: StateContext<AppStateModel>, { payload }: SetPageTitle) {
+  @Action(RemoveLoggedInUser)
+  removeLoggedInUser({ getState, setState }: StateContext<AppStateModel>) {
     const state = getState();
     setState({
       ...state,
       currentUser: null
     });
-    return this.authService.logOut();    
+  }
+
+  @Action(AuthenticateUser)
+  async authenticateUser({ getState, setState }: StateContext<AppStateModel>) {
+    let isAuthenticated = await this.auth.isAuthenticated();
+    const state = getState();
+    setState({
+      ...state,
+      isUserAuthenticated: isAuthenticated
+    });
+  }
+
+  @Action(LogOut)
+  async logOut({ getState, setState }: StateContext<AppStateModel>) {
+    await this.auth.logout().then(() => {
+      const state = getState();
+      setState({
+        ...state,
+        currentUser: null,
+        isUserAuthenticated: false
+      });
+    });
+  }
+
+  @Action(GetAzureUploadConfiguration)
+  getAzureUploadConfiguration(ctx: StateContext<AppStateModel>) {
+    this.customersDataService.getSetting('container').subscribe(container => {
+      this.customersDataService.getSetting('SASToken').subscribe(SASToken => {
+        this.customersDataService.getSetting('StorageAccount').subscribe(StorageAccount => {
+          const state = ctx.getState();
+          ctx.setState({
+            ...state,
+            azureContainer: container.value,
+            azureSASToken: SASToken.value,
+            azureStorageAccount: StorageAccount.value
+          });
+        }, err => {
+          ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        }
+        );
+      }, err => {
+        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+      }
+      );
+    }, err => {
+      ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+    }
+    );
   }
 
   @Action(GetUserPermissions)
@@ -180,7 +308,7 @@ export class AppState {
   }
 
   @Action(ClearNotification)
-  clearNotification({getState,setState}: StateContext<AppStateModel>) {
+  clearNotification({ getState, setState }: StateContext<AppStateModel>) {
     const state = getState();
     setState({
       ...state,
@@ -189,27 +317,8 @@ export class AppState {
     })
   }
 
-  @Action(SetNotification)
-  setNotification(ctx: StateContext<AppStateModel>, {message, messageType}: SetNotification) {
-    ctx.dispatch(new ClearNotification);
-    const state = ctx.getState();
-
-    setTimeout(()=>{
-      ctx.setState({
-        ...state,
-        message: message,
-        messageType: messageType
-      });
-
-      setTimeout(()=>{
-        ctx.dispatch(new ClearNotification)
-      }, 10000);
-
-    }, 1)
-  }
-
   @Action(ShowConfirmationBox)
-  showConfirmationBox({getState, setState}: StateContext<AppStateModel>, {show}: ShowConfirmationBox) {
+  showConfirmationBox({ getState, setState }: StateContext<AppStateModel>, { show }: ShowConfirmationBox) {
     const state = getState();
 
     setState({
@@ -220,7 +329,7 @@ export class AppState {
   }
 
   @Action(ClearConfirmation)
-  clearConfirmation({getState, setState}: StateContext<AppStateModel>) {
+  clearConfirmation({ getState, setState }: StateContext<AppStateModel>) {
     const state = getState();
 
     setState({
@@ -236,13 +345,13 @@ export class AppState {
       ...state,
       confirmation: true
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       ctx.dispatch(new ClearConfirmation)
     }, 100)
   }
 
   @Action(DisplayToastMessage)
-  displayToastMessage({getState, setState}: StateContext<AppStateModel>, { message, type }: DisplayToastMessage) {
+  displayToastMessage({ getState, setState }: StateContext<AppStateModel>, { message, type }: DisplayToastMessage) {
     const state = getState();
 
     const toast: Toast = { message: message, type: type };
@@ -253,7 +362,7 @@ export class AppState {
   }
 
   @Action(DeviceWidth)
-  DeviceWidth({getState, setState}: StateContext<AppStateModel>, {deviceWidth}: DeviceWidth) {
+  DeviceWidth({ getState, setState }: StateContext<AppStateModel>, { deviceWidth }: DeviceWidth) {
     const state = getState();
 
     setState({

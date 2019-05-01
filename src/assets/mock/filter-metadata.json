@@ -1,0 +1,103 @@
+[
+  {
+    "name": "countries",
+    "label": "Countries",
+    "type": "MultiSelect",
+    "options": [      
+        {
+          "value": "USA",
+          "description": "USA",
+          "sort": "1",
+          "isSelected": false
+        },
+        {
+          "value": "Nigeria",
+          "description": "Nigeria",
+          "sort": "2",
+          "isSelected": false
+        },
+        {
+          "value": "Canada",
+          "description": "Canada",
+          "sort": "3",
+          "isSelected": true
+        },
+        {
+          "value": "Mexico",
+          "description": "Mexico",
+          "sort": "4",
+          "isSelected": false
+        }
+    ],
+    "value": "",
+    "isRequired": true,
+    "order": 1
+  },
+  {
+    "name": "platforms",
+    "label": "Platforms",
+    "type": "MultiSelect",
+    "options": [      
+        {
+          "value": "Rigs",
+          "description": "Rigs",
+          "sort": "1",
+          "isSelected": false
+        },
+        {
+          "value": "Pipeline",
+          "description": "Pipeline",
+          "sort": "2",
+          "isSelected": false
+        },
+        {
+          "value": "Equipment",
+          "description": "Equipment",
+          "sort": "3",
+          "isSelected": false
+        },
+        {
+          "value": "Cars",
+          "description": "Cars",
+          "sort": "4",
+          "isSelected": false
+        }
+    ],
+    "value": "",
+    "isRequired": true,
+    "order": 2
+  },
+  {
+    "name": "type",
+    "label": "Type",
+    "type": "MultiSelect",
+    "options": [      
+        {
+          "value": "PDF",
+          "description": "PDF",
+          "sort": "1",
+          "isSelected": false
+        },
+        {
+          "value": "CSV",
+          "description": "CSV",
+          "sort": "2",
+          "isSelected": false
+        },
+        {
+          "value": "Word",
+          "description": "Word",
+          "sort": "3",
+          "isSelected": false
+        }
+    ],
+    "value": "",
+    "isRequired": true,
+    "order": 3
+  },
+  {
+    "name": "timeFrame",
+    "label": "TimeFrame",
+    "type": "DateRange"
+   }
+]

@@ -1,5 +1,13 @@
+import { Pagination } from './pagination';
+
+export class Media {
+  pagination: Pagination;
+  data: MediaItem[];
+}
+
 export class MediaItem {
-  id: string;
+  id: any;
+  documentId?: any;
   directoryId: number;
   directoryName: string;
   directoryParentId: number;
@@ -22,6 +30,13 @@ export class MediaItem {
   modifiedOn?: Date;
   modifiedOnString?: string;
   modifiedBy?: string;
+  parentId?: number;
+  hasChild?: boolean;
+  isFavorite?: boolean;
+  isChecked?: boolean;
 
   type: string;
+  requester?: number;
+  requestId?: number;
+  requestType?: string;  
 }

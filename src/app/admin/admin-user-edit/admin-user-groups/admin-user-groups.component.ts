@@ -1,11 +1,9 @@
 import { ClearUserGroups } from './../../state/admin-users/admin-users.actions';
-import { GetGroup } from '../../state/admin-groups/admin.groups.action';
-import { Tab } from './../../../core/models/tab';
 import { GridColumn } from './../../../core/models/grid.column';
 import { Group } from '../../../core/models/entity/group';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { GetGroups } from '../../state/admin-groups/admin.groups.action';
+import { GetGroups } from '../../state/admin-groups/admin-groups.action';
 import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
 import { GetUserGroups, UpdateUserGroups } from '../../state/admin-users/admin-users.actions';
@@ -13,6 +11,7 @@ import { AdminUserState } from '../../state/admin-users/admin-users.state';
 import { ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import {BaseComponent} from "../../../shared/base/base.component";
+import { SetSelectedItems } from 'src/app/media/state/media/media.action';
 
 @Component({
   selector: 'app-admin-user-groups',
@@ -49,14 +48,14 @@ export class AdminUserGroupsComponent extends BaseComponent implements OnInit, O
       } else {
         this.store.dispatch(new ClearUserGroups());
       }
+      this.userGroups$.subscribe(groups => {
+        if (groups) {
+          this.userGroupIds = groups.map(x => x.id);
+        }
+      });
     }),
     takeWhile(() => this.componentActive);
 
-    this.userGroups$.subscribe(groups => {
-      if (groups) {
-        this.userGroupIds = groups.map(x => x.id);
-      }
-    });
   }
 
   ngOnDestroy(): void {
@@ -69,5 +68,10 @@ export class AdminUserGroupsComponent extends BaseComponent implements OnInit, O
       console.log('AdminUserGroupsComponent - updateGroups');
       this.store.dispatch(new GetUserGroups(this.userId));
     });
+  }
+
+  selectedItemData(data: any[]) {
+    console.log('selectedItemData',data);
+    this.store.dispatch(new SetSelectedItems(data));
   }
 }

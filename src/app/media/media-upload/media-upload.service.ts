@@ -1,26 +1,92 @@
 import { Injectable } from "@angular/core";
 import { Validators, ValidatorFn } from "@angular/forms";
-import { FieldConfiguration, FieldValidator } from "src/app/shared/dynamic-components/field-setting";
-import { map } from "rxjs/operators";
+import { FieldConfiguration } from "src/app/shared/dynamic-components/field-setting";
 import { DirectoryDataService } from 'src/app/core/services/data/directory/directory.data.service';
-import { MetadataFieldsDataService } from 'src/app/core/services/data/metadata-fields/metadata-fields.data.service';
 import { MetadataFieldType } from 'src/app/core/enum/metadataFieldType';
 import { Metadata } from 'src/app/core/models/entity/metadata';
+import { BlobService, UploadParams } from 'angular-azure-blob-service'
+import { MediaItem } from 'src/app/core/models/entity/media';
+import { Store, Select } from '@ngxs/store';
+import { CreateMediaItem } from '../state/media/media.action';
+import { HideSpinner, DisplayToastMessage } from 'src/app/state/app.actions';
+import { ToastType } from 'src/app/core/enum/toast';
+import { CustomersDataService } from 'src/app/core/services/data/customers/customers.data.service';
+import { tap } from 'rxjs/internal/operators/tap';
+import { AppState } from 'src/app/state/app.state';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: "root"
 })
 export class MediaUploadService {
 
-  constructor(private directoryDataService: DirectoryDataService, private metadataFieldsDataService: MetadataFieldsDataService) {}
+  config: any;
+  percent: any;
+  sasToken: any;
+  storageAccount: any;
+  containerName: any;
+
+  
+
+  constructor(private directoryDataService: DirectoryDataService, private store: Store, private blob: BlobService) { }
+
+  upload(directoryId: number, file: File, metadata: string, folderPath: string, containerName: string, sasToken: string, storageAccount: string) {
+    const Config: UploadParams = {
+      sas: sasToken,
+      storageAccount: storageAccount,
+      containerName: containerName
+    };
+    let splitByLastDot = function (text) {
+      var index = text.lastIndexOf('.');
+      return [text.slice(0, index), text.slice(index + 1)]
+    }
+    if (file !== null) {
+      const baseUrl = this.blob.generateBlobUrl(Config, file.name);
+      this.config = {
+        baseUrl: baseUrl,
+        sasToken: Config.sas,
+        blockSize: 1024 * 64, // OPTIONAL, default value is 1024 * 32
+        file: file,
+        complete: () => {
+
+          let thumbnail = `https://${Config.storageAccount}.blob.core.windows.net/thumbs/${file.name}`;
+          let _folderPath = folderPath.replace('>', '/');
+
+          console.log('MediaUploadService compelete folder-path: ', _folderPath);
+
+          let item = new MediaItem();
+          item.metadata = metadata;
+          item.size = file.size;
+          item.name = file.name;
+          item.contentType = file.type;
+          item.directoryId = directoryId;
+          item.url = this.config.baseUrl;
+          item.documentTypeCode = splitByLastDot(file.name).pop().toUpperCase();
+          item.requester = 1;
+          item.thumbnail = thumbnail;
+          this.store.dispatch(new CreateMediaItem(item));
+        },
+        error: (err) => {
+          console.log('MediaUploadService upload Error: ', err);
+          this.store.dispatch(new HideSpinner());
+          this.store.dispatch(new DisplayToastMessage(err.statusText, ToastType.error));
+        },
+        progress: (percent) => {
+          console.log('MediaUploadService upload progress: ', percent);
+          this.percent = percent;
+        }
+      };
+      this.blob.upload(this.config);
+    }
+  }
 
   async getDirectoryMetadata(directoryId: number) {
-    let metaArray = [];
+    let metaArray: FieldConfiguration[] = [];
     let items = await this.directoryDataService.getMetadata(directoryId).toPromise();
     if (items) {
       items.forEach(async item => {
-        let field: any; 
-        switch(item.fieldTypeName) {
+        let field: FieldConfiguration;
+        switch (item.fieldTypeName) {
           case MetadataFieldType.Text:
             field = this.buildTextBox(item);
             break;
@@ -32,34 +98,16 @@ export class MediaUploadService {
             break;
         }
         metaArray.push(field);
-      });  
+      });
     }
 
-    metaArray.forEach(async item => {
-      if (item.type === 'select') {
-        item.options = await this.getOptions(item.optionsId).toPromise();      
-      }
-    });
-
     return await metaArray.sort(x => x.order);
-  }
-
-  private getOptions(id: any) {
-    return this.metadataFieldsDataService.getListItems(id).pipe(
-      map(items => {
-        let options = [];
-        items.forEach(res => {
-          let option = { "value": res.value, "text": res.description, "sort": res.sort };
-          options.push(option);
-        });
-        return options.sort(x => x.sort);
-      })
-    );
   }
 
   private buildTextBox(item: Metadata): FieldConfiguration {
     return {
       type: "input",
+      cssClass: 'col-md-6',
       label: item.fieldName,
       inputType: "text",
       name: item.fieldName,
@@ -69,23 +117,16 @@ export class MediaUploadService {
     };
   }
 
-  private buildLabel(item: Metadata): FieldConfiguration {
-    return {
-      type: "label",
-      label: item.fieldName,
-      name: item.fieldName,
-      order: item.order
-    };
-  }
-
   private buildDropdown(item: Metadata): FieldConfiguration {
     return {
       type: "select",
+      cssClass: 'col-md-6',
       label: item.fieldName,
       name: item.fieldName,
       order: item.order,
       optionsId: item.listId,
-      options: [],
+      options: item.options,
+      value: '',
       placeholder: 'Please select',
       validations: this.getValidations(item)
     };
@@ -94,6 +135,7 @@ export class MediaUploadService {
   private buildDate(item: Metadata): FieldConfiguration {
     return {
       type: "date",
+      cssClass: 'col-md-6',
       label: item.fieldName,
       name: item.fieldName,
       order: item.order,

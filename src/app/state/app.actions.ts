@@ -18,17 +18,28 @@ export class SetPageTitle {
   constructor(public payload: string) { }
 }
 
+export class ShowSpinner {
+  static readonly type = '[App] ShowSpinner';
+}
 
-export class SetLoggedInUser {
-  static readonly type = '[App] SetLoggedInUser';
+export class HideSpinner {
+  static readonly type = '[App] HideSpinner';
+}
 
-  constructor(public user: any) { }
+export class GetAzureUploadConfiguration {
+  static readonly type = '[App] GetAzureUploadConfiguration';
 }
 
 export class GetLoggedInUser {
   static readonly type = '[App] GetLoggedInUser';
+}
 
-  constructor(public userId: number) { }
+export class RemoveLoggedInUser {
+  static readonly type = '[App] RemoveLoggedInUser';
+}
+
+export class AuthenticateUser {
+  static readonly type = '[App] AuthenticateUser';
 }
 
 export class LogOut {

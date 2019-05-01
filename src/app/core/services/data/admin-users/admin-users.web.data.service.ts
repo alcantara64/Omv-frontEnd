@@ -3,12 +3,12 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AdminUsersDataService } from './admin-users.data.service';
-import { User } from 'src/app/core/models/entity/user';
+import { User, Users } from 'src/app/core/models/entity/user';
 import { User_SearchInputDTO } from 'src/app/core/dtos/input/users/User_SearchInputDTO';
 
 import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
-import { User_SearchOutputDTO } from 'src/app/core/dtos/output/users/User_SearchOutputDTO';
+import { User_SearchOutputDTO, User_SearchOutputDTOData } from 'src/app/core/dtos/output/users/User_SearchOutputDTO';
 import * as automapper from 'automapper-ts';
 import { User_GetByIdOutputDTO } from 'src/app/core/dtos/output/users/User_GetByIdOutputDTO';
 import { User_UpdateInputDTO } from 'src/app/core/dtos/input/users/User_UpdateInputDTO';
@@ -33,32 +33,38 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getUsers(name:string, groupid:number): Observable<User[]> {
-
-    var request = new User_SearchInputDTO()
-    request.Name = name;
-    request.GroupId = groupid;
-
+  getUsers(name:string, groupid:number, pageNumber?: number, pageSize?: number): Observable<Users> {
     var requestUri = environment.api.baseUrl + `/v1/users`;
-
-    console.log('AdminUsersWebDataService - getUsers - requestUrl ', requestUri);
 
     const options = {
       params: new HttpParams()
     };
-    if(request) {
-      if (request.Name) {
-        options.params = options.params.set('name', request.Name);
-      }
-      if (request.GroupId) {
-        options.params = options.params.set('roleId', request.GroupId.toString());
-      }
+    if (name) {
+      options.params = options.params.set('name', name);
+    }
+    if (groupid) {
+      options.params = options.params.set('roleId', groupid.toString());
+    }
+    if (pageNumber) {
+      options.params = options.params.set('pageNumber', pageNumber.toString());
+    }
+    if (pageSize) {
+      options.params = options.params.set('limit', pageSize.toString());
     }
 
-    return this.httpClient.get<User_SearchOutputDTO[]>(requestUri, options).pipe(map(
+    return this.httpClient.get<User_SearchOutputDTO>(requestUri, options).pipe(map(
       response => {
+        // Map response to media
         automapper
-          .createMap(response, User)
+          .createMap(User_SearchOutputDTO, Users)
+          .forMember('pagination', function(opts) { opts.mapFrom('Pagination'); })
+          .forMember('data', function(opts) { opts.mapFrom('Data'); });
+
+        let users: Users = automapper.map(User_SearchOutputDTO, Users, response);
+        console.log('AdminUsersWebDataService - getUsers users: ', users);
+
+        automapper
+          .createMap(User_SearchOutputDTOData, User)
           .forMember('userId', function(opts) { opts.mapFrom('userId'); })
           .forMember('userName', function(opts) { opts.mapFrom('userName'); })
           .forMember('emailAddress', function(opts) { opts.mapFrom('emailAddress'); })
@@ -73,9 +79,10 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
           .forMember('modifiedOn', function(opts) { opts.mapFrom('modifiedOn'); })
           .forMember('modifiedBy', function(opts) { opts.mapFrom('modifiedBy'); })
 
-        var _response = automapper.map(response, User, response);
-        console.log('AdminUsersWebDataService - getUsers: ', _response);
-        return this.setUsers(_response);
+        let usersData: User[] = automapper.map(User_SearchOutputDTOData, User, users.data);
+        users.data = this.formatGroups(usersData);
+        console.log('AdminUsersWebDataService - getUsers: ', users);
+        return users;
       }),
       catchError(e => {
         console.log("'AdminUsersWebDataService - getUsers error:", e);
@@ -84,7 +91,7 @@ export class AdminUsersWebDataService implements AdminUsersDataService {
     );
   }
 
-  setUsers(users: User[]) {
+  formatGroups(users: User[]) {
     users.forEach(user => {
       if (user.roleNames) {
         var roles = user.roleNames.split(",");

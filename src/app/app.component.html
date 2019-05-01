@@ -1,11 +1,11 @@
 
-<app-header></app-header>
+<app-header *ngIf="isAuthorized$ | async"></app-header>
 
 <ejs-toast #element [position]='position' showProgressBar='true' showCloseButton='true'></ejs-toast>
 
 <main id="main" [ngClass]="{'container-fluid': displayWidth <= 1265, 'container': displayWidth > 1265}">
   <div class="row pt-4">
-    <div *ngIf="showLeftNav$ | async" class="col-md-3">
+    <div *ngIf="(showLeftNav$ | async) && (isAuthorized$ | async)" class="col-md-3">
       <app-leftnav></app-leftnav>
     </div>
     <div [ngClass]="(showLeftNav$ | async) ? 'col-md-9' : 'col-md-12'">

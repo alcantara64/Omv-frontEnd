@@ -95,7 +95,8 @@ export class AdminUserState {
   @Action(GetUsers)
   getUsers({ getState, setState }: StateContext<AdminUserStateModel>, { name, groupId }: GetUsers) {
     return this.adminUserService.getUsers(name, groupId).pipe(
-      tap(users => {
+      tap(response => {
+        let users = response.data;
         const state = getState();
         users.map(user => {
           user.modifiedOnString = this.dateService.formatToString(user.modifiedOn);
@@ -166,7 +167,7 @@ export class AdminUserState {
           currentUserId: user.userId
         });
       }, (err) => {
-        ctx.dispatch(new DisplayToastMessage(err.message, ToastType.error));
+        ctx.dispatch(new DisplayToastMessage(err.error, ToastType.error));
       })
     );
   }
@@ -202,8 +203,10 @@ export class AdminUserState {
 
   @Action(DisableUser)
   disableUser(ctx: StateContext<AdminUserStateModel>, { id, payload, isMultiple, refreshList }: DisableUser) {
-    payload.status = 0;
-    this.adminUserService.updateUser(id, payload).subscribe(user => {
+    let newPayload = {...payload}
+   // payload.status = 0;
+   newPayload.status = 0;
+    this.adminUserService.updateUser(id, newPayload).subscribe(user => {
       console.log('AdminUserState - disableUser: response ', user);
       if (!isMultiple) {
         ctx.dispatch(new DisplayToastMessage(`${user.displayName} was disabled successfully.`));
@@ -219,8 +222,10 @@ export class AdminUserState {
 
   @Action(EnableUser)
   enableUser(ctx: StateContext<AdminUserStateModel>, { id, payload, isMultiple, refreshList }: EnableUser) {
-    payload.status = 1;
-    this.adminUserService.updateUser(id, payload).subscribe(user => {
+    let newPayload = {...payload}
+    //payload.status = 1;
+    newPayload.status = 1;
+    this.adminUserService.updateUser(id, newPayload).subscribe(user => {
       if (!isMultiple) {
         ctx.dispatch(new DisplayToastMessage(`${user.displayName} was enabled successfully.`));
       }

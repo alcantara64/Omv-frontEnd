@@ -1,3 +1,18 @@
-<p>
-  all-media-treeview works!
-</p>
+<app-tree-grid
+  [dataSource]="media"
+  [columns]="columns"
+  [treeColumnIndex]="2"
+  [idMapping]="'id'"
+  [parentIdMapping]="'parentId'"
+  [selectionOptions]="selectionOptions"
+  [favoriteColumnIndex]="2"
+  [showFolderIcon]="true"
+  [showFavorite]="true"
+  [allowNavigating]="true"
+  [allowChecking]="true"
+  [allowDownloading]="true"
+  (clickFavorite)="performToggleFavorite($event)"
+  (download)="download($event)"
+  (navigate)="navigate($event)"
+  (rowChecked)="rowChecked($event)">
+</app-tree-grid>

@@ -4,6 +4,7 @@ import { AdminGroupsDataService } from '../../data/admin-groups/admin-groups.dat
 import { Observable } from 'rxjs';
 import { Permission } from 'src/app/core/enum/permission';
 import { User } from 'src/app/core/models/entity/user';
+import { AssignToPermission } from 'src/app/admin/state/admin-groups/admin-groups.action';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,9 @@ export class AdminGroupsService {
 
   createGroup(payload: Group): Observable<Group> {
     return this.AdminGroupsDataService.createGroup(payload);
+  }
+  updatePermissions(groupId:number, payload:string[]){
+    return this.AdminGroupsDataService.updatePermissions(groupId,payload)
   }
 
   updateGroup(id: number, payload: Group) {

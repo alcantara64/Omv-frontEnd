@@ -4,7 +4,8 @@ import { BaseComponent } from '../base/base.component';
 import { GridComponent, RowSelectEventArgs, SelectionSettingsModel, RowDeselectEventArgs, CellSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { setSpinner, createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-popups';
+import { Request_Status } from 'src/app/core/enum/request-status';
+import { inputs } from '@syncfusion/ej2-angular-inputs/src/slider/slider.component';
 
 @Component({
   selector: 'app-list',
@@ -31,14 +32,19 @@ export class ListComponent extends BaseComponent implements OnInit {
   @Input() checkField: string;
   @Input() showFavoriteIcon: boolean;
   @Input() favoriteIconPosition: number = 1;
+  @Input() showStatusIcon: boolean;
+  @Input() statusIconPosition: number = 0;
+  @Input() requestStatusEnum = Request_Status;
+  @Input() isfirstButtonDisabled:boolean;
 
   @Output() firstAction = new EventEmitter<Object[]>();
   @Output() secondAction = new EventEmitter<Object[]>();
   @Output() firstNavigateAction = new EventEmitter<any>();
-  @Output()secondNavigateAction = new EventEmitter<any>();
+  @Output() secondNavigateAction = new EventEmitter<any>();
   @Output() buttonOneEvent = new EventEmitter<Object[]>();
   @Output() secondButtonEvent = new EventEmitter<any[]>();
   @Output() toggleFavorite = new EventEmitter<any[]>();
+  @Output () selectedItemData =  new EventEmitter<any>();
 
   public selIndex: any[] = [];
 
@@ -84,25 +90,33 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   rowSelected(args: RowSelectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
-    console.log(this.selectedRecords);
+    console.log('args - rowSelected', args.data['id']);
+    if (this.selectedRecords.length > 0) {
+      this.selectedItemData.emit(this.selectedRecords);
+    }else {
+      this.selectedRecords.splice( this.selectedRecords.indexOf(args.data), 1 );
+      this.selectedItemData.emit(this.selectedRecords);
+    }
+    console.log('rowSelected', this.selectedRecords);
+  
   }
 
   rowDeselected(args: RowDeselectEventArgs) {
     this.selectedRecords = this.grid.getSelectedRecords();
+    this.selectedItemData.emit(this.selectedRecords);
+    console.log('rowSelected', this.selectedRecords);
   }
 
   rowDataBound(args) {
+    console.log('rowDataBound', this.initialRecords);
     if (this.initialRecords) {
       if (this.initialRecords.includes(args.data[this.checkField])) {
-        console.log('rowDataBound args: this.initialRecords after', this.initialRecords);
-        this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
+       this.selIndex.push(parseInt(args.row.getAttribute('aria-rowindex')));
       }
     }
   }
 
   dataBound(args): void {
-    console.log('ListComponent - dataBound');
-
     if (this.selIndex.length) {
       this.grid.selectRows(this.selIndex);
       this.selIndex = [];

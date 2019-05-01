@@ -3,23 +3,24 @@
 <br />
 <div class="actionBar">
   <button (click)="showFieldsDialog()"><span class="actions"><img src="../../../../assets/images/icon-add.svg" /> &nbsp;Add Field</span></button>
-  <button (click)="submit()" [disabled]="!dynamicForm?.valid" [ngClass]="{'button-not-allowed': !dynamicForm?.valid}"><span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span></button>
-  <button><span class="actions"><i style="color: #da5200" class="e-icons e-clear"></i> Disregard Changes</span></button>
+  <button (click)="submit()" [disabled]="dynamicForm ? !dynamicForm.valid : false" [ngClass]="{'button-not-allowed': dynamicForm ? !dynamicForm.valid : false}"><span class="actions"><i style="color: #75b52f" class="e-icons e-reload"></i> Update Metadata</span></button>
+  <button (click)="discardChanges()"><span class="actions"><i style="color: #da5200" class="e-icons e-clear"></i> Disregard Changes</span></button>
 </div>
 
 <div class="row">
   <div class="col-md-6">
-    <dynamic-form #dynamicForm="dynamicForm" style="display: inline"
+    <dynamic-form #dynamicForm="dynamicForm" 
+        *ngIf="itemMetadataFields?.length > 0" 
+        style="display: inline"
+        [allowDeleting]="true"
         [config]="itemMetadataFields" 
         (submit)="submit($event)" 
-        (remove)="performRemove($event)" 
-        [showDelete]='true'
-        *ngIf="itemMetadataFields?.length > 0" 
-        (formFinished)="onFormFinished($event)">
+        (deleteControl)="deleteControlEvent($event)">
     </dynamic-form>
   </div>
   <div class="col-md-6">
-    <img [src]="mediaItem ? mediaItem?.thumbnail : ''" alt="OMV Image" style="width: 100%; height: auto; margin: auto">
+    <img (click)="activateViewer()" [src]="mediaItem?.thumbnail" [default]="mediaItem?.url"
+      alt="OMV Image" style="width: 100%; height: auto; margin: auto">
     <!-- <img *ngIf="isPDF === true" src="../../../../assets/images/omvPDFMedia.png" alt="OMV Image" style="width: 100%; height: auto; margin: auto" (click)="activatePDFViewer()"> -->
   </div>
 </div>

@@ -1,3 +1,5 @@
+import { ListItem } from './list-item';
+
 export class Metadata {
   fieldId: number;
   fieldName: string;
@@ -10,4 +12,8 @@ export class Metadata {
   isRequired: boolean;
   order: number;
   status: number;
+  options: ListItem[];
+
+  name?: string;
+  type?: string;
 }

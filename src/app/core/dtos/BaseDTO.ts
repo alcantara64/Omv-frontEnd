@@ -1,6 +1,6 @@
 export class BaseDTO {
-  createdOn: Date;
+  createdOn: Date | string;
   createdBy: string;
-  modifiedOn: Date;
+  modifiedOn: Date | string;
   modifiedBy: string;
 }

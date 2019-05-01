@@ -41,7 +41,7 @@
       </div><br>
       <div class="form-group">
         <label>Email Address</label>
-        <input class="form-control form-control-lg" id="emailAddressId" type="text" placeholder="" formControlName="emailAddress"
+        <input class="form-control form-control-lg" id="emailAddressId" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="" formControlName="emailAddress"
           [ngClass]="{'is-invalid': (userForm.get('emailAddress').touched ||
                                       userForm.get('emailAddress').dirty) &&
                                       !userForm.get('emailAddress').valid }" />

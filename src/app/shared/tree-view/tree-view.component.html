@@ -1,34 +1,53 @@
-<ejs-treegrid [dataSource]='data' [treeColumnIndex]='0'
-              [allowSorting]='true' parentIdMapping='parentID' idMapping='id'>
-  <!-- <e-columns>
-    <e-column field='' headerText='' width='100'>
-      <ng-template #template>
-        <span class='e-icons e-folder' style='color: #0097A9 !important'></span>
+<ejs-treegrid 
+    [dataSource]='dataSource' 
+    [idMapping]='idMapping'
+    [parentIdMapping]='parentIdMapping' 
+    [treeColumnIndex]='treeColumnIndex' 
+    [allowSorting]='true' 
+    [allowPaging]='true'
+    [selectionSettings]='selectionOptions'
+    (rowSelected)="rowSelectedEvent($event)" 
+    (queryCellInfo)='addFolderIcon($event)'>
+  <e-columns>
+    <!-- Column 1: Checkbox for each row -->
+    <e-column headerText=' ' type=" " width='50' textAlign='Center' *ngIf="allowChecking">
+      <ng-template #template let-data>
+        <div >
+          <ejs-checkbox cssClass="e-success" [checked]="data.isChecked" (change)="rowCheckedEvent(data)"></ejs-checkbox>
+        </div>
       </ng-template>
     </e-column>
-    <e-column field='name' headerText='Name' textAlign='Left'></e-column>
-    <e-column field='date' headerText='Date' textAlign='Left'></e-column>
-  </e-columns> -->
 
-  <e-columns>
-    <ng-template #template ngFor let-column [ngForOf]="columns">
-      <e-column [field]="column.field" [type]="column.type" [headerText]="column.headerText" [width]="column.width"
-        [textAlign]="column.textAlign">
-      </e-column>
+    <!-- Column 2: FAVORITE ICON COLUMN -->
+    <e-column *ngIf="showFavorite" headerText='' width="40" textAlign='Left'>
+      <ng-template #template let-data>
+        <img class="favorite-cls cursor" (click)="clickFavoriteEvent(data)"
+          [src]="data.isFavorite ? '../../../assets/images/favorite.png' : '../../../assets/images/notfavorite.png'">  
+      </ng-template>
+    </e-column>    
+
+    <ng-template #template ngFor let-column [ngForOf]="columns" let-i="index">
+
+      <!-- Other columns -->
+      <e-column [field]="column.field" [headerText]="column.headerText" [width]="column.width" textAlign='Left'></e-column>
 
     </ng-template>
 
-    <!-- <e-column *ngIf="showFirstAction" field='' headerText='' width='100'>
-      <ng-template #template>
-        <a class="link" (click)="performFirstAction($event)" [innerHTML]="firstActionText" style="text-decoration: none!important"></a>
+    <!-- Download link -->
+    <e-column width="100" textAlign='Left' *ngIf="allowDownloading">
+      <ng-template #template let-data>
+        <a *ngIf="!data.directoryId" class="link" style="text-decoration:underline;" (click)="downloadEvent(data)">
+          Download
+        </a>
       </ng-template>
     </e-column>
 
-    <e-column *ngIf="showSecondAction" field='' headerText='' width='70'>
-      <ng-template #template>
-        <a class="link" (click)="performSecondAction($event)" [innerHTML]="secondActionText" style="text-decoration: none!important"></a>
+    <!-- Pencil icon -->
+    <e-column width="100" *ngIf="allowNavigating">
+      <ng-template #template let-data>
+        <span *ngIf="!data.directoryId" class='e-icons e-pencil' (click)="navigateEvent(data)" style='color: #0097A9 !important'></span>
       </ng-template>
-    </e-column> -->
+    </e-column>
+    
   </e-columns>
 </ejs-treegrid>
-  

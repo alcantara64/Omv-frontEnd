@@ -1,0 +1,38 @@
+<div>
+  <div class="filter-container">
+    <!-- TOP SECTION SECTION -->
+    <div class="container filter-top-section">
+      <div class="row">
+        <div class="col-md-2">
+          <label class="title title-16"> Filter By: | </label>
+        </div>
+        <div class="col-md-7">          
+          <app-tags *ngFor="let tag of filterTags$ | async" [tag]="tag" (removeTag)="removeTag($event)"></app-tags>
+        </div>
+        <div class="col-md-3">
+          <div class="float-right">
+            <button class="button-no-outline" style="margin-right: 20px"> Save To "Favorites" </button>
+            <button class="button-no-outline" (click)="clearFilters()"> Clear All Filters </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+
+    <!-- BOTTOM SECTION -->
+    <div class="filter-lower-section" *ngIf="showFilters">
+      <dynamic-form #dynamicForm="dynamicForm" *ngIf="fields?.length > 0" style="display: inline" [config]="fields" (dropdownChange)="dropdownChange($event)"
+        (submit)="submit($event)">
+      </dynamic-form>
+
+      <!-- BUTTON SECTION -->
+      <button class="btn btn-lg button-round" (click)="applyFilters()"> APPLY FILTERS </button>
+    </div>
+  </div>
+  <div class="toggler" (click)="toggle()">
+    <div *ngIf="!showFilters">
+      <span> See All </span> <img class="toggler-up-icon" width="10px" [src]="toggleDirectionIcon" />
+    </div>
+    <img *ngIf="showFilters" class="toggler-direction" [src]="toggleDirectionIcon" width="14px" />
+  </div>
+</div>

@@ -9,11 +9,14 @@ import { environment } from 'src/environments/environment';
 import * as automapper from 'automapper-ts';
 import { Directory_GetAllOutputDTO } from 'src/app/core/dtos/output/directories/Directory_GetAllOutputDTO';
 import { Directory } from 'src/app/core/models/entity/directory';
+import { Document } from 'src/app/core/models/entity/document';
+import { Document_SearchOutputDTO } from 'src/app/core/dtos/output/documents/Document_SearchOutputDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DirectoryWebDataService implements DirectoryDataService {
+
 
   baseUrl = environment.api.baseUrl;
   
@@ -27,14 +30,14 @@ export class DirectoryWebDataService implements DirectoryDataService {
           .createMap(response, Directory)
           .forMember('id', function(opts) { opts.mapFrom('directoryId'); })
           .forMember('name', function(opts) { opts.mapFrom('directoryName'); })
-          .forMember('parentID', function(opts) { opts.mapFrom('directoryParentId'); })
+          .forMember('parentId', function(opts) { opts.mapFrom('directoryParentId'); })
           .forMember('hasChild', function(opts) { opts.mapFrom('hasChild'); });
 
         var _response = automapper.map(response, Directory, response);
 
         _response.forEach(item => {
-          if (item.parentID == 0) {
-            item.parentID = null;
+          if (item.parentId === 0) {
+            item.parentId = null;
           }
         })
         
@@ -66,7 +69,8 @@ export class DirectoryWebDataService implements DirectoryDataService {
           .forMember('entityName', function(opts) { opts.mapFrom('entityName'); })
           .forMember('isRequired', function(opts) { opts.mapFrom('isRequired'); })
           .forMember('order', function(opts) { opts.mapFrom('order'); })
-          .forMember('status', function(opts) { opts.mapFrom('status'); });
+          .forMember('status', function(opts) { opts.mapFrom('status'); })
+          .forMember('options', function(opts) { opts.mapFrom('options'); });
 
         var _response = automapper.map(response, Metadata, response);
         
@@ -78,5 +82,37 @@ export class DirectoryWebDataService implements DirectoryDataService {
         return of(null);
       })
     );
+  }
+
+  getDocuments(): Observable<Document[]>{
+    let requestUri = this.baseUrl + `/v1/documents`;
+    var data = this.httpClient.get<Document_SearchOutputDTO[]>(requestUri).pipe(
+      map(response => {
+        automapper
+          .createMap(response, Document)
+          .forMember('id', function(opts) { opts.mapFrom('id'); })
+          .forMember('documentId', function(opts) { opts.mapFrom('documentId'); })
+          .forMember('directoryId', function(opts) { opts.mapFrom('directoryId'); })
+          .forMember('parentId', function(opts) { opts.mapFrom('parentId'); })
+          .forMember('name', function(opts) { opts.mapFrom('name'); })
+          .forMember('hasChild', function(opts) { opts.mapFrom('hasChild'); })
+          .forMember('modifiedOn', function(opts) { opts.mapFrom('modifiedOn'); });
+
+        var _response = automapper.map(response, Document, response);
+
+        _response.forEach(item => {
+          if (item.directoryParentId === 0) {
+            item.directoryParentId = null;
+          }
+        });
+        console.log('DirectoryWebDataService - getDocuments: ', _response);
+        return _response;
+      }),
+      catchError(e => {
+        console.log("'DirectoryWebDataService - getDocuments error:", e);
+        return of(null);
+      })
+    );
+    return data;
   }
 }

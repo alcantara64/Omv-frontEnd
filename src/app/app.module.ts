@@ -1,7 +1,6 @@
-import { LeftNavComponent } from './shared/leftnav/leftnav.component';
 import { AppState } from './state/app.state';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app.routing.module';
 import { AppComponent } from './app.component';
@@ -15,46 +14,73 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { SharedModule } from './shared/shared.module';
-import {TreeViewModule} from "@syncfusion/ej2-angular-navigations";
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { StartupComponent } from './startup/startup.component';
-import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
-import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import { MediaModule } from './media/media.module';
-import { ListViewModule } from '@syncfusion/ej2-angular-lists';
-import { GridAllModule } from '@syncfusion/ej2-angular-grids';
+import { BlobModule } from 'angular-azure-blob-service';
+import { ToastModule } from '@syncfusion/ej2-angular-notifications';
+import {FormsModule} from '@angular/forms';
+import { FiltersComponent } from './filters/filters.component';
+
 import { HttpInterceptorService } from './core/services/httpinterceptor.service';
-import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
+import { AppStartupService } from './core/services/appstartup.service';
+import { environment } from 'src/environments/environment';
+import { UsersDataService } from './core/services/data/users/users.data.service';
+import { UsersMockDataService } from './core/services/data/users/users.mock.data.service';
+import { UsersWebDataService } from './core/services/data/users/users.web.data.service';
+import { UnAuthorizedComponent } from './unauthorized/unauthorized.component';
+import { AuthorizationCheckComponent } from './authorization-check/authorization-check.component';
+import { OktaDataService } from './core/services/data/okta/okta.service';
+import { OktaWebDataService } from './core/services/data/okta/okta.web.service';
+
+const appUrl = `${window.location.protocol}//${window.location.host.toLowerCase()}`;
+
+const config = {
+  issuer: 'https://{Provide Okta Issuer Url}',
+  redirectUri: `${appUrl}/implicit/callback`,
+  clientId: '{Provide Okta App Client Id}'
+}
+
+// okta client configuration setting duing application bootstrap
+const runAppInitializer = (appStart: AppStartupService) => {
+  return () => {
+    console.log('runAppInitializer');
+    var oktaConfig =  appStart.load();
+    config.issuer = oktaConfig.issuer;
+    config.clientId = oktaConfig.clientId;
+    return oktaConfig;
+  };
+};
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     AuthCallbackComponent,
-    StartupComponent, 
+    DashboardComponent,
+    StartupComponent,
+    UnAuthorizedComponent,
+    AuthorizationCheckComponent
   ],
-  imports: [
-    BrowserModule,
+  imports: [    
     AppRoutingModule,
+    BrowserModule,
     HttpModule,
     HttpClientModule,
+    FormsModule,
     AdminModule,
     MediaModule,
-    SharedModule, 
-    TreeViewModule,
-    CheckBoxModule,
+    SharedModule,
     ToastModule,
-    ListViewModule,
-    GridAllModule,
-    DatePickerModule,
-    NgxsModule.forRoot([
-      AppState
-    ]),
+      
+    BlobModule.forRoot(),
+    NgxsModule.forRoot([ AppState ],  { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
+    NgxsLoggerPluginModule.forRoot()    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: UsersDataService, useClass: environment.useMocks ? UsersMockDataService : UsersWebDataService },
+    { provide: OktaDataService, useClass: environment.useMocks ? OktaWebDataService : OktaWebDataService },
     SettingsService,
     AdminUsersService
    ],

@@ -1,0 +1,83 @@
+<div>
+    <div class="row">
+        <div class="pb-3 col-md-12">
+            <span class="pt-3">
+                <button ejs-button class="omv-primary-plus float-right" (click)="add()">
+                    Add New Fields
+                </button>
+            </span>
+        </div>
+    </div>
+    <ejs-dialog #fieldDialog [visible]="false" [width]='500' >
+
+        <ng-template #content>
+
+            <form  [formGroup]="metadataFieldForm">
+                <button class="dialog-close" (click)="closeDialog()">
+                    <img src="../../../../assets/images/dialog-close.svg" />
+                </button>
+                <br />
+                <label class="dialog-title">Add Metadata Field </label>
+                <hr />
+                <br/>
+                <div class="row pt-3 ">
+                    <div class="col-md-3"><label class="media-label"  style="padding-top: 11px;">
+                            Field Name
+                        </label></div>
+                    <div class="col-md-8">
+                        <input class="form-control form-control-lg" id="fieldNameId" type="text" placeholder=""
+                            formControlName="fieldName"
+                            [ngClass]="{'is-invalid': (metadataFieldForm.get('fieldName').touched ||
+                                                                               metadataFieldForm.get('fieldName').dirty) &&
+                                                                              !metadataFieldForm.get('fieldName').valid }" />
+                    </div>
+                </div>
+                <div class="row pt-3 pb-3">
+                    <div class="col-md-3"><label class="media-label" style="padding-top: 11px;">
+                            Field Type
+                        </label></div>
+                    <div class="col-md-8">
+
+                        <ejs-dropdownlist id='ddlelement' #samples formControlName="fieldTypeId"
+                            [dataSource]='fieldTypeData' (change)="checkFieldType()"
+                            [placeholder]="'Select a Field Type'" [value]='name' [fields]='typeListFields' class="">
+                        </ejs-dropdownlist>
+                    </div>
+                </div>
+                <div [hidden]="!showListDropdown" class="row pb-3">
+                    <div class="col-md-3"><label class="media-label"  style="padding-top: 11px;">
+                            List
+                        </label></div>
+                    <div class="col-md-8">
+                        <div >
+                                <ejs-dropdownlist id='ddlelement' #samplesDropdownlist formControlName="metadataListId"
+                                    [dataSource]='allMetadataList' [placeholder]="'Select a List'"
+                                    [value]='itemDescription' [fields]=' createListFields '>
+                                </ejs-dropdownlist>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center form-group" style="margin-top:20px">
+                <button class="btn btn-lg omv-primary" style="width: 13rem;" [disabled]='!metadataFieldForm.valid || !metadataFieldForm.dirty'  (click)=" save() "> Save Changes </button>
+                <button class="media-button-small" (click)="closeDialog()" style="margin-left: 25px;"> Cancel </button>
+                </div>
+            </form>
+        </ng-template>
+    </ejs-dialog>
+    
+<ejs-dialog #confirmDialog
+[visible]='false'
+[buttons]='confirmDlgButtons'
+[header]="'Confirm Remove'"
+[showCloseIcon]='true'
+[width]='300'>
+	<ng-template #content>
+		<span>Are you sure you want to permanently remove this field ?</span>
+	</ng-template>
+</ejs-dialog>
+    <div class="">
+        <app-list [listData]="metadataFields" [columns]="columns" (firstNavigateAction)="show($event)"
+            (secondNavigateAction)="edit($event)" [showFirstAction]="true" [firstActionText]="editLink"
+            [showSecondAction]="true" [secondActionText]="removeLink"></app-list>
+    </div>
+</div>

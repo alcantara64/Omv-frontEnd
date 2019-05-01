@@ -9,9 +9,9 @@ import { FieldConfiguration } from '../field-setting';
     <div [formGroup]="group">
       <label class="form-label">{{ config.label }}</label>
       <div style="display: flex;">
-        <input class="form-control form-control-lg" [formControlName]="config.name" [type]="config.inputType"
+        <input class="form-control form-control-lg col-md-11" [formControlName]="config.name" [type]="config.inputType"
           [placeholder]="config.placeholder">    
-        <button type="button" class="form-delete" (click)="performRemove(config)" *ngIf="showDelete">
+        <button type="button" class="o-delete col-md-1" (click)="deleteControlEvent(config)" *ngIf="!config.isRequired && allowDeleting">
           <span class="e-icons e-delete"></span>
         </button>
       </div>
@@ -28,10 +28,10 @@ import { FieldConfiguration } from '../field-setting';
 export class FormInputComponent implements Field {
   config: FieldConfiguration;
   group: FormGroup;
-  showDelete: boolean;
-  remove = new EventEmitter<any>();
+  allowDeleting: boolean;
+  deleteControl = new EventEmitter<any>();
 
-  performRemove(config: any) {
-    this.remove.emit(config);
+  deleteControlEvent(config: any) {
+    this.deleteControl.emit(config);
   }
 }

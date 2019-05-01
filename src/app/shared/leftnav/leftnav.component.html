@@ -20,9 +20,12 @@
             </li>
             <li class="media-child-text cursor">
               Bulk Uploader
-            </li>
-            <li class="media-child-text cursor">
-              MetaData Details
+            </li> 
+            <li class="media-child-text cursor" (click)="setActiveTab(mediaMetadataFieldsLink)" [ngClass]="{ 'selected-background': isMediaMetadataFieldsActive }" >
+                MetaData Fields
+              </li>
+            <li class="media-child-text cursor" (click)="setActiveTab(mediaMetadataLink)" [ngClass]="{ 'selected-background': isMediaMetaDataListActive }">
+              MetaData List
             </li>
           </ul>
         </div>
@@ -43,7 +46,7 @@
             </li>
           </ul>
         </div>
-        <button class="collapsible" (click)="usersMenuClicked()" [ngClass]="isUsersMenuOpen ? 'active' : 'sample'">Users</button>
+        <button class="collapsible" (click)="usersMenuClicked()" [ngClass]="isUsersMenuOpen ? 'active' : 'sample'">Users & Groups</button>
         <div *ngIf="isUsersMenuOpen" class="content">
           <ul>
             <li (click)="setActiveTab(groupsLink)" [ngClass]="{ 'selected-background': isGroupsActive }" class="cursor media-child-text">

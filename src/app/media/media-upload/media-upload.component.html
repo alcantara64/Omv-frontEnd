@@ -10,26 +10,27 @@
 
   <input type="file" #file style="display: none" (change)="onFilesAdded()" />
   <button class="file-upload-button" (click)="addFiles()"> {{ uploadButtonText }}</button>
-  <span class="file-upload-label">{{ fileName }}</span>
+  <span class="file-upload-label">{{ selectedFile?.name }}</span>
 </div>
 
 <div>
   <span class="step-title"> Step 2 <i class="step-description-title">Select Destination</i></span>
-  <br /><br />
+  <br />
+  <br *ngIf='!isDestinationSelected' />
 
-  <ejs-treegrid *ngIf='!isFileSelected || !isDestinationSelected' [dataSource]='directories' [treeColumnIndex]='0' (rowSelected)="rowSelected($event)" [allowSorting]='true'
-    parentIdMapping='parentID' idMapping='id'>
-    <e-columns>    
-      <e-column field='name' headerText='Name' width="" textAlign='Left'></e-column>
-    </e-columns>
-  </ejs-treegrid>
+  <app-tree-grid *ngIf='!isDestinationSelected' [dataSource]="directories$ | async" [columns]="columns" [treeColumnIndex]="0" [idMapping]="'id'" [parentIdMapping]="'parentId'"
+    (rowSelected)="rowSelected($event)" [selectionOptions]="selectionOptions">
+  </app-tree-grid>
 
-  <div *ngIf='isFileSelected && isDestinationSelected'>
+
+  <div *ngIf='isDestinationSelected'>
     <button class="file-upload-button" (click)="changeDestination()"> Change </button>
-    <span class="file-upload-label">
-      <b>Destination Folder Title </b>
-      <b>Folder path > Child path</b>
-    </span>
+    <div class="Step-2-folder">
+      <span class="file-upload-label">Destination Folder Title:</span>
+      <div>
+        <span class="file-upload-path">{{ folderPath }} </span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -37,11 +38,12 @@
   <span class="step-title"> Step 3 <i class="step-description-title">Metadata</i></span>
   <br /><br />
 
-  <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="metadata" (submit)="submit($event)" *ngIf="metadata?.length > 0"></dynamic-form>
+  <dynamic-form #dynamicForm="dynamicForm" style="display: inline" [config]="metadata" *ngIf="metadata?.length > 0"></dynamic-form>
   <br />
-  <button type="submit" (click)="submit('')" class="btn omv-green btn-lg"> Upload </button>
-  <button type="button" class="btn btn-lg"> Cancel </button>
-  
+  <button type="submit" [disabled]="metadata?.length > 0 ? !dynamicForm?.valid : false"
+    [ngClass]="{'button-not-allowed': metadata?.length > 0 ? !dynamicForm?.valid : false}" (click)="upload()"
+    class="btn omv-primary btn-lg"> Upload </button>
+  <button type="button" class="media-button-small" style="color:#079AAB; margin-left: 25px;" routerLink="/media/all">
+    Cancel </button>
+
 </div>
-
-

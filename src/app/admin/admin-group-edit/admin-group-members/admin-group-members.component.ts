@@ -1,10 +1,10 @@
-import { AddGroupMembers } from '../../state/admin-groups/admin.groups.action';
+import { AddGroupMembers } from '../../state/admin-groups/admin-groups.action';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { GridColumn } from 'src/app/core/models/grid.column';
 import { Select, Store } from '@ngxs/store';
 import { AdminGroupState } from '../../state/admin-groups/admin-groups.state';
 import { Observable } from 'rxjs';
-import { GetMembers, GetGroupMembers, RemoveGroupMembers } from '../../state/admin-groups/admin.groups.action';
+import { GetMembers, GetGroupMembers, RemoveGroupMembers } from '../../state/admin-groups/admin-groups.action';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/core/models/entity/user';
 import { takeWhile } from 'rxjs/operators';
@@ -12,6 +12,8 @@ import { EmitType } from '@syncfusion/ej2-base';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { AdminUserState } from '../../state/admin-users/admin-users.state';
 import { GetUsers } from '../../state/admin-users/admin-users.actions';
+import { DisplayToastMessage } from 'src/app/state/app.actions';
+import { ToastType } from 'src/app/core/enum/toast';
 
 @Component({
   selector: 'app-admin-group-members',
@@ -94,8 +96,17 @@ export class AdminGroupMembersComponent implements OnInit, OnDestroy {
 
 
 addMembersClick: EmitType < object > = () => {
-  this.store.dispatch(new AddGroupMembers(this.groupId, this.userIds));
-  this.userIds = null;
+  let memberIds = this.groupMembers.map(ids => ids.userId);
+  const found = memberIds.some(r=> this.userIds.includes(r))
+  console.log(found);
+  if(!found){
+    this.store.dispatch(new AddGroupMembers(this.groupId, this.userIds));
+    this.userIds = null;
+  }
+  else{
+    this.store.dispatch(new DisplayToastMessage('Member Exists', ToastType.error));
+    this.userIds = null;
+  }
   this.membersDialog.hide();
 }
 cancelRemove() {

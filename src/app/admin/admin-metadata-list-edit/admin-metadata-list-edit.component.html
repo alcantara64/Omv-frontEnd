@@ -1,0 +1,49 @@
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" routerLink="/admin/media/metadata"><a href="#" class="breadcrumbs__element"><ins></ins></a></li>
+    <li class="breadcrumb-item" routerLink="/admin/media/metadata"><a class="breadcrumbs__element"><ins>BACK</ins></a></li>
+  </ol>
+</nav>
+<div class="row">
+  <div class="col-sm-6">
+    <h4>Metadata Information</h4><br>
+    <form novalidate (ngSubmit)="save()" [formGroup]="metadataListForm">
+      <div class="form-group">
+        <label for="nameId">List Name</label>
+        <input class="form-control form-control-lg" id="nameId" type="text" placeholder=" "
+          formControlName="metadataListName" 
+          [ngClass]="{'is-invalid': (metadataListForm.get('metadataListName').touched ||
+                                     metadataListForm.get('metadataListName').dirty) &&
+                                     !metadataListForm.get('metadataListName').valid }" />
+        <span class="invalid-feedback">
+          <h5> Please enter a name </h5>
+        </span>
+      </div><br>
+
+      <app-edit [firstButtonText]="createMetaDataButtonText" [isfirstButtonDisabled]="!metadataListForm.valid || !metadataListForm.dirty"
+          [secondButtonText]="metaDataActionText" [isSecondButtonVisible]="metadataId" (secondButtonEvent)="show($event)">
+      </app-edit>
+      <ejs-dialog #confirmDialog
+[visible]='false'
+[buttons]='confirmDlgButtons'
+[header]="'Confirm Action'"
+[showCloseIcon]='true'
+[width]='300'>
+	<ng-template #content>
+		<span>Are you sure you want to {{metaDataActionText }} ?</span>
+	</ng-template>
+</ejs-dialog>
+    </form>
+  </div>
+  <div class="col-sm-6" >
+    <div class="control-section e-tab-section">
+      <div class="e-sample-resize-container">
+          <app-tabs [tabs]="metadataItemTabs"></app-tabs>
+          <app-admin-metadata-list-items></app-admin-metadata-list-items>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
