@@ -301,11 +301,12 @@ export class AdminMediaWebDataService implements AdminMediaDataService {
   createMetadataList(payload: MetadataList): Observable<MetadataList> {
     const requestUri = environment.api.baseUrl + `/v1/metadatalists`;
 
-    automapper
-      .createMap(payload, MetadataList_InsertInputDTO)
+    automapper 
+      .createMap(payload, MetadataList_InsertInputDTO) 
       .forMember('metadataListId', function (opts) { opts.mapFrom('id'); })
       .forMember('metadataListName', function (opts) { opts.mapFrom('fieldName'); })
-      .forMember('status', function (opts) { opts.mapFrom('status'); });
+      .forMember('status', function (opts) { opts.mapFrom('status'); })
+      .forMember('parentListId', function (opts) { opts.mapFrom('parentListId'); });
 
     const request = automapper.map(payload, MetadataList_InsertInputDTO, payload);
     console.log('AdminMediaWebDataService - createMetadataList request: ', request);

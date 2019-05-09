@@ -35,9 +35,10 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit,
   fieldName: string = '';
   fieldType: string = '';
   fieldId: number;
+  showAllListDropdown :boolean;
   metadataListForm: FormGroup;
   metadataList = new MetadataList();
-
+  metadataListFields: Object = { text: 'metadataListName', value: 'id' };
   statusChange: string;
   urlparam: string;
   ENABLE: string = "Enable";
@@ -90,7 +91,8 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit,
     this.metadataListForm = this.formBuilder.group({
       id: [],
       fieldName: ['', [Validators.required]],
-      status: []
+      status: [],
+      parentListId: []
     });
     this.activatedRoute.params
       .pipe(takeUntil(this.unsubscribe))
@@ -107,6 +109,15 @@ export class AdminMetadataListComponent extends ListComponent implements OnInit,
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
+  checkValue(event: any){
+    console.log(event.checked,'check the current value');
+    if(event.checked){
+      this.showAllListDropdown = true;
+    }
+    else{
+    this.showAllListDropdown = false;
+    }
+ }
   displayList(param: string) {
     this.urlparam = param;
     switch (param) {
