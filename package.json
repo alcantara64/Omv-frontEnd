@@ -50,7 +50,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "file-saver": "^2.0.1",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "leaflet": "^1.3.1",
     "leaflet.markercluster": "^1.4.1",
     "moment": "^2.24.0",
